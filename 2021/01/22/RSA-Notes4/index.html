@@ -1,0 +1,1319 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="RSA Notes 4, huangx607087&#39;s Blog">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>RSA Notes 4 | huangx607087&#39;s Blog</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">huangx607087&#39;s Blog</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">huangx607087&#39;s Blog</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+<script src="/libs/cryptojs/crypto-js.min.js"></script>
+<script>
+    (function() {
+        let pwd = '';
+        if (pwd && pwd.length > 0) {
+            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
+                alert('密码错误，将返回主页！');
+                location.href = '/';
+            }
+        }
+    })();
+</script>
+
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">RSA Notes 4</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Notes/">
+                                <span class="chip bg-color">Notes</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/CTFSeason2/" class="post-category">
+                                CTFSeason2
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2021-01-22
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+        <!-- 代码块折行 -->
+        <style type="text/css">
+            code[class*="language-"], pre[class*="language-"] { white-space: pre-wrap !important; }
+        </style>
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="huangx607087学习RSA的笔记4"><a href="#huangx607087学习RSA的笔记4" class="headerlink" title="huangx607087学习RSA的笔记4"></a>huangx607087学习RSA的笔记4</h1><h2 id="0-简介："><a href="#0-简介：" class="headerlink" title="0.简介："></a>0.简介：</h2><p>一个<del>密码学废物的学习笔记，很菜，别看，以后会不定期更新</del></p>
+<p><strong>An Overview of some special kinds of RSA and their solutions.</strong></p>
+<p>一个对过去RSA学习的回顾及其实战中题目的应对方法，很多方法在以前的笔记（<strong>RSA Notes 1 &amp; RSA in GF</strong>）中提及过，不过这次是结合了例题来讲解的，很多地方还是直接用的脚本，<del>因为我太fw了</del></p>
+<h2 id="1-Overview-of-RSA-in-GF"><a href="#1-Overview-of-RSA-in-GF" class="headerlink" title="1. Overview of RSA in GF"></a>1. Overview of RSA in GF</h2><p>RSA在GF域上的多项式的表现形式，根据之前笔记中的内容，这种题目就是利用Sagemath把RSA中的模多项式分解成两个本原多项式，然后注意到这两个本源多项式$P,Q$的$\phi$值为$p^e-1$，其中$p$是GF域中的素因数，$e$为指数，分别取决于$P$的次数和$Q$的次数，因为所有的$p^e-1$个多项式都无法与本源多项式$P$互约。</p>
+<p>所以我们可以先来看看这样一道题目：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Prime: <span class="number">43753</span></span><br><span class="line">Modulus: <span class="number">34036</span>*y^<span class="number">177</span> + <span class="number">23068</span>*y^<span class="number">176</span> + <span class="number">13147</span>*y^<span class="number">175</span> + <span class="number">36344</span>*y^<span class="number">174</span> + <span class="number">10045</span>*y^<span class="number">173</span> + <span class="number">41049</span>*y^<span class="number">172</span> + <span class="number">17786</span>*y^<span class="number">171</span> + <span class="number">16601</span>*y^<span class="number">170</span> + <span class="number">7929</span>*y^<span class="number">169</span> + <span class="number">37570</span>*y^<span class="number">168</span> + <span class="number">990</span>*y^<span class="number">167</span> + <span class="number">9622</span>*y^<span class="number">166</span> + <span class="number">39273</span>*y^<span class="number">165</span> + <span class="number">35284</span>*y^<span class="number">164</span> + <span class="number">15632</span>*y^<span class="number">163</span> + <span class="number">18850</span>*y^<span class="number">162</span> + <span class="number">8800</span>*y^<span class="number">161</span> + <span class="number">33148</span>*y^<span class="number">160</span> + <span class="number">12147</span>*y^<span class="number">159</span> + <span class="number">40487</span>*y^<span class="number">158</span> + <span class="number">6407</span>*y^<span class="number">157</span> + <span class="number">34111</span>*y^<span class="number">156</span> + <span class="number">8446</span>*y^<span class="number">155</span> + <span class="number">21908</span>*y^<span class="number">154</span> + <span class="number">16812</span>*y^<span class="number">153</span> + <span class="number">40624</span>*y^<span class="number">152</span> + <span class="number">43506</span>*y^<span class="number">151</span> + <span class="number">39116</span>*y^<span class="number">150</span> + <span class="number">33011</span>*y^<span class="number">149</span> + <span class="number">23914</span>*y^<span class="number">148</span> + <span class="number">2210</span>*y^<span class="number">147</span> + <span class="number">23196</span>*y^<span class="number">146</span> + <span class="number">43359</span>*y^<span class="number">145</span> + <span class="number">34455</span>*y^<span class="number">144</span> + <span class="number">17684</span>*y^<span class="number">143</span> + <span class="number">25262</span>*y^<span class="number">142</span> + <span class="number">982</span>*y^<span class="number">141</span> + <span class="number">24015</span>*y^<span class="number">140</span> + <span class="number">27968</span>*y^<span class="number">139</span> + <span class="number">37463</span>*y^<span class="number">138</span> + <span class="number">10667</span>*y^<span class="number">137</span> + <span class="number">39519</span>*y^<span class="number">136</span> + <span class="number">31176</span>*y^<span class="number">135</span> + <span class="number">27520</span>*y^<span class="number">134</span> + <span class="number">32118</span>*y^<span class="number">133</span> + <span class="number">8333</span>*y^<span class="number">132</span> + <span class="number">38945</span>*y^<span class="number">131</span> + <span class="number">34713</span>*y^<span class="number">130</span> + <span class="number">1107</span>*y^<span class="number">129</span> + <span class="number">43604</span>*y^<span class="number">128</span> + <span class="number">4433</span>*y^<span class="number">127</span> + <span class="number">18110</span>*y^<span class="number">126</span> + <span class="number">17658</span>*y^<span class="number">125</span> + <span class="number">32354</span>*y^<span class="number">124</span> + <span class="number">3219</span>*y^<span class="number">123</span> + <span class="number">40238</span>*y^<span class="number">122</span> + <span class="number">10439</span>*y^<span class="number">121</span> + <span class="number">3669</span>*y^<span class="number">120</span> + <span class="number">8713</span>*y^<span class="number">119</span> + <span class="number">21027</span>*y^<span class="number">118</span> + <span class="number">29480</span>*y^<span class="number">117</span> + <span class="number">5477</span>*y^<span class="number">116</span> + <span class="number">24332</span>*y^<span class="number">115</span> + <span class="number">43480</span>*y^<span class="number">114</span> + <span class="number">33406</span>*y^<span class="number">113</span> + <span class="number">43121</span>*y^<span class="number">112</span> + <span class="number">1114</span>*y^<span class="number">111</span> + <span class="number">17198</span>*y^<span class="number">110</span> + <span class="number">22829</span>*y^<span class="number">109</span> + <span class="number">24424</span>*y^<span class="number">108</span> + <span class="number">16523</span>*y^<span class="number">107</span> + <span class="number">20424</span>*y^<span class="number">106</span> + <span class="number">36206</span>*y^<span class="number">105</span> + <span class="number">41849</span>*y^<span class="number">104</span> + <span class="number">3584</span>*y^<span class="number">103</span> + <span class="number">26500</span>*y^<span class="number">102</span> + <span class="number">31897</span>*y^<span class="number">101</span> + <span class="number">34640</span>*y^<span class="number">100</span> + <span class="number">27449</span>*y^<span class="number">99</span> + <span class="number">30962</span>*y^<span class="number">98</span> + <span class="number">41434</span>*y^<span class="number">97</span> + <span class="number">22125</span>*y^<span class="number">96</span> + <span class="number">24314</span>*y^<span class="number">95</span> + <span class="number">3944</span>*y^<span class="number">94</span> + <span class="number">18400</span>*y^<span class="number">93</span> + <span class="number">38476</span>*y^<span class="number">92</span> + <span class="number">28904</span>*y^<span class="number">91</span> + <span class="number">27936</span>*y^<span class="number">90</span> + <span class="number">41867</span>*y^<span class="number">89</span> + <span class="number">25573</span>*y^<span class="number">88</span> + <span class="number">25659</span>*y^<span class="number">87</span> + <span class="number">33443</span>*y^<span class="number">86</span> + <span class="number">18435</span>*y^<span class="number">85</span> + <span class="number">5934</span>*y^<span class="number">84</span> + <span class="number">38030</span>*y^<span class="number">83</span> + <span class="number">17563</span>*y^<span class="number">82</span> + <span class="number">24086</span>*y^<span class="number">81</span> + <span class="number">36782</span>*y^<span class="number">80</span> + <span class="number">20922</span>*y^<span class="number">79</span> + <span class="number">38933</span>*y^<span class="number">78</span> + <span class="number">23448</span>*y^<span class="number">77</span> + <span class="number">10599</span>*y^<span class="number">76</span> + <span class="number">7156</span>*y^<span class="number">75</span> + <span class="number">29044</span>*y^<span class="number">74</span> + <span class="number">23605</span>*y^<span class="number">73</span> + <span class="number">7657</span>*y^<span class="number">72</span> + <span class="number">28200</span>*y^<span class="number">71</span> + <span class="number">2431</span>*y^<span class="number">70</span> + <span class="number">3860</span>*y^<span class="number">69</span> + <span class="number">23259</span>*y^<span class="number">68</span> + <span class="number">14590</span>*y^<span class="number">67</span> + <span class="number">33631</span>*y^<span class="number">66</span> + <span class="number">15673</span>*y^<span class="number">65</span> + <span class="number">36049</span>*y^<span class="number">64</span> + <span class="number">29728</span>*y^<span class="number">63</span> + <span class="number">22413</span>*y^<span class="number">62</span> + <span class="number">18602</span>*y^<span class="number">61</span> + <span class="number">18557</span>*y^<span class="number">60</span> + <span class="number">23505</span>*y^<span class="number">59</span> + <span class="number">17642</span>*y^<span class="number">58</span> + <span class="number">12595</span>*y^<span class="number">57</span> + <span class="number">17255</span>*y^<span class="number">56</span> + <span class="number">15316</span>*y^<span class="number">55</span> + <span class="number">8948</span>*y^<span class="number">54</span> + <span class="number">38</span>*y^<span class="number">53</span> + <span class="number">40329</span>*y^<span class="number">52</span> + <span class="number">9823</span>*y^<span class="number">51</span> + <span class="number">5798</span>*y^<span class="number">50</span> + <span class="number">6379</span>*y^<span class="number">49</span> + <span class="number">8662</span>*y^<span class="number">48</span> + <span class="number">34640</span>*y^<span class="number">47</span> + <span class="number">38321</span>*y^<span class="number">46</span> + <span class="number">18760</span>*y^<span class="number">45</span> + <span class="number">13135</span>*y^<span class="number">44</span> + <span class="number">15926</span>*y^<span class="number">43</span> + <span class="number">34952</span>*y^<span class="number">42</span> + <span class="number">28940</span>*y^<span class="number">41</span> + <span class="number">13558</span>*y^<span class="number">40</span> + <span class="number">42579</span>*y^<span class="number">39</span> + <span class="number">38015</span>*y^<span class="number">38</span> + <span class="number">33788</span>*y^<span class="number">37</span> + <span class="number">12381</span>*y^<span class="number">36</span> + <span class="number">195</span>*y^<span class="number">35</span> + <span class="number">13709</span>*y^<span class="number">34</span> + <span class="number">31500</span>*y^<span class="number">33</span> + <span class="number">32994</span>*y^<span class="number">32</span> + <span class="number">30486</span>*y^<span class="number">31</span> + <span class="number">40414</span>*y^<span class="number">30</span> + <span class="number">2578</span>*y^<span class="number">29</span> + <span class="number">30525</span>*y^<span class="number">28</span> + <span class="number">43067</span>*y^<span class="number">27</span> + <span class="number">6195</span>*y^<span class="number">26</span> + <span class="number">36288</span>*y^<span class="number">25</span> + <span class="number">23236</span>*y^<span class="number">24</span> + <span class="number">21493</span>*y^<span class="number">23</span> + <span class="number">15808</span>*y^<span class="number">22</span> + <span class="number">34500</span>*y^<span class="number">21</span> + <span class="number">6390</span>*y^<span class="number">20</span> + <span class="number">42994</span>*y^<span class="number">19</span> + <span class="number">42151</span>*y^<span class="number">18</span> + <span class="number">19248</span>*y^<span class="number">17</span> + <span class="number">19291</span>*y^<span class="number">16</span> + <span class="number">8124</span>*y^<span class="number">15</span> + <span class="number">40161</span>*y^<span class="number">14</span> + <span class="number">24726</span>*y^<span class="number">13</span> + <span class="number">31874</span>*y^<span class="number">12</span> + <span class="number">30272</span>*y^<span class="number">11</span> + <span class="number">30761</span>*y^<span class="number">10</span> + <span class="number">2296</span>*y^<span class="number">9</span> + <span class="number">11017</span>*y^<span class="number">8</span> + <span class="number">16559</span>*y^<span class="number">7</span> + <span class="number">28949</span>*y^<span class="number">6</span> + <span class="number">40499</span>*y^<span class="number">5</span> + <span class="number">22377</span>*y^<span class="number">4</span> + <span class="number">33628</span>*y^<span class="number">3</span> + <span class="number">30598</span>*y^<span class="number">2</span> + <span class="number">4386</span>*y + <span class="number">23814</span></span><br><span class="line">Ciphertext: <span class="number">5209</span>*x^<span class="number">176</span> + <span class="number">10881</span>*x^<span class="number">175</span> + <span class="number">31096</span>*x^<span class="number">174</span> + <span class="number">23354</span>*x^<span class="number">173</span> + <span class="number">28337</span>*x^<span class="number">172</span> + <span class="number">15982</span>*x^<span class="number">171</span> + <span class="number">13515</span>*x^<span class="number">170</span> + <span class="number">21641</span>*x^<span class="number">169</span> + <span class="number">10254</span>*x^<span class="number">168</span> + <span class="number">34588</span>*x^<span class="number">167</span> + <span class="number">27434</span>*x^<span class="number">166</span> + <span class="number">29552</span>*x^<span class="number">165</span> + <span class="number">7105</span>*x^<span class="number">164</span> + <span class="number">22604</span>*x^<span class="number">163</span> + <span class="number">41253</span>*x^<span class="number">162</span> + <span class="number">42675</span>*x^<span class="number">161</span> + <span class="number">21153</span>*x^<span class="number">160</span> + <span class="number">32838</span>*x^<span class="number">159</span> + <span class="number">34391</span>*x^<span class="number">158</span> + <span class="number">832</span>*x^<span class="number">157</span> + <span class="number">720</span>*x^<span class="number">156</span> + <span class="number">22883</span>*x^<span class="number">155</span> + <span class="number">19236</span>*x^<span class="number">154</span> + <span class="number">33772</span>*x^<span class="number">153</span> + <span class="number">5020</span>*x^<span class="number">152</span> + <span class="number">17943</span>*x^<span class="number">151</span> + <span class="number">26967</span>*x^<span class="number">150</span> + <span class="number">30847</span>*x^<span class="number">149</span> + <span class="number">10306</span>*x^<span class="number">148</span> + <span class="number">33966</span>*x^<span class="number">147</span> + <span class="number">43255</span>*x^<span class="number">146</span> + <span class="number">20342</span>*x^<span class="number">145</span> + <span class="number">4474</span>*x^<span class="number">144</span> + <span class="number">3490</span>*x^<span class="number">143</span> + <span class="number">38033</span>*x^<span class="number">142</span> + <span class="number">11224</span>*x^<span class="number">141</span> + <span class="number">30565</span>*x^<span class="number">140</span> + <span class="number">31967</span>*x^<span class="number">139</span> + <span class="number">32382</span>*x^<span class="number">138</span> + <span class="number">9759</span>*x^<span class="number">137</span> + <span class="number">1030</span>*x^<span class="number">136</span> + <span class="number">32122</span>*x^<span class="number">135</span> + <span class="number">42614</span>*x^<span class="number">134</span> + <span class="number">14280</span>*x^<span class="number">133</span> + <span class="number">16533</span>*x^<span class="number">132</span> + <span class="number">32676</span>*x^<span class="number">131</span> + <span class="number">43070</span>*x^<span class="number">130</span> + <span class="number">36009</span>*x^<span class="number">129</span> + <span class="number">28497</span>*x^<span class="number">128</span> + <span class="number">2940</span>*x^<span class="number">127</span> + <span class="number">9747</span>*x^<span class="number">126</span> + <span class="number">22758</span>*x^<span class="number">125</span> + <span class="number">16615</span>*x^<span class="number">124</span> + <span class="number">14086</span>*x^<span class="number">123</span> + <span class="number">13038</span>*x^<span class="number">122</span> + <span class="number">39603</span>*x^<span class="number">121</span> + <span class="number">36260</span>*x^<span class="number">120</span> + <span class="number">32502</span>*x^<span class="number">119</span> + <span class="number">17619</span>*x^<span class="number">118</span> + <span class="number">17700</span>*x^<span class="number">117</span> + <span class="number">15083</span>*x^<span class="number">116</span> + <span class="number">11311</span>*x^<span class="number">115</span> + <span class="number">36496</span>*x^<span class="number">114</span> + <span class="number">1300</span>*x^<span class="number">113</span> + <span class="number">13601</span>*x^<span class="number">112</span> + <span class="number">43425</span>*x^<span class="number">111</span> + <span class="number">10376</span>*x^<span class="number">110</span> + <span class="number">11551</span>*x^<span class="number">109</span> + <span class="number">13684</span>*x^<span class="number">108</span> + <span class="number">14955</span>*x^<span class="number">107</span> + <span class="number">6661</span>*x^<span class="number">106</span> + <span class="number">12674</span>*x^<span class="number">105</span> + <span class="number">21534</span>*x^<span class="number">104</span> + <span class="number">32132</span>*x^<span class="number">103</span> + <span class="number">34135</span>*x^<span class="number">102</span> + <span class="number">43684</span>*x^<span class="number">101</span> + <span class="number">837</span>*x^<span class="number">100</span> + <span class="number">29311</span>*x^<span class="number">99</span> + <span class="number">4849</span>*x^<span class="number">98</span> + <span class="number">26632</span>*x^<span class="number">97</span> + <span class="number">26662</span>*x^<span class="number">96</span> + <span class="number">10159</span>*x^<span class="number">95</span> + <span class="number">32657</span>*x^<span class="number">94</span> + <span class="number">12149</span>*x^<span class="number">93</span> + <span class="number">17858</span>*x^<span class="number">92</span> + <span class="number">35805</span>*x^<span class="number">91</span> + <span class="number">19391</span>*x^<span class="number">90</span> + <span class="number">30884</span>*x^<span class="number">89</span> + <span class="number">42039</span>*x^<span class="number">88</span> + <span class="number">17292</span>*x^<span class="number">87</span> + <span class="number">4694</span>*x^<span class="number">86</span> + <span class="number">1497</span>*x^<span class="number">85</span> + <span class="number">1744</span>*x^<span class="number">84</span> + <span class="number">31071</span>*x^<span class="number">83</span> + <span class="number">26246</span>*x^<span class="number">82</span> + <span class="number">24402</span>*x^<span class="number">81</span> + <span class="number">22068</span>*x^<span class="number">80</span> + <span class="number">39263</span>*x^<span class="number">79</span> + <span class="number">23703</span>*x^<span class="number">78</span> + <span class="number">21484</span>*x^<span class="number">77</span> + <span class="number">12241</span>*x^<span class="number">76</span> + <span class="number">28821</span>*x^<span class="number">75</span> + <span class="number">32886</span>*x^<span class="number">74</span> + <span class="number">43075</span>*x^<span class="number">73</span> + <span class="number">35741</span>*x^<span class="number">72</span> + <span class="number">19936</span>*x^<span class="number">71</span> + <span class="number">37219</span>*x^<span class="number">70</span> + <span class="number">33411</span>*x^<span class="number">69</span> + <span class="number">8301</span>*x^<span class="number">68</span> + <span class="number">12949</span>*x^<span class="number">67</span> + <span class="number">28611</span>*x^<span class="number">66</span> + <span class="number">42654</span>*x^<span class="number">65</span> + <span class="number">6910</span>*x^<span class="number">64</span> + <span class="number">18523</span>*x^<span class="number">63</span> + <span class="number">31144</span>*x^<span class="number">62</span> + <span class="number">21398</span>*x^<span class="number">61</span> + <span class="number">36298</span>*x^<span class="number">60</span> + <span class="number">27158</span>*x^<span class="number">59</span> + <span class="number">918</span>*x^<span class="number">58</span> + <span class="number">38601</span>*x^<span class="number">57</span> + <span class="number">4269</span>*x^<span class="number">56</span> + <span class="number">5699</span>*x^<span class="number">55</span> + <span class="number">36444</span>*x^<span class="number">54</span> + <span class="number">34791</span>*x^<span class="number">53</span> + <span class="number">37978</span>*x^<span class="number">52</span> + <span class="number">32481</span>*x^<span class="number">51</span> + <span class="number">8039</span>*x^<span class="number">50</span> + <span class="number">11012</span>*x^<span class="number">49</span> + <span class="number">11454</span>*x^<span class="number">48</span> + <span class="number">30450</span>*x^<span class="number">47</span> + <span class="number">1381</span>*x^<span class="number">46</span> + <span class="number">32403</span>*x^<span class="number">45</span> + <span class="number">8202</span>*x^<span class="number">44</span> + <span class="number">8404</span>*x^<span class="number">43</span> + <span class="number">37648</span>*x^<span class="number">42</span> + <span class="number">43696</span>*x^<span class="number">41</span> + <span class="number">34237</span>*x^<span class="number">40</span> + <span class="number">36490</span>*x^<span class="number">39</span> + <span class="number">41423</span>*x^<span class="number">38</span> + <span class="number">35792</span>*x^<span class="number">37</span> + <span class="number">36950</span>*x^<span class="number">36</span> + <span class="number">31086</span>*x^<span class="number">35</span> + <span class="number">38970</span>*x^<span class="number">34</span> + <span class="number">12439</span>*x^<span class="number">33</span> + <span class="number">7963</span>*x^<span class="number">32</span> + <span class="number">16150</span>*x^<span class="number">31</span> + <span class="number">11382</span>*x^<span class="number">30</span> + <span class="number">3038</span>*x^<span class="number">29</span> + <span class="number">20157</span>*x^<span class="number">28</span> + <span class="number">23531</span>*x^<span class="number">27</span> + <span class="number">32866</span>*x^<span class="number">26</span> + <span class="number">5428</span>*x^<span class="number">25</span> + <span class="number">21132</span>*x^<span class="number">24</span> + <span class="number">13443</span>*x^<span class="number">23</span> + <span class="number">28909</span>*x^<span class="number">22</span> + <span class="number">42716</span>*x^<span class="number">21</span> + <span class="number">6567</span>*x^<span class="number">20</span> + <span class="number">24744</span>*x^<span class="number">19</span> + <span class="number">8727</span>*x^<span class="number">18</span> + <span class="number">14895</span>*x^<span class="number">17</span> + <span class="number">28172</span>*x^<span class="number">16</span> + <span class="number">30903</span>*x^<span class="number">15</span> + <span class="number">26608</span>*x^<span class="number">14</span> + <span class="number">27314</span>*x^<span class="number">13</span> + <span class="number">42224</span>*x^<span class="number">12</span> + <span class="number">42551</span>*x^<span class="number">11</span> + <span class="number">37726</span>*x^<span class="number">10</span> + <span class="number">11203</span>*x^<span class="number">9</span> + <span class="number">36816</span>*x^<span class="number">8</span> + <span class="number">5537</span>*x^<span class="number">7</span> + <span class="number">20301</span>*x^<span class="number">6</span> + <span class="number">17591</span>*x^<span class="number">5</span> + <span class="number">41279</span>*x^<span class="number">4</span> + <span class="number">7999</span>*x^<span class="number">3</span> + <span class="number">33753</span>*x^<span class="number">2</span> + <span class="number">34551</span>*x + <span class="number">9659</span></span><br></pre></td></tr></table></figure>
+
+<p>这道题给出了一个$p=43753$，和两个多项式$n,c$，很显然，根据以往的传统，我们把$n$放到sagemath中进行分解。</p>
+<p><img src="/2021/01/22/RSA-Notes4/11.png" alt="1-1"></p>
+<p>不过我们发现他最后竟然带了个系数$34036$，计算了一下$\phi(34036)=16632$，所以最后的$\phi(n)=16632(43753^{65})(43753^{112})$，然后就是求逆元。不过最后发现这个$16632$乘不乘最后的结果都一样，不知道是为什么。</p>
+<p>然后就是常规操作了，我们根据RSA的常规解密，就可以解出$m$。这里到最后应该是把$m$多项式的次数从低到高的系数拿出来转换成字符（而不是视为$43753$进制最后转换成$10$进制后<code>long_to_bytes</code>）,最后的答案就很简单了</p>
+<p><img src="/2021/01/22/RSA-Notes4/12.png" alt="1-2"></p>
+<h2 id="2-Overview-of-Coppersmith"><a href="#2-Overview-of-Coppersmith" class="headerlink" title="2.Overview of Coppersmith"></a>2.Overview of Coppersmith</h2><p>以下部分位Coppersmith相关例题讲解</p>
+<h3 id="PART-1"><a href="#PART-1" class="headerlink" title="PART 1"></a>PART 1</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">n=<span class="number">0x67de16e8ceaece4a123ad278b249a9acde81174d4287889d68dbb7939fdfa28f3a927c4e1c71f9b7b036c7ce287806105954fb9086bfe3dbe5f82d156f4151c9fe74e32f6ce8bb239c2d55cb6628e53941628ccbd294aa101687160b578decf716f348ea42922358946e7706daf044be08a9bcd8ea248b597eeb3a1e16781247dec66a0976046de5b2603315ab5dc17120a558db56213e66989c0895492151fb5a0784fa346dfeebf2b1f71b3c7dbf135abfd4499d4f83b6d0b4c68fe5b1fe14e383d4c7cc78065cfed1831bd2e19c06b270e4ebfb9d09f3431d613301106c7762dace771e730c3268ad549e20202ac1f77d47eb18f82693e6e974f783a88793</span></span><br><span class="line">e=<span class="number">3</span></span><br><span class="line">c=<span class="number">0x54d055d31d0186b4914292a281ce71ecd9e5f2a441e68180ab0d6bb3e08412254d3465b44d1aa49d5c1926f3d72507bb7f89c5614a190957c4c22da4e966ecf632c914c5cce942bd4ee916c3d28ab27863e1ec9a1058fbc10b3bf672765e51428cd8022a7985d01570a72091694d0c91a205319316dd5c1eaa8f6486673512940e19a65</span></span><br><span class="line">(m&gt;&gt;<span class="number">72</span>)&lt;&lt;<span class="number">72</span>=<span class="number">0x464c41477b325e38727361373538393639336663363839633737633566353236326436000000000000000000</span></span><br></pre></td></tr></table></figure>
+
+<p>这道题给出了$n,e,c$，同时还有一个$512$位长的$m$，不过最低的$72$位被省略了，所以现在我们就使用我在<strong>RSA Notes 1</strong>中第<strong>0x08</strong>部分发布的脚本，补充完整参数，放入sagemath-notebook中运行即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="comment">#你已知的n值</span></span><br><span class="line">e = <span class="number">3</span></span><br><span class="line">m = randrange(n)<span class="comment">#不要改</span></span><br><span class="line">c = pow(m, e, n)<span class="comment">#不要改</span></span><br><span class="line">beta = <span class="number">1</span></span><br><span class="line">epsilon = beta^<span class="number">2</span>/<span class="number">7</span><span class="comment">#不要改</span></span><br><span class="line">nbits = n.nbits()<span class="comment">#不要改</span></span><br><span class="line">kbits=<span class="comment">#m被掩盖的字位数</span></span><br><span class="line">print(nbits,kbits)</span><br><span class="line">mbar = <span class="comment">#你得到的不完整的m值</span></span><br><span class="line">c = <span class="comment">#你得到的c值</span></span><br><span class="line"><span class="keyword">print</span> (<span class="string">&quot;upper %d bits (of %d bits) is given&quot;</span> % (nbits-kbits, nbits))</span><br><span class="line">PR.&lt;x&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">f = (mbar + x)^e - c</span><br><span class="line"><span class="keyword">print</span> (m)</span><br><span class="line">x0 = f.small_roots(X=<span class="number">2</span>^kbits, beta=<span class="number">1</span>)[<span class="number">0</span>]  <span class="comment"># find root &lt; 2^kbits with factor = n1</span></span><br><span class="line">print( mbar + x0)</span><br></pre></td></tr></table></figure>
+
+<h3 id="PART-2"><a href="#PART-2" class="headerlink" title="PART 2"></a>PART 2</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">n=<span class="number">0x6546140f6d20fb1af8755ba3925274f8df3f175ea783e3f23748429fe6602477239b51e5c20b201b82e210402ebbfc159cb548117a4c2e1b73bbee26bbc04f5388ed3710beb66db0e1b6253030944c791529bc6cf4959851fde47602dcc116468038f852b766d418a7b2d4b83edef71e82b6465a3726d2f9d228dc0a99c01f277e28176c93d7059b3ad0b20f33b6b26785a22a3e867c11a9dc564311cc4cd6b7a3f605c9e7c7e44896181713269faf5600e98cb12450316bad55cda3e1ed24bbdac22cf4c8d23f1f4767336aebea9c638d6258f80c858e5b01be39edf7eb245c3c4639ef6de9edaf904808e09e141030ec503260418b23a0347bf224e65766f3</span></span><br><span class="line">e=<span class="number">65537</span></span><br><span class="line">c=<span class="number">0x4f92bcf8674e17ac7901a68b125bea2b7c2e5e5b7da9d23b90db42fb8e7ae60580b6055310d1a71daa8787c3a386914212e55e89f26155228e243efb444791469f8decc7cb6663d84a8ad404ae3b0bf07e3777a90db767c1ea433cbb8cc276a01025e1ffa8f1ba92b9f90f9b2822a1789b6953ba3a1f9c948a8fc834b9873a8a0ad1c58c34ddc53a2551d85f54166b205ce53c2f883ba59fe4bd181b1bc9a9b7d9d3d9204c0310d20c14804dc7d7d8a241d360216eff12b55c87f9dbddcab23855f75c6105e0de4f44944317b04dbb89cb9bb2f381c375b0e166cf5f547967e07ab1a86287dae6e555905b8069846474169cef605af66be22ec884d3718997a</span></span><br><span class="line">(p&gt;&gt;<span class="number">128</span>)&lt;&lt;<span class="number">128</span>=<span class="number">0x8ae08a8ccda172cc5768c98c935b06a185a5f86f1020ce864929dd61d0d6511141e94f589b4c10754fe4b278207414caedc5a0c47ca091ef3dad80c15b05776d4c574759b50106585973e7f7cda6d01db4bcfbb671151069287f276bb6c18d04cab2dfccf70a72a5edbc23fd636da98900000000000000000000000000000000</span></span><br></pre></td></tr></table></figure>
+
+<p>这道题给出了$p$的值，不过$p$缺失了最后的$128$位，所以我们可以补全以下脚本，然后放入sagemath中运行即可获得完整的$p$值，进而分解$n$，常规解密即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="comment">#填写n值</span></span><br><span class="line">p_fake = <span class="comment">#填写p值</span></span><br><span class="line">pbits = p_fake.nbits()</span><br><span class="line">kbits = <span class="comment">#填写p失去的低位位数</span></span><br><span class="line">pbar = p_fake &amp; (<span class="number">2</span>^pbits<span class="number">-2</span>^kbits)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">&quot;upper %d bits (of %d bits) is given&quot;</span> % (pbits-kbits, pbits))</span><br><span class="line">PR.&lt;x&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">f = x + pbar</span><br><span class="line">x0 = f.small_roots(X=<span class="number">2</span>^kbits, beta=<span class="number">0.4</span>)[<span class="number">0</span>]  <span class="comment"># find root &lt; 2^kbits with factor &gt;= n^0.3</span></span><br><span class="line">p= x0 + pbar</span><br><span class="line"><span class="keyword">print</span> (hex(p))</span><br></pre></td></tr></table></figure>
+
+<h3 id="PART-3"><a href="#PART-3" class="headerlink" title="PART 3"></a>PART 3</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">n=<span class="number">0x8449fe9c8f1ddf7b08b53af7e3f55f9199fdc07b05ae7bda1737159ee985c8ea7d46dd1ac82cf23fef91b119822667d4fe7d98a2a46d1fc38f9dc05e9fb8e6ea07087f77d8dbda45877eb5babb7bc58af8caccdcbe89cf0cb994ce51fa5d45565fbc1b1797984663bb912ce2c9391ba6b76c92c4ac2e6b5d9c1242fdc75f36f7</span></span><br><span class="line">e=<span class="number">3</span></span><br><span class="line">c=<span class="number">0x4ffb1114e37dd59103dae4c48581bb592e1bc0a2ec94f10f9f391084267aad0715a09776e074464d9581e00ad0af4f4e7ec2adc0d4455c7c23b52f76d1ea3801ced06c6db167614aae99a2ad44e1c00ac3eb043405e2f80c7c2c99e72fea9bfe708972f8eb1e419cb60b724bac9b2139283d6a1c34c137c312e20c12433978d2</span></span><br><span class="line">d%(<span class="number">2</span>**<span class="number">512</span>)=<span class="number">0xf0a11feccbadcce7330f2d3b65bac041514c5b4cec2c7260923df431b60806de728822d256becee44d84d8ff4c4f3b95b5c2a4707ced42e0184e46cc043971b</span></span><br></pre></td></tr></table></figure>
+
+<p>这次，我们已知的是$n,e,c$同时还给出了$d$的最低$512$位，我们也可以直接补全以下脚本，然后放入sagemath中即可获得完整的$d$值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partial_p</span>(<span class="params">p0, kbits, n</span>):</span></span><br><span class="line">    PR.&lt;x&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">    nbits = n.nbits()</span><br><span class="line">    f = <span class="number">2</span>^kbits*x + p0</span><br><span class="line">    f = f.monic()</span><br><span class="line">    roots = f.small_roots(X=<span class="number">2</span>^(nbits//<span class="number">2</span>-kbits), beta=<span class="number">0.3</span>)  <span class="comment"># find root &lt; 2^(nbits//2-kbits) with factor &gt;= n^0.3</span></span><br><span class="line">    <span class="keyword">if</span> roots:</span><br><span class="line">        x0 = roots[<span class="number">0</span>]</span><br><span class="line">        p = gcd(<span class="number">2</span>^kbits*x0 + p0, n)</span><br><span class="line">        <span class="keyword">return</span> ZZ(p)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_p</span>(<span class="params">d0, kbits, e, n</span>):</span></span><br><span class="line">    X = var(<span class="string">&#x27;X&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">1</span>, e+<span class="number">1</span>):</span><br><span class="line">        results = solve_mod([e*d0*X - k*X*(n-X+<span class="number">1</span>) + k*n == X], <span class="number">2</span>^kbits)</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> results:</span><br><span class="line">            p0 = ZZ(x[<span class="number">0</span>])</span><br><span class="line">            p = partial_p(p0, kbits, n)</span><br><span class="line">            <span class="keyword">if</span> p:</span><br><span class="line">                <span class="keyword">return</span> p</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    n = <span class="comment">#填写n值</span></span><br><span class="line">    e = <span class="number">3</span></span><br><span class="line">    d = <span class="comment">#填写不完整的d值</span></span><br><span class="line">    print(hex(d))</span><br><span class="line">    beta = <span class="number">0.5</span></span><br><span class="line">    epsilon = beta^<span class="number">2</span>/<span class="number">7</span></span><br><span class="line">    nbits = n.nbits()</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;nbits:%d:&quot;</span>%(nbits))</span><br><span class="line">    kbits = <span class="comment">#填写已知d的低位的二进制位数</span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;kbits:%d&quot;</span>%(kbits))</span><br><span class="line">    d0 = d &amp; (<span class="number">2</span>^kbits<span class="number">-1</span>)</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;lower %d bits (of %d bits) is given&quot;</span> % (kbits, nbits))</span><br><span class="line">    p = find_p(d0, kbits, e, n)</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">&quot;found p: %d&quot;</span> % p)</span><br><span class="line">    q = n//p</span><br><span class="line">    <span class="keyword">print</span> (hex(d))</span><br><span class="line">    dtrue=inverse_mod(e, (p<span class="number">-1</span>)*(q<span class="number">-1</span>))</span><br><span class="line">    print(hex(dtrue))</span><br></pre></td></tr></table></figure>
+
+<h3 id="PART-4"><a href="#PART-4" class="headerlink" title="PART 4"></a>PART 4</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">e=<span class="number">3</span></span><br><span class="line">n1=<span class="number">78642188663937191491235684351005990853149481644703243255021321296087539054265733392095095639539412823093600710316645130404423641473150336492175402885270861906530337207734106926328737198871118125840680572148601743121884788919989184318198417654263598170932154428514561079675550090698019678767738203477097731989</span></span><br><span class="line">c1=<span class="number">23419685303892339080979695469481275906709035609088426118328601771163101123641599051556995351678670765521269546319724616458499631461037359417701720430452076029312714313804716888119910334476982840024696320503747736428099717113471541651211596481005191146454458591558743268791485623924245960696651150688621664860</span></span><br><span class="line">n2=<span class="number">98174485544103863705821086588292917749386955237408645745685476234349659452606822650329076955303471252833860010724515777826660887118742978051231030080666542833950748806944312437614585352818344599399156268450521239843157288915059003487783576003027303399985723834248634230998110618288843582573006048070816520647</span></span><br><span class="line">c2=<span class="number">72080679612442543693944655041130370753964497034378634203383617624269927191363529233872659451561571441107920350406295389613006330637565645758727103723546610079332161151567096389071050158035757745766399510575237344950873632114050632573903701015749830874081198250578516967517980592506626547273178363503100507676</span></span><br><span class="line">n3=<span class="number">91638855323231795590642755267985988356764327384001022396221901964430032527111968159623063760057482761918901490239790230176524505469897183382928646349163030620342744192731246392941227433195249399795012672172947919435254998997253131826888070173526892674308708289629739522194864912899817994807268945141349669311</span></span><br><span class="line">c3=<span class="number">22149989692509889061584875630258740744292355239822482581889060656197919681655781672277545701325284646570773490123892626601106871432216449814891757715588851851459306683123591338089745675044763551335899599807235257516935037356212345033087798267959242561085752109746935300735969972249665700075907145744305255616</span></span><br></pre></td></tr></table></figure>
+
+<p>低指数广播攻击就是已知同一个明文$m$被多个不同的密钥加密后的结果，这个时候可以直接使用中国剩余定理解决，最后对结果开三次根号即位明文的值。</p>
+<p>CRT的脚本有很多，比如说我博客中的<strong>0xGame Div 2</strong>中就有现成的脚本可以直接拿过来用，此处节省版面，不上脚本，<del>因为更重要的内容在后面</del></p>
+<h3 id="PART-5"><a href="#PART-5" class="headerlink" title="PART 5"></a>PART 5</h3><h4 id="ORG-2021-1-22"><a href="#ORG-2021-1-22" class="headerlink" title="ORG 2021.1.22"></a>ORG 2021.1.22</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">n=<span class="number">0xa1c7556e895f8268b7a81c5cae3d1377f245ceb84b86878982c9869ed9a00fd1ec11a462831b812d7f973a385a1cdae9465c78085ef1d28fa52d8b151609c737e788c3ae9848c39cc2d62c8c73b7659d19e49301171e5df0d9eb6bd0ea0c0f2d64235372c04f88e6402f202783432d2a3cca4d7290e59e41afbe1c206495134d</span></span><br><span class="line">e=<span class="number">7</span></span><br><span class="line">c=<span class="number">0xa0e8306ed676f8f362c78feb0f3adfbaa068f28863941777bd07a7f41f4288220efe34227d1cba72597582f5c1d372394edfd3bd1c29686f30ab9c84ab6bcbbb08920cfca210ecdf3bfac94f844b877a2b74bfeeafd47784978723e6ac78796c24022aa142f4a5715efde7be7e34a75665e6d984fea74e77d063d7e75d0b888c</span></span><br><span class="line">x=<span class="number">0xa0e8306ed676f8f362c78feb0f3adfbaa068f28863941777bd07a7f41f4288220efe34227d1cba72935ee2338135a8152e68165e0f7adf45a898d6b32ea2fc8789f783a7af0ade6acd505e1c791058bb872d589f848e6bb5aa4eeceed04e62ff98b75d6cecd57f0b510486f3f18e9e2f3b7ec14a5ba6621d76161c54f9a5561f</span></span><br></pre></td></tr></table></figure>
+
+<p>其中$x$是对$m+1$加密的结果，也就是$(m+1)^7 \mod n$</p>
+<p>这里就涉及到了相关明文攻击：</p>
+<h4 id="UPD-2021-2-18"><a href="#UPD-2021-2-18" class="headerlink" title="UPD 2021.2.18"></a>UPD 2021.2.18</h4><p><strong>UPD内容：删除了原版中错误的脚本代码，上了一个准确的代码</strong></p>
+<p>所谓RSA相关明文攻击，就是在已知$c\equiv m^e \pmod p$的情况下，同时还知道了$x\equiv (m+1)^e \pmod p$的情况，这个时候启动相关明文攻击，具体内容将在后面一篇RSA笔记中提到。</p>
+<p>下面先上一下解密脚本，这里是知道了$x$和$x+b$的情形。当然，如果一次项不同，举个例子。比如我们知道的是$c=E(2m+3)$和$x=E(5m+8)$。可以得到$C=5^ec,X=2^ex$，那么我们就获得了$C=E(10m+15),X=E(10m+16)$的情形，填写$b=1,c=C,x=X$，那么我们就可以获得$10m \mod n$的计算结果，简单处理一下就可以获得$m$了。<del>（CTF不是ACM，因此我们不需要把所有的步骤全放在一个文件里面，自己多数都是分部计算的，故关于如何凑m前面的系数，请自己根据提示构造）</del></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#sagemath code</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">attack</span>(<span class="params">c1, c2, b, e, n</span>):</span></span><br><span class="line">    PR.&lt;x&gt;=PolynomialRing(Zmod(n))</span><br><span class="line">    g1 = x^e - c1</span><br><span class="line">    g2 = (x+b)^e - c2</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">gcd</span>(<span class="params">g1, g2</span>):</span></span><br><span class="line">        <span class="keyword">while</span> g2:</span><br><span class="line">            g1, g2 = g2, g1 % g2</span><br><span class="line">        <span class="keyword">return</span> g1.monic()</span><br><span class="line">    <span class="keyword">return</span> -gcd(g1, g2)[<span class="number">0</span>]</span><br><span class="line">n=<span class="comment">#填写n值</span></span><br><span class="line">c=<span class="comment">#填写明文加密内容</span></span><br><span class="line">x=<span class="comment">#填写相关明文加密内容</span></span><br><span class="line">e=<span class="comment">#填写加密指数，不宜太大，一般不超过100</span></span><br><span class="line">b=<span class="comment">#填写一次函数相差的常数项</span></span><br><span class="line">m = attack(c,x,b,e,n)</span><br><span class="line">print(m)</span><br><span class="line"><span class="comment">#这是已知m和m+b的情形。如果知道了Am+B,Cm+D，可以将m前面的系数统一成GCD(A,C)后再求解。</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="PART-6"><a href="#PART-6" class="headerlink" title="PART 6"></a>PART 6</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">n=<span class="number">0xbadd260d14ea665b62e7d2e634f20a6382ac369cd44017305b69cf3a2694667ee651acded7085e0757d169b090f29f3f86fec255746674ffa8a6a3e1c9e1861003eb39f82cf74d84cc18e345f60865f998b33fc182a1a4ffa71f5ae48a1b5cb4c5f154b0997dc9b001e441815ce59c6c825f064fdca678858758dc2cebbc4d27</span></span><br><span class="line">d=random.getrandbits(<span class="number">1024</span>*<span class="number">0.270</span>)</span><br><span class="line">e=invmod(d,phin)</span><br><span class="line">hex(e)=<span class="number">0x11722b54dd6f3ad9ce81da6f6ecb0acaf2cbc3885841d08b32abc0672d1a7293f9856db8f9407dc05f6f373a2d9246752a7cc7b1b6923f1827adfaeefc811e6e5989cce9f00897cfc1fc57987cce4862b5343bc8e91ddf2bd9e23aea9316a69f28f407cfe324d546a7dde13eb0bd052f694aefe8ec0f5298800277dbab4a33bb</span></span><br><span class="line">c=pow(m,e,n)=<span class="number">0xe3505f41ec936cf6bd8ae344bfec85746dc7d87a5943b3a7136482dd7b980f68f52c887585d1c7ca099310c4da2f70d4d5345d3641428797030177da6cc0d41e7b28d0abce694157c611697df8d0add3d900c00f778ac3428f341f47ecc4d868c6c5de0724b0c3403296d84f26736aa66f7905d498fa1862ca59e97f8f866c</span> </span><br></pre></td></tr></table></figure>
+
+<p>很显然，看到$e$这么大，并且$\ln d =0.27 \ln n&lt; 0.292 \ln n$,很容易想到WinerAttack</p>
+<p>不过试了好几个weinerattack的脚本都爆破失败，原因可能是因为此处的$\dfrac{\ln d}{\ln n}=0.27$，过于接近$0.292$了，导致了爆破的失败。</p>
+<p>网上找到了一个与Winerattack相类似但不是Winerattack的脚本，填参后放入sagemath里用即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">debug = <span class="literal">True</span></span><br><span class="line">strict = <span class="literal">False</span></span><br><span class="line">helpful_only = <span class="literal">True</span></span><br><span class="line">dimension_min = <span class="number">7</span> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">helpful_vectors</span>(<span class="params">BB, modulus</span>):</span></span><br><span class="line">    nothelpful = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> ii <span class="keyword">in</span> range(BB.dimensions()[<span class="number">0</span>]):</span><br><span class="line">        <span class="keyword">if</span> BB[ii,ii] &gt;= modulus:</span><br><span class="line">            nothelpful += <span class="number">1</span></span><br><span class="line">    print( nothelpful, <span class="string">&quot;/&quot;</span>, BB.dimensions()[<span class="number">0</span>], <span class="string">&quot; vectors are not helpful&quot;</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">matrix_overview</span>(<span class="params">BB, bound</span>):</span></span><br><span class="line">    <span class="keyword">for</span> ii <span class="keyword">in</span> range(BB.dimensions()[<span class="number">0</span>]):</span><br><span class="line">        a = (<span class="string">&#x27;%02d &#x27;</span> % ii)</span><br><span class="line">        <span class="keyword">for</span> jj <span class="keyword">in</span> range(BB.dimensions()[<span class="number">1</span>]):</span><br><span class="line">            a += <span class="string">&#x27;0&#x27;</span> <span class="keyword">if</span> BB[ii,jj] == <span class="number">0</span> <span class="keyword">else</span> <span class="string">&#x27;X&#x27;</span></span><br><span class="line">            <span class="keyword">if</span> BB.dimensions()[<span class="number">0</span>] &lt; <span class="number">60</span>:</span><br><span class="line">                a += <span class="string">&#x27; &#x27;</span></span><br><span class="line">        <span class="keyword">if</span> BB[ii, ii] &gt;= bound:</span><br><span class="line">            a += <span class="string">&#x27;~&#x27;</span></span><br><span class="line">        print( a)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">remove_unhelpful</span>(<span class="params">BB, monomials, bound, current</span>):</span></span><br><span class="line">    <span class="keyword">if</span> current == <span class="number">-1</span> <span class="keyword">or</span> BB.dimensions()[<span class="number">0</span>] &lt;= dimension_min:</span><br><span class="line">        <span class="keyword">return</span> BB</span><br><span class="line">    <span class="keyword">for</span> ii <span class="keyword">in</span> range(current, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">        <span class="comment"># if it is unhelpful:</span></span><br><span class="line">        <span class="keyword">if</span> BB[ii, ii] &gt;= bound:</span><br><span class="line">            affected_vectors = <span class="number">0</span></span><br><span class="line">            affected_vector_index = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> jj <span class="keyword">in</span> range(ii + <span class="number">1</span>, BB.dimensions()[<span class="number">0</span>]):</span><br><span class="line">                <span class="keyword">if</span> BB[jj, ii] != <span class="number">0</span>:</span><br><span class="line">                    affected_vectors += <span class="number">1</span></span><br><span class="line">                    affected_vector_index = jj</span><br><span class="line">            <span class="keyword">if</span> affected_vectors == <span class="number">0</span>:</span><br><span class="line">                print( <span class="string">&quot;* removing unhelpful vector&quot;</span>, ii)</span><br><span class="line">                BB = BB.delete_columns([ii])</span><br><span class="line">                BB = BB.delete_rows([ii])</span><br><span class="line">                monomials.pop(ii)</span><br><span class="line">                BB = remove_unhelpful(BB, monomials, bound, ii<span class="number">-1</span>)</span><br><span class="line">                <span class="keyword">return</span> BB</span><br><span class="line">            <span class="keyword">elif</span> affected_vectors == <span class="number">1</span>:</span><br><span class="line">                affected_deeper = <span class="literal">True</span></span><br><span class="line">                <span class="keyword">for</span> kk <span class="keyword">in</span> range(affected_vector_index + <span class="number">1</span>, BB.dimensions()[<span class="number">0</span>]):</span><br><span class="line">                    <span class="keyword">if</span> BB[kk, affected_vector_index] != <span class="number">0</span>:</span><br><span class="line">                        affected_deeper = <span class="literal">False</span></span><br><span class="line">                <span class="keyword">if</span> affected_deeper <span class="keyword">and</span> abs(bound - BB[affected_vector_index, affected_vector_index]) &lt; abs(bound - BB[ii, ii]):</span><br><span class="line">                    print( <span class="string">&quot;* removing unhelpful vectors&quot;</span>, ii, <span class="string">&quot;and&quot;</span>, affected_vector_index)</span><br><span class="line">                    BB = BB.delete_columns([affected_vector_index, ii])</span><br><span class="line">                    BB = BB.delete_rows([affected_vector_index, ii])</span><br><span class="line">                    monomials.pop(affected_vector_index)</span><br><span class="line">                    monomials.pop(ii)</span><br><span class="line">                    BB = remove_unhelpful(BB, monomials, bound, ii<span class="number">-1</span>)</span><br><span class="line">                    <span class="keyword">return</span> BB</span><br><span class="line">    <span class="keyword">return</span> BB</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">boneh_durfee</span>(<span class="params">pol, modulus, mm, tt, XX, YY</span>):</span></span><br><span class="line">    <span class="comment"># substitution (Herrman and May)</span></span><br><span class="line">    PR.&lt;u, x, y&gt; = PolynomialRing(ZZ)</span><br><span class="line">    Q = PR.quotient(x*y + <span class="number">1</span> - u) <span class="comment"># u = xy + 1</span></span><br><span class="line">    polZ = Q(pol).lift()</span><br><span class="line"></span><br><span class="line">    UU = XX*YY + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># x-shifts</span></span><br><span class="line">    gg = []</span><br><span class="line">    <span class="keyword">for</span> kk <span class="keyword">in</span> range(mm + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> ii <span class="keyword">in</span> range(mm - kk + <span class="number">1</span>):</span><br><span class="line">            xshift = x^ii * modulus^(mm - kk) * polZ(u, x, y)^kk</span><br><span class="line">            gg.append(xshift)</span><br><span class="line">    gg.sort()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># x-shifts list of monomials</span></span><br><span class="line">    monomials = []</span><br><span class="line">    <span class="keyword">for</span> polynomial <span class="keyword">in</span> gg:</span><br><span class="line">        <span class="keyword">for</span> monomial <span class="keyword">in</span> polynomial.monomials():</span><br><span class="line">            <span class="keyword">if</span> monomial <span class="keyword">not</span> <span class="keyword">in</span> monomials:</span><br><span class="line">                monomials.append(monomial)</span><br><span class="line">    monomials.sort()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># y-shifts (selected by Herrman and May)</span></span><br><span class="line">    <span class="keyword">for</span> jj <span class="keyword">in</span> range(<span class="number">1</span>, tt + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> kk <span class="keyword">in</span> range(floor(mm/tt) * jj, mm + <span class="number">1</span>):</span><br><span class="line">            yshift = y^jj * polZ(u, x, y)^kk * modulus^(mm - kk)</span><br><span class="line">            yshift = Q(yshift).lift()</span><br><span class="line">            gg.append(yshift) <span class="comment"># substitution</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># y-shifts list of monomials</span></span><br><span class="line">    <span class="keyword">for</span> jj <span class="keyword">in</span> range(<span class="number">1</span>, tt + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> kk <span class="keyword">in</span> range(floor(mm/tt) * jj, mm + <span class="number">1</span>):</span><br><span class="line">            monomials.append(u^kk * y^jj)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># construct lattice B</span></span><br><span class="line">    nn = len(monomials)</span><br><span class="line">    BB = Matrix(ZZ, nn)</span><br><span class="line">    <span class="keyword">for</span> ii <span class="keyword">in</span> range(nn):</span><br><span class="line">        BB[ii, <span class="number">0</span>] = gg[ii](<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">for</span> jj <span class="keyword">in</span> range(<span class="number">1</span>, ii + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> monomials[jj] <span class="keyword">in</span> gg[ii].monomials():</span><br><span class="line">                BB[ii, jj] = gg[ii].monomial_coefficient(monomials[jj]) * monomials[jj](UU,XX,YY)</span><br><span class="line">    <span class="keyword">if</span> helpful_only:</span><br><span class="line">        BB = remove_unhelpful(BB, monomials, modulus^mm, nn<span class="number">-1</span>)</span><br><span class="line">        nn = BB.dimensions()[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">if</span> nn == <span class="number">0</span>:</span><br><span class="line">            print( <span class="string">&quot;failure&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>,<span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        helpful_vectors(BB, modulus^mm)</span><br><span class="line">    det = BB.det()</span><br><span class="line">    bound = modulus^(mm*nn)</span><br><span class="line">    <span class="keyword">if</span> det &gt;= bound:</span><br><span class="line">        print( <span class="string">&quot;We do not have det &lt; bound. Solutions might not be found.&quot;</span>)</span><br><span class="line">        print( <span class="string">&quot;Try with highers m and t.&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> debug:</span><br><span class="line">            diff = (log(det) - log(bound)) / log(<span class="number">2</span>)</span><br><span class="line">            print( <span class="string">&quot;size det(L) - size e^(m*n) = &quot;</span>, floor(diff))</span><br><span class="line">        <span class="keyword">if</span> strict:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>, <span class="number">-1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print( <span class="string">&quot;det(L) &lt; e^(m*n) (good! If a solution exists &lt; N^delta, it will be found)&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        matrix_overview(BB, modulus^mm)</span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        print( <span class="string">&quot;optimizing basis of the lattice via LLL, this can take a long time&quot;</span>)</span><br><span class="line">    BB = BB.LLL()</span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        print( <span class="string">&quot;LLL is done!&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        print( <span class="string">&quot;looking for independent vectors in the lattice&quot;</span>)</span><br><span class="line">    found_polynomials = <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> pol1_idx <span class="keyword">in</span> range(nn - <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> pol2_idx <span class="keyword">in</span> range(pol1_idx + <span class="number">1</span>, nn):</span><br><span class="line">            PR.&lt;w,z&gt; = PolynomialRing(ZZ)</span><br><span class="line">            pol1 = pol2 = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> jj <span class="keyword">in</span> range(nn):</span><br><span class="line">                pol1 += monomials[jj](w*z+<span class="number">1</span>,w,z) * BB[pol1_idx, jj] / monomials[jj](UU,XX,YY)</span><br><span class="line">                pol2 += monomials[jj](w*z+<span class="number">1</span>,w,z) * BB[pol2_idx, jj] / monomials[jj](UU,XX,YY)</span><br><span class="line">            PR.&lt;q&gt; = PolynomialRing(ZZ)</span><br><span class="line">            rr = pol1.resultant(pol2)</span><br><span class="line">            <span class="keyword">if</span> rr.is_zero() <span class="keyword">or</span> rr.monomials() == [<span class="number">1</span>]:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                print( <span class="string">&quot;found them, using vectors&quot;</span>, pol1_idx, <span class="string">&quot;and&quot;</span>, pol2_idx)</span><br><span class="line">                found_polynomials = <span class="literal">True</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">if</span> found_polynomials:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> found_polynomials:</span><br><span class="line">        print( <span class="string">&quot;no independant vectors could be found. This should very rarely happen...&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    rr = rr(q, q)</span><br><span class="line">    soly = rr.roots()</span><br><span class="line">    <span class="keyword">if</span> len(soly) == <span class="number">0</span>:</span><br><span class="line">        print( <span class="string">&quot;Your prediction (delta) is too small&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    soly = soly[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">    ss = pol1(q, soly)</span><br><span class="line">    solx = ss.roots()[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">return</span> solx, soly</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">example</span>():</span></span><br><span class="line">    N = </span><br><span class="line">    e = </span><br><span class="line">    c = </span><br><span class="line">    delta = <span class="number">.291</span> <span class="comment"># this means that d &lt; N^delta</span></span><br><span class="line">    m = <span class="number">4</span> <span class="comment"># size of the lattice (bigger the better/slower)</span></span><br><span class="line"></span><br><span class="line">    t = int((<span class="number">1</span><span class="number">-2</span>*delta) * m)  <span class="comment"># optimization from Herrmann and May</span></span><br><span class="line">    X = <span class="number">2</span>*floor(N^delta)  <span class="comment"># this _might_ be too much</span></span><br><span class="line">    Y = floor(N^(<span class="number">1</span>/<span class="number">2</span>))    <span class="comment"># correct if p, q are ~ same size</span></span><br><span class="line">    P.&lt;x,y&gt; = PolynomialRing(ZZ)</span><br><span class="line">    A = int((N+<span class="number">1</span>)/<span class="number">2</span>)</span><br><span class="line">    pol = <span class="number">1</span> + x * (A + y)</span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        print( <span class="string">&quot;=== checking values ===&quot;</span>)</span><br><span class="line">        print( <span class="string">&quot;* delta:&quot;</span>, delta)</span><br><span class="line">        print( <span class="string">&quot;* delta &lt; 0.292&quot;</span>, delta &lt; <span class="number">0.292</span>)</span><br><span class="line">        print( <span class="string">&quot;* size of e:&quot;</span>, int(log(e)/log(<span class="number">2</span>)))</span><br><span class="line">        print( <span class="string">&quot;* size of N:&quot;</span>, int(log(N)/log(<span class="number">2</span>)))</span><br><span class="line">        print( <span class="string">&quot;* m:&quot;</span>, m, <span class="string">&quot;, t:&quot;</span>, t)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        print( <span class="string">&quot;=== running algorithm ===&quot;</span>)</span><br><span class="line">        start_time = time.time()</span><br><span class="line">    solx, soly = boneh_durfee(pol, e, m, t, X, Y)</span><br><span class="line">    <span class="keyword">if</span> solx &gt; <span class="number">0</span>:</span><br><span class="line">        print( <span class="string">&quot;=== solution found ===&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="literal">False</span>:</span><br><span class="line">            print( <span class="string">&quot;x:&quot;</span>, solx)</span><br><span class="line">            print( <span class="string">&quot;y:&quot;</span>, soly)</span><br><span class="line"></span><br><span class="line">        d = int(pol(solx, soly) / e)</span><br><span class="line">        m = pow(c,d,N)</span><br><span class="line">        print( <span class="string">&#x27;[-]d is &#x27;</span> + str(d))</span><br><span class="line">        print( <span class="string">&#x27;[-]m is: &#x27;</span> + str(m))</span><br><span class="line">        print( <span class="string">&#x27;[-]hex(m) is: &#x27;</span> + <span class="string">&#x27;&#123;:x&#125;&#x27;</span>.format(int(m)))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print( <span class="string">&quot;[!]no solution was found!&quot;</span>)</span><br><span class="line">        print( <span class="string">&#x27;[!]All Done!&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        print((<span class="string">&quot;[!]Timer: %s s&quot;</span> % (time.time() - start_time)))</span><br><span class="line">        print( <span class="string">&#x27;[!]All Done!&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    example()</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-End"><a href="#3-End" class="headerlink" title="3.End"></a>3.End</h2><p>这些RSA的破解都是难度较高的，后期还是需要多理解一下的。</p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">huangx607087</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://example.com/2021/01/22/RSA-Notes4/">http://example.com/2021/01/22/RSA-Notes4/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">huangx607087</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Notes/">
+                                    <span class="chip bg-color">Notes</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2021/01/24/DLP-Notes-1/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/30.jpg" class="responsive-img" alt="DLP Notes 1">
+                        
+                        <span class="card-title">DLP Notes 1</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-01-24
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CTFSeason2/" class="post-category">
+                                    CTFSeason2
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Notes/">
+                        <span class="chip bg-color">Notes</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2021/01/21/21Jan2/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/34.jpg" class="responsive-img" alt="21Jan2">
+                        
+                        <span class="card-title">21Jan2</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-01-21
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CTFSeason2/" class="post-category">
+                                    CTFSeason2
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/ExpLog/">
+                        <span class="chip bg-color">ExpLog</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4, h5'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4, h5').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
+    });
+</script>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2020-2021</span>
+            
+            <span id="year">2020</span>
+            <a href="/about" target="_blank">huangx607087</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2020";
+                    var startMonth = "10";
+                    var startDate = "5";
+                    var startHour = "19";
+                    var startMinute = "20";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/huangx607087" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1435756429@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1435756429" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1435756429" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</body>
+
+</html>
