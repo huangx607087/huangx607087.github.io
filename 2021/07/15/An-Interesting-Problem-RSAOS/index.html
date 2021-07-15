@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="GKCTF2021 WriteUp, huangx607087&#39;s Blog">
+    <meta name="keywords" content="An Interesting Problem-RSAOS, huangx607087&#39;s Blog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>GKCTF2021 WriteUp | huangx607087&#39;s Blog</title>
+    <title>An Interesting Problem-RSAOS | huangx607087&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -279,12 +279,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">GKCTF2021 WriteUp</h1>
+                    <h1 class="description center-align post-title">An Interesting Problem-RSAOS</h1>
                 </div>
             </div>
         </div>
@@ -400,23 +400,14 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/WriteUp/">
-                                <span class="chip bg-color">WriteUp</span>
+                            <a href="/tags/ExpLog/">
+                                <span class="chip bg-color">ExpLog</span>
                             </a>
                         
                     </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/CTFSeason3/" class="post-category">
-                                CTFSeason3
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -425,7 +416,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-07-12
+                    2021-07-15
                 </div>
                 
 
@@ -451,72 +442,103 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="GKCTF-WriteUp-By-huangx607087"><a href="#GKCTF-WriteUp-By-huangx607087" class="headerlink" title="GKCTF WriteUp By huangx607087"></a>GKCTF WriteUp By huangx607087</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>6月22日的GKCTF，由于忙于期末考试直接摸了，20天后回来复现来了。好在自己期末每门课都过了，死而无憾。</p>
-<p>自己6月初申请留任了校科协和院科协，看来以后不能再摸鱼了。并且如果CTF和平时文化课双开的话，应该难度并不小，<del>不过希望自己可以做到</del>。</p>
-<h2 id="1-GKCTF-2021-Random"><a href="#1-GKCTF-2021-Random" class="headerlink" title="1.[GKCTF 2021]Random"></a>1.[GKCTF 2021]Random</h2><p>通过观察题目代码可以知道，又是一道典型的MT19937预测随机数的题目</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_mask</span>():</span></span><br><span class="line">    file = open(<span class="string">&quot;random.txt&quot;</span>,<span class="string">&quot;w&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">104</span>):</span><br><span class="line">        file.write(str(random.getrandbits(<span class="number">32</span>))+<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">        file.write(str(random.getrandbits(<span class="number">64</span>))+<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">        file.write(str(random.getrandbits(<span class="number">96</span>))+<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">    file.close()</span><br><span class="line">get_mask()</span><br><span class="line">flag = md5(str(random.getrandbits(<span class="number">32</span>)).encode()).hexdigest()</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+                <h1 id="An-Interesting-Problem-RSAOS"><a href="#An-Interesting-Problem-RSAOS" class="headerlink" title="An Interesting Problem - RSAOS"></a>An Interesting Problem - RSAOS</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>最近自己在BUU上面刷题的时候发现了一个很好玩的题目——RSAOS，<del>虽然本fw还是瞄了几眼WP才写出来的——因为自己tcl</del>，但还是决定跟大家分享一下——因为确实非常的好玩</p>
+<p>7月14日，BUUCTF上了5000分，以后还要继续努力。</p>
+<p><code>#define huangx607087 fw</code></p>
+<h2 id="Part-1-Beginning"><a href="#Part-1-Beginning" class="headerlink" title="Part 1 Beginning"></a>Part 1 Beginning</h2><img src="/2021/07/15/An-Interesting-Problem-RSAOS/1.png" alt="1" style="zoom:80%;">
 
-<p>题目一次给出了$104$组数字，每组数字由$32$位、$64$位、$96$位的二进制数各一个。每一组等价于$6$组$32$位二进制数，总共$624$组$32$位二进制数，因此可以进行预测。</p>
-<p>不过这里要注意一下预测的顺序，设一次给出的分别是$^{32}A,^{64}B,^{96}C$，那么我们预测顺序应该是：$^{32}A_{[31,0]}$,$^{64}B_{[31,0]}$,$^{64}B_{[63,32]}$,$^{96}C_{[31,0]}$,$^{96}C_{[63,32]}$,$^{96}C_{[95,64]}$，其中$^{64}B_{[31,0]}$表示$B$一共有$64$位，取其代表着$2^{31}$到$2^{0}$的比特位。</p>
-<p>我们可以导入上一个博客我们探究出来的包。将其命名为<code>MT19937tools</code>放入我们的解题文件夹中，通过<code>import</code>到我们的解题脚本中来即可。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line"><span class="keyword">from</span> MT19937tools <span class="keyword">import</span> *</span><br><span class="line">f=open(<span class="string">&quot;random.txt&quot;</span>,<span class="string">&quot;r&quot;</span>)</span><br><span class="line">S=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">104</span>):</span><br><span class="line">    a32=int(f.readline())</span><br><span class="line">    a64=int(f.readline())</span><br><span class="line">    a96=int(f.readline())</span><br><span class="line">    S.append(a32)</span><br><span class="line">    S.append(a64&amp;<span class="number">0xffffffff</span>)</span><br><span class="line">    S.append(a64&gt;&gt;<span class="number">32</span>)</span><br><span class="line">    S.append(a96&amp;<span class="number">0xffffffff</span>)</span><br><span class="line">    S.append((a96&gt;&gt;<span class="number">32</span>)&amp;<span class="number">0xffffffff</span>)</span><br><span class="line">    S.append(a96&gt;&gt;<span class="number">64</span>)</span><br><span class="line">f.close()</span><br><span class="line">D=MT19937(<span class="number">0</span>)</span><br><span class="line">flag= md5(str(D.predict(S)).encode()).hexdigest()</span><br><span class="line">print(flag)</span><br><span class="line"><span class="comment">#14c71fec812b754b2061a35a4f6d8421</span></span><br></pre></td></tr></table></figure>
+<p>题目什么附件都没有给，就是一个普普通通的远程题目，直接打开虚拟机远程连接上去（</p>
+<p>然后远程连接上去之后，似乎什么东西都没有（，并没有让你输出什么<code>sha256</code>验证的，也没有输出什么RSA必要的$c,e,n$的必要解密条件。随便输入一个<code>e</code>，<code>n</code>，<code>ls</code>之类的东西都显示”Commond Not Found”。。。。。。</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/2.png" alt="2" style="zoom:80%;">
 
-<h2 id="2-GKCTF-2021-RRRRsa"><a href="#2-GKCTF-2021-RRRRsa" class="headerlink" title="2.[GKCTF 2021]RRRRsa"></a>2.[GKCTF 2021]RRRRsa</h2><h3 id="Step-1-初步审题"><a href="#Step-1-初步审题" class="headerlink" title="Step 1 初步审题"></a>Step 1 初步审题</h3><p>按照惯例先看一下题目代码，然后将题目后面给出来的所有数据放入<code>given.py</code>文件中</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span> gcd</span><br><span class="line">flag = <span class="string">b&#x27;xxxxxxxxxxxxx&#x27;</span></span><br><span class="line">p = getPrime(<span class="number">512</span>)</span><br><span class="line">q = getPrime(<span class="number">512</span>)</span><br><span class="line">m = bytes_to_long(flag)</span><br><span class="line">n = p*q</span><br><span class="line">e = <span class="number">65537</span></span><br><span class="line">c = pow(m,e,n)</span><br><span class="line">print(<span class="string">&#x27;c=&#123;&#125;&#x27;</span>.format(c))</span><br><span class="line">p1 = getPrime(<span class="number">512</span>)</span><br><span class="line">q1 = getPrime(<span class="number">512</span>)</span><br><span class="line">n1 = p1*q1</span><br><span class="line">e1 = <span class="number">65537</span></span><br><span class="line"><span class="keyword">assert</span> gcd(e1,(p1<span class="number">-1</span>)*(q1<span class="number">-1</span>)) == <span class="number">1</span></span><br><span class="line">c1 = pow(p,e1,n1)</span><br><span class="line">print(<span class="string">&#x27;n1=&#123;&#125;&#x27;</span>.format(n1))</span><br><span class="line">print(<span class="string">&#x27;c1=&#123;&#125;&#x27;</span>.format(c1))</span><br><span class="line">hint1 = pow(<span class="number">2020</span> * p1 + q1, <span class="number">202020</span>, n1)</span><br><span class="line">hint2 = pow(<span class="number">2021</span> * p1 + <span class="number">212121</span>, q1, n1)</span><br><span class="line">print(<span class="string">&#x27;hint1=&#123;&#125;&#x27;</span>.format(hint1))</span><br><span class="line">print(<span class="string">&#x27;hint2=&#123;&#125;&#x27;</span>.format(hint2))</span><br><span class="line">p2 = getPrime(<span class="number">512</span>)</span><br><span class="line">q2 = getPrime(<span class="number">512</span>)</span><br><span class="line">n2 = p2*q2</span><br><span class="line">e2 = <span class="number">65537</span></span><br><span class="line"><span class="keyword">assert</span> gcd(e1,(p2<span class="number">-1</span>)*(q2<span class="number">-1</span>)) == <span class="number">1</span></span><br><span class="line">c2 = pow(q,e2,n2)</span><br><span class="line">hint3 = pow(<span class="number">2020</span> * p2 + <span class="number">2021</span> * q2, <span class="number">202020</span>, n2)</span><br><span class="line">hint4 = pow(<span class="number">2021</span> * p2 + <span class="number">2020</span> * q2, <span class="number">212121</span>, n2)</span><br><span class="line">print(<span class="string">&#x27;n2=&#123;&#125;&#x27;</span>.format(n2))</span><br><span class="line">print(<span class="string">&#x27;c2=&#123;&#125;&#x27;</span>.format(c2))</span><br><span class="line">print(<span class="string">&#x27;hint3=&#123;&#125;&#x27;</span>.format(hint3))</span><br><span class="line">print(<span class="string">&#x27;hint4=&#123;&#125;&#x27;</span>.format(hint4))</span><br></pre></td></tr></table></figure>
+<p>这就是一个很奇怪的玩意了——不仅没有源码，还没给什么其他的东西（</p>
+<p><del>于是本fw毫不要脸地去瞄了一眼这道题的wp</del>，原来第一步要先输入help获取菜单——行吧，怪我自己没有开发经验，谁叫自己是一个连机器人都配不好的fw呢?下亿次我拿到一个未知的系统一定要先输一下<code>help</code>或者<code>menu</code>等功能性命令，<del>（拿小本本记下来</del></p>
+<p>输入了help之后，似乎很多事情就好起来了（，得到了一连串的命令——</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/3.png" alt="3" style="zoom:80%;">
 
-<p>可以看出整个过程中先加密了$\mathrm {flag}$，然后对加密$\mathrm{flag}$的$p,q$进行了二次加密。对于第一组式子我们可以得到：<br>$$<br>h_1\equiv (2020p_1+q_1)^{202020} \pmod{n_1}<br>$$</p>
-<p>$$<br>h_2\equiv (2021p_1+212121)^{q_1} \pmod {n_1}<br>$$</p>
-<p>同时我们可以根据代码提炼出第二组式子：<br>$$<br>h_3\equiv (2020p_2+2021q_2)^{202020} \pmod{n_2}<br>$$</p>
-<p>$$<br>h_4\equiv (2021p_2+2020q_2)^{212121} \pmod {n_2}<br>$$</p>
-<p>鉴于第二组式子略微简单一点，我们先化简第二组式子</p>
-<h3 id="Step-2-第二组式子的化简"><a href="#Step-2-第二组式子的化简" class="headerlink" title="Step 2 第二组式子的化简"></a>Step 2 第二组式子的化简</h3><p>对于第二组式子：<br>$$<br>h_3\equiv (2020p_2+2021q_2)^{202020} \pmod{n_2}<br>$$</p>
-<p>$$<br>h_4\equiv (2021p_2+2020q_2)^{212121} \pmod {n_2}<br>$$</p>
-<p>根据二项式定理，加上$n_2=p_2q_2$，对这两个式子展开，由于中间项全没有了，我们可以得到：<br>$$<br>h_3\equiv 2020^{202020}p_2^{202020} + 2021^{202020} q_2^{202020}\pmod{n_2}<br>$$</p>
-<p>$$<br>h_4\equiv 2021^{212121}p_2^{212121}+2020^{212121}q_2^{212121}\pmod{n_2}<br>$$</p>
-<p>设$t=202020×212121$,那么我们也可以得到：<br>$$<br>h_3^{212121}\equiv 2020^tp_2^t+2021^tq_2^t\pmod{n_2}<br>$$</p>
-<p>$$<br>h_4^{202020}\equiv 2021^tp_2^t +2020^tq_2^t\pmod{n_2}<br>$$</p>
-<p>然后我们可以继续得到<br>$$<br>2021^th_3^{212121} \equiv 2020^t2021^tp_2^t+2021^{2t}q_2^t\pmod{n_2}<br>$$</p>
-<p>$$<br>2020^{t}h_4^{202020}\equiv 2020^t2021^tp_2^t+2020^{2t}q_2^t \pmod{n_2}<br>$$</p>
-<p>两式相减，得<br>$$<br>2021^th_3^{212121}-2020^{t}h_4^{202020} \equiv 2021^{2t}q_2^t-2020^{2t}q_2^t=(2021^{2t}-2020^{2t})q_2^t \pmod {n_2}<br>$$<br>可以看出这个数字肯定是$q_2$的倍数，将其记为$kq_2$,由于$n_2=p_2q_2$，且$p_2,q_2$均为素数，因此可以得到$\gcd(n,kq_2)=q_2$，进而分解$n_2$，解密后得到$q$。</p>
-<h3 id="Step-3-第一组式子的化简"><a href="#Step-3-第一组式子的化简" class="headerlink" title="Step 3 第一组式子的化简"></a>Step 3 第一组式子的化简</h3><p>我们再回过来看一下第一组式子：<br>$$<br>h_1\equiv (2020p_1+q_1)^{202020} \pmod{n_1}<br>$$</p>
-<p>$$<br>h_2\equiv (2021p_1+212121)^{q_1} \pmod {n_1}<br>$$</p>
-<p>根据二项式定理，很容易将第一个式子化简<br>$$<br>h_1\equiv 2020^{202020}p_1^{202020}+q_1^{202020}\pmod {n_1}<br>$$<br>但对于第二个式子，展开化简很显然是不太可能的事情</p>
-<p>由于$n_1=p_1q_1$，想到离散对数中的一些内容，很显然，在这里$\mathrm{ord}(p_1) = q_1$，因为$p_1^x \mod n_1$的值只有$q_1$种结果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注：这个结论很好证明，随便搞几个特殊数据试试就出来了</span><br></pre></td></tr></table></figure>
+<h2 id="Part-2-Attempt-1"><a href="#Part-2-Attempt-1" class="headerlink" title="Part 2 Attempt 1"></a>Part 2 Attempt 1</h2><p><del>乱搞阶段</del></p>
+<p>很显然，要输入<code>get-flag</code>或者<code>get-privatekey</code>，我们才能获得最终答案。因此先输一下get-flag来看看需要什么条件（</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/4.png" alt="4" style="zoom:80%;">
 
-<p>因此，展开式中第一项即为$2021^{q_1}p_1$，但这边还是出现了一个问题，那就是$q_1$总是在指数上，很难去掉。</p>
-<p>由于$p$是素数，那么根据费马小定理$a^{p}\equiv a \pmod p$和二项式展开定理，可以得到：<br>$$<br>h_2\equiv \sum_{i=0}^{q} \mathrm C_q^{i}2021^ip^i212121^{q-i} \pmod {n_1}<br>$$<br>简单化简一下：<br>$$<br>h_2\equiv 2021^{q_1}p_1+\sum_{i=0}^{q-1}  212121^{-i}\mathrm C_q^{i}2021^ip^i212121^{q} \pmod {n_1}<br>$$<br>干脆别管常数了（<br>$$<br>h_2\equiv 2021^{q_1}p_1+\sum_{i=0}^{q-1}  K_ip^i212121^{q} \pmod {n_1}<br>$$<br>再模一下$q_1$：<br>$$<br>H=h_2 \mod q_1 \equiv 2021p_1+212121+Kq_1 \mod q_1 \pmod {n_1}<br>$$<br>如果我们减去$212121$，那么$H=2021p_1+Kq_1$，将$H$升高到$202020$次方，然后再用Step2中一样的方法消元，就可以得到$kq_1$，然后与$n_1$求GCD就出结果了。</p>
-<h3 id="Step-4-解题代码"><a href="#Step-4-解题代码" class="headerlink" title="Step 4 解题代码"></a>Step 4 解题代码</h3><p>根据上面的分析，不难写出解题代码</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> given <span class="keyword">import</span> *</span><br><span class="line">l=<span class="number">202020</span>*<span class="number">212121</span></span><br><span class="line">H3,H4=pow(hint3,<span class="number">212121</span>,n2),pow(hint4,<span class="number">202020</span>,n2)</span><br><span class="line">HH3,HH4=pow(<span class="number">2021</span>,l,n2)*H3%n2,pow(<span class="number">2020</span>,l,n2)*H4%n2</span><br><span class="line">kq2=HH4-HH3</span><br><span class="line">q2=GCD(kq2,n2)</span><br><span class="line">p2=n2//q2</span><br><span class="line"><span class="keyword">assert</span> isPrime(p2) <span class="keyword">and</span> isPrime(q2)</span><br><span class="line">Q=pow(c2,inverse(e2,(p2<span class="number">-1</span>)*(q2<span class="number">-1</span>)),n2)</span><br><span class="line"><span class="keyword">assert</span> isPrime(Q)</span><br><span class="line">t=pow(hint2<span class="number">-212121</span>,<span class="number">202020</span>,n1)</span><br><span class="line">HH1=pow(<span class="number">2021</span>,<span class="number">202020</span>,n1)*hint1%n1</span><br><span class="line">HH2=pow(<span class="number">2020</span>,<span class="number">202020</span>,n1)*t%n1</span><br><span class="line">kq1=abs(HH1-HH2)</span><br><span class="line">q1=GCD(kq1,n1)</span><br><span class="line">p1=n1//q1</span><br><span class="line"><span class="keyword">assert</span> isPrime(p1) <span class="keyword">and</span> isPrime(q1)</span><br><span class="line">P=pow(c1,inverse(e1,(p1<span class="number">-1</span>)*(q1<span class="number">-1</span>)),n1)</span><br><span class="line"><span class="keyword">assert</span> isPrime(P)</span><br><span class="line">flag=long_to_bytes(pow(c,inverse(e,(P<span class="number">-1</span>)*(Q<span class="number">-1</span>)),P*Q))</span><br><span class="line">print(flag)</span><br><span class="line"><span class="comment">#GKCTF&#123;f64310b5-d5e6-45cb-ae69-c86600cdf8d8&#125;</span></span><br></pre></td></tr></table></figure>
+<p>然后它给我冒出来了一个什么foldhash的东西（看来这玩意还是有点东西的。可能权限命令需要某个密码才能完成吧——要记住这是Crypto题目不是Pwn/Re题目，估计其他的内容不会很难</p>
+<p>输入<code>get-publickey</code>，服务器返回了这样一个东西：<del>貌似重连几遍内容一直不变</del></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Public key parameters:</span><br><span class="line">N: 0xd888075370effdb016d85de8c894ee7ac2764527210d8ce1d8bd14a06c67de148b4680781366002f9649e3885e18ab950120c660970ab9a499ea74ea7aa38fe732940b5204300ef7b96a608efec1a74007a4b1d592cf9eb23890d8fa416202857d0e0f9ebad79324d03d09db0502ff4bae0b2dfc0b150ddea806a5ff24e2d32f</span><br><span class="line">E: 0x10001</span><br></pre></td></tr></table></figure>
 
-<h2 id="3-GKCTF-2021-XOR"><a href="#3-GKCTF-2021-XOR" class="headerlink" title="3.[GKCTF 2021]XOR"></a>3.[GKCTF 2021]XOR</h2><p>看一下题目的代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line">a = getPrime(<span class="number">512</span>)</span><br><span class="line">b = getPrime(<span class="number">512</span>)</span><br><span class="line">c = getPrime(<span class="number">512</span>)</span><br><span class="line">d = getPrime(<span class="number">512</span>)</span><br><span class="line">d1 = int(bin(d)[<span class="number">2</span>:][::<span class="number">-1</span>] , <span class="number">2</span>)</span><br><span class="line">n1 = a*b</span><br><span class="line">x1 = a^b</span><br><span class="line">n2 = c*d</span><br><span class="line">x2 = c^d1</span><br><span class="line">flag = md5(str(a+b+c+d).encode()).hexdigest()</span><br><span class="line">print(<span class="string">&quot;n1 =&quot;</span>,n1)</span><br><span class="line">print(<span class="string">&quot;x1 =&quot;</span>,x1)</span><br><span class="line">print(<span class="string">&quot;n2 =&quot;</span>,n2)</span><br><span class="line">print(<span class="string">&quot;x2 =&quot;</span>,x2)</span><br></pre></td></tr></table></figure>
+<p><code>duck</code>不必管那么多，或许其他的东西应该试试看（，比如没试过的命令都尝试日一遍看看（，尤其是这个debug，我看你很不对劲[严肃]</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/5.png" alt="5" style="zoom:80%;">
 
-<p>题目给出了$a$和$b$的乘积、$a$和$b$异或后的值、$c$和$d$的乘积和$c$和$d’$异或的值。</p>
-<p>对于第一个问情况，我们只需要不断枚举它的每一位就可以了。不过注意一下这样一个同余的性质：不论在几进制下，如果已知$A,B$两个数的最后$n$位，那么它们的乘积的最后$n$位我们也会知道了。</p>
-<p>例如：</p>
-<p>$9×7=63$，$53370$<font color="red">$9$</font>$×18826$<font color="red">$7$</font>$=10047979230$<font color="red">$3$</font>。 </p>
-<p>$5193×8326=43236918$,$8173$<font color="red">$5193$</font>$×6327$<font color="red">$8326$</font>$=517206618832$<font color="red">$6918$</font>。</p>
-<p>十六进制这种情况也同样存在：</p>
-<p>$\mathrm{7ABH×96FH=485625H}$，$8733$<font color="red">$\mathrm{7AB}$</font>$\mathrm {H×62CE}$<font color="red">$\mathrm{96F}$</font>$\mathrm{H=342ED01B03C}$<font color="red">$\mathrm{625}$</font>$\mathrm H$</p>
-<p>因此，我们只需要对于第一种情况直接枚举即可。</p>
-<p>而第二种情况再之前的XDCTF中，脚本见5月17日发布的<strong>21May1</strong>中的第三题，不过这里对于三个剪枝条件我再阐述一下：</p>
-<p>一：不同余的时候剪枝，这个我刚刚讲过，实现代码如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(CurP*CurQ)%(<span class="number">2</span>**(Round+<span class="number">1</span>))!=n%(<span class="number">2</span>**(Round+<span class="number">1</span>)):</span><br><span class="line">    <span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+<p>果然debug这边确实有什么玄机在里面！或许我们应当enable一下这个debug才对</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/6.png" alt="6" style="zoom:80%;">
 
-<p>二：最小值情况下总数过大，超过了$n$（定上界）</p>
-<p>由于我们是高位低位两头双面夹击，不断补充比特位的，因此在枚举一开始的时候，中间所有的比特位都是$0$。也就是此时枚举时$P,Q$的值都是小于真值的。因此如果此时乘积超过$n$，就说明某个数的高位定大了，需要返回重新定值。实现代码如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> CurP*CurQ&gt;n:</span><br><span class="line">    <span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+<p>果然在<code>debug enable</code>之后，似乎每次输出命令都会给你一个什么<code>DBG-CRC32() SIG()</code>的模式。不过这个究竟是什么东西啊（</p>
+<p>百度了一下，原来<code>CRC32()</code>是一个$32$个比特位的哈希值，而<code>SIG</code>是签名结果。</p>
+<p>不过这个时候自己的发展又陷入僵局。。。。<del>（于是再一次瞄了眼别人的wp）</del></p>
+<p>结果发现这是个脑洞题——原来help后面还可以跟上命令名称来告诉你这个命令究竟是干什么用的</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/7.png" alt="7" style="zoom:80%;">
 
-<p>三：最大值情况下总数过小，无法到达$n$。（定下界）</p>
-<p>有一个很好的办法是把中间所有的未确认的比特位全填充成$1$，这种方法也是可行的，但或许会比较麻烦（</p>
-<p>根据第二条中的理论，这个时候我们可以给枚举的数字定个下界。由于我们第$\mathrm {Round}$的轮定下的高位是代表着$2^{511-\mathrm{Round}}$的值，这个时候我们可以给这一位强行$+1$，也就是原本的$0$变$1$，原本的$1$变$2$（进到下一位），如果此时两数的乘积还不到$n$，就说明我们的两个数字确定得小了，需要枚举更大的比特位了。实现代码如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(CurP+<span class="number">2</span>**(<span class="number">511</span>-Round))*((CurQ+<span class="number">2</span>**(<span class="number">511</span>-Round)))&lt;n: </span><br><span class="line">    <span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+<p>在<code>help security</code>这边，我们发现了比较有价值的信息：</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/8.png" alt="8" style="zoom:80%;">
 
-<p>最后上一下完整的解题代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line"><span class="keyword">from</span> given <span class="keyword">import</span> *</span><br><span class="line">bina=bin(x2)[<span class="number">2</span>:]</span><br><span class="line">bina=<span class="string">&#x27;0&#x27;</span>*(<span class="number">512</span>-len(bina))+bina</span><br><span class="line">binb=bin(x1)[<span class="number">2</span>:]</span><br><span class="line">binb=<span class="string">&#x27;0&#x27;</span>*(<span class="number">512</span>-len(binb))+binb</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs2</span>(<span class="params">P,Q,n,Round</span>):</span></span><br><span class="line">    <span class="keyword">if</span> Round==<span class="number">256</span>:</span><br><span class="line">        <span class="keyword">if</span> P*Q==n:</span><br><span class="line">            <span class="keyword">global</span> c,d</span><br><span class="line">            c,d=P,Q</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">2</span>):</span><br><span class="line">            CurP=P+i*(<span class="number">2</span>**(<span class="number">511</span>-Round))+(int(bina[Round])^j)*(<span class="number">2</span>**Round)</span><br><span class="line">            CurQ=Q+j*(<span class="number">2</span>**(<span class="number">511</span>-Round))+(int(bina[<span class="number">511</span>-Round])^i)*(<span class="number">2</span>**Round)</span><br><span class="line">            <span class="keyword">if</span> CurP*CurQ&gt;n:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">if</span>(CurP+<span class="number">2</span>**(<span class="number">511</span>-Round))*((CurQ+<span class="number">2</span>**(<span class="number">511</span>-Round)))&lt;n: </span><br><span class="line">                <span class="keyword">continue</span>     </span><br><span class="line">            <span class="keyword">if</span>(CurP*CurQ)%(<span class="number">2</span>**(Round+<span class="number">1</span>))!=n%(<span class="number">2</span>**(Round+<span class="number">1</span>)):</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            dfs2(CurP,CurQ,n,Round+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs1</span>(<span class="params">P,Q,n,Round</span>):</span></span><br><span class="line">    <span class="keyword">if</span> Round&gt;<span class="number">512</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">if</span> Round==<span class="number">512</span>:</span><br><span class="line">        <span class="keyword">if</span> P*Q==n:</span><br><span class="line">          <span class="keyword">global</span> a,b</span><br><span class="line">          a,b=P,Q</span><br><span class="line">          <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>):</span><br><span class="line">        CurP=(i&lt;&lt;Round)+P</span><br><span class="line">        CurQ=((i^int(binb[<span class="number">511</span>-Round]))&lt;&lt;Round)+Q</span><br><span class="line">        <span class="keyword">if</span>(CurP*CurQ%(<span class="number">2</span>**(Round))!=n%(<span class="number">2</span>**(Round))):</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        dfs1(CurP,CurQ,n,Round+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="comment">#----MAIN BELOW----#</span></span><br><span class="line">a,b,c,d=<span class="literal">None</span>,<span class="literal">None</span>,<span class="literal">None</span>,<span class="literal">None</span></span><br><span class="line">dfs2(<span class="number">0</span>,<span class="number">0</span>,n2,<span class="number">0</span>)</span><br><span class="line"><span class="keyword">assert</span> isPrime(c) <span class="keyword">and</span> isPrime(d)</span><br><span class="line">dfs1(<span class="number">0</span>,<span class="number">0</span>,n1,<span class="number">0</span>)</span><br><span class="line"><span class="keyword">assert</span> isPrime(a) <span class="keyword">and</span> isPrime(b)</span><br><span class="line">flag = <span class="string">&quot;GKCTF&#123;&quot;</span>+md5(str(a+b+c+d).encode()).hexdigest()+<span class="string">&quot;&#125;&quot;</span></span><br><span class="line">print(flag)</span><br><span class="line"><span class="comment">#GKCTF&#123;f28ed218415356b4336e2f778f2981bb&#125;</span></span><br></pre></td></tr></table></figure>
+<p>简单翻译一下并概括，差不多是这两条内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.非特权命令的签名内容是对你输入内容的CRC32进行签名，而特权命令的签名内容是其FoldHash进行签名的内容</span><br><span class="line">2.FoldHash是通过输入内容sha1获得的160个比特位的前80个和后80比特位异或后得到的结果</span><br><span class="line">3.每次给出的签名和CRC32的值是一整行的内容，如果命令中有空格，那么最后实际执行的内容仅仅是第一个命令(argument)</span><br></pre></td></tr></table></figure>
 
-<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h2><p>暑假放假回家第一篇复现的wp，总体感觉好久没做过CTF水平下降了很多的样子（</p>
+<p>经过查询，CRC32是一种hash方法，其hash后取值范围是$0$到$2^{32}-1$，该方法哈希冲突率比较高。</p>
+<h2 id="Part-3-Analyzation"><a href="#Part-3-Analyzation" class="headerlink" title="Part 3 Analyzation"></a>Part 3 Analyzation</h2><p>于是乱搞到这里差不多可以结束了（，得正式地做题了（</p>
+<p>首先先来回顾一下一下RSA的数字签名</p>
+<p>签名方式：<br>$$<br>\mathrm{SIG}(x)\equiv x^d \pmod n<br>$$<br>验证方式：<br>$$<br>\mathrm{Verify}(x)\equiv \mathrm{SIG}^e(x)\pmod n<br>$$<br>很显然，用于验证的内容时私钥。因此我们需要尝试伪造一个签名才可以完成。</p>
+<p>根据题目提示，不难分析出其<code>foldhash</code>的原理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foldhash</span>(<span class="params">s</span>):</span></span><br><span class="line">    s=sha1(s.encode()).digest()</span><br><span class="line">    a,b=bytes_to_long(s[:<span class="number">10</span>]),bytes_to_long(s[<span class="number">10</span>:])</span><br><span class="line">    <span class="keyword">return</span> a^^b</span><br><span class="line"><span class="comment"># Different from Python: in Sagemath, ^^ means xor and ^ means power</span></span><br></pre></td></tr></table></figure>
+
+<p>关注到foldhash实际上是一个数字，CRC32也是一个数字，只不过foldhash的比特位是$80$，而CRC32的结果是$32$位。如果使用特权命令，那么你需要搞出你输入的<strong>那一行内容</strong>的数字签名。</p>
+<p><strong>注意到上面分析的第三条</strong>，暗示着我们可以在特权命令后面加一下东西，我们就可以获取到必要的特权命令foldhash的签名了，也就是特权命令的$\mathrm{foldhash}(x)\equiv x^d \pmod n$的值。</p>
+<p>不过我们这边有个问题来了：$x$是$80$位的内容，但CRC32最后是$32$位内容，因此我们需要构造一个字符串，其格式为<code>&quot;get-flag &quot;+padding</code>，使得该字符串的foldhash值满足$\mathrm{FFFFFFFFH}$光滑，最后根据<strong>RSA的同态性</strong>将所有SIG值相乘后就是我们需要的内容了</p>
+<p>果然，<del>瞄了一眼WP</del>，WP也是这么写的，不过他直接用的<code>get-flag 0</code>，该命令的foldhash的值为$637185588446528046742504$。其分解质因数结果为：<br>$$<br>637185588446528046742504=2^3×250091×244079963×1304805461<br>$$<br>不过直接抄wp肯定是没意思的，但问题是这个<code>get-flag 0</code>真的这么好构造出来吗？于是我在Sagemath中测试了以下代码，随机在字符串<code>get flag </code>后面填充$8$位十六进制数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha1</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> *</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foldhash</span>(<span class="params">s</span>):</span></span><br><span class="line">    s=sha1(s.encode()).digest()</span><br><span class="line">    a,b=bytes_to_long(s[:<span class="number">10</span>]),bytes_to_long(s[<span class="number">10</span>:])</span><br><span class="line">    <span class="keyword">return</span> a^^b</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">padding</span>(<span class="params">s,n</span>):</span></span><br><span class="line">    TABLE=<span class="string">&quot;abcdef0123456789&quot;</span></span><br><span class="line">    t=<span class="string">&quot; &quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        t+=choice(TABLE)</span><br><span class="line">    <span class="keyword">return</span> s+t</span><br><span class="line">NUMBERS=<span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    NUMBERS+=<span class="number">1</span></span><br><span class="line">    s=padding(<span class="string">&quot;get-flag&quot;</span>,<span class="number">8</span>)</span><br><span class="line">    q=foldhash(s)</span><br><span class="line">    li=list(factor(q))</span><br><span class="line">    <span class="keyword">if</span>(li[<span class="number">-1</span>][<span class="number">0</span>]&lt;=<span class="number">0xffffffff</span>):</span><br><span class="line">        print(s)</span><br><span class="line">        print(q)</span><br><span class="line">        print(li)</span><br><span class="line">        print(NUMBERS)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p>下图是一次运行结果。</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/9.png" alt="9" style="zoom:80%;">
+
+<p>于是我构造了一个不同并且更简单的字符串：<code>get-flag 8c5fdf74</code>，其foldhash值为$123923881117703856573281$，质因数分解结果为$2719×574657×931169×85174303$，随机生成了$5$次后得到了这个结果。</p>
+<p>然后我又重复运行了这个代码数次，发现最多的一次为$21$次尝试获得符合条件的字符串，最少一次可以一发命中符合条件的字符串，平均大概$6$到$7$次左右的尝试即可产生符合条件的字符串——说明符合条件的字符串并不难找。</p>
+<p>于是找字符串这个问题就这样解决了。下面就是寻找$4$个符合条件的字符串$s_1,s_2,s_3,s_4$，让其CRC32值分别为$2719,574657,931169,85174303$——看来这似乎是一个有难度的事情。</p>
+<p>实际上枚举$6$位内容的可见字符串在原则上是可行的。不过github上还是能找到一个包（[戳这里](<a target="_blank" rel="noopener" href="https://github.com/theonlypwner/crc32">theonlypwner/crc32: CRC32 tools: reverse, undo/rewind, and calculate hashes (github.com)</a>)），直接下载即可。</p>
+<h2 id="Part-4-Attempt-2"><a href="#Part-4-Attempt-2" class="headerlink" title="Part 4 Attempt 2"></a>Part 4 Attempt 2</h2><p><del>真正的尝试阶段</del></p>
+<p>阅读过这个包的内容后，开始了尝试。</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/10.png" alt="10" style="zoom:80%;">
+
+<p>然后我连续发送了三个过去，结果发现不对（，那边的验证结果是<code>0xe0db37ee</code>。这两个内容之间是不是有什么联系在里面啊（</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/11.png" alt="11" style="zoom:80%;">
+
+<p>那我找个<code>0xe0db37ee</code>的值发过去试试看呢？</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/12.png" alt="12" style="zoom:80%;">
+
+<p>果然，最后的结果是正确的，此时记录下签名结果</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/13.png" alt="13" style="zoom:80%;">
+
+<p>于是重复上面的步骤，我们就可以获得另外三个的内容了（</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/14.png" alt="14" style="zoom:80%;">
+
+<p>将得到的$4$个SIG乘起来模$n$，获得最终的结果。发送过去得到flag。</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/15.png" alt="15" style="zoom:80%;">
+
+<h2 id="5-More-Exploration"><a href="#5-More-Exploration" class="headerlink" title="5.More Exploration"></a>5.More Exploration</h2><p>搞出来flag之后，本fw很形象再去看看另外两个命令是干什么的，于是决定如法炮制伪造字符串</p>
+<p>我们可以使用的字符串如下：</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/16.png" alt="16" style="zoom:80%;">
+
+<p>根据上面的内容可以获得其私钥：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">N: 0xd888075370effdb016d85de8c894ee7ac2764527210d8ce1d8bd14a06c67de148b4680781366002f9649e3885e18ab950120c660970ab9a499ea74ea7aa38fe732940b5204300ef7b96a608efec1a74007a4b1d592cf9eb23890d8fa416202857d0e0f9ebad79324d03d09db0502ff4bae0b2dfc0b150ddea806a5ff24e2d32f</span><br><span class="line">E: 0x10001</span><br><span class="line">P: 0xf0d4aa4868305cdbabba679014f940c0233ca0b10c9db62e3d829dd289103b21143da614b361c6043711956ff2ffd3bf7dcea0418a1e0bbf74784512f99733cd</span><br><span class="line">Q: 0xe62b8ad7f10d9921a3be7b0c74a81107b5fa704900f94028c6a6e401a00729f6ed961dabbc65878ba5b7f34ca406c7b27577fe5153909d036ecf7e028b555eeb</span><br><span class="line">D: 0x77de15f0233d37fb1b2a7c1239b7f8ad0ca9dc6e64e5d36fd34418ff160409f4e58509e96f13b056a7a40fc9960da22ec2891a48ae54c9a04d747574b89f83313d1902224cb7e90bf74a30a6e0201e3081c33ea14786adec8f7e05c898f9f55c7e332f7cc7a12263eac1ae60e2122e548207fe3c035e03eaf36798c62c3f6e41</span><br></pre></td></tr></table></figure>
+
+<p>而security命令的输出与help-security的输出一模一样。。。</p>
+<h2 id="6-Review"><a href="#6-Review" class="headerlink" title="6.Review"></a>6.Review</h2><p>一道很好玩的题目还是值得把玩以下的，感觉收获很大。</p>
+<p>最后附一下网上给的CRC32加密原理，以后研究。</p>
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/17.png" alt="17" style="zoom:100%;">
+
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/18.png" alt="18" style="zoom:100%;">
+
+
+
+
+
 
                 
             </div>
@@ -543,7 +565,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://example.com/2021/07/12/GKCTF2021-WriteUp/">http://example.com/2021/07/12/GKCTF2021-WriteUp/</a>
+                    <a href="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/">http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -581,8 +603,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/WriteUp/">
-                                    <span class="chip bg-color">WriteUp</span>
+                                <a href="/tags/ExpLog/">
+                                    <span class="chip bg-color">ExpLog</span>
                                 </a>
                             
                         </div>
@@ -754,9 +776,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2021/07/15/An-Interesting-Problem-RSAOS/">
                     <div class="card-image">
@@ -774,9 +797,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-07-15
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -785,6 +808,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -803,13 +827,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/07/10/Explore-MT19937/">
+                <a href="/2021/07/12/GKCTF2021-WriteUp/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Explore MT19937">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="GKCTF2021 WriteUp">
                         
-                        <span class="card-title">Explore MT19937</span>
+                        <span class="card-title">GKCTF2021 WriteUp</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -820,7 +844,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-10
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-12
                             </span>
                         <span class="publish-author">
                             
@@ -837,8 +861,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Notes/">
-                        <span class="chip bg-color">Notes</span>
+                    <a href="/tags/WriteUp/">
+                        <span class="chip bg-color">WriteUp</span>
                     </a>
                     
                 </div>
