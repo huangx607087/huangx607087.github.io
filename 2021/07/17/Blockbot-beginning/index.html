@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="An Interesting Problem-RSAOS, huangx607087&#39;s Blog">
+    <meta name="keywords" content="Blockbot beginning, huangx607087&#39;s Blog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>An Interesting Problem-RSAOS | huangx607087&#39;s Blog</title>
+    <title>Blockbot beginning | huangx607087&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -279,12 +279,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">An Interesting Problem-RSAOS</h1>
+                    <h1 class="description center-align post-title">Blockbot beginning</h1>
                 </div>
             </div>
         </div>
@@ -400,8 +400,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/ExpLog/">
-                                <span class="chip bg-color">ExpLog</span>
+                            <a href="/tags/Skills/">
+                                <span class="chip bg-color">Skills</span>
                             </a>
                         
                     </div>
@@ -412,8 +412,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/CTFSeason3/" class="post-category">
-                                CTFSeason3
+                            <a href="/categories/SelfSkills/" class="post-category">
+                                SelfSkills
                             </a>
                         
                     </div>
@@ -425,7 +425,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-07-15
+                    2021-07-17
                 </div>
                 
 
@@ -451,103 +451,103 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="An-Interesting-Problem-RSAOS"><a href="#An-Interesting-Problem-RSAOS" class="headerlink" title="An Interesting Problem - RSAOS"></a>An Interesting Problem - RSAOS</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>最近自己在BUU上面刷题的时候发现了一个很好玩的题目——RSAOS，<del>虽然本fw还是瞄了几眼WP才写出来的——因为自己tcl</del>，但还是决定跟大家分享一下——因为确实非常的好玩</p>
-<p>7月14日，BUUCTF上了5000分，以后还要继续努力。</p>
-<p><code>#define huangx607087 fw</code></p>
-<h2 id="Part-1-Beginning"><a href="#Part-1-Beginning" class="headerlink" title="Part 1 Beginning"></a>Part 1 Beginning</h2><img src="/2021/07/15/An-Interesting-Problem-RSAOS/1.png" alt="1" style="zoom:80%;">
+                <h1 id="huangx607087基于GoCq的QQ-Bot-开发日记"><a href="#huangx607087基于GoCq的QQ-Bot-开发日记" class="headerlink" title="huangx607087基于GoCq的QQ-Bot 开发日记"></a>huangx607087基于GoCq的QQ-Bot 开发日记</h1><h2 id="0x00-About"><a href="#0x00-About" class="headerlink" title="0x00.About"></a>0x00.About</h2><p>先来说说自己为什么这么想要个机器人。</p>
+<p>2014年初，自己家里安装了wifi，然后自己当年的一部小手机联想A278t就可以联网了。于是我就可以下载了一个手机QQ开始玩（注：自己QQ虽然是2010年申请的，但自己在2010-2013年年底基本没用过QQ）。然后当年自己喜欢玩开罗游戏，单机的，一个游戏不到10M，然后加了几个讨论群。其中有个讨论群里一个自动聊天机器人，带签到功能和各种娱乐功能的。自己就感觉很好玩。然后当时就下了个coolQ，顺带着搞了点插件，放在一个群里面。到现在打开家里Windows 7的旧电脑，当年的磁盘内部文件都还在呢！</p>
+<img src="/2021/07/17/Blockbot-beginning/0-1.png" alt="0-1" style="zoom:80%;">
 
-<p>题目什么附件都没有给，就是一个普普通通的远程题目，直接打开虚拟机远程连接上去（</p>
-<p>然后远程连接上去之后，似乎什么东西都没有（，并没有让你输出什么<code>sha256</code>验证的，也没有输出什么RSA必要的$c,e,n$的必要解密条件。随便输入一个<code>e</code>，<code>n</code>，<code>ls</code>之类的东西都显示”Commond Not Found”。。。。。。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/2.png" alt="2" style="zoom:80%;">
+<p><del>然后高考结束发现coolQ这个玩意SPFA了</del>，感叹自己以前生活回不去之余，也就没啥搞的了（。不过开学发现Lakphy和PiCpo两位开发大佬玩树莓派搞了个基于Mirai的机器人驮载在Ubuntu系统的树莓派上，自己也很羡慕，7月4日Lakphy帮我搞的时候搞崩了。中间也搞了几次很烦躁，因为都失败了。昨天有幸在官方群里有大佬手把手教我搞，在群里大佬们的帮助下，我搞成功了。。特此写下这篇文章给以后还想开发机器人的人进行参考学习，或者给已经开发好自己bot的人开辟另一条道路。</p>
+<p>由于自己主机已经装有Python3.7.4和很多为了打CTF的包，加上很多复杂的环境变量，为了不与自己的Windows 10实体机上的内容冲突，机器人驮载在了虚拟机上。<del>（因为Win10的激活脚本我没搞到加上配置要求太高，Win7很多系统上的内容太旧了，并且用得不习惯，Linux我也不怎么熟悉）</del>。于是选择与Windows 10共同点较多的 Windows 8系统作为自己Bot的Server。</p>
+<p><strong>本教程基本上是自己做过一遍后然后手把手教的，一切从0环境开始配起！机器人服务Server使用Windows7/8/10系统。<del>11的可以效仿，按道理是可以的，不过我没试过</del></strong></p>
+<p>nonebot手册网址(点这里)[<a target="_blank" rel="noopener" href="https://v2.nonebot.dev/guide/]">https://v2.nonebot.dev/guide/]</a></p>
+<h2 id="0x01-环境的准备与配置"><a href="#0x01-环境的准备与配置" class="headerlink" title="0x01.环境的准备与配置"></a>0x01.环境的准备与配置</h2><h3 id="1o01-开发环境一览"><a href="#1o01-开发环境一览" class="headerlink" title="1o01 开发环境一览"></a>1o01 开发环境一览</h3><p><strong>Windows 7/8/10 系统，本博客使用的是Windows 8虚拟机系统。当然你也可以使用你Windows 7/8/10实体机，Linux大佬可以使用树莓派的Linux系统。</strong></p>
+<p><del>个人建议如果使用虚拟机，找不到Windows 10还是选择Windows 7比较好，Windows 8安装比较麻烦</del></p>
+<p><font color="red"><strong>Python 3.9+和VsCode</strong></font>，本样例中使用的是Python 3.9.6，一定要保证Python版本高于3.9</p>
+<p>如果你已经满足了开发环境，请跳过整个<strong>0x01</strong>环境配置阶段 。</p>
+<p>下图是空空的一个Windows 8 的截图，然后我们就可以一步一步配置环境了。<del>可以看出，Windows 8界面跟Windows 7还是挺像的</del></p>
+<p>注：如果想使用Windows虚拟机作为机器人的Server的话，可以在<a target="_blank" rel="noopener" href="https://www.moerats.com/kms/">这里</a>寻找激活脚本。</p>
+<p>由于Windows 8自带浏览器是IE 11，用的比较low，我下了个Edge浏览器</p>
+<p><img src="/2021/07/17/Blockbot-beginning/1-1.png" alt="1-1"></p>
+<h3 id="1o02-Python的下载与配置-包括pip"><a href="#1o02-Python的下载与配置-包括pip" class="headerlink" title="1o02 Python的下载与配置(包括pip)"></a>1o02 Python的下载与配置(包括pip)</h3><p>登录<a target="_blank" rel="noopener" href="https://www.python.org/downloads/">Python下载官网</a>,选择 Python 3.9.6 ，下载页面建议选择Windows Installer(64-bit)</p>
+<p><img src="/2021/07/17/Blockbot-beginning/1-2-1.png" alt="1-2-1"></p>
+<p>开始安装的时候，建议把下面两个勾都打上，然后点Install Now等待安装成功</p>
+<p><img src="/2021/07/17/Blockbot-beginning/1-2-2.png" alt="1-2-2"></p>
+<p>在桌面上创建一个<code>1.py</code>文件右击用IDLE进行编辑，如果能按<code>F5</code>运行成功就算安装成功了。</p>
+<p><img src="/2021/07/17/Blockbot-beginning/1-2-3.png" alt="1-2-3"></p>
+<p>当然，Python到现在还没有结束，我们需要配置一下Python pip。</p>
+<p>直接在C盘根目录下搜python39，然后打开就行了</p>
+<p><img src="/2021/07/17/Blockbot-beginning/1-2-4.png" alt="1-2-4"></p>
+<p>打开Python39这个文件夹，再打开Scripts，可以看到pip在这个文件夹中。</p>
+<p><img src="/2021/07/17/Blockbot-beginning/1-2-5.png" alt="1-2-5"></p>
+<p>右击pip，可以看到pip的位置，将这个位置完全复制下来。</p>
+<p><img src="/2021/07/17/Blockbot-beginning/1-2-6.png" alt="1-2-6"></p>
+<p>右击“这台电脑”，（Win7是我的电脑/Win10是此电脑），然后依次点击”高级系统设置“、”环境变量“。然后在环境变量中找到Path，点编辑。</p>
+<p><img src="/2021/07/17/Blockbot-beginning/1-2-7.png" alt="1-2-7"></p>
+<p>将鼠标光标移到最后<font color="red"><strong>前面的是系统变量，千万不要删。不过Windows 10的系统变量是表格的形式，很方便</strong></font>。</p>
+<p>在后面加一个分号，然后把刚才复制pip的位置加到后面就行了。</p>
+<p><img src="/2021/07/17/Blockbot-beginning/1-2-8.png" alt="1-2-8"></p>
+<p>然后我们打开cmd，输入pip，如果能出现pip菜单说明pip配置成功。配置成功截图如下</p>
+<p><img src="/2021/07/17/Blockbot-beginning/1-2-9.png" alt="1-2-9"></p>
+<h3 id="1o03-VSCode的下载与配置"><a href="#1o03-VSCode的下载与配置" class="headerlink" title="1o03 VSCode的下载与配置"></a>1o03 VSCode的下载与配置</h3><p>使用VSCode，是为了在后面能够更好的编辑<code>Python</code>文件和各种配置文件</p>
+<p><img src="/2021/07/17/Blockbot-beginning/1-3-1.png" alt="1-3-1"></p>
+<p>直接点机右上角Download，然后选择Windows 64版本（Linux选择Linux版本）进行下载安装即可。这里安装时可以直接无脑地Next。</p>
+<p>到此为止，我们的必要环境配置完成。下面我们就来真正地来准备我们的机器人吧。</p>
+<h2 id="0x02-机器人的配置"><a href="#0x02-机器人的配置" class="headerlink" title="0x02 机器人的配置"></a>0x02 机器人的配置</h2><h3 id="2o01-初始内容"><a href="#2o01-初始内容" class="headerlink" title="2o01 初始内容"></a>2o01 初始内容</h3><p>配置机器人首先我们会选择我们机器人的文件夹。（此处我直接选择了D盘根目录下面<del>因为我用的是虚拟机</del>）。</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-1-1.png" alt="2-1-1"></p>
+<p>打开我们需要的文件夹，为方便期间，最好保证文件夹一开始为空</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-1-2.png" alt="2-1-2"></p>
+<h3 id="2o02-通过脚手架安装nonebot"><a href="#2o02-通过脚手架安装nonebot" class="headerlink" title="2o02 通过脚手架安装nonebot"></a>2o02 通过脚手架安装nonebot</h3><p>打开cmd，在cmd中输入 <code>pip install nb-cli </code>。非管理员用户需要在后面加上<code>--user</code>，Windows后面所有命令均如此。</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-2-1.png" alt="2-2-1"></p>
+<p>然后他就会给你安装一大堆必要的东西。。。</p>
+<p>安装成功的标准是你在python中输入<code>import nonebot</code> 不报错并且你在cmd中输入<code>nb</code> 会出现如下界面</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-2-2.png" alt="2-2-2"></p>
+<p>同理，我们还要安装适配器，输入命令：<code>pip install nonebot-adapter-cqhttp</code>，按回车安装。装完这个后同时装一下<code>pip install nonebot-adapter-gocq</code>。</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-2-3.png" alt="2-2-3"></p>
+<p>这两个东西安装好之后，我们可以将内容切换到我们的文件夹中了</p>
+<p>Windows CMD中有几个命令注意一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">d: （表示直接将cmd所在磁盘切换到D盘）</span><br><span class="line">cd abc （表示打开所在位置的abc文件夹）</span><br><span class="line">dir （查看该目录下所有文件，不是ls）</span><br></pre></td></tr></table></figure>
 
-<p>这就是一个很奇怪的玩意了——不仅没有源码，还没给什么其他的东西（</p>
-<p><del>于是本fw毫不要脸地去瞄了一眼这道题的wp</del>，原来第一步要先输入help获取菜单——行吧，怪我自己没有开发经验，谁叫自己是一个连机器人都配不好的fw呢?下亿次我拿到一个未知的系统一定要先输一下<code>help</code>或者<code>menu</code>等功能性命令，<del>（拿小本本记下来</del></p>
-<p>输入了help之后，似乎很多事情就好起来了（，得到了一连串的命令——</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/3.png" alt="3" style="zoom:80%;">
+<p>然后我们就可以切换到我们要配置机器人的地方了。我这边选择的就是D盘根目录。并在此输入<code>nb create</code>后按回车</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-2-4.png" alt="2-2-4"></p>
+<p>然后输入我们的项目名称，这里叫example,然后按回车</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-2-5.png" alt="2-2-5"></p>
+<p>第二步问你文件夹名字是什么，选1和2都行，不过建议选1，因此如果左边灰色的a在1旁边，直接按回车即可</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-2-6.png" alt="2-2-6"></p>
+<p>第三步，在里面输入一个y再按回车。</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-2-7.png" alt="2-2-7"></p>
+<p>第四步：当灰色的a在cqhttp左边时，先按空格，然后按回车</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-2-8.png" alt="2-2-8"></p>
+<p>然后我们的目录下就多了个文件夹，打开看看有这些东西。</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-2-9.png" alt="2-2-9"></p>
+<h3 id="2o03-配置Gocq"><a href="#2o03-配置Gocq" class="headerlink" title="2o03 配置Gocq"></a>2o03 配置Gocq</h3><p>访问截图中的网址下载，下载go-cqhttp_windows_amd64.exe,19.9M的那个</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-3-1.png" alt="2-3-1"></p>
+<p>然后exe下载好后，在example外面建立一个gocq，将下载下来的exe放进去</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-3-2.png" alt="2-3-2"></p>
+<p>然后把该exe在cmd中运行。如果它让你输数字的话，只输入一个<code>3</code>就行了！</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-3-3.png" alt="2-3-3"></p>
+<p>然后下面就要注意了，打开文件夹，里面有个<code>config.yml</code>文件，用VSCode打开。然后在最前面的指定位置输入你的机器人的QQ账号，密码保持空着</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-3-4.png" alt="2-3-4"></p>
+<p>然后在最后的ws-reverse一栏里的内容改成这个样子，保存即可。</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-3-5.png" alt="2-3-5"></p>
+<p>然后所有该配置的内容我们就都配置好了。</p>
+<h3 id="2o04-启动bot"><a href="#2o04-启动bot" class="headerlink" title="2o04 启动bot"></a>2o04 启动bot</h3><p>重启gocq，第一次运行需要扫码登录</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-4-1.png" alt="2-4-1"></p>
+<p>登录成功场景。此时如果挂着肯定会报错，因为还有个东西没开</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-4-2.png" alt="2-4-2"></p>
+<p>再开一个cmd，进入example文件夹，然后给命令<code>nb run</code></p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-4-3.png" alt="2-4-3"></p>
+<p>如果出现accepted的字样，并且我们开的第一个cmd不再出现新的”无法连接”的报错，说明此时已经好了。</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-4-4.png" alt="2-4-4"></p>
+<p>私聊或者在群里@机器人 发送<code>/echo hello world</code>，那我们就有第一次对话了。</p>
+<p><img src="/2021/07/17/Blockbot-beginning/2-4-5.jpg" alt="2-4-5"></p>
+<h2 id="0x03-机器人插件开发"><a href="#0x03-机器人插件开发" class="headerlink" title="0x03 机器人插件开发"></a>0x03 机器人插件开发</h2><p>插件模板代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> nonebot <span class="keyword">import</span> on_command</span><br><span class="line"><span class="keyword">from</span> nonebot.rule <span class="keyword">import</span> to_me</span><br><span class="line"><span class="keyword">from</span> nonebot.typing <span class="keyword">import</span> T_State</span><br><span class="line"><span class="keyword">from</span> nonebot.adapters <span class="keyword">import</span> Bot, Event</span><br><span class="line"></span><br><span class="line">weather = on_command(<span class="string">&quot;天气&quot;</span>, rule=to_me(), priority=<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@weather.handle()</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">handle_first_receive</span>(<span class="params">bot: Bot, event: Event, state: T_State</span>):</span></span><br><span class="line">    args = str(event.get_message()).strip()  <span class="comment"># 首次发送命令时跟随的参数，例：/天气 上海，则args为上海</span></span><br><span class="line">    <span class="keyword">if</span> args:</span><br><span class="line">        state[<span class="string">&quot;city&quot;</span>] = args  <span class="comment"># 如果用户发送了参数则直接赋值</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@weather.got(&quot;city&quot;, prompt=&quot;你想查询哪个城市的天气呢？&quot;)</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">handle_city</span>(<span class="params">bot: Bot, event: Event, state: T_State</span>):</span></span><br><span class="line">    city = state[<span class="string">&quot;city&quot;</span>]</span><br><span class="line">    <span class="keyword">if</span> city <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&quot;上海&quot;</span>, <span class="string">&quot;北京&quot;</span>]:</span><br><span class="line">        <span class="keyword">await</span> weather.reject(<span class="string">&quot;你想查询的城市暂不支持，请重新输入！&quot;</span>)</span><br><span class="line">    city_weather = <span class="keyword">await</span> get_weather(city)</span><br><span class="line">    <span class="keyword">await</span> weather.finish(city_weather)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">get_weather</span>(<span class="params">city: str</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;city&#125;</span>的天气是...&quot;</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="Part-2-Attempt-1"><a href="#Part-2-Attempt-1" class="headerlink" title="Part 2 Attempt 1"></a>Part 2 Attempt 1</h2><p><del>乱搞阶段</del></p>
-<p>很显然，要输入<code>get-flag</code>或者<code>get-privatekey</code>，我们才能获得最终答案。因此先输一下get-flag来看看需要什么条件（</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/4.png" alt="4" style="zoom:80%;">
-
-<p>然后它给我冒出来了一个什么foldhash的东西（看来这玩意还是有点东西的。可能权限命令需要某个密码才能完成吧——要记住这是Crypto题目不是Pwn/Re题目，估计其他的内容不会很难</p>
-<p>输入<code>get-publickey</code>，服务器返回了这样一个东西：<del>貌似重连几遍内容一直不变</del></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Public key parameters:</span><br><span class="line">N: 0xd888075370effdb016d85de8c894ee7ac2764527210d8ce1d8bd14a06c67de148b4680781366002f9649e3885e18ab950120c660970ab9a499ea74ea7aa38fe732940b5204300ef7b96a608efec1a74007a4b1d592cf9eb23890d8fa416202857d0e0f9ebad79324d03d09db0502ff4bae0b2dfc0b150ddea806a5ff24e2d32f</span><br><span class="line">E: 0x10001</span><br></pre></td></tr></table></figure>
-
-<p><code>duck</code>不必管那么多，或许其他的东西应该试试看（，比如没试过的命令都尝试日一遍看看（，尤其是这个debug，我看你很不对劲[严肃]</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/5.png" alt="5" style="zoom:80%;">
-
-<p>果然debug这边确实有什么玄机在里面！或许我们应当enable一下这个debug才对</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/6.png" alt="6" style="zoom:80%;">
-
-<p>果然在<code>debug enable</code>之后，似乎每次输出命令都会给你一个什么<code>DBG-CRC32() SIG()</code>的模式。不过这个究竟是什么东西啊（</p>
-<p>百度了一下，原来<code>CRC32()</code>是一个$32$个比特位的哈希值，而<code>SIG</code>是签名结果。</p>
-<p>不过这个时候自己的发展又陷入僵局。。。。<del>（于是再一次瞄了眼别人的wp）</del></p>
-<p>结果发现这是个脑洞题——原来help后面还可以跟上命令名称来告诉你这个命令究竟是干什么用的</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/7.png" alt="7" style="zoom:80%;">
-
-<p>在<code>help security</code>这边，我们发现了比较有价值的信息：</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/8.png" alt="8" style="zoom:80%;">
-
-<p>简单翻译一下并概括，差不多是这两条内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.非特权命令的签名内容是对你输入内容的CRC32进行签名，而特权命令的签名内容是其FoldHash进行签名的内容</span><br><span class="line">2.FoldHash是通过输入内容sha1获得的160个比特位的前80个和后80比特位异或后得到的结果</span><br><span class="line">3.每次给出的签名和CRC32的值是一整行的内容，如果命令中有空格，那么最后实际执行的内容仅仅是第一个命令(argument)</span><br></pre></td></tr></table></figure>
-
-<p>经过查询，CRC32是一种hash方法，其hash后取值范围是$0$到$2^{32}-1$，该方法哈希冲突率比较高。</p>
-<h2 id="Part-3-Analyzation"><a href="#Part-3-Analyzation" class="headerlink" title="Part 3 Analyzation"></a>Part 3 Analyzation</h2><p>于是乱搞到这里差不多可以结束了（，得正式地做题了（</p>
-<p>首先先来回顾一下一下RSA的数字签名</p>
-<p>签名方式：<br>$$<br>\mathrm{SIG}(x)\equiv x^d \pmod n<br>$$<br>验证方式：<br>$$<br>\mathrm{Verify}(x)\equiv \mathrm{SIG}^e(x)\pmod n<br>$$<br>很显然，用于验证的内容时私钥。因此我们需要尝试伪造一个签名才可以完成。</p>
-<p>根据题目提示，不难分析出其<code>foldhash</code>的原理。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foldhash</span>(<span class="params">s</span>):</span></span><br><span class="line">    s=sha1(s.encode()).digest()</span><br><span class="line">    a,b=bytes_to_long(s[:<span class="number">10</span>]),bytes_to_long(s[<span class="number">10</span>:])</span><br><span class="line">    <span class="keyword">return</span> a^^b</span><br><span class="line"><span class="comment"># Different from Python: in Sagemath, ^^ means xor and ^ means power</span></span><br></pre></td></tr></table></figure>
-
-<p>关注到foldhash实际上是一个数字，CRC32也是一个数字，只不过foldhash的比特位是$80$，而CRC32的结果是$32$位。如果使用特权命令，那么你需要搞出你输入的<strong>那一行内容</strong>的数字签名。</p>
-<p><strong>注意到上面分析的第三条</strong>，暗示着我们可以在特权命令后面加一下东西，我们就可以获取到必要的特权命令foldhash的签名了，也就是特权命令的$\mathrm{foldhash}(x)\equiv x^d \pmod n$的值。</p>
-<p>不过我们这边有个问题来了：$x$是$80$位的内容，但CRC32最后是$32$位内容，因此我们需要构造一个字符串，其格式为<code>&quot;get-flag &quot;+padding</code>，使得该字符串的foldhash值满足$\mathrm{FFFFFFFFH}$光滑，最后根据<strong>RSA的同态性</strong>将所有SIG值相乘后就是我们需要的内容了</p>
-<p>果然，<del>瞄了一眼WP</del>，WP也是这么写的，不过他直接用的<code>get-flag 0</code>，该命令的foldhash的值为$637185588446528046742504$。其分解质因数结果为：<br>$$<br>637185588446528046742504=2^3×250091×244079963×1304805461<br>$$<br>不过直接抄wp肯定是没意思的，但问题是这个<code>get-flag 0</code>真的这么好构造出来吗？于是我在Sagemath中测试了以下代码，随机在字符串<code>get flag </code>后面填充$8$位十六进制数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha1</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> *</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foldhash</span>(<span class="params">s</span>):</span></span><br><span class="line">    s=sha1(s.encode()).digest()</span><br><span class="line">    a,b=bytes_to_long(s[:<span class="number">10</span>]),bytes_to_long(s[<span class="number">10</span>:])</span><br><span class="line">    <span class="keyword">return</span> a^^b</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">padding</span>(<span class="params">s,n</span>):</span></span><br><span class="line">    TABLE=<span class="string">&quot;abcdef0123456789&quot;</span></span><br><span class="line">    t=<span class="string">&quot; &quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        t+=choice(TABLE)</span><br><span class="line">    <span class="keyword">return</span> s+t</span><br><span class="line">NUMBERS=<span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    NUMBERS+=<span class="number">1</span></span><br><span class="line">    s=padding(<span class="string">&quot;get-flag&quot;</span>,<span class="number">8</span>)</span><br><span class="line">    q=foldhash(s)</span><br><span class="line">    li=list(factor(q))</span><br><span class="line">    <span class="keyword">if</span>(li[<span class="number">-1</span>][<span class="number">0</span>]&lt;=<span class="number">0xffffffff</span>):</span><br><span class="line">        print(s)</span><br><span class="line">        print(q)</span><br><span class="line">        print(li)</span><br><span class="line">        print(NUMBERS)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
-
-<p>下图是一次运行结果。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/9.png" alt="9" style="zoom:80%;">
-
-<p>于是我构造了一个不同并且更简单的字符串：<code>get-flag 8c5fdf74</code>，其foldhash值为$123923881117703856573281$，质因数分解结果为$2719×574657×931169×85174303$，随机生成了$5$次后得到了这个结果。</p>
-<p>然后我又重复运行了这个代码数次，发现最多的一次为$21$次尝试获得符合条件的字符串，最少一次可以一发命中符合条件的字符串，平均大概$6$到$7$次左右的尝试即可产生符合条件的字符串——说明符合条件的字符串并不难找。</p>
-<p>于是找字符串这个问题就这样解决了。下面就是寻找$4$个符合条件的字符串$s_1,s_2,s_3,s_4$，让其CRC32值分别为$2719,574657,931169,85174303$——看来这似乎是一个有难度的事情。</p>
-<p>实际上枚举$6$位内容的可见字符串在原则上是可行的。不过github上还是能找到一个包（[戳这里](<a target="_blank" rel="noopener" href="https://github.com/theonlypwner/crc32">theonlypwner/crc32: CRC32 tools: reverse, undo/rewind, and calculate hashes (github.com)</a>)），直接下载即可。</p>
-<h2 id="Part-4-Attempt-2"><a href="#Part-4-Attempt-2" class="headerlink" title="Part 4 Attempt 2"></a>Part 4 Attempt 2</h2><p><del>真正的尝试阶段</del></p>
-<p>阅读过这个包的内容后，开始了尝试。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/10.png" alt="10" style="zoom:80%;">
-
-<p>然后我连续发送了三个过去，结果发现不对（，那边的验证结果是<code>0xe0db37ee</code>。这两个内容之间是不是有什么联系在里面啊（</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/11.png" alt="11" style="zoom:80%;">
-
-<p>那我找个<code>0xe0db37ee</code>的值发过去试试看呢？</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/12.png" alt="12" style="zoom:80%;">
-
-<p>果然，最后的结果是正确的，此时记录下签名结果</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/13.png" alt="13" style="zoom:80%;">
-
-<p>于是重复上面的步骤，我们就可以获得另外三个的内容了（</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/14.png" alt="14" style="zoom:80%;">
-
-<p>将得到的$4$个SIG乘起来模$n$，获得最终的结果。发送过去得到flag。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/15.png" alt="15" style="zoom:80%;">
-
-<h2 id="5-More-Exploration"><a href="#5-More-Exploration" class="headerlink" title="5.More Exploration"></a>5.More Exploration</h2><p>搞出来flag之后，本fw很形象再去看看另外两个命令是干什么的，于是决定如法炮制伪造字符串</p>
-<p>我们可以使用的字符串如下：</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/16.png" alt="16" style="zoom:80%;">
-
-<p>根据上面的内容可以获得其私钥：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">N: 0xd888075370effdb016d85de8c894ee7ac2764527210d8ce1d8bd14a06c67de148b4680781366002f9649e3885e18ab950120c660970ab9a499ea74ea7aa38fe732940b5204300ef7b96a608efec1a74007a4b1d592cf9eb23890d8fa416202857d0e0f9ebad79324d03d09db0502ff4bae0b2dfc0b150ddea806a5ff24e2d32f</span><br><span class="line">E: 0x10001</span><br><span class="line">P: 0xf0d4aa4868305cdbabba679014f940c0233ca0b10c9db62e3d829dd289103b21143da614b361c6043711956ff2ffd3bf7dcea0418a1e0bbf74784512f99733cd</span><br><span class="line">Q: 0xe62b8ad7f10d9921a3be7b0c74a81107b5fa704900f94028c6a6e401a00729f6ed961dabbc65878ba5b7f34ca406c7b27577fe5153909d036ecf7e028b555eeb</span><br><span class="line">D: 0x77de15f0233d37fb1b2a7c1239b7f8ad0ca9dc6e64e5d36fd34418ff160409f4e58509e96f13b056a7a40fc9960da22ec2891a48ae54c9a04d747574b89f83313d1902224cb7e90bf74a30a6e0201e3081c33ea14786adec8f7e05c898f9f55c7e332f7cc7a12263eac1ae60e2122e548207fe3c035e03eaf36798c62c3f6e41</span><br></pre></td></tr></table></figure>
-
-<p>而security命令的输出与help-security的输出一模一样。。。</p>
-<h2 id="6-Review"><a href="#6-Review" class="headerlink" title="6.Review"></a>6.Review</h2><p>一道很好玩的题目还是值得把玩以下的，感觉收获很大。</p>
-<p>最后附一下网上给的CRC32加密原理，以后研究。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/17.png" alt="17" style="zoom:100%;">
-
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/18.png" alt="18" style="zoom:100%;">
-
-
-
-
-
+<p>打开我们的example机器人目录，然后发现里面还有个example，再打开这个文件夹还有个plugins，将这个代码保存成py文件，拖入就可以用了。</p>
+<p>可以看到加载了weather的插件</p>
+<p><img src="/2021/07/17/Blockbot-beginning/3-1-1.png" alt="3-1-1"></p>
+<p>这个时候我们的bot就可以按照里面的算法来做事了。当然，以这个插件为模板，我们可以开发更多的插件。</p>
+<p><font color="red"><strong>一定要注意的是，只有string类型的东西才能被发送出去，如果不是string类型（比如想发送数字）要先转成string类型！然后才能发出去！</strong></font></p>
+<p><img src="/2021/07/17/Blockbot-beginning/3-1-2.jpg" alt="3-1-2"></p>
 
                 
             </div>
@@ -574,7 +574,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/">http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/</a>
+                    <a href="http://example.com/2021/07/17/Blockbot-beginning/">http://example.com/2021/07/17/Blockbot-beginning/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -612,8 +612,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/ExpLog/">
-                                    <span class="chip bg-color">ExpLog</span>
+                                <a href="/tags/Skills/">
+                                    <span class="chip bg-color">Skills</span>
                                 </a>
                             
                         </div>
@@ -785,9 +785,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2021/07/17/Blockbot-beginning/">
                     <div class="card-image">
@@ -805,9 +806,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-07-17
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-17
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -820,6 +821,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -838,13 +840,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/07/12/GKCTF2021-WriteUp/">
+                <a href="/2021/07/15/An-Interesting-Problem-RSAOS/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="GKCTF2021 WriteUp">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="An Interesting Problem-RSAOS">
                         
-                        <span class="card-title">GKCTF2021 WriteUp</span>
+                        <span class="card-title">An Interesting Problem-RSAOS</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -855,7 +857,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-12
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-15
                             </span>
                         <span class="publish-author">
                             
@@ -872,8 +874,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/WriteUp/">
-                        <span class="chip bg-color">WriteUp</span>
+                    <a href="/tags/ExpLog/">
+                        <span class="chip bg-color">ExpLog</span>
                     </a>
                     
                 </div>
