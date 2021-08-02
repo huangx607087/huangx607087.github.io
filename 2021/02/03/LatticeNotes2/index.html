@@ -496,13 +496,14 @@
 <p> <strong>(Hermite定理)</strong> 维数$n$的每一个格$L$都包含一个长度不超过$\sqrt n· \sqrt[n]{\det L}$的向量$\vec v$</p>
 <p> <strong>(Hermite常数)</strong> 在给定维数下，每一个格$L$的最短非零向量$\vec v$的长度的平方都不超过$ y_n\sqrt[n]{\det^2 L} $。其中$y_2$到$y_8$和$y_{24}$的值是目前已知的。这些数字分别是$ \dfrac 4 3,2,4,8,\dfrac {64} 3,64,256,4 $。不过$y_n \in [\dfrac {n}{2 \pi e},\dfrac{n}{\pi e}]$</p>
 <p>把这个定理扩展一下，有这样的结论：在维数为$n$的格$L$中，存在一组基底，使得这些基底中每个向量的长度的乘积不超过$\sqrt{n^n}·\det L$。这一是对我们之前结论”$\det L$不超过所有向量长度的乘积”这一定理的补充。</p>
-<p><strong>Hadamard比率</strong>：假设$\vec v_1,\vec v_2,…,\vec v_n$是格$L$的一基底$B$，那么Hadamard比率计算公式就是$H(B)=\dfrac{\det L}{\prod_{i=1}^n |\vec v_i|}$。这个值总是在$(0,1]$之间，并且这个值越接近$1$，就表示这一组基底中的向量越正交。</p>
+<p><strong>Hadamard比率</strong>：假设$\vec v_1,\vec v_2,…,\vec v_n$是格$L$的一基底$B$，那么Hadamard比率$H(B)$计算公式满足$H(B)=(\dfrac{\det L}{\prod_{i=1}^n |\vec v_i|})^{1/n}$。$H(B)$的值总是在$(0,1]$之间，并且这个值越接近$1$，就表示这一组基底中的向量越正交。</p>
 <p><strong>封闭球：</strong>在向量空间$R^n$中，任何与向量$\vec a$距离不超过$r$的空间的集合，称作向量$\vec a$的封闭球，记为$B_r(\vec a)$，表达式为$(x_1-a_1)^2+(x_2-a_2)^2+…+(x_n-a_n)^2 ≤ r^2$。其中$x_1$到$x_n$是坐标分量，$a_1$到$a_n$时向量$\vec a$的分量。</p>
 <p> <strong>4个定义</strong>：当$S$是向量空间$R^n$的一个子集时，我们有如下定义：</p>
-<p>若$S$中向量的长度是<strong>有界的</strong>，那么存在一个实数$r$ 使得$S$中所有的向量都包含在封闭球$B_r(\vec 0)$中。在二维平面上就是包含在圆$x^2+y^2=r^2$内。</p>
-<p>若$S$中向量时<strong>对称的</strong>，那么若$\vec a$在$S$中，则$-\vec a$也在$S$中，并且$\vec a +(- \vec a)= \vec 0$</p>
-<p>如果$S$是<strong>凸性的</strong>，那么$S$中有任意两点$A,B$则线段$AB$上的每一个点都在$S$中。</p>
-<p>如果$S$是<strong>封闭的</strong>，那么对于$S$中的一点$A$，任意取值$r&gt;0$，$B_r(\vec {OA})$中都有属于$S$的点，则点$A$也在$S$中。</p>
+<p><strong>Update 7.29 修改了2月份的逻辑错误表述</strong></p>
+<p>如果存在一个实数$r$ 使得$S$中所有的向量都包含在封闭球$B_r(\vec 0)$中。在二维平面上就是包含在圆$x^2+y^2=r^2$内。那么称$S$中向量的长度是<strong>有界的</strong>，</p>
+<p>若$\vec a$在$S$中，$-\vec a$也在$S$中，并且$\vec a +(- \vec a)= \vec 0$，那么称$S$中向量时<strong>对称的</strong>，</p>
+<p>如果$S$中有任意两点$A,B$则线段$AB$上的每一个点都在$S$中，那么称$S$是<strong>凸性的</strong>，</p>
+<p>如果对于$S$中的一点$A$，任意取值$r&gt;0$，$B_r(\vec {OA})$中都有属于$S$的点，则点$A$也在$S$中，那么称是<strong>封闭的</strong>，</p>
 <h4 id="52o02-Minkowski定理"><a href="#52o02-Minkowski定理" class="headerlink" title="52o02   Minkowski定理"></a>52o02   Minkowski定理</h4><p><strong>（Minkowski定理）</strong>：设$L$是$R^n$中的一个格，$S$是$R^n$中的一个对称凸集，那么$S$的体积$\text{Vol }S&gt; 2^n \det L$时，$S$中就包含一个非零格向量。如果$S$是封闭的，那么上面的不等式也可以取等号。</p>
 <h3 id="5x03-高斯启发式"><a href="#5x03-高斯启发式" class="headerlink" title="5x03 高斯启发式"></a>5x03 高斯启发式</h3><h4 id="53o01-伽马函数"><a href="#53o01-伽马函数" class="headerlink" title="53o01 伽马函数"></a>53o01 伽马函数</h4><p> 伽马函数的定义域是$s&gt;0$，表达式如下</p>
 <p><img src="/2021/02/03/LatticeNotes2/3.png" alt="3"></p>
