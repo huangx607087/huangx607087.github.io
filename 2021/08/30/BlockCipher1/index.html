@@ -479,7 +479,8 @@
 <p>在这里，PC-2置换是将$56$位的轮密钥转化成$48$位的轮密钥，转换规则如下</p>
 <p><img src="/2021/08/30/BlockCipher1/10.png" alt="10"></p>
 <h3 id="1o04-DES解密过程"><a href="#1o04-DES解密过程" class="headerlink" title="1o04 DES解密过程"></a>1o04 DES解密过程</h3><p>在解密过程中，由于我们在之前注意到$C_0=C_{16},D_0=D_{16}$的特点，因此我们可以在PC-1后直接得到$k_{16}$。</p>
-<p>因此，我们有：<br>$$<br>k_{16}=\mathrm{PC_2}(C_ {16}, D_ {16})=\mathrm{PC_2}(C_ {0}, D_ {0})=\mathrm{PC_2}(\mathrm{PC}<em>1(k))<br>$$<br>而我们如果想得到$k</em>{15}$也很简单，只需要将$(C_{16},D_{16})$进行循环右移就可以了，移动规则与之前仍然一样。</p>
+<p><strong>图片S1之前文字渲染有乱码问题，故使用图片修正</strong></p>
+<p><img src="/2021/08/30/BlockCipher1/S1.png" alt="S1"></p>
 <p>而在解密过程中，第一轮密钥不移位，第二、九、十六轮密钥移位一位，其他轮密钥移位两位。用公式可以表示为<br>$$<br>k_{15}=\mathrm{PC_2}(C_ {15},D_ {15})=\mathrm{PC_2}(\mathrm{ror}(C_ {0}),\mathrm{ror}(D_ {0}))=\mathrm{PC_2}(\mathrm{ror}(C_ {16}),\mathrm{ror}(D_ {16}))<br>$$<br>上面公式中，$\mathrm {ror,lor}$分别表示循环右移和循环左移，移动位数规则刚才已经提到过了。</p>
 <p>整个解密过程差不多是这张图：</p>
 <p><img src="/2021/08/30/BlockCipher1/11.png" alt="11"></p>
