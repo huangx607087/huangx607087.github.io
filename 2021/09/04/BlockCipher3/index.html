@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="BlockCipher2, huangx607087&#39;s Blog">
+    <meta name="keywords" content="BlockCipher3, huangx607087&#39;s Blog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>BlockCipher2 | huangx607087&#39;s Blog</title>
+    <title>BlockCipher3 | huangx607087&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -279,12 +279,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">BlockCipher2</h1>
+                    <h1 class="description center-align post-title">BlockCipher3</h1>
                 </div>
             </div>
         </div>
@@ -425,7 +425,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-09-01
+                    2021-09-04
                 </div>
                 
 
@@ -451,56 +451,48 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="huangx607087学习分组密码的笔记2"><a href="#huangx607087学习分组密码的笔记2" class="headerlink" title="huangx607087学习分组密码的笔记2"></a>huangx607087学习分组密码的笔记2</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>一个密码学fw的学习笔记，很菜</p>
-<p>9月1日，自己的第二个90天计划开始，自己上学期的第一个90天计划很成功，自己从来没想过自己六级能考587。。。所以自己第二个90天计划主要是为了提升自己的CTF水平，争取能够打入线下，然后再恰点烂钱。。。。。（对于我这个fw还是很难的。今年三门数学一门物理，希望自己这四门课都能考到60<del>H</del>吧。。。</p>
-<p>这篇博客主要是讲一下AES的算法，上承接一下DES相关内容，下启一下后面两篇笔记：<strong>笔记3: 加密模式 、笔记4: S盒差分攻击</strong></p>
-<p><strong>注：若数字无后缀，默认认为是十进制。十六进制后缀会加$\text H$，例如$\text{60H}=96$</strong></p>
-<h2 id="2-AES"><a href="#2-AES" class="headerlink" title="2.AES"></a>2.AES</h2><h3 id="0o01-对DES的补充内容"><a href="#0o01-对DES的补充内容" class="headerlink" title="0o01 对DES的补充内容"></a>0o01 对DES的补充内容</h3><p>在正式进入AES之前，我们先对上一篇笔记中的DES进行一些补充。</p>
-<p>由于DES的安全性在目前来看已经不是很高了，1999年1月，有一个蛮力破解DES挑战赛，有人解和Deep Track Internet 上的分布攻击，耗时22小时就破解了DES的密钥。而在2006年的4月，德国有两所大学基于低廉的FPGA，仅仅耗费了不到70000人民币的价格，构建了密钥搜索机器，平均搜索时间仅仅7天。</p>
-<p>因此，出现了一些DES的替换算法，其中最典型的就是3DES，有的3DES使用三个不同的密钥，对明文连续加密三次。当然也有使用两个密钥的3DES，使用函数如下<br>$$<br>c=E_1(D_2(E_1(m)))<br>$$<br>也就是先用密钥$k_1$对明文进行加密，然后用密钥$k_2$对加密后内容进行解密，最后再用密钥$k_1$对内容进行加密，输出最终的密文。</p>
-<p>当然，这种加密方法也仅仅是在DES上加了个变体，解密函数也是三次<br>$$<br>m=D_1(E_2(D_1(c)))<br>$$<br>但这边有个问题就是3DES耗时增加至原来的$3$倍，比较影响效率</p>
-<p>DES加密算法有几个弱密钥，这些密钥有个特点，就是在分组后，会使得$C$和$D$无论怎么左移，均为全$0$或者全$1$的128位序列。</p>
-<p>DES的弱密钥在不考虑第八位校验位的情况下，一共有八个弱密钥：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0x0101010101010101</span></span><br><span class="line"><span class="number">0xFEFEFEFEFEFEFEFE</span></span><br><span class="line"><span class="number">0xE0E0E0E0F1F1F1F1</span></span><br><span class="line"><span class="number">0x1F1F1F1F0E0E0E0E</span></span><br><span class="line"><span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0xFFFFFFFFFFFFFFFF</span></span><br><span class="line"><span class="number">0xE1E1E1E1F0F0F0F0</span></span><br><span class="line"><span class="number">0x1E1E1E1E0F0F0F0F</span></span><br></pre></td></tr></table></figure>
-
-<p>如果用这$8$个弱密钥加密明文$m$，会出现一个很好玩的现象：<br>$$<br>m=E(c)=E(E(m))<br>$$<br>也就是说，对明文两次加密，就可以得到原来的明文。</p>
-<h3 id="0o02-AES简介"><a href="#0o02-AES简介" class="headerlink" title="0o02 AES简介:"></a>0o02 AES简介:</h3><p>AES与DES一样，也是一种对称分组密码。其分组大小比DES要大，有$128,192,256$位三种长度的密钥，但AES中每个分组一般均为$128$位，其主要操作简图如下：</p>
-<p><img src="/2021/09/01/BlockCipher2/1.png" alt="1"></p>
-<p>而加密轮数一般也有固定规则——在$128$位密钥下加密$10$次，$192$位密钥下加密$12$次，$256$位密钥下加密$14$次。而加密轮数较少的一个主要原因就是AES与DES不一样，每次直接对所有的$128$位进行了处理。</p>
-<p>AES的总体加密框图如下：</p>
-<p><img src="/2021/09/01/BlockCipher2/2.png" alt="2"></p>
-<p>AES中，对于每一轮加密有三层，第一层是字节代换层，在这里使用$S$盒，对每个字节元素(8bit)根据$S$盒的变换规则进行非线性变换。</p>
-<p>第二层是扩散层，由ShiftRows和MixColumn。其中ShiftRows是对行的位移变化，在位级别进行数据置换。而MixColumn是对列的混淆变换，合并长度为四个字节(32bit)的数据。</p>
-<p>第三层是密钥加法层，这里主要是通过$128$位的轮密钥，与状态进行异或操作的过程。</p>
-<p>在AES中，我们还会涉及到在$GF(256)$中的操作，这里用的是不可约多项式$x^8+x^4+x^3+x+1$。$GF(256)$下对于该多项式有如下的逆元表（为方便期间与避免争议，特别规定$0$的逆元为$0$）。</p>
-<p><img src="/2021/09/01/BlockCipher2/3.png" alt="3"></p>
-<p>举个例子：上表中$\mathrm{00H}$表示$0$，$\mathrm{C2H}$表示二进制的$\text{1100 0010B}$，对应多项式就是$x^7+x^6+x$，它的逆元为$\mathrm{25H}$，其表示多项式为$x^5+x^3+x^2+1$，这两个式子相乘，并对$x^8+x^4+x^3+x+1$取模，结果恰好是$1$。</p>
-<h3 id="0o03-AES加密过程"><a href="#0o03-AES加密过程" class="headerlink" title="0o03 AES加密过程"></a>0o03 AES加密过程</h3><h4 id="Step-1-AES内部结构"><a href="#Step-1-AES内部结构" class="headerlink" title="Step 1 AES内部结构"></a>Step 1 AES内部结构</h4><p><img src="/2021/09/01/BlockCipher2/4.png" alt="4"></p>
-<h4 id="Step-2字节代换层"><a href="#Step-2字节代换层" class="headerlink" title="Step 2字节代换层"></a>Step 2字节代换层</h4><p>由于$128$位对应十六个字节，因此字节代换中，有特定的$S$盒。其数值如下（十进制）：</p>
-<p><img src="/2021/09/01/BlockCipher2/5.png" alt="5"></p>
-<p>这个$S$盒有个特点就是：不存在$x\in [0,255]$使得$S(x)=x$。</p>
-<p>因此，即使我们输入的内容是$(0,0,0,…,0)$，到一次$S$盒最后也会输出十进制$(99,99,99,…,99)$，然后再经过$S$盒变成十进制$(251,251,251,…,251)$。因此，AES与DES不同，<strong>它不存在弱密钥</strong>。</p>
-<h4 id="Step-3-扩散层和密钥加法层"><a href="#Step-3-扩散层和密钥加法层" class="headerlink" title="Step 3 扩散层和密钥加法层"></a>Step 3 扩散层和密钥加法层</h4><p>在扩散层中，对十六个$B$，进行了如下的操作：</p>
-<p>首先是位置替换，下标值按照$(0,5,10,15,4,9,14,3,8,13,2,7,12,1,6,11)$的规则重新排列成新的顺序。</p>
-<p>然后是列置换，$B_0,B_5,B_{10},B_{15}$通过下面的操作，获得了$C_0$到$C_4$</p>
-<p><img src="/2021/09/01/BlockCipher2/6.png" alt="6"></p>
-<p>这边说一下，这里的$01,02,03$代表着$(1,x,x+1)$，整个式子的计算是基于$GF(256)$的多项式运算，也就是说如果$B_0=99$，那么就是转化成$x^6+x^5+x+1$，然后最后还是对$x^8+x^4+x^3+x+1$取模即可。计算出来的多项式再转化成数字即可得到$C_0$到$C_3$的值。</p>
-<p>当然，我们还可以通过$B_4,B_9,B_{14},B_3$，用组合成列向量，然后用相同的矩阵得到$C_4$到$C_7$的值，以此类推。</p>
-<p>最后对得到的十六个$C$值（每个数八位，因此一共是$128$位）组合在一起，对密钥异或即可。完成一轮的加密。</p>
-<h3 id="0o04-密钥编排"><a href="#0o04-密钥编排" class="headerlink" title="0o04 密钥编排"></a>0o04 密钥编排</h3><p>下面我们以$128$位密钥编排为例，$192,256$位密钥编排只需要把一行四组换成六组、八组即可，总轮数换成十二轮和十四轮即可。</p>
-<p><img src="/2021/09/01/BlockCipher2/7.png" alt="7"></p>
-<p>这边$RC[i]$也提一下，实际上就是$x$的$i$次方，这里分别需要用到$0,x^1,x^2,…,x^9$，模多项式为$x^8+x^4+x^3+x+1$。因此$x^8\equiv x^4+x^3+x+1$，$x^9\equiv x^5+x^4+x^2+x$。这边这个$g$函数的目的也是增加密钥编排的非线性内容。 </p>
-<h3 id="0o05-解密过程"><a href="#0o05-解密过程" class="headerlink" title="0o05 解密过程"></a>0o05 解密过程</h3><p>作为对称密码，解密过程与与加密过程差不多是一致的。</p>
-<p><img src="/2021/09/01/BlockCipher2/8.png" alt="8"></p>
-<p>所以，我们只需要将我们加密中所做的内容逆回去即可。</p>
-<p>下面是解密过程</p>
-<p><img src="/2021/09/01/BlockCipher2/9.png" alt="9"></p>
-<p>因此密钥加法还是轮密钥与密文异或，逆向MixColumn与逆向ShiftRow也是一个可逆过程，直接乘上逆矩阵，做逆变换即可。</p>
-<p><img src="/2021/09/01/BlockCipher2/10.png" alt="10"></p>
-<p>逆矩阵的内容如下，这边的$0EH,0BH,0DH,09H$仍然是$GF(256)$中的多项式，可以逆回$B$。</p>
-<p>然后根据变换$(0,13,10,7,4,1,14,11,8,5,2,15,12,9,6,3)$的变换规则，得到所有逆向shiftrow后的$B$值，最后根据逆向后的所有$B$值获取$A$值。</p>
-<p>那么我们也可以获得$S^{-1}$</p>
-<p><img src="/2021/09/01/BlockCipher2/11.png" alt="11"></p>
+                <h1 id="huangx607087学习分组密码的笔记3"><a href="#huangx607087学习分组密码的笔记3" class="headerlink" title="huangx607087学习分组密码的笔记3"></a>huangx607087学习分组密码的笔记3</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>一个密码学fw的学习笔记，很菜。</p>
+<p>最近自己不知为何总想着摸鱼，算了，还是要以学习为重。</p>
+<p>本篇博客接着前一篇的内容，在讲过DES AES后，对其加密模式进行分析。</p>
+<h2 id="3-DES-AES的加密模式"><a href="#3-DES-AES的加密模式" class="headerlink" title="3.DES,AES的加密模式"></a>3.DES,AES的加密模式</h2><p>在DES 和AES的各种加密模式中， 有五种操作模式最为常用，下面将逐一介绍下面的各种加密模式。</p>
+<h3 id="0o01-电子密码本模式-ECB"><a href="#0o01-电子密码本模式-ECB" class="headerlink" title="0o01 电子密码本模式 ECB"></a>0o01 电子密码本模式 ECB</h3><p>ECB模式是最简单的一种模式，实际上就是直接加密和直接解密，不需要其他的任何成分，仅需要明文$x$和密钥$k$，就可以获得密文$y$，当然，用$y$和$k$也可以通过解密得到$x$。</p>
+<p><img src="/2021/09/04/BlockCipher3/1.png" alt="1"></p>
+<p>在ECB模式中，每个分组的长度都是固定的，比如$16$个字节或者$8$个字节。如果最后不满$16$个字节，那就需要对最后一组明文进行填充后加密。一种常见的填充模式就是后面差几个，就往后面填几个对应字符。例如：在$8$字节的分组下，对字符串<code>doge</code>进行加密，由于差$4$个才能满足一组八个的要求，那就在后面填充四个<code>\x04</code>再加密，也就是最后明文变成了<code>doge\x04\x04\x04\x04</code>。当然，如果刚好是八个字节了，那就填充一整串。例如：<code>nuptsacc</code>在填充后，从一组变成了两组，内容是：<code>nuptsacc\x08\x08\x08\x08\x08\x08\x08\x08</code></p>
+<p>ECB模式的优点就是如果在加密时，某个分组的内容出现了错误，后面的内容不会因为这个错误而受到影响，并且加密速度快、效率高、易操作。</p>
+<p>但ECB模式的缺点也很明显，就是该模式由于操作过于简单，具有高度确定性。如果在key一定的情况下，那么一旦$x$确定了，$y$也就确定了。因此如果攻击者知道了文件开头部分，或者是是文件的高频内容，就有可能破解出可能的密钥。</p>
+<p>由于内容的高度确定性，因此ECB在对于图片加密的情况下，有可能会泄露信息，如下图:</p>
+<p><img src="/2021/09/04/BlockCipher3/2.png" alt="2"></p>
+<h3 id="0o02-密码分组链接模式-CBC"><a href="#0o02-密码分组链接模式-CBC" class="headerlink" title="0o02 密码分组链接模式(CBC)"></a>0o02 密码分组链接模式(CBC)</h3><p>CBC模式跟ECB模式不同：首先，对于某一组的加密不仅依赖于这一组的内容，还依赖于前面所有的明文分组。并且会使用初始向量IV对加密进行随机化。设$\mathrm {IV}=y_0$，那么我们有</p>
+<script type="math/tex; mode=display">
+y_i=e(x_i+y_{i-1})</script><p>此处的加号仍然表示异或，你会发现每一组的加密内容是把这一组的明文和上一组的密文异或之后，再启用加密算法进行加密。加密算法可以用这张图表示</p>
+<p><img src="/2021/09/04/BlockCipher3/3.png" alt="3"></p>
+<p>因此，这个加密有个性质：就是由于$y_i=E_k(x_i,y_{i-1})$，我们可以得到$x_i=D_k(y_i,y_{i-1})$，由于异或的可交换性，我们也可以得到</p>
+<script type="math/tex; mode=display">
+y_{i-1}=D_k(y_i,x_{i})</script><p>也就是凭借一组明文$x$和一组密文$y$，当然还有密钥$k$，我们可以求出$iv$的值。</p>
+<p>首先我们可以给服务器发送一个fakeiv $f$，计算：</p>
+<script type="math/tex; mode=display">
+x'=D_k(y,f)</script><p>那么我们可以得到：（加号表示异或）</p>
+<script type="math/tex; mode=display">
+y'=x'+f</script><p>然后我们可以得到真正的IV，也就是$y_0$的值为</p>
+<script type="math/tex; mode=display">
+y_0=y'+x</script><p>整合起来，那就在已知明文$x$、密文$y$、密钥$k$的情况下，初始向量$y_0$很快就能直接求出（加号表示异或）</p>
+<script type="math/tex; mode=display">
+y_0=D_k(y,f)+f+x</script><h3 id="0o03-输出反馈模式-OFB"><a href="#0o03-输出反馈模式-OFB" class="headerlink" title="0o03 输出反馈模式(OFB)"></a>0o03 输出反馈模式(OFB)</h3><p>OFB模式是对初始化向量$iv$进行加密，然后每次对加密后的$iv$直接异或明文$x$，从而获得密文$y$的一种模式。</p>
+<p><img src="/2021/09/04/BlockCipher3/4.png" alt="4"></p>
+<p>因此，我们解密时，也直接使用IV进行解密即可，不过注意对于IV来收，仍然是加密操作，而不是解密操作。换句话说就是对于IV而言，不存在解密操作。</p>
+<p><img src="/2021/09/04/BlockCipher3/5.png" alt="5"></p>
+<h3 id="0o04-密码反馈模式-CFB"><a href="#0o04-密码反馈模式-CFB" class="headerlink" title="0o04 密码反馈模式(CFB)"></a>0o04 密码反馈模式(CFB)</h3><p>CFB，即密文反馈模式，仍然是对IV进行加密，然后与明文$x$进行异或得到密文$y$。然后$E(IV)$会继承后半部分内容作为新的前半部分，而新的后半部分则由密文的后半部分组成。如果是$16$位，替换$8$位。那么就是新的IV的前$8$位是旧的IV的后$8$位，然后新的IV的后$8$位是密文的后$8$位（当然也可以是前$8$位）</p>
+<p><img src="/2021/09/04/BlockCipher3/6.png" alt="6"></p>
+<p>解密时，也直接就是分组解密，对IV加密后与密文异或得到明文。与OFB模式一样，不存在对IV解密的情形。</p>
+<h3 id="0o05-计数器模式-CTR"><a href="#0o05-计数器模式-CTR" class="headerlink" title="0o05 计数器模式(CTR)"></a>0o05 计数器模式(CTR)</h3><p>CTR模式这里有一个计数器。比如在$64$位的分组加密中，IV只提供$48$位，剩下的$16$位分配给计数器。例如：如果我们设$\text{IV = 86 43 23 6A 46 57H}$，那么一开始的$\text{IV=86 43 23 6A 46 57 00 00H}$，第二轮加密时用$\text{IV=86 43 23 6A 46 57 00 01H}$。每一次加密时，计数器会保持递增，但IV会一直不变。因此，十六位的计数器可以加密六万多组数据。</p>
+<p>当然，IV|CTR的值实际上不必保密，而CTR也并不一定是<code>+1</code>形，可以是最大长度LFSR，也可以是离散对数的规律，比如$  3^{T} \equiv \mathrm{CTR} \pmod {2^{64}}$。</p>
+<p><img src="/2021/09/04/BlockCipher3/7.png" alt="7"></p>
+<p>这种模式还有个好处，我们可以通过128位的内容来加密$256$位的分组密码。我们只需要每次让计数器$+2$，一组加密前$128$位，一组加密后$128$位。两组加密同时进行，可以节省较多的时间成本。</p>
+<h3 id="0o06-GF域计数器模式-GCM"><a href="#0o06-GF域计数器模式-GCM" class="headerlink" title="0o06 GF域计数器模式(GCM)"></a>0o06 GF域计数器模式(GCM)</h3><p>GCM模式，使用伽罗瓦域乘法，这里是$GF(2^{128})$。在计算每个明文时都会得到一个中间认证参数$g$，$g_{i}$为当前密文$y_i$异或后，与一个常数$h$相乘。这里使用不可约多项式$x^{128}+x^7+x^2+x+1$。因为这里面只有一个乘法，因此GCM的计算开销不会很大。</p>
+<p><img src="/2021/09/04/BlockCipher3/8.png" alt="8"></p>
+<p><img src="/2021/09/04/BlockCipher3/9.png" alt="9"></p>
+<p>数据包$[y,T,ADD]$的接收者也是使用计数器模式解密密文。为了检査数据的可靠性，接收者也使用收到的密文$ADD$与 $T’$ —起计算认证标签 r,而且接收者的计算步骤 与发送者完全相同。如果 $T$与$T’$ 匹配，接收者则可确定密文(和 在传输过程中没有被 篡改，并且的确是发送者生成了该消息。</p>
+<p>了解这些加密模式 的原理图，对我们以后在做到分组密码的题目时，可以从原理出发，更加深入地对其算法进行研究。</p>
 
                 
             </div>
@@ -527,7 +519,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://example.com/2021/09/01/BlockCipher2/">http://example.com/2021/09/01/BlockCipher2/</a>
+                    <a href="http://example.com/2021/09/04/BlockCipher3/">http://example.com/2021/09/04/BlockCipher3/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -738,9 +730,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2021/09/04/BlockCipher3/">
                     <div class="card-image">
@@ -758,9 +751,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-09-04
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-04
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -773,6 +766,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -791,13 +785,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/08/30/XiangYunCupWP/">
+                <a href="/2021/09/01/BlockCipher2/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="XiangYunCupWP">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="BlockCipher2">
                         
-                        <span class="card-title">XiangYunCupWP</span>
+                        <span class="card-title">BlockCipher2</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -808,7 +802,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-08-30
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-01
                             </span>
                         <span class="publish-author">
                             
@@ -825,8 +819,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/WriteUp/">
-                        <span class="chip bg-color">WriteUp</span>
+                    <a href="/tags/Notes/">
+                        <span class="chip bg-color">Notes</span>
                     </a>
                     
                 </div>
