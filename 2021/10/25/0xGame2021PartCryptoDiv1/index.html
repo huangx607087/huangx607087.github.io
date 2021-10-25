@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="BlockCipher3, huangx607087&#39;s Blog">
+    <meta name="keywords" content="0xGame2021PartCrypto, huangx607087&#39;s Blog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>BlockCipher3 | huangx607087&#39;s Blog</title>
+    <title>0xGame2021PartCrypto | huangx607087&#39;s Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -279,12 +279,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">BlockCipher3</h1>
+                    <h1 class="description center-align post-title">0xGame2021PartCrypto</h1>
                 </div>
             </div>
         </div>
@@ -400,8 +400,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Notes/">
-                                <span class="chip bg-color">Notes</span>
+                            <a href="/tags/WriteUp/">
+                                <span class="chip bg-color">WriteUp</span>
                             </a>
                         
                     </div>
@@ -425,7 +425,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-09-04
+                    2021-10-25
                 </div>
                 
 
@@ -451,48 +451,84 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="huangx607087学习分组密码的笔记3"><a href="#huangx607087学习分组密码的笔记3" class="headerlink" title="huangx607087学习分组密码的笔记3"></a>huangx607087学习分组密码的笔记3</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>一个密码学fw的学习笔记，很菜。</p>
-<p>最近自己不知为何总想着摸鱼，算了，还是要以学习为重。</p>
-<p>本篇博客接着前一篇的内容，在讲过DES AES后，对其加密模式进行分析。</p>
-<h2 id="3-DES-AES的加密模式"><a href="#3-DES-AES的加密模式" class="headerlink" title="3.DES,AES的加密模式"></a>3.DES,AES的加密模式</h2><p>在DES 和AES的各种加密模式中， 有五种操作模式最为常用，下面将逐一介绍下面的各种加密模式。</p>
-<h3 id="0o01-电子密码本模式-ECB"><a href="#0o01-电子密码本模式-ECB" class="headerlink" title="0o01 电子密码本模式 ECB"></a>0o01 电子密码本模式 ECB</h3><p>ECB模式是最简单的一种模式，实际上就是直接加密和直接解密，不需要其他的任何成分，仅需要明文$x$和密钥$k$，就可以获得密文$y$，当然，用$y$和$k$也可以通过解密得到$x$。</p>
-<p><img src="/2021/09/04/BlockCipher3/1.png" alt="1"></p>
-<p>在ECB模式中，每个分组的长度都是固定的，比如$16$个字节或者$8$个字节。如果最后不满$16$个字节，那就需要对最后一组明文进行填充后加密。一种常见的填充模式就是后面差几个，就往后面填几个对应字符。例如：在$8$字节的分组下，对字符串<code>doge</code>进行加密，由于差$4$个才能满足一组八个的要求，那就在后面填充四个<code>\x04</code>再加密，也就是最后明文变成了<code>doge\x04\x04\x04\x04</code>。当然，如果刚好是八个字节了，那就填充一整串。例如：<code>nuptsacc</code>在填充后，从一组变成了两组，内容是：<code>nuptsacc\x08\x08\x08\x08\x08\x08\x08\x08</code></p>
-<p>ECB模式的优点就是如果在加密时，某个分组的内容出现了错误，后面的内容不会因为这个错误而受到影响，并且加密速度快、效率高、易操作。</p>
-<p>但ECB模式的缺点也很明显，就是该模式由于操作过于简单，具有高度确定性。如果在key一定的情况下，那么一旦$x$确定了，$y$也就确定了。因此如果攻击者知道了文件开头部分，或者是是文件的高频内容，就有可能破解出可能的密钥。</p>
-<p>由于内容的高度确定性，因此ECB在对于图片加密的情况下，有可能会泄露信息，如下图:</p>
-<p><img src="/2021/09/04/BlockCipher3/2.png" alt="2"></p>
-<h3 id="0o02-密码分组链接模式-CBC"><a href="#0o02-密码分组链接模式-CBC" class="headerlink" title="0o02 密码分组链接模式(CBC)"></a>0o02 密码分组链接模式(CBC)</h3><p>CBC模式跟ECB模式不同：首先，对于某一组的加密不仅依赖于这一组的内容，还依赖于前面所有的明文分组。并且会使用初始向量IV对加密进行随机化。设$\mathrm {IV}=y_0$，那么我们有</p>
-<script type="math/tex; mode=display">
-y_i=e(x_i+y_{i-1})</script><p>此处的加号仍然表示异或，你会发现每一组的加密内容是把这一组的明文和上一组的密文异或之后，再启用加密算法进行加密。加密算法可以用这张图表示</p>
-<p><img src="/2021/09/04/BlockCipher3/3.png" alt="3"></p>
-<p>因此，这个加密有个性质：就是由于$y_i=E_k(x_i,y_{i-1})$，我们可以得到$x_i=D_k(y_i,y_{i-1})$，由于异或的可交换性，我们也可以得到</p>
-<script type="math/tex; mode=display">
-y_{i-1}=D_k(y_i,x_{i})</script><p>也就是凭借一组明文$x$和一组密文$y$，当然还有密钥$k$，我们可以求出$iv$的值。</p>
-<p>首先我们可以给服务器发送一个fakeiv $f$，计算：</p>
-<script type="math/tex; mode=display">
-x'=D_k(y,f)</script><p>那么我们可以得到：（加号表示异或）</p>
-<script type="math/tex; mode=display">
-y'=x'+f</script><p>然后我们可以得到真正的IV，也就是$y_0$的值为</p>
-<script type="math/tex; mode=display">
-y_0=y'+x</script><p>整合起来，那就在已知明文$x$、密文$y$、密钥$k$的情况下，初始向量$y_0$很快就能直接求出（加号表示异或）</p>
-<script type="math/tex; mode=display">
-y_0=D_k(y,f)+f+x</script><h3 id="0o03-输出反馈模式-OFB"><a href="#0o03-输出反馈模式-OFB" class="headerlink" title="0o03 输出反馈模式(OFB)"></a>0o03 输出反馈模式(OFB)</h3><p>OFB模式是对初始化向量$iv$进行加密，然后每次对加密后的$iv$直接异或明文$x$，从而获得密文$y$的一种模式。</p>
-<p><img src="/2021/09/04/BlockCipher3/4.png" alt="4"></p>
-<p>因此，我们解密时，也直接使用IV进行解密即可，不过注意对于IV来收，仍然是加密操作，而不是解密操作。换句话说就是对于IV而言，不存在解密操作。</p>
-<p><img src="/2021/09/04/BlockCipher3/5.png" alt="5"></p>
-<h3 id="0o04-密码反馈模式-CFB"><a href="#0o04-密码反馈模式-CFB" class="headerlink" title="0o04 密码反馈模式(CFB)"></a>0o04 密码反馈模式(CFB)</h3><p>CFB，即密文反馈模式，仍然是对IV进行加密，然后与明文$x$进行异或得到密文$y$。然后$E(IV)$会继承后半部分内容作为新的前半部分，而新的后半部分则由密文的后半部分组成。如果是$16$位，替换$8$位。那么就是新的IV的前$8$位是旧的IV的后$8$位，然后新的IV的后$8$位是密文的后$8$位（当然也可以是前$8$位）</p>
-<p><img src="/2021/09/04/BlockCipher3/6.png" alt="6"></p>
-<p>解密时，也直接就是分组解密，对IV加密后与密文异或得到明文。与OFB模式一样，不存在对IV解密的情形。</p>
-<h3 id="0o05-计数器模式-CTR"><a href="#0o05-计数器模式-CTR" class="headerlink" title="0o05 计数器模式(CTR)"></a>0o05 计数器模式(CTR)</h3><p>CTR模式这里有一个计数器。比如在$64$位的分组加密中，IV只提供$48$位，剩下的$16$位分配给计数器。例如：如果我们设$\text{IV = 86 43 23 6A 46 57H}$，那么一开始的$\text{IV=86 43 23 6A 46 57 00 00H}$，第二轮加密时用$\text{IV=86 43 23 6A 46 57 00 01H}$。每一次加密时，计数器会保持递增，但IV会一直不变。因此，十六位的计数器可以加密六万多组数据。</p>
-<p>当然，IV|CTR的值实际上不必保密，而CTR也并不一定是<code>+1</code>形，可以是最大长度LFSR，也可以是离散对数的规律，比如$  3^{T} \equiv \mathrm{CTR} \pmod {2^{64}}$。</p>
-<p><img src="/2021/09/04/BlockCipher3/7.png" alt="7"></p>
-<p>这种模式还有个好处，我们可以通过128位的内容来加密$256$位的分组密码。我们只需要每次让计数器$+2$，一组加密前$128$位，一组加密后$128$位。两组加密同时进行，可以节省较多的时间成本。</p>
-<h3 id="0o06-GF域计数器模式-GCM"><a href="#0o06-GF域计数器模式-GCM" class="headerlink" title="0o06 GF域计数器模式(GCM)"></a>0o06 GF域计数器模式(GCM)</h3><p>GCM模式，使用伽罗瓦域乘法，这里是$GF(2^{128})$。在计算每个明文时都会得到一个中间认证参数$g$，$g_{i}$为当前密文$y_i$异或后，与一个常数$h$相乘。这里使用不可约多项式$x^{128}+x^7+x^2+x+1$。因为这里面只有一个乘法，因此GCM的计算开销不会很大。</p>
-<p><img src="/2021/09/04/BlockCipher3/8.png" alt="8"></p>
-<p><img src="/2021/09/04/BlockCipher3/9.png" alt="9"></p>
-<p>数据包$[y,T,ADD]$的接收者也是使用计数器模式解密密文。为了检査数据的可靠性，接收者也使用收到的密文$ADD$与 $T’$ —起计算认证标签 r,而且接收者的计算步骤 与发送者完全相同。如果 $T$与$T’$ 匹配，接收者则可确定密文(和 在传输过程中没有被 篡改，并且的确是发送者生成了该消息。</p>
-<p>了解这些加密模式 的原理图，对我们以后在做到分组密码的题目时，可以从原理出发，更加深入地对其算法进行研究。</p>
+                <h1 id="0xGame部分Crypto题目出题手记"><a href="#0xGame部分Crypto题目出题手记" class="headerlink" title="0xGame部分Crypto题目出题手记"></a>0xGame部分Crypto题目出题手记</h1><h2 id="Week-1"><a href="#Week-1" class="headerlink" title="Week 1"></a>Week 1</h2><h3 id="1-MyFunction"><a href="#1-MyFunction" class="headerlink" title="1: MyFunction"></a>1: MyFunction</h3><p>题目加密代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> log</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="keyword">return</span> x*log(x) <span class="comment">#log(x) is &quot;y=ln(x)&quot; used in maths</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> flag:</span><br><span class="line">    print(f(ord(i)))</span><br><span class="line"><span class="comment">#输出部分略去</span></span><br></pre></td></tr></table></figure>
+
+<p>这个题目出的目的是让新生熟悉一下Python的代码，顺便通过一个简单的python代码，了解一下python的基本语法，是模仿的西电的新生赛出的。西电的新生赛出的用的函数是$y=e^x$，也给出了很多数字。因为$y=e^x$有很明显的反函数，所以那个题可以直接对所有的输出取对数，就可以获得明文。但这个题目不行，因为$y=x\ln x$没有可以写出来的反函数形式。因此这个题目的正确做法是</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> log</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="keyword">return</span> x*log(x)</span><br><span class="line"></span><br><span class="line">arr=open(<span class="string">&quot;output.txt&quot;</span>,<span class="string">&quot;r&quot;</span>).readlines()</span><br><span class="line">s=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> y <span class="keyword">in</span> arr:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">128</span>):</span><br><span class="line">        <span class="keyword">if</span> abs(f(i)-float(y))&lt;<span class="number">0.0003</span>:</span><br><span class="line">            s+=chr(i)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">print(s)</span><br><span class="line"><span class="comment">#0xGame&#123;YouH4veKn0wedPy7honL081s&lt;y=ln(x)&gt;InM47hs&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>不过实际的解题中，真正写脚本的新生并不多，有的是通过excel打表，然后一个一个解的。把所有的$x$求出来之后，然后查ASCII码表一个一个手动对照的。</p>
+<p>之前验题的时候，我考虑到了浮点误差，因此这边用的是<code>abs(f(i)-float(y))&lt;0.0003</code>判断的。实际上在$x&gt;40$的时候，$(x+1)\ln(x+1)-x\ln x$的差值已经超过了$2$。因此直接取整也是可以的。不过最后我发现不考虑浮点误差的问题照样也是可以做的。</p>
+<h3 id="2-Class-8"><a href="#2-Class-8" class="headerlink" title="2.Class 8"></a>2.Class 8</h3><p>一个争议性挺大的题目。因为当时出题的时候，我并不想出古典密码题——属实没意思。但既然要求出一个古典密码，那就只能出一个。。</p>
+<p>最后出题的时候确实是出难了，虽然To1in那个ManyCode那个题也出难了，但他最后简化了，然后我看到当时已经有2、3个人解出来了，就没有简化。八种古典密码放在一起。有的还有歧义。。。（不过虽然还是有学弟没有跟我交流，也做出来了。</p>
+<p><img src="/2021/10/25/0xGame2021PartCryptoDiv1/Class8.png" alt="Class8"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">第1、6位是盲文</span><br><span class="line">第2、7位是跳舞的小人</span><br><span class="line">第3位是猪圈密码</span><br><span class="line">第4、11、16位是手机九键键盘</span><br><span class="line">第5、9、14位是莫尔斯电码</span><br><span class="line">第8、12位是银河字母</span><br><span class="line">第10、15位是培根密码</span><br><span class="line">第13位是电脑键盘，cfgb之间围着的是V</span><br></pre></td></tr></table></figure>
+
+<p>这道题一开始打算出规则的单词的，但后面就出得不规则了。主要是第13位、第15位出问题出得非常多。第15位确实有两种解法，因此第15位是 <code>O</code> 最后也算对了。</p>
+<p>flag: <code>0xGame&#123;CLASSLNRDDLDVTNB&#125;</code> 或<code> 0xGame&#123;CLASSLNRDDLDVTOB&#125;</code></p>
+<p><del>以后再也不出这种无聊的古典密码题了。。。。</del></p>
+<h3 id="3-ABC-Of-RSA"><a href="#3-ABC-Of-RSA" class="headerlink" title="3.ABC Of RSA"></a>3.ABC Of RSA</h3><p>这个题主要是用于给新生入门一下RSA相关知识。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">在RSA加密中，已知：</span><br><span class="line">p&#x3D;9677</span><br><span class="line">q&#x3D;9241</span><br><span class="line">e&#x3D;10009</span><br><span class="line">求解密指数d，包上0xGame&#123;&#125;提交。</span><br></pre></td></tr></table></figure>
+
+<p>这个如果下载Python的密码学专用包，写起来会非常快。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line">p=<span class="number">9677</span></span><br><span class="line">q=<span class="number">9241</span></span><br><span class="line">e=<span class="number">10009</span></span><br><span class="line">print(inverse(e,(p<span class="number">-1</span>)*(q<span class="number">-1</span>)))</span><br><span class="line"><span class="comment">#39982249</span></span><br></pre></td></tr></table></figure>
+
+<p>不过发现很多学弟学妹没有装包的情况下，利用$ed=k\phi+1$，暴力枚举$k$的。这个虽然这道题是可行的。但下一个题，当数字大起来的时候，就显得不可行了。。</p>
+<h3 id="4-BlackGiveRSA"><a href="#4-BlackGiveRSA" class="headerlink" title="4.BlackGiveRSA"></a>4.BlackGiveRSA</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag,p,q</span><br><span class="line"><span class="keyword">assert</span> q&gt;p </span><br><span class="line">n=p*q</span><br><span class="line">e=<span class="number">10007</span></span><br><span class="line"><span class="keyword">assert</span> len(flag)==<span class="number">42</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">6</span>):</span><br><span class="line">    m=bytes_to_long(flag[i*<span class="number">7</span>:i*<span class="number">7</span>+<span class="number">7</span>])</span><br><span class="line">    print(pow(m,e,n))</span><br><span class="line">print(<span class="string">&quot;Encryption using modulus n=&quot;</span>,n)</span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">OutPut:</span></span><br><span class="line"><span class="string">1150947306854980854</span></span><br><span class="line"><span class="string">243703926267532432</span></span><br><span class="line"><span class="string">1069319314811079682</span></span><br><span class="line"><span class="string">688582941857504686</span></span><br><span class="line"><span class="string">670683629344243145</span></span><br><span class="line"><span class="string">1195068175327355214</span></span><br><span class="line"><span class="string">Encryption using modulus n= 1687126110378632809</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>RSA入门题，直接放到yafu/factordb上分解出$p=1175078221,q=1435756429$，分别是Am4的QQ和自己的QQ号。。</p>
+<p>然后直接按照RSA的解密方法分解就行了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line">p,q=<span class="number">1175078221</span>,<span class="number">1435756429</span></span><br><span class="line">n,phi=p*q,(p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">d=inverse(<span class="number">10007</span>,phi)</span><br><span class="line">cipher=[</span><br><span class="line">    <span class="number">1150947306854980854</span>,</span><br><span class="line">    <span class="number">243703926267532432</span>,</span><br><span class="line">    <span class="number">1069319314811079682</span>,</span><br><span class="line">    <span class="number">688582941857504686</span>,</span><br><span class="line">    <span class="number">670683629344243145</span>,</span><br><span class="line">    <span class="number">1195068175327355214</span></span><br><span class="line">    ]</span><br><span class="line">m=<span class="string">b&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> cipher:</span><br><span class="line">    m+=long_to_bytes(pow(c,d,n))</span><br><span class="line">print(m)</span><br><span class="line"><span class="comment">#0xGame&#123;ChuTiRenDeQQShiJiShangJiuShiQDeZhi&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="Week-2"><a href="#Week-2" class="headerlink" title="Week 2"></a>Week 2</h2><h3 id="Equation"><a href="#Equation" class="headerlink" title="Equation"></a>Equation</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">解方程题，RSA加密，没有附件，远程连接一次过去就可以接收加密数据。解出来的明文结果要long_to_bytes</span><br><span class="line">p,q∈(2**1407,2**1408) </span><br><span class="line">nc 47.101.38.213 60718</span><br><span class="line">Author:huangx607087</span><br><span class="line">QQ:1435756429</span><br></pre></td></tr></table></figure>
+
+
+
+<p>linux虚拟机中，直接在终端输入<code>nc 47.101.38.213 60718</code> ，可以获得$n,e,c,f$，其中$f=ap+bq$。</p>
+<p>（当然，本题为防作弊，每次连接后发出的$a,b$内容都不一样，但$f=ap+bq$的格式是肯定的，你获取的 系数可能与此不同，但不影响解题）。</p>
+<p>随机连接上去，获取一组数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">n =</span><br><span class="line"><span class="number">32366272889292879088882195998253721958216118427319043123590736165426820884306499725050727749537295796623781690886255268016096819542474814457437532341958464848643200659916387692563367270923362263462485626863278634698636219570995613163637857962196938268241034329466928075048970301826587646917598116612437415879221437295531628513384414258368369916946742389703355179727112580592683439416261547865491725025586248605272291584028774967553627942724579632389254496409849216841409604686980557654983994405692268823696566554514932549687234389560838939048535333918846662927374585386766723838290671937789073306966759191649325746073717288252462817952734597692830994622255635546908058581524477518532518924112976563197010192251929746445312969880127879576958492529042343256141675368594461418257288354657105617752796615735654975200326101463143024542800708390095145361</span></span><br><span class="line">e = <span class="number">906371</span></span><br><span class="line">c =</span><br><span class="line"><span class="number">15326438748659000169738486078886997781541935909035823368289334280968233481809714574428064879237827914760740438396085818400100752918474657858554388771724064383701395897618045276281398824434274848557653909089994244435972710632336639335300023667869547648881808002952139588112935030846125601449819192271492110196773991802015580978532663199706950910343070008368979693052990985227852719668245569238857908655227385682414319846321429428810022909530050444105837210601614933221417662986725539709495237298445020038006845869543594704774018595363714269915863872404761678621066244387220449270355482924374014811790125751689511923646410269665459941400645007655696532244986604521949477159649748754760874919743902307824198126893002486445262315126416725774433901321311453440889692050265638750239216391568288836776466397695369910655394827082589725264284100323144743368</span></span><br><span class="line">f = <span class="number">4071</span> * p + <span class="number">7840</span> * q = <span class="number">70609572383507708646716591625555712379946460153989879089689539734922903656784859764618771054881882855097217363252911229485210947514270593649999198018427595733868497208821457315913778178532267217419587556519640009047854707649751663514017094626487619210733938544175505589938842947647526503757953723232894419183885106501307587792888770406913619606926851412157084401688469130571174114717305950501097282446764439401475500746719477183</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><p>有Sagemath的，录入4个已知数据后，可以直接利用以下的代码求解：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var(<span class="string">&#x27;p q&#x27;</span>)</span><br><span class="line">solve([p * q == n, <span class="number">4071</span> * p + <span class="number">7840</span> * q == f],(p, q))</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以解出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p == <span class="number">5083858928708691100777959116505887333680880438073587959441589817260857392095426280573595409516065652457557087257582498766032467943842309357363106558257787135298633883829312431320375735688577512605869266440855676882837431188700856046398782182742328211552394159944490832515415689088811946496781884336421281783780403089383634369539994631626195420357561861396522278697114564263369128050977173067291911354418900362132140587209993</span></span><br><span class="line">q == <span class="number">6366477383256967751970602048757684316904540292167385523826891274088514440505660634745365324329334130604911028192256744516414894198327621461246682553540834732916805952519429388776598030426539306581772164902923029140028510877621234508817302597008112380293895652938964720761299193541705748669586055114709614928841209888319746463583093400709614547276940953368857424121494354522321223778287994763284682566699629595310657706146377</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><p>没有Sagemath的，可以编程求解。</p>
+<p>由于$pq=n,4071p+7840q=f$，因此$4071p=f-7840q$，然后有$4071n=4071pq=(f-7840q)q$。</p>
+<p>因此，我们可以构造方程$7840x^2-fx+4071n=0$，根据二次函数对称轴的位置，发现我们需要的值位于对称轴右侧。因此我们直接二分求解即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">y</span>(<span class="params">x</span>):</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">7840</span>*x*x-f*x+<span class="number">4071</span>*n</span><br><span class="line">L, R = <span class="number">2</span>**<span class="number">1407</span>, <span class="number">2</span>**<span class="number">1408</span></span><br><span class="line"><span class="keyword">while</span> L &lt;= R:</span><br><span class="line">	M = (L+R)//<span class="number">2</span></span><br><span class="line">	<span class="keyword">if</span> y(M) &lt; <span class="number">0</span>:</span><br><span class="line">		L = M+<span class="number">1</span></span><br><span class="line">	<span class="keyword">if</span> y(M) &gt; <span class="number">0</span>:</span><br><span class="line">		R = M<span class="number">-1</span></span><br><span class="line">	<span class="keyword">if</span> y(M) == <span class="number">0</span>:</span><br><span class="line">		print(M)</span><br><span class="line">		<span class="keyword">break</span></span><br><span class="line"><span class="comment">#6366477383256967751970602048757684316904540292167385523826891274088514440505660634745365324329334130604911028192256744516414894198327621461246682553540834732916805952519429388776598030426539306581772164902923029140028510877621234508817302597008112380293895652938964720761299193541705748669586055114709614928841209888319746463583093400709614547276940953368857424121494354522321223778287994763284682566699629595310657706146377</span></span><br></pre></td></tr></table></figure>
+
+<p>这个题目还可以用z3做。不过很多人的思路是根据二次方程求根公式，想要求$\sqrt{b^2-4ac}$的值。而这个值也可以通过函数的单调性，二分求解。。</p>
+<h2 id="Week-3"><a href="#Week-3" class="headerlink" title="Week 3"></a>Week 3</h2><h3 id="CryptoSignin3"><a href="#CryptoSignin3" class="headerlink" title="CryptoSignin3"></a>CryptoSignin3</h3><p>题目是给出了RSA加密中的$e,n,c$，让你求出$5m$的加密结果（默认$c$是$m$的加密结果）。</p>
+<p>这道题主要考察RSA的乘法同态性，由于$m^e \equiv c \pmod n$，因此我们有<br>$$<br>(5m)^e\equiv 5^em^e\equiv 5^ec \pmod n<br>$$<br>因此，我们只需要计算$5^{e}c \mod n$的值即可。然后转一下<code>str</code>类型，取最后25位即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">n=<span class="number">2422711508900009723470102727278184898228579351729629175495904760516536114771819178772843940622693480942295987032442940867670858858530606887743557817380121361626756206355705110299827107648704348792184242506797212331641569408152865458082131811787893384573565771304686373397987779236692592582009393836324438173880350455958049987506807351970912049246353746635267159741115761548052126938491673479606393396100458729618059852813438444299361468512008386975558106274324688665963516424534366163011821633197140729560513838981241752422348968312410911097523311183305812013220724215584901550592570168096761576532621840320623463208702401829189862290303098674021012353400081288819532365151476738751064469957971192132666136590103567843662591585345483671185892760751481722342403025068374371716176981888876927119331602694699049322860285991375002326127401769287658952682585275891296760732815680898653162425658904911584903825163141576325803464119867837508173795728753701563149748508464162635777787788266240105654089919642728171076155284842273517797069725130328742992830894075552022372717019366081516680737</span></span><br><span class="line">e=<span class="number">10007</span></span><br><span class="line">c=<span class="number">1285901843278876234855607310979623200548989981628646673003523113580651626686523566799395153922258813222744927018205882436414589516795415393990321785993777190284046937462277341231780571523062023964463963139910673601962881978696384360480028132774373962893042697866284303407898274683337284548529324550392212212259945699167254341062208031468355814520907121576009140399280898693924706067921614961798886587174234822238887374399666546113213239071736098162263227821798099750616137755055435397986788792824117529508255014392344357337010003489080209442530630893119917536518243474797351694663533728052713570044084663268350004738561234330890283895430742958255842196396542672482459665354739161276178850775803757753274712331067038077233072381051447436014423088822190073982228377699578821863871042501139434131053044240618505423456248872825597521393564957261041606004454706987978944644129728005540587982321571481413548381251589071459468890948819121023006292105804319208332473499823959882524985324120811768843639294924500467781666073366713198751960913508720530656411097981933156605831180926219778514434</span></span><br><span class="line">print(str(pow(<span class="number">5</span>,e,n)*c%n)[<span class="number">-25</span>:])</span><br></pre></td></tr></table></figure>
+
+<p>输出结果为：<code>8489769636593649908538102</code>，因此flag为<code>0xGame&#123;8489769636593649908538102&#125;</code></p>
+<p>RSA的同态性是一个很重要的知识点，在可以获得解密服务的服务器上，可以利用RSA的同态性，发送$2^ec,3^ec,…$等结果，获取解密服务，进而获取明文的一些性质，比如$2m$的情况、$3m$的情况等等。比如第四周的ParityOracleBase5就是用到了这个的算法</p>
+<p>出这个题的原因，是因为去年的0xGame就是因为先出了ParityOracle，然后出了个SigninRSA，直接导致自己根本就没意识到$2^ec$的解密结果是$2m$。。。</p>
+<p>虽然这个题解出来的人挺多，但这个题是为了给下周的ParityOracleBase5做准备用的。。</p>
+<h3 id="Predict-1"><a href="#Predict-1" class="headerlink" title="Predict 1"></a>Predict 1</h3><p>一个求LCG参数的题目。</p>
+<p>根据题目的方法，我们有19次机会可以获得里面的state，然后再进行预测。但实际上，一般获取8组数据，就可以获取$a,b,p$的值（此处保证了$a,p$是素数）。当然为了保险，15组数据也是足够的。</p>
+<p>首先，我们假设我们获取的数字为$x_1,x_2,…,x_8$。那么我们可以有：<br>$$<br>x_i\equiv ax_{i-1}+b \pmod p<br>$$<br>那么化简一下，就是：<br>$$<br>x_2\equiv ax_1+b\pmod p \tag1<br>$$</p>
+<p>$$<br>x_3\equiv  ax_2+b\pmod p\tag 2<br>$$</p>
+<p>$$<br>x_4\equiv  ax_3+b \pmod p \tag 3<br>$$</p>
+<p>然后，由$(2)-(1),(3)-(2)$，消去$b$，可以得到：<br>$$<br>x_3-x_2\equiv a(x_2-x_1)\pmod p \tag{S1}<br>$$</p>
+<p>$$<br>x_4-x_3\equiv a(x_3-x_2)\pmod p \tag{S2}<br>$$</p>
+<p>由于在$\mod p$的条件下，除号表示乘上某个数的逆元，因此，我们把$a$提出来，就是<br>$$<br>a\equiv \dfrac{x_3-x_2}{x_2-x_1}\equiv \dfrac{x_4-x_3}{x_3-x_2} \pmod p \tag{T}<br>$$<br>${(T)}$中消去$a$，去分母，得：<br>$$<br>(x_3-x_2)^2\equiv(x_4-x_3)(x_2-x_1) \pmod p \tag{R1’}<br>$$<br>去掉同余号也就是<br>$$<br>(x_3-x_2)^2-(x_4-x_3)(x_2-x_1) =D_1p \tag{R1}<br>$$<br>然后，由此可知：<br>$$<br>(x_4-x_3)^2-(x_5-x_4)(x_3-x_2) =D_2p \tag{R2}<br>$$<br>因此，我们可以得到多个数据$\text{(R1)(R2)(R3)(R4)(R5)}$，然后计算所有结果得最大公因数就可以得到$p$。(一般7个值求出来的准确度就比较高了)</p>
+<p>$p$得到之后，我们根据消去$b$的式子，就可以计算出$a\equiv \dfrac{x_3-x_2}{x_2-x_1} \pmod p$了。求出$a$以后，就可以根据$x_1,x_2$很快地求出$b$。</p>
+<p>在整个做题的过程中，可能有人查看了百度的方法，结果到最后预测错了。原因很简单：因为这边只是有$\gcd(D_1p,D_2p)$，虽然$p$是一定的，但$\gcd(D_1,D_2)$的值却不为$1$。有两种办法解决：一是多选取几组数据，求公约数更保险，二是我测了一下，$\gcd(D_1,D_2)$的值实际上并不大（很大概率小于$1000$），因此可以写个$2$到$999$的循环，将$\gcd(D_1p,D_2p)$里面多余的因数除掉即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">sh=remote(<span class="string">&quot;47.101.38.213&quot;</span>,<span class="number">60709</span>)</span><br><span class="line">u,detla=[],[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">16</span>):</span><br><span class="line">    sh.recvuntil(<span class="string">b&quot;&gt;&quot;</span>)</span><br><span class="line">    sh.sendline(<span class="string">b&quot;1&quot;</span>)</span><br><span class="line">    sh.recvuntil(<span class="string">b&quot;&gt;&quot;</span>)</span><br><span class="line">    sh.sendline(<span class="string">b&quot;1&quot;</span>)</span><br><span class="line">    numb=sh.recvline(keepends=<span class="literal">False</span>)</span><br><span class="line">    numb=numb.split(<span class="string">b&quot;is&quot;</span>)[<span class="number">1</span>]</span><br><span class="line">    u.append(int(numb))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">12</span>):</span><br><span class="line">    detla.append(abs((u[i+<span class="number">2</span>]-u[i+<span class="number">1</span>])*(u[i+<span class="number">2</span>]-u[i+<span class="number">1</span>])-(u[i+<span class="number">3</span>]-u[i+<span class="number">2</span>])*(u[i+<span class="number">1</span>]-u[i])))</span><br><span class="line">p=detla[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> detla:</span><br><span class="line">    p=GCD(p,i)</span><br><span class="line">print(p)</span><br><span class="line"><span class="keyword">assert</span> isPrime(p)</span><br><span class="line">a=(u[<span class="number">3</span>]-u[<span class="number">2</span>])*inverse(u[<span class="number">2</span>]-u[<span class="number">1</span>],p)%p</span><br><span class="line">b=(u[<span class="number">1</span>]-a*u[<span class="number">0</span>])%p</span><br><span class="line">print(a,b,p)</span><br><span class="line">x=u[<span class="number">-1</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">205</span>):</span><br><span class="line">    <span class="keyword">if</span> i%<span class="number">15</span>==<span class="number">0</span>:</span><br><span class="line">        print(i)</span><br><span class="line">    x=(a*x+b)%p</span><br><span class="line">    sh.recvuntil(<span class="string">b&quot;&gt;&quot;</span>)</span><br><span class="line">    sh.sendline(<span class="string">b&quot;1&quot;</span>)</span><br><span class="line">    sh.recvuntil(<span class="string">b&quot;&gt;&quot;</span>)</span><br><span class="line">    sh.sendline(str(x).encode())</span><br><span class="line">sh.recvuntil(<span class="string">b&quot;0xGame&#123;&quot;</span>)</span><br><span class="line">flag=sh.recvline(keepends=<span class="literal">False</span>)</span><br><span class="line">print(<span class="string">&quot;0xGame&#123;&quot;</span>+flag.decode())</span><br><span class="line">sh.close()</span><br></pre></td></tr></table></figure>
+
+<p><code>0xGame&#123;86767788-6000-7608-6777-5454a581d836&#125;</code></p>
+<p>不过最后看了一下做出来的人的WP，有的人问过我，多获取了几组数据，多求了几次最大公约数把题目做出来了。也有人没有意识到这个问题，通过多次连接服务器，最终获取了一组$\gcd(D_1,D_2)=1$的情况，很顺利地解出了$p$。</p>
+<p>实际上这里可以给大家扩展一下：任意两个正整数互素的概率是$\dfrac{6}{\pi^2}$，这个数字的倒数也是一个很著名的级数和：<br>$$<br>\sum_{i=1}^{+∞}\dfrac{1}{i^2}=\dfrac{\pi^2}{6}<br>$$</p>
+<h2 id="Week-4"><a href="#Week-4" class="headerlink" title="Week 4"></a>Week 4</h2><p>[11月1日更新]</p>
 
                 
             </div>
@@ -519,7 +555,7 @@ y_0=D_k(y,f)+f+x</script><h3 id="0o03-输出反馈模式-OFB"><a href="#0o03-输
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://example.com/2021/09/04/BlockCipher3/">http://example.com/2021/09/04/BlockCipher3/</a>
+                    <a href="http://example.com/2021/10/25/0xGame2021PartCryptoDiv1/">http://example.com/2021/10/25/0xGame2021PartCryptoDiv1/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -557,8 +593,8 @@ y_0=D_k(y,f)+f+x</script><h3 id="0o03-输出反馈模式-OFB"><a href="#0o03-输
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/Notes/">
-                                    <span class="chip bg-color">Notes</span>
+                                <a href="/tags/WriteUp/">
+                                    <span class="chip bg-color">WriteUp</span>
                                 </a>
                             
                         </div>
@@ -730,9 +766,10 @@ y_0=D_k(y,f)+f+x</script><h3 id="0o03-输出反馈模式-OFB"><a href="#0o03-输
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2021/10/25/0xGame2021PartCryptoDiv1/">
                     <div class="card-image">
@@ -750,9 +787,9 @@ y_0=D_k(y,f)+f+x</script><h3 id="0o03-输出反馈模式-OFB"><a href="#0o03-输
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-10-25
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-25
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -765,6 +802,7 @@ y_0=D_k(y,f)+f+x</script><h3 id="0o03-输出反馈模式-OFB"><a href="#0o03-输
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -783,13 +821,13 @@ y_0=D_k(y,f)+f+x</script><h3 id="0o03-输出反馈模式-OFB"><a href="#0o03-输
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/09/01/BlockCipher2/">
+                <a href="/2021/09/04/BlockCipher3/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="BlockCipher2">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="BlockCipher3">
                         
-                        <span class="card-title">BlockCipher2</span>
+                        <span class="card-title">BlockCipher3</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -800,7 +838,7 @@ y_0=D_k(y,f)+f+x</script><h3 id="0o03-输出反馈模式-OFB"><a href="#0o03-输
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-01
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-04
                             </span>
                         <span class="publish-author">
                             
