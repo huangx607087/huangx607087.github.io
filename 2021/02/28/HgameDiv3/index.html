@@ -458,7 +458,8 @@
 <h2 id="1-LikiPrime"><a href="#1-LikiPrime" class="headerlink" title="1. LikiPrime"></a>1. LikiPrime</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> libnum <span class="keyword">import</span> s2n</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> secrets, flag</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_prime</span>(<span class="params">secret</span>):</span></span><br><span class="line">    prime = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(secret):</span><br><span class="line">        prime = prime &lt;&lt; <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> prime - <span class="number">1</span></span><br><span class="line">random.shuffle(secrets)</span><br><span class="line">m = s2n(flag)</span><br><span class="line">p = get_prime(secrets[<span class="number">0</span>])</span><br><span class="line">q = get_prime(secrets[<span class="number">1</span>])</span><br><span class="line">n = p * q</span><br><span class="line">e = <span class="number">0x10001</span></span><br><span class="line">c = pow(m, e, n)</span><br><span class="line">print(<span class="string">&quot;n = &#123;&#125;.format(n)&quot;</span>)</span><br><span class="line">print(<span class="string">&quot;e = &#123;&#125;.format(e)&quot;</span>)</span><br><span class="line">print(<span class="string">&quot;c = &#123;&#125;.format(c)&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>题目最后给出的是$n,e,c$的值。</p>
-<p>通过简单地观察代码，我们可以发现，$p,q$都具有$2^k-1$的形式，并且都是素数。$n$的位数为$5072$位，因此我们可以通过枚举法枚举$p.q$的值。</p>
+<p>通过简单地观察代码，我们可以发现，$p,q$都具有$2^k-1$的形式，并且都是素数。$n$的位数为$5072$</p>
+<p>$p.q$的值。</p>
 <p>枚举出$p,q$之后。之后就是正常的RSA解密了。</p>
 <p><code>hgame&#123;Mers3nne~Pr!Me^re4l1y_s0+5O-li7tle!&#125;</code></p>
 <h2 id="2-HappyNewYear"><a href="#2-HappyNewYear" class="headerlink" title="2.HappyNewYear"></a>2.HappyNewYear</h2><p>题目描述：Liki 的朋友们在新年的时候给她发送了新年祝福。好家伙，一看就是群发的，有几个朋友发送的内容还是相同的</p>
@@ -1046,7 +1047,7 @@
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2020-2021</span>
+                <span id="year">2020-2024</span>
             
             <span id="year">2020</span>
             <a href="/about" target="_blank">huangx607087</a>
