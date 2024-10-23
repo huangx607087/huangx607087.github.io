@@ -458,6 +458,7 @@
 <p>例如：$2^e\equiv 1 \pmod {11}$成立的最小$e$值为$10$，所以$2$是模$11$的本原元。而$3^e\equiv 1 \pmod {11}$成立的最小$e$值为$5$，所以$3$不是模$11$意义下的本原元。</p>
 <p>在模$11$的意义下，我们可以设$\mathrm{ord}(x)$函数，此处有$\mathrm{ord}(2)=10,\mathrm{ord}(3)=5$。当然，如果放在模$7$的意义下，$\mathrm{ord}(2),\mathrm{ord}(3)$的值就分别变成了$3,6$。那么模$7$意义下，$3$就是本原元，$2$不是了。</p>
 <p>我们看看在模$11$和模$7$的意义下各个数的$\mathrm{ord}$值</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -468,13 +469,14 @@
 <th>$\texttt{4}$</th>
 <th>$\texttt{5}$</th>
 <th>$\texttt{6}$</th>
-<th align="left">$\texttt{7}$</th>
+<th style="text-align:left">$\texttt{7}$</th>
 <th>$\texttt{8}$</th>
 <th>$\texttt{9}$</th>
 <th>$\texttt{10}$</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>$\mathrm {ord}_7(x)$</td>
 <td>$\texttt{1}$</td>
 <td>$\texttt{3}$</td>
@@ -482,7 +484,7 @@
 <td>$\texttt{3}$</td>
 <td>$\texttt{6}$</td>
 <td>$\texttt{2}$</td>
-<td align="left">$\texttt{undef}$</td>
+<td style="text-align:left">$\texttt{undef}$</td>
 <td>$\texttt{undef}$</td>
 <td>$\texttt{undef}$</td>
 <td>$\texttt{undef}$</td>
@@ -495,12 +497,14 @@
 <td>$\texttt{5}$</td>
 <td>$\texttt{5}$</td>
 <td><strong>$\texttt{10}$</strong></td>
-<td align="left">$\texttt{10}$</td>
+<td style="text-align:left">$\texttt{10}$</td>
 <td>$\texttt{10}$</td>
 <td>$\texttt{5}$</td>
 <td>$\texttt{2}$</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>对于任意素数$p$来说，总有$\phi(p-1)$个本原元。例如：由于$\phi(10)=4$，所以模$11$的意义下，一共有$4$个本原元，分别是$2,6,7,8$。现在还没有求本原元的有效方法。不过根据表格，我们还可以观察到以下$3$个规律：<br><strong>1.</strong> 任何小于$p$的$\mathrm{ord}$值均为$p-1$的因数<br><strong>2.</strong> 二次剩余一定不是本原元，并且二次剩余的$\mathrm{ord}$值恰好为$\dfrac{p-1}{2}$<br><strong>3.</strong> $\mathrm{ord}(p-1)=2$</p>
 <p> <strong>COSTAS阵列</strong></p>
 <p>COSTAS阵列的性质：构建一个$p-1$阶的方阵，然后要求每行、每列都有一个$1$，其他元素均为$0$。并且任何两个$1$的连线的长度或斜率都不相同。</p>
