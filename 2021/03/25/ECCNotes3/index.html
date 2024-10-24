@@ -454,18 +454,15 @@
                 <h1 id="huangx607087学习ECC的笔记3"><a href="#huangx607087学习ECC的笔记3" class="headerlink" title="huangx607087学习ECC的笔记3"></a>huangx607087学习ECC的笔记3</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>一个密码学fw的学习笔记，很菜（</p>
 <p>这一系列主要介绍几种ECC的加密方法，以及通过对RSA的类比，将RSA中常见的几种攻击方法应用于ECC上。</p>
 <p>3月23日，自己进了X1c，感谢Am4师傅一路带我，自己后面要更加努力。然而自己还有6月的六级和期末考试，（我这个fw一定要过六级，期末考试一定要全过。。不过可以确定的是，自己会在暑假寻求一个突破。在9月能够成为Am4师傅那样（x</p>
-<h2 id="1-椭圆曲线上的除式"><a href="#1-椭圆曲线上的除式" class="headerlink" title="1.椭圆曲线上的除式"></a>1.椭圆曲线上的除式</h2><p>在椭圆曲线$y^2=x^3+ax+b$上，我们可以定义这样的除式：</p>
-<script type="math/tex; mode=display">
-F_{-1},F_0,F_1,F_2,F_3=-1,0,1,2y,3x^4+6ax^2+12bx-a^2</script><script type="math/tex; mode=display">
-F_4=4y(x^6+5ax^4+20bx^3-5a^2x^2-4abx-8b^2-a^3)</script><script type="math/tex; mode=display">
-F_{2i}=F_{i+2}F_{i}^3-F_{i+1}^3F_{i-1}</script><script type="math/tex; mode=display">
-F_{2i+1}=\dfrac{F_i(F_{i+2}F_{i-1}^2-F_{i-2}F^2_{i+1})}{2y}</script><p>顺便我们在定义一下多项式$G,H$</p>
-<script type="math/tex; mode=display">
-G_{i}=xF_i^2-F_{i+1}F_{i-1}</script><script type="math/tex; mode=display">
-H_i=(F_{i+2}F_{i-1}^2-F_{i-2}F^2_{i+1}) /4y</script><p>所以，我们可以得到以下的式子：</p>
-<script type="math/tex; mode=display">
-mP=(\dfrac{G_m(P)}{F_m^2(P)},\dfrac{H_m(P)}{F_m^3(P)})</script><p>而这个式子如果想实现的话，可以调用sagemath中的<code>_multiple_x_numerator</code>,<code>_multiple_x_denominator</code>两个函数来实现对$x$坐标的数乘的多项式（最终用$x$表示）</p>
+<h2 id="1-椭圆曲线上的除式"><a href="#1-椭圆曲线上的除式" class="headerlink" title="1.椭圆曲线上的除式"></a>1.椭圆曲线上的除式</h2><p>在椭圆曲线$y^2=x^3+ax+b$上，我们可以定义这样的除式：<br>$$<br>F_{-1},F_0,F_1,F_2,F_3=-1,0,1,2y,3x^4+6ax^2+12bx-a^2<br>$$</p>
+<p>$$<br>F_4=4y(x^6+5ax^4+20bx^3-5a^2x^2-4abx-8b^2-a^3)<br>$$</p>
+<p>$$<br>F_{2i}=F_{i+2}F_{i}^3-F_{i+1}^3F_{i-1}<br>$$</p>
+<p>$$<br>F_{2i+1}=\dfrac{F_i(F_{i+2}F_{i-1}^2-F_{i-2}F^2_{i+1})}{2y}<br>$$</p>
+<p>顺便我们在定义一下多项式$G,H$<br>$$<br>G_{i}=xF_i^2-F_{i+1}F_{i-1}<br>$$</p>
+<p>$$<br>H_i=(F_{i+2}F_{i-1}^2-F_{i-2}F^2_{i+1}) /4y<br>$$</p>
+<p>所以，我们可以得到以下的式子：<br>$$<br>mP=(\dfrac{G_m(P)}{F_m^2(P)},\dfrac{H_m(P)}{F_m^3(P)})<br>$$<br>而这个式子如果想实现的话，可以调用sagemath中的<code>_multiple_x_numerator</code>,<code>_multiple_x_denominator</code>两个函数来实现对$x$坐标的数乘的多项式（最终用$x$表示）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">E=EllipticCurve(GF(<span class="number">10007</span>),[<span class="number">5362</span>,<span class="number">7045</span>])</span><br><span class="line">Fz=E._multiple_x_numerator(<span class="number">7</span>)</span><br><span class="line">Fz</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">x^49 + 9573*x^47 + 1673*x^46 + 9230*x^45 + 7088*x^44 + 2559*x^43 + 1491*x^42 + 1730*x^41 + 1886*x^40 + 8655*x^39 + 9529*x^38 + 2785*x^37 + 3587*x^36 + 3847*x^35 + 3439*x^34 + 1171*x^33 + 7340*x^32 + 2033*x^31 + 5346*x^30 + 3021*x^29 + 6843*x^28 + 1123*x^27 + 6261*x^26 + 4150*x^25 + 5110*x^24 + 9659*x^23 + 8409*x^22 + 6218*x^21 + 1501*x^20 + 4233*x^19 + 4240*x^18 + 5172*x^17 + 2625*x^16 + 1767*x^15 + 5499*x^14 + 7768*x^13 + 308*x^12 + 1527*x^11 + 2631*x^10 + 6193*x^9 + 6584*x^8 + 9405*x^7 + 1509*x^6 + 7683*x^5 + 3994*x^4 + 8777*x^3 + 2600*x^2 + 3465*x + 993</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <p>经过数据的观察可以看出，$mP$中$x$坐标的分子表达式次数总是$m^2$，分母次数总是$m^2-1$，这也印证了之前<strong>笔记1</strong>中提到的$\ln u$正比于$m^2$的结论。</p>
 <p>一般情况下，对椭圆曲线上的点加密的时候，我们可以选择横坐标$x$，然后在椭圆曲线上找点。</p>
 <p>我们可以选取一个整数$k$，明文$m$，我们可以计算$m^3+am+b$是否是模$q$的二次剩余。如果是的话，直接对结果开平方即可（见我之前数论笔记）。如果不是的话，我们计算$m+1$，直到找到符合的$m$值。根据二次剩余的分布可知，我们找不到的期望值为$\dfrac 1 {2^k}$。</p>
@@ -476,39 +473,35 @@ mP=(\dfrac{G_m(P)}{F_m^2(P)},\dfrac{H_m(P)}{F_m^3(P)})</script><p>而这个式�
 <p>计算出这些数值之后，我们把$n,e,u$作为公钥，$p,q,d_1,d_2,d_3,d_4$作为私钥。</p>
 <p>加密时，选取点$P$满足其横坐标为$m$，然后计算$c=(eP)_x$。</p>
 <h4 id="2-解密"><a href="#2-解密" class="headerlink" title="2.解密"></a>2.解密</h4><p>解密方计算$w=c^3+ac+b$，然后在$d_1$到$d_4$中选择一个这样的私钥用于解密，方法如下。为与分数的出发区分开，以下用$\mathrm{lgd}(\dfrac{a}{b})$来表示$a$是否是$b$的二次剩余，若是值为$1$，不是的话值为$-1$。相关内容可见<strong>0xGame Div 4</strong>。</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
-<th style="text-align:center">$\mathrm{lgd}(\dfrac{w}{p})$</th>
-<th style="text-align:center">$\mathrm{lgd}(\dfrac{w}{q})$</th>
-<th style="text-align:center">选取私钥$d$</th>
+<th align="center">$\mathrm{lgd}(\dfrac{w}{p})$</th>
+<th align="center">$\mathrm{lgd}(\dfrac{w}{q})$</th>
+<th align="center">选取私钥$d$</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td style="text-align:center">$1$</td>
-<td style="text-align:center">$1$</td>
-<td style="text-align:center">$d_1$</td>
+<tbody><tr>
+<td align="center">$1$</td>
+<td align="center">$1$</td>
+<td align="center">$d_1$</td>
 </tr>
 <tr>
-<td style="text-align:center">$1$</td>
-<td style="text-align:center">$-1$</td>
-<td style="text-align:center">$d_2$</td>
+<td align="center">$1$</td>
+<td align="center">$-1$</td>
+<td align="center">$d_2$</td>
 </tr>
 <tr>
-<td style="text-align:center">$-1$</td>
-<td style="text-align:center">$1$</td>
-<td style="text-align:center">$d_3$</td>
+<td align="center">$-1$</td>
+<td align="center">$1$</td>
+<td align="center">$d_3$</td>
 </tr>
 <tr>
-<td style="text-align:center">$-1$</td>
-<td style="text-align:center">$-1$</td>
-<td style="text-align:center">$d_4$</td>
+<td align="center">$-1$</td>
+<td align="center">$-1$</td>
+<td align="center">$d_4$</td>
 </tr>
-</tbody>
-</table>
-</div>
+</tbody></table>
 <p>然后选取点$Q$使得其横坐标为$c^3+ac+b$，然后计算$dQ$即可，其横坐标就是$m$。</p>
 <p>为了快速地算出$|E_p|,|E_q|$，我们可以选取$p\equiv q\equiv 2 \pmod 3$且$a=0$或者$p\equiv q\equiv 3 \pmod 4$且$a=0$，那么$|E_p|=p+1,|E_q|=q+1$。</p>
 <h3 id="0x02-KMOV算法"><a href="#0x02-KMOV算法" class="headerlink" title="0x02 KMOV算法"></a>0x02 KMOV算法</h3><h4 id="1-加密-1"><a href="#1-加密-1" class="headerlink" title="1.加密"></a>1.加密</h4><p>寻找两个大素数$p,q$，然后计算$n=pq$。然后确定椭圆曲线的系数$a,b$，并保证$\gcd(4a^3+27b^2,n)=1$。</p>
@@ -519,19 +512,23 @@ mP=(\dfrac{G_m(P)}{F_m^2(P)},\dfrac{H_m(P)}{F_m^3(P)})</script><p>而这个式�
 <p>然而，这个加密算法有一个比较大的缺点，就是除非使用了特殊的曲线和特殊的素数，不然计算$|E_p|,|E_q|$式一件非常难的事情。因此，1991年有人对这个系统进行了改进，给出了KMOV91。</p>
 <h4 id="3-KMOV91"><a href="#3-KMOV91" class="headerlink" title="3.KMOV91"></a>3.KMOV91</h4><p>在KMOV91中，直接选取$p\equiv q\equiv 2 \pmod 3$，使得$N_1,N_2=p+1,q+1$。其中$n,e$为公钥，$p,q,d$为私钥。而使用椭圆曲线$y^2=x^3+b,b=P_y^2-P_x^3$。最后保证$P_x^3 \not \equiv  P_y^2 \pmod n$即可进行加密。其他过程与原来一样。</p>
 <h2 id="3-近期CTF中基于椭圆曲线的攻击方法"><a href="#3-近期CTF中基于椭圆曲线的攻击方法" class="headerlink" title="3.近期CTF中基于椭圆曲线的攻击方法"></a>3.近期CTF中基于椭圆曲线的攻击方法</h2><h3 id="1-ECC低指数广播攻击-NepCTF-lowExpoent"><a href="#1-ECC低指数广播攻击-NepCTF-lowExpoent" class="headerlink" title="1. ECC低指数广播攻击 NepCTF lowExpoent"></a>1. ECC低指数广播攻击 NepCTF lowExpoent</h3><h4 id="0o01-分析题目"><a href="#0o01-分析题目" class="headerlink" title="0o01.分析题目"></a>0o01.分析题目</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Encrypt</span>(<span class="params">e, nbits, msg</span>):</span></span><br><span class="line">    p, q = [getPrime(int(nbits)) <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">2</span>)]</span><br><span class="line">    N = p*q</span><br><span class="line">    x = int(msg)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        a, b = [getRandomRange(<span class="number">1</span>, N) <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">2</span>)]</span><br><span class="line">        P.&lt;Yp&gt; = PolynomialRing(Zmod(p))</span><br><span class="line">        fp = x^<span class="number">3</span> + a*x + b - Yp^<span class="number">2</span></span><br><span class="line">        P.&lt;Yq&gt; = PolynomialRing(Zmod(q))</span><br><span class="line">        fq = x^<span class="number">3</span> + a*x + b - Yq^<span class="number">2</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            yp, yq = int(fp.roots()[<span class="number">0</span>][<span class="number">0</span>]), int(fq.roots()[<span class="number">0</span>][<span class="number">0</span>])</span><br><span class="line">            y = crt([yp, yq], [p, q])</span><br><span class="line">            E = EllipticCurve(IntegerModRing(N), [a, b])</span><br><span class="line">            msg_point = E.point((x, y))</span><br><span class="line">            Ep = EllipticCurve(IntegerModRing(p), [a, b])</span><br><span class="line">            Eq = EllipticCurve(IntegerModRing(q), [a, b])</span><br><span class="line">            N1 = Ep.order()</span><br><span class="line">            N2 = <span class="number">2</span>*p+<span class="number">2</span>-N1</span><br><span class="line">            N3 = Eq.order()</span><br><span class="line">            N4 = <span class="number">2</span>*q+<span class="number">2</span>-N3</span><br><span class="line">            d = &#123;</span><br><span class="line">                ( <span class="number">1</span>, <span class="number">1</span>): inverse_mod(e, lcm(N1, N3)),</span><br><span class="line">                ( <span class="number">1</span>,<span class="number">-1</span>): inverse_mod(e, lcm(N1, N4)),</span><br><span class="line">                (<span class="number">-1</span>, <span class="number">1</span>): inverse_mod(e, lcm(N2, N3)),</span><br><span class="line">                (<span class="number">-1</span>, <span class="number">-1</span>): inverse_mod(e, lcm(N2, N4))</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">    cip_point = e*msg_point</span><br><span class="line">    ciphertext = cip_point.xy()[<span class="number">0</span>]</span><br><span class="line">    privKey = (d, p, q)</span><br><span class="line">    pubKey = (a, b, N)</span><br><span class="line">    <span class="keyword">return</span> (ciphertext, pubKey, privKey)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Decrypt</span>(<span class="params">ciphertext, pubKey, privKey</span>):</span></span><br><span class="line">    d, p, q = privKey</span><br><span class="line">    a, b, N = pubKey</span><br><span class="line">    x = ciphertext</span><br><span class="line">    w = x^<span class="number">3</span> + a*x + b % N</span><br><span class="line">    P.&lt;Yp&gt; = PolynomialRing(Zmod(p))</span><br><span class="line">    fp = x^<span class="number">3</span> + a*x + b -Yp^<span class="number">2</span></span><br><span class="line">    yp = fp.roots()[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">    P.&lt;Yq&gt; = PolynomialRing(Zmod(q))</span><br><span class="line">    fq = x^<span class="number">3</span> + a*x + b -Yq^<span class="number">2</span></span><br><span class="line">    yq = fq.roots()[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">    y = crt([int(yp), int(yq)], [p, q])</span><br><span class="line">    E = EllipticCurve(IntegerModRing(N), [a, b])</span><br><span class="line">    cip_point = E.point([x, y])</span><br><span class="line">    legendre_symbol_p = legendre_symbol(w, p)</span><br><span class="line">    legendre_symbol_q = legendre_symbol(w, q)</span><br><span class="line">    msg_point = d[(legendre_symbol_p, legendre_symbol_q)]*cip_point</span><br><span class="line">    <span class="keyword">return</span> msg_point.xy()[<span class="number">0</span>]</span><br><span class="line">msg = bytes_to_long(flag)</span><br><span class="line">f = open(<span class="string">&quot;data&quot;</span>, <span class="string">&quot;w&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">70</span>):</span><br><span class="line">    current_st = time()</span><br><span class="line">    cipher = Encrypt(<span class="number">3</span>, <span class="number">256</span>, msg)</span><br><span class="line">    f.writelines(<span class="string">&quot;&#123;&#125;, &#123;&#125;, &#123;&#125;, &#123;&#125;\n&quot;</span>.format(cipher[<span class="number">0</span>],*cipher[<span class="number">1</span>]))</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+
 <p>然后题目最终给出了$70$组不同的$(c,a,b,n)$的四元组，均为对同一明文$x$的加密。</p>
-<p>那么这道题，我们可以首先构造关于$x$的多项式。我们刚才看到了，$F_3(x)=3x^4+6ax^2+12bx-a^2$，那么我们可以得到分子的值和分母的值</p>
-<script type="math/tex; mode=display">
-G=x(3x^4+6ax^2+12bx-a^2)^2-8(x^3+ax+b)(x^6+5ax^4+20bx^3-5ax^2-4ab-8b^2-a^3)</script><script type="math/tex; mode=display">
-F^2=(3x^4+6ax^2+12bx-a)^2</script><p>然后我们由$c\equiv\dfrac G {F^2} \pmod n$，那么有$G-cF^2\equiv 0 \pmod n$。由于$F^2$是八次式，$G$是九次式，因此我们可以构造出$70$个九次式（不过最好保证构造出来的$G$均为<code>monic</code>，也就是最高次项九次项为$1$。</p>
+<p>那么这道题，我们可以首先构造关于$x$的多项式。我们刚才看到了，$F_3(x)=3x^4+6ax^2+12bx-a^2$，那么我们可以得到分子的值和分母的值<br>$$<br>G=x(3x^4+6ax^2+12bx-a^2)^2-8(x^3+ax+b)(x^6+5ax^4+20bx^3-5ax^2-4ab-8b^2-a^3)<br>$$</p>
+<p>$$<br>F^2=(3x^4+6ax^2+12bx-a)^2<br>$$</p>
+<p>然后我们由$c\equiv\dfrac G {F^2} \pmod n$，那么有$G-cF^2\equiv 0 \pmod n$。由于$F^2$是八次式，$G$是九次式，因此我们可以构造出$70$个九次式（不过最好保证构造出来的$G$均为<code>monic</code>，也就是最高次项九次项为$1$。</p>
 <p>然后，我们继续类比RSA中低指数广播攻击的方法，可以分别对常数项到九次项分别进行中国剩余定理，并将所有的模数相乘，得到一个所有的系数都很大的一个多项式。（当然九次项系数还是$1$）。然后我们可以看到，这个$N=\prod_{i=1}^{70} n$，由于$n$的比特数大概是$512$，也就是$\ln n=355$，那么$\ln N=24842$，而我们需要密文的规模不超过$\ln m=355$。次数为$9$次式，因此根据Copeersmith定理：只要$\ln x&lt;2760 $，就可以求出这个式子的一个根。很显然$m$的值是符合条件的。</p>
 <p>因此这个过程就转化成了求多项式的小根，直接用<code>small_roots</code>就可以解出来了。不过Sagemath中的这些命令也并不是特别好用的<del>我还是调程序调了半天</del>。因此建议通过LLL算法手写一个求多项式小根的脚本。。。。。。</p>
 <h4 id="0o02-自己的exp"><a href="#0o02-自己的exp" class="headerlink" title="0o02.自己的exp"></a>0o02.自己的exp</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath</span></span><br><span class="line">c=[]</span><br><span class="line">a=[]</span><br><span class="line">b=[]</span><br><span class="line">n=[]</span><br><span class="line">Fzlist=[]</span><br><span class="line">Fmlist=[]</span><br><span class="line">Dlist=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">70</span>):</span><br><span class="line">    R.&lt;x&gt;=PolynomialRing(Zmod(n[i]))</span><br><span class="line">    Fz=x*(<span class="number">3</span>*x^<span class="number">4</span>+<span class="number">6</span>*a[i]*x^<span class="number">2</span>+<span class="number">12</span>*b[i]*x-a[i]^<span class="number">2</span>)^<span class="number">2</span><span class="number">-8</span>*(x^<span class="number">3</span>+a[i]*x+b[i])*(x^<span class="number">6</span>+<span class="number">5</span>*a[i]*x^<span class="number">4</span>+<span class="number">20</span>*b[i]*x^<span class="number">3</span><span class="number">-5</span>*a[i]^<span class="number">2</span>*x^<span class="number">2</span><span class="number">-4</span>*a[i]*b[i]*x<span class="number">-8</span>*b[i]^<span class="number">2</span>-a[i]^<span class="number">3</span>)</span><br><span class="line">    Fm=(<span class="number">3</span>*x^<span class="number">4</span>+<span class="number">6</span>*a[i]*x^<span class="number">2</span>+<span class="number">12</span>*b[i]*x-a[i]^<span class="number">2</span>)^<span class="number">2</span></span><br><span class="line">    Fzlist.append(Fz)</span><br><span class="line">    Fmlist.append(Fm*c[i])</span><br><span class="line">    Dlist.append(Fz-c[i]*Fm)</span><br><span class="line">Crtlist=[[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">70</span>)] <span class="keyword">for</span> __ <span class="keyword">in</span> range(<span class="number">10</span>)]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">70</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">        Crtlist[j][i]=ZZ(Dlist[i][j])</span><br><span class="line">A=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    A.append(CRT(Crtlist[i],n))</span><br><span class="line">N=<span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> n:</span><br><span class="line">    N*=i</span><br><span class="line">O.&lt;y&gt;=PolynomialRing(Zmod(N))</span><br><span class="line">S=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    S+=A[i]*y^i</span><br><span class="line">print(<span class="string">&#x27;Finding Roots&#x27;</span>)</span><br><span class="line">oo,oooo,ooooo=<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span></span><br><span class="line">S.small_roots(epsilon=<span class="number">1</span>/<span class="number">16</span>)</span><br><span class="line">[<span class="number">3088969433059681806521206959873975785377227976800172674306727155831805513908352148702210247662586117242206183337522557</span>]</span><br></pre></td></tr></table></figure>
+
 <h4 id="0o03-出题人Am4的官方wp"><a href="#0o03-出题人Am4的官方wp" class="headerlink" title="0o03 出题人Am4的官方wp"></a>0o03 出题人Am4的官方wp</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> reduce</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line">f = open(<span class="string">&quot;data&quot;</span>, <span class="string">&quot;r&quot;</span>)</span><br><span class="line">ciphertext = []</span><br><span class="line">a, b, n = [], [], []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">70</span>):</span><br><span class="line">ci, ai, bi, ni = [int(num) <span class="keyword">for</span> num <span class="keyword">in</span> f.readline().strip().split(<span class="string">&quot;, &quot;</span>)]</span><br><span class="line">ciphertext.append(ci)</span><br><span class="line">a.append(ai)</span><br><span class="line">b.append(bi)</span><br><span class="line">n.append(ni)</span><br><span class="line">e = <span class="number">3</span></span><br><span class="line">deg = <span class="number">9</span></span><br><span class="line">coeffi = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">70</span>):</span><br><span class="line">E = EllipticCurve(IntegerModRing(n[i]), [a[i], b[i]])</span><br><span class="line">P.&lt;m&gt; = PolynomialRing(Zmod(n[i]))</span><br><span class="line">f = ciphertext[i]*E._multiple_x_denominator(e, m) -</span><br><span class="line">E._multiple_x_numerator(e, m)</span><br><span class="line">coeffi.append(f.coefficients(sparse=<span class="literal">False</span>))</span><br><span class="line">large_coeffi = [crt([int(coeffi[j][i]) <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">70</span>)], [n[j] <span class="keyword">for</span> j <span class="keyword">in</span></span><br><span class="line">range(<span class="number">70</span>)]) <span class="keyword">for</span> i <span class="keyword">in</span> range(deg+<span class="number">1</span>)]</span><br><span class="line">N_bitlength = sum([n[i].bit_length() <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">70</span>)])</span><br><span class="line">min_n = min(n)</span><br><span class="line">N = reduce(<span class="keyword">lambda</span> x, y: x*y, n)</span><br><span class="line">Sc = large_coeffivar(<span class="string">&quot;x&quot;</span>)</span><br><span class="line">assume(x, <span class="string">&#x27;integer&#x27;</span>)</span><br><span class="line">f =</span><br><span class="line">Sc[<span class="number">9</span>]*x^<span class="number">9</span>+Sc[<span class="number">8</span>]*x^<span class="number">8</span>+Sc[<span class="number">7</span>]*x^<span class="number">7</span>+Sc[<span class="number">6</span>]*x^<span class="number">6</span>+Sc[<span class="number">5</span>]*x^<span class="number">5</span>+Sc[<span class="number">4</span>]*x^<span class="number">4</span>+Sc[<span class="number">3</span>]*x^<span class="number">3</span>+Sc[<span class="number">2</span>]*x^<span class="number">2</span></span><br><span class="line">+Sc[<span class="number">1</span>]*x+Sc[<span class="number">0</span>]</span><br><span class="line">lat = []</span><br><span class="line">lat.append([large_coeffi[i]*min_n**i <span class="keyword">for</span> i <span class="keyword">in</span> range(deg+<span class="number">1</span>)]+[<span class="number">1</span>/(deg+<span class="number">1</span>)])</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(deg+<span class="number">1</span>):</span><br><span class="line">lat.append([((min_n**j)*N <span class="keyword">if</span> (i==j) <span class="keyword">else</span> <span class="number">0</span>) <span class="keyword">for</span> j <span class="keyword">in</span> range(deg+<span class="number">1</span>)]+[<span class="number">0</span>])</span><br><span class="line">Mat = matrix(lat)</span><br><span class="line">Mat_LLL = Mat.LLL()</span><br><span class="line"><span class="keyword">for</span> lin <span class="keyword">in</span> range(deg):</span><br><span class="line">Sc = [int(i) <span class="keyword">for</span> i <span class="keyword">in</span> Mat_LLL[lin]]</span><br><span class="line">Sc = [(Sc[i]//(min_n**i)) <span class="keyword">for</span> i <span class="keyword">in</span> range(deg+<span class="number">1</span>)]</span><br><span class="line">var(<span class="string">&quot;x&quot;</span>)</span><br><span class="line">assume(x, <span class="string">&#x27;integer&#x27;</span>)</span><br><span class="line">f =</span><br><span class="line">Sc[<span class="number">9</span>]*x^<span class="number">9</span>+Sc[<span class="number">8</span>]*x^<span class="number">8</span>+Sc[<span class="number">7</span>]*x^<span class="number">7</span>+Sc[<span class="number">6</span>]*x^<span class="number">6</span>+Sc[<span class="number">5</span>]*x^<span class="number">5</span>+Sc[<span class="number">4</span>]*x^<span class="number">4</span>+Sc[<span class="number">3</span>]*x^<span class="number">3</span>+Sc[<span class="number">2</span>]*x^<span class="number">2</span></span><br><span class="line">+Sc[<span class="number">1</span>]*x+Sc[<span class="number">0</span>]</span><br><span class="line">print(factor(f))</span><br><span class="line"><span class="keyword">break</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">m =</span></span><br><span class="line"><span class="string">3088969433059681806521206959873975785377227976800172674306727155831805513908352</span></span><br><span class="line"><span class="string">148702210247662586117242206183337522557</span></span><br><span class="line"><span class="string">print(long_to_bytes(m))</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <h3 id="2-ECC上的相关明文攻击"><a href="#2-ECC上的相关明文攻击" class="headerlink" title="2.ECC上的相关明文攻击"></a>2.ECC上的相关明文攻击</h3><h4 id="0o01-分析题目-1"><a href="#0o01-分析题目-1" class="headerlink" title="0o01 分析题目"></a>0o01 分析题目</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> bytes_to_long, long_to_bytes, getPrime, getRandomRange</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line">flag = bytes_to_long(flag)</span><br><span class="line">p, q = [getPrime(int(<span class="number">256</span>)) <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">2</span>)]</span><br><span class="line">a, b = [getRandomRange(<span class="number">1</span>, p*q) <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">2</span>)]</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Task</span>():</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, a, b, p, q, e</span>):</span></span><br><span class="line">        self.p, self.q = p, q</span><br><span class="line">        self.a, self.b = a, b</span><br><span class="line">        self.N = self.p*self.q</span><br><span class="line">        self.e = e</span><br><span class="line">        self.Kbits = <span class="number">8</span></span><br><span class="line">        Ep = EllipticCurve(IntegerModRing(self.p), [self.a, self.b])</span><br><span class="line">        Eq = EllipticCurve(IntegerModRing(self.q), [self.a, self.b])</span><br><span class="line">        N1 = Ep.order()</span><br><span class="line">        N2 = <span class="number">2</span>*self.p+<span class="number">2</span>-N1</span><br><span class="line">        N3 = Eq.order()</span><br><span class="line">        N4 = <span class="number">2</span>*self.q+<span class="number">2</span>-N3</span><br><span class="line">        self.d = &#123;</span><br><span class="line">            ( <span class="number">1</span>, <span class="number">1</span>): inverse_mod(self.e, lcm(N1, N3)),</span><br><span class="line">            ( <span class="number">1</span>,<span class="number">-1</span>): inverse_mod(self.e, lcm(N1, N4)),</span><br><span class="line">            (<span class="number">-1</span>, <span class="number">1</span>): inverse_mod(self.e, lcm(N2, N3)),</span><br><span class="line">            (<span class="number">-1</span>, <span class="number">-1</span>): inverse_mod(self.e, lcm(N2, N4))</span><br><span class="line">        &#125;</span><br><span class="line">        self.E = EllipticCurve(IntegerModRing(self.N), [self.a, self.b])</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Enc</span>(<span class="params">self, plaintext</span>):</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            msg_point = self.msg_to_point(plaintext)</span><br><span class="line">            cip_point = self.e*msg_point</span><br><span class="line">            <span class="keyword">return</span> cip_point.xy()[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Dec</span>(<span class="params">self, ciphertext</span>):</span></span><br><span class="line">        x = ciphertext</span><br><span class="line">        w = x^<span class="number">3</span> + self.a*x + self.b % self.N</span><br><span class="line">        P.&lt;Yp&gt; = PolynomialRing(Zmod(self.p))</span><br><span class="line">        fp = x^<span class="number">3</span> + self.a*x + self.b -Yp^<span class="number">2</span></span><br><span class="line">        yp = fp.roots()[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">        P.&lt;Yq&gt; = PolynomialRing(Zmod(self.q))</span><br><span class="line">        fq = x^<span class="number">3</span> + self.a*x + self.b -Yq^<span class="number">2</span></span><br><span class="line">        yq = fq.roots()[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">        y = crt([int(yp), int(yq)], [self.p, self.q])</span><br><span class="line">        cip_point = self.E.point([x, y])</span><br><span class="line">        legendre_symbol_p = legendre_symbol(w, self.p)</span><br><span class="line">        legendre_symbol_q = legendre_symbol(w, self.q)</span><br><span class="line">        msg_point = self.d[(legendre_symbol_p, legendre_symbol_q)]*cip_point</span><br><span class="line">        <span class="keyword">return</span> msg_point.xy()[<span class="number">0</span>] &gt;&gt; self.Kbits</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">msg_to_point</span>(<span class="params">self, x, shift=False</span>):</span></span><br><span class="line">        <span class="keyword">if</span> shift:</span><br><span class="line">            x &lt;&lt;= self.Kbits</span><br><span class="line">        checkPoint = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>&lt;&lt;self.Kbits):</span><br><span class="line">            P.&lt;Yp&gt; = PolynomialRing(Zmod(self.p))</span><br><span class="line">            fp = x^<span class="number">3</span> + self.a*x + self.b - Yp^<span class="number">2</span></span><br><span class="line">            P.&lt;Yq&gt; = PolynomialRing(Zmod(self.q))</span><br><span class="line">            fq = x^<span class="number">3</span> + self.a*x + self.b - Yq^<span class="number">2</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                yp, yq = int(fp.roots()[<span class="number">0</span>][<span class="number">0</span>]), int(fq.roots()[<span class="number">0</span>][<span class="number">0</span>])</span><br><span class="line">                y = crt([yp, yq], [self.p, self.q])</span><br><span class="line">                E = EllipticCurve(IntegerModRing(self.p*self.q), [self.a, self.b])</span><br><span class="line">                checkPoint = E.point((x, y))</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">except</span>:</span><br><span class="line">                x += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> checkPoint</span><br><span class="line">delta = <span class="number">28552609273</span></span><br><span class="line">e = <span class="number">137</span></span><br><span class="line">cip = Task(a, b, p, q, e)</span><br><span class="line">print(<span class="string">f&quot;a = <span class="subst">&#123;a&#125;</span>&quot;</span>)</span><br><span class="line">print(<span class="string">f&quot;b = <span class="subst">&#123;b&#125;</span>&quot;</span>)</span><br><span class="line">print(<span class="string">f&quot;n = <span class="subst">&#123;p*q&#125;</span>&quot;</span>)</span><br><span class="line">plaintext1 = cip.msg_to_point(flag, shift=<span class="literal">True</span>).xy()[<span class="number">0</span>]</span><br><span class="line">ciphertext1 = cip.Enc(plaintext1)</span><br><span class="line">print(<span class="string">f&quot;ciphertext1 = <span class="subst">&#123;ciphertext1&#125;</span>&quot;</span>)</span><br><span class="line">plaintext2 = cip.msg_to_point(flag+delta, shift=<span class="literal">True</span>).xy()[<span class="number">0</span>]</span><br><span class="line">ciphertext2 = cip.Enc(plaintext2)</span><br><span class="line">print(<span class="string">f&quot;ciphertext2 = <span class="subst">&#123;ciphertext2&#125;</span>&quot;</span>)</span><br><span class="line">delta = plaintext2 - plaintext1</span><br><span class="line">print(<span class="string">f&quot;delta = <span class="subst">&#123;delta&#125;</span>&quot;</span>)</span><br><span class="line"><span class="comment"># a = 4281014323581546488462714122303747203636223358897123235803046898862939653328802115362584316327572195541081125920528501180620492421895128401613948866529122</span></span><br><span class="line"><span class="comment"># b = 1504110610934153564757355169781343270879282969971532470271782059859117769089994716068562704547770368420258743734175281689611986131092394954948339191589449</span></span><br><span class="line"><span class="comment"># n = 6638798722521613809421411597209101115203859862340555482590990067056543831415553727351714220257486793657912537305448979625073630917241320204281256125412671</span></span><br><span class="line"><span class="comment"># ciphertext1 = 6327639450575093157999054915625304951894564605402541939450801256931875815282143921161475586010526883609974743159835451980804875847625527741681757415519394</span></span><br><span class="line"><span class="comment"># ciphertext2 = 3275348139763310265438126795688591830796510682708632201044899744259822398076574133105844638686347122066389056025294466297206704146167073441486603569471235</span></span><br><span class="line"><span class="comment"># delta = 7309467973885</span></span><br></pre></td></tr></table></figure>
+
 <p>很显然，这道题给出了$m$的明文和$m+d$的明文，加密指数为$137$，那么我们就可以用我们刚才提到的函数构造出多项式，然后求多项式的GCD来确定最后的根。</p>
 <p>不过整个代码的实现还是挺困难的，因为里面的微操很多，比如要把求出来的多项式先转成list再转回多项式。不然程序运行会出现错误。。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath</span></span><br><span class="line">a = <span class="number">4281014323581546488462714122303747203636223358897123235803046898862939653328802115362584316327572195541081125920528501180620492421895128401613948866529122</span></span><br><span class="line">b = <span class="number">1504110610934153564757355169781343270879282969971532470271782059859117769089994716068562704547770368420258743734175281689611986131092394954948339191589449</span></span><br><span class="line">n = <span class="number">6638798722521613809421411597209101115203859862340555482590990067056543831415553727351714220257486793657912537305448979625073630917241320204281256125412671</span></span><br><span class="line">c1= <span class="number">6327639450575093157999054915625304951894564605402541939450801256931875815282143921161475586010526883609974743159835451980804875847625527741681757415519394</span></span><br><span class="line">c2= <span class="number">3275348139763310265438126795688591830796510682708632201044899744259822398076574133105844638686347122066389056025294466297206704146167073441486603569471235</span></span><br><span class="line">d = <span class="number">7309467973885</span></span><br><span class="line">E=EllipticCurve(Zmod(n),[a,b])</span><br><span class="line">Fz=E._multiple_x_numerator(<span class="number">137</span>)</span><br><span class="line">Fm=E._multiple_x_denominator(<span class="number">137</span>)</span><br><span class="line">print(<span class="string">&#x27;[+] Proof Work Finished&#x27;</span>)</span><br><span class="line">Fmlist=list(Fm)</span><br><span class="line">Fzlist=list(Fz)</span><br><span class="line">R.&lt;t&gt;=PolynomialRing(Zmod(n))</span><br><span class="line">Fm1,Fm2,Fz1,Fz2=<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(Fmlist)):</span><br><span class="line">    Fm1+=Fmlist[i]*(t^i)</span><br><span class="line">    Fm2+=Fmlist[i]*((t+d)^i)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(Fzlist)):</span><br><span class="line">    Fz1+=Fzlist[i]*(t^i)</span><br><span class="line">    Fz2+=Fzlist[i]*((t+d)^i)</span><br><span class="line">G1,G2=c1*Fm1-Fz1,c2*Fm2-Fz2</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gcdpro</span>(<span class="params">g1, g2</span>):</span></span><br><span class="line">    <span class="keyword">while</span> g2:</span><br><span class="line">        g1, g2 = g2, g1 % g2</span><br><span class="line">    <span class="keyword">return</span> g1.monic()</span><br><span class="line">    <span class="comment">#return -gcdpro(g1, g2)[0]</span></span><br><span class="line">H=(gcdpro(G1,G2))</span><br><span class="line">print(H)</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line">print(long_to_bytes(n-H[<span class="number">0</span>]))</span><br><span class="line"><span class="comment">#b&#x27;DASCTF&#123;692d49f84fe5497fa05d6e91a1cf4e3e&#125;\x04&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <p>当然，ECC中也可以通过使用共模攻击和RSA中的Coppersmith来出题。可以预测的是，到目前为止，CTF中ECC的题目的数量并不是特别多。这就。】说明了ECC有可能会成为后面CTF的一个出题热门点。</p>
 
                 
@@ -619,132 +616,6 @@ F^2=(3x^4+6ax^2+12bx-a)^2</script><p>然后我们由$c\equiv\dfrac G {F^2} \pmod
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -1000,60 +871,6 @@ F^2=(3x^4+6ax^2+12bx-a)^2</script><p>然后我们由$c\equiv\dfrac G {F^2} \pmod
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">

@@ -455,12 +455,11 @@
 <p>这个笔记接着之前发布的笔记4，继续往后面扩展新的内容。</p>
 <h2 id="12-格约简算法"><a href="#12-格约简算法" class="headerlink" title="12.格约简算法"></a>12.格约简算法</h2><h3 id="12x01-2维高斯格约简"><a href="#12x01-2维高斯格约简" class="headerlink" title="12x01 2维高斯格约简"></a>12x01 2维高斯格约简</h3><p>假如我们已知$v_1,v_2$是格$L$中的一组基底，假设$v_1$的长度小于$v_2$，（如果不小于，则交换两向量的长度）。那么我们可以用以下的脚本逐步约简二维格中最短向量的长度。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> sqrt</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sgn</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="keyword">if</span> x==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> x&gt;<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> x&lt;<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">vecmul</span>(<span class="params">veca,vecb</span>):</span></span><br><span class="line">    <span class="keyword">assert</span> len(veca)==len(vecb) </span><br><span class="line">    s=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(veca)):</span><br><span class="line">        s+=veca[i]*vecb[i]</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getans</span> (<span class="params">veca,vecb</span>):</span></span><br><span class="line">    print(veca,vecb)</span><br><span class="line">    <span class="keyword">if</span> vecmul(vecb,vecb)&lt;vecmul(veca,veca):</span><br><span class="line">        tmp=veca</span><br><span class="line">        veca=vecb</span><br><span class="line">        vecb=tmp</span><br><span class="line">    print(veca,vecb)</span><br><span class="line">    m=int(vecmul(veca,vecb)/vecmul(veca,veca)+<span class="number">0.5</span>*sgn(vecmul(veca,vecb)))</span><br><span class="line">    <span class="keyword">if</span>(m==<span class="number">0</span>):</span><br><span class="line">        <span class="keyword">return</span> veca,vecb</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(vecb)):</span><br><span class="line">        vecb[i]-=m*veca[i]</span><br><span class="line">    <span class="keyword">return</span> getans(veca,vecb)</span><br><span class="line">a=[<span class="number">66586820</span>,<span class="number">65354729</span>]</span><br><span class="line">b=[<span class="number">6513996</span>,<span class="number">6393464</span>]</span><br><span class="line">A,B=getans(a,b)</span><br><span class="line">print(A,B)</span><br><span class="line"><span class="comment">#[2280, -1001] [-1324, -2376]</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="12x02-LLL格约简算法"><a href="#12x02-LLL格约简算法" class="headerlink" title="12x02 LLL格约简算法"></a>12x02 LLL格约简算法</h3><p>高斯的晶格约简算法给出了在维数$2$的晶格中找到最短非零向量的有效方法，但随着维数的增加，最短向量问题变得更加困难。 随着LLL算法的发表，1982年取得了重大进展。 在本节中，我们给出了LLL算法的完整描述，在下一节中，我们简要描述了它的一些推广。</p>
 <p>当我们得到格$L$的一个基底时，我们肯定希望对于任意两个不同的基向量$\vec v_i,\vec v_j(i \not =j)$，使得$\cos &lt;\vec v_i,\vec v_j&gt;=\dfrac{\vec v_i·\vec v_j}{|\vec v_i||\vec v_j|}$越接近$0$越好。或者在更好的基上的向量尽可能短，首先是我们可以找到的最短向量，然后是长度尽可能慢地增加的向量，直到我们到达基中的最后一个向量。</p>
 <p>前面的笔记，我提到过这样一个式子$\det L =\text{Vol }(F)≤ \prod _{i=1}^n |\vec v_i|$</p>
-<p>其中$F$是格$L$的基本域。而如果基越正交，那么不等号两边就越接近。而为了能够得到一个更好的基底，我们可以使用施密特正交化的方法取得正交基。不过这里出现了一个问题：因为施密特正交化的方法中：由</p>
-<script type="math/tex; mode=display">
-\vec v_i^*=v_i-\sum_{j=1}^{i-1}u_{ij}\vec v_j*</script><p>注意到里面有这样一项$u_{ij}$并且这一项不能保证是整数。所以进行施密特正交化后的基$B^<em>$与原来的基$B$之间的转换出现了非整数的系数。而实际上，基$B$与基$B^</em>$的行列式是相同的。不过如果出现了这样两个条件，就说明$B$被约简了一次：</p>
+<p>其中$F$是格$L$的基本域。而如果基越正交，那么不等号两边就越接近。而为了能够得到一个更好的基底，我们可以使用施密特正交化的方法取得正交基。不过这里出现了一个问题：因为施密特正交化的方法中：由<br>$$<br>\vec v_i^*=v_i-\sum_{j=1}^{i-1}u_{ij}\vec v_j*<br>$$<br>注意到里面有这样一项$u_{ij}$并且这一项不能保证是整数。所以进行施密特正交化后的基$B^*$与原来的基$B$之间的转换出现了非整数的系数。而实际上，基$B$与基$B^*$的行列式是相同的。不过如果出现了这样两个条件，就说明$B$被约简了一次：</p>
 <p><strong>UPD 2021.2.9</strong>：原来这里的公式改成了图片，因为在网页上公式显示异常。</p>
 <p><img src="/2021/02/06/LatticeNotes5/upd1.png" alt="upd1"></p>
 <p><strong>关于LLL算法一些其他的原理，以后会不定期补充。</strong>Sagemath中自带了矩阵的LLL计算，很方便。</p>
@@ -476,12 +475,8 @@
 <p><img src="/2021/02/06/LatticeNotes5/3.png" alt="3"></p>
 <h3 id="13x03-回顾笔记3中的GGH公钥密码系统"><a href="#13x03-回顾笔记3中的GGH公钥密码系统" class="headerlink" title="13x03 回顾笔记3中的GGH公钥密码系统"></a>13x03 回顾笔记3中的GGH公钥密码系统</h3><p><img src="/2021/02/06/LatticeNotes5/4.png" alt="4"></p>
 <p>攻击此密码系统，可以将向量组$W$约简。得到$\vec w_1=(61,11,67),\vec w_2=(36,-30,-86),\vec w_3=(-10,102,-40)$，密文$\vec v=(−79081427, −35617462, 11035473)$</p>
-<p>此时$H(W)$高达$0.956$。因此我们很快就找到了答案为</p>
-<script type="math/tex; mode=display">
-\vec v=35\vec w_1-86\vec w_2+32\vec w_3=(79081423, 35617459, −11035471)</script><p>所以最后的答案是$35,-86,32$。考虑到原来$|v_2|&lt;|\vec v_1|&lt;|\vec v_3|$，因此调换顺序，成功破解明文为$(-86,35,32)$</p>
-<h3 id="13x04-回顾笔记4中的NTRU算法"><a href="#13x04-回顾笔记4中的NTRU算法" class="headerlink" title="13x04 回顾笔记4中的NTRU算法"></a>13x04 回顾笔记4中的NTRU算法</h3><p>在笔记4中我们举的那个例子里，在$N=7,q=41,d=2$的情况下，我们算得$h(x)$的表达式为</p>
-<script type="math/tex; mode=display">
-h(x)=20x^6+40x^5+2x^4+38x^3+8x^2+26x+30</script><p>然后，我们可以构造下图的矩阵</p>
+<p>此时$H(W)$高达$0.956$。因此我们很快就找到了答案为<br>$$<br>\vec v=35\vec w_1-86\vec w_2+32\vec w_3=(79081423, 35617459, −11035471)<br>$$<br>所以最后的答案是$35,-86,32$。考虑到原来$|v_2|&lt;|\vec v_1|&lt;|\vec v_3|$，因此调换顺序，成功破解明文为$(-86,35,32)$</p>
+<h3 id="13x04-回顾笔记4中的NTRU算法"><a href="#13x04-回顾笔记4中的NTRU算法" class="headerlink" title="13x04 回顾笔记4中的NTRU算法"></a>13x04 回顾笔记4中的NTRU算法</h3><p>在笔记4中我们举的那个例子里，在$N=7,q=41,d=2$的情况下，我们算得$h(x)$的表达式为<br>$$<br>h(x)=20x^6+40x^5+2x^4+38x^3+8x^2+26x+30<br>$$<br>然后，我们可以构造下图的矩阵</p>
 <p><img src="/2021/02/06/LatticeNotes5/5.png" alt="5"></p>
 <p>同样地，我们可以使用LLL算法。算出结果后，将其对半分开，考虑到LLL算法有的时候会相差一个负号或者出现旋转的问题，因此，我们有$3$行答案符合条件，并且这$3$行互为旋转。</p>
 <p>以用红色标出来的第一行为例：此时的$f(x)=-x^6-x^5+x^3-x^2+1,g(x)=x^5+x^4-x^2-1$。</p>
@@ -490,18 +485,11 @@ h(x)=20x^6+40x^5+2x^4+38x^3+8x^2+26x+30</script><p>然后，我们可以构造�
 <h2 id="14-例题选讲-UPDATE-2021-2-20"><a href="#14-例题选讲-UPDATE-2021-2-20" class="headerlink" title="14.例题选讲[UPDATE 2021.2.20]"></a>14.例题选讲[UPDATE 2021.2.20]</h2><h3 id="14x01-NPUCTF2020-BABYLCG"><a href="#14x01-NPUCTF2020-BABYLCG" class="headerlink" title="14x01 NPUCTF2020[BABYLCG]"></a>14x01 NPUCTF2020[BABYLCG]</h3><p><strong>update 2021.2.8</strong></p>
 <h4 id="STEP-1-读取题目"><a href="#STEP-1-读取题目" class="headerlink" title="STEP 1 读取题目"></a>STEP 1 读取题目</h4><p>我们先来看一下题目：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LCG</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, bit_length</span>):</span></span><br><span class="line">        m = getPrime(bit_length)</span><br><span class="line">        a = getRandomRange(<span class="number">2</span>, m)</span><br><span class="line">        b = getRandomRange(<span class="number">2</span>, m)</span><br><span class="line">        seed = getRandomRange(<span class="number">2</span>, m)</span><br><span class="line">        self._key = &#123;<span class="string">&#x27;a&#x27;</span>:a, <span class="string">&#x27;b&#x27;</span>:b, <span class="string">&#x27;m&#x27;</span>:m&#125;</span><br><span class="line">        self._state = seed </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">next</span>(<span class="params">self</span>):</span></span><br><span class="line">        self._state = (self._key[<span class="string">&#x27;a&#x27;</span>] * self._state + self._key[<span class="string">&#x27;b&#x27;</span>]) % self._key[<span class="string">&#x27;m&#x27;</span>]</span><br><span class="line">        <span class="keyword">return</span> self._state</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">export_key</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self._key</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_lcg</span>():</span></span><br><span class="line">    rand_iter = LCG(<span class="number">128</span>)</span><br><span class="line">    key = rand_iter.export_key()</span><br><span class="line">    f = open(<span class="string">&quot;key&quot;</span>, <span class="string">&quot;w&quot;</span>)</span><br><span class="line">    f.write(str(key))</span><br><span class="line">    <span class="keyword">return</span> rand_iter</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">leak_data</span>(<span class="params">rand_iter</span>):</span></span><br><span class="line">    f = open(<span class="string">&quot;old&quot;</span>, <span class="string">&quot;w&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">20</span>):</span><br><span class="line">        f.write(str(rand_iter.next() &gt;&gt; <span class="number">64</span>) + <span class="string">&quot;\n&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> rand_iter</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span>(<span class="params">rand_iter</span>):</span></span><br><span class="line">    f = open(<span class="string">&quot;ct&quot;</span>, <span class="string">&quot;wb&quot;</span>)</span><br><span class="line">    key = rand_iter.next() &gt;&gt; <span class="number">64</span></span><br><span class="line">    key = (key &lt;&lt; <span class="number">64</span>) + (rand_iter.next() &gt;&gt; <span class="number">64</span>)</span><br><span class="line">    key = long_to_bytes(key).ljust(<span class="number">16</span>, <span class="string">b&#x27;\x00&#x27;</span>)</span><br><span class="line">    iv = long_to_bytes(rand_iter.next()).ljust(<span class="number">16</span>, <span class="string">b&#x27;\x00&#x27;</span>)</span><br><span class="line">    cipher = AES.new(key, AES.MODE_CBC, iv)</span><br><span class="line">    pt = flag + (<span class="number">16</span> - len(flag) % <span class="number">16</span>) * chr(<span class="number">16</span> - len(flag) % <span class="number">16</span>)</span><br><span class="line">    ct = cipher.encrypt(pt.encode())</span><br><span class="line">    f.write(ct)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    rand_iter = gen_lcg()</span><br><span class="line">    rand_iter = leak_data(rand_iter)</span><br><span class="line">    encrypt(rand_iter)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
 <p>线性同余生成器简称LCG，就是通过$y\equiv ax+b\pmod m$的线性方程迭代产生随机数，随机数比较有规律可循。</p>
 <p>题目给出$a,b,m$的同时，还给出了连续$20$个产生的数字，不过我们知道的只有它们的最高$64$位，低的$64$位不知道。</p>
-<h4 id="STEP-2-初步分析，确定构建格矩阵的法则"><a href="#STEP-2-初步分析，确定构建格矩阵的法则" class="headerlink" title="STEP 2 初步分析，确定构建格矩阵的法则"></a>STEP 2 初步分析，确定构建格矩阵的法则</h4><p>为了简便，我们可以先从两个数字开始，假设我们已知的是高位部分是$c_1,c_2$，未知的低位部分是$d_1,d_2$，那么我们可以得到</p>
-<script type="math/tex; mode=display">
-c_2+d_2\equiv a(c_1+d_1)+b \pmod m</script><p>去掉同余号，可以得到下面的式子，其中$k$也是未知量</p>
-<script type="math/tex; mode=display">
-c_2+d_2=ac_1+ad_1+b+km</script><p>如果我们对这个式子进行移项，那就有</p>
-<script type="math/tex; mode=display">
-d_2=ad_1+km+ac_1+b-c_2=f(k,d_1)</script><p>很显然，我们建立了$d_2$与$d_1$之间的递推关系。因此，我们要建立向量$\vec v,\vec w$和矩阵$M$，使得$\vec vM=\vec w$。而想要建立矩阵和向量，就要保证<strong>等式右边有几个未知数，向量就至少要有几维，并且两个向量要覆盖到所有的未知量。而矩阵中的数字，只能是已知量，并且还要覆盖到题目给出的所有参数。因为到时候直接放入Sagemath中进行LLL算法的是所有元素均为已知量的矩阵$M$而不是带有未知数向量</strong>。</p>
-<h4 id="STEP-3-从理论走向实践"><a href="#STEP-3-从理论走向实践" class="headerlink" title="STEP 3 从理论走向实践"></a>STEP 3 从理论走向实践</h4><p>根据刚刚总结的理论，我们有确定了等号右边有$2$个未知数，因此向量维数至少是$2$。然而，构造$2$维的向量很困难，因为我们上面$d_2$关于$d_1,k$的表达式实际上应该写成这个样子：</p>
-<script type="math/tex; mode=display">
-d_2=ad_1+km+(ac_1+b-c_2)=f(k,d_1)+C</script><p>不要小看这个$+C$的作用，因为这样我们直接就重构了表达式为$d_2=f(k,d_1)+C$。而$C$是已知量，与$k,d_1$全部无关。故我们必须要构建三维的向量，并彻底确定$\vec v=(k,d_1,1)$。矩阵$M$的第一列为$(m,a,C)^T$，向量$\vec w$的第一个分量为$d_2$。</p>
+<h4 id="STEP-2-初步分析，确定构建格矩阵的法则"><a href="#STEP-2-初步分析，确定构建格矩阵的法则" class="headerlink" title="STEP 2 初步分析，确定构建格矩阵的法则"></a>STEP 2 初步分析，确定构建格矩阵的法则</h4><p>为了简便，我们可以先从两个数字开始，假设我们已知的是高位部分是$c_1,c_2$，未知的低位部分是$d_1,d_2$，那么我们可以得到<br>$$<br>c_2+d_2\equiv a(c_1+d_1)+b \pmod m<br>$$<br>去掉同余号，可以得到下面的式子，其中$k$也是未知量<br>$$<br>c_2+d_2=ac_1+ad_1+b+km<br>$$<br>如果我们对这个式子进行移项，那就有<br>$$<br>d_2=ad_1+km+ac_1+b-c_2=f(k,d_1)<br>$$<br>很显然，我们建立了$d_2$与$d_1$之间的递推关系。因此，我们要建立向量$\vec v,\vec w$和矩阵$M$，使得$\vec vM=\vec w$。而想要建立矩阵和向量，就要保证<strong>等式右边有几个未知数，向量就至少要有几维，并且两个向量要覆盖到所有的未知量。而矩阵中的数字，只能是已知量，并且还要覆盖到题目给出的所有参数。因为到时候直接放入Sagemath中进行LLL算法的是所有元素均为已知量的矩阵$M$而不是带有未知数向量</strong>。</p>
+<h4 id="STEP-3-从理论走向实践"><a href="#STEP-3-从理论走向实践" class="headerlink" title="STEP 3 从理论走向实践"></a>STEP 3 从理论走向实践</h4><p>根据刚刚总结的理论，我们有确定了等号右边有$2$个未知数，因此向量维数至少是$2$。然而，构造$2$维的向量很困难，因为我们上面$d_2$关于$d_1,k$的表达式实际上应该写成这个样子：<br>$$<br>d_2=ad_1+km+(ac_1+b-c_2)=f(k,d_1)+C<br>$$<br>不要小看这个$+C$的作用，因为这样我们直接就重构了表达式为$d_2=f(k,d_1)+C$。而$C$是已知量，与$k,d_1$全部无关。故我们必须要构建三维的向量，并彻底确定$\vec v=(k,d_1,1)$。矩阵$M$的第一列为$(m,a,C)^T$，向量$\vec w$的第一个分量为$d_2$。</p>
 <p>因此，下图就表示我们构建格的雏形了。</p>
 <p><img src="/2021/02/06/LatticeNotes5/7.png" alt="7"></p>
 <p>此时，未知量$k,d_1,d_2$已经全部被包含，已知量$a,b,m,c_1,c_2$也全部被包含，没有什么必要的东西了。不过注意到一个问题：$\vec w$实际上是<strong>最后对矩阵M约简时的最短向量（这个很重要）</strong>。而相对于$k$来讲，我们更希望知道的时$d_1$，因此我们就让$\vec w$的第二个分量为$d_1$，完善了矩阵。</p>
@@ -513,19 +501,12 @@ d_2=ad_1+km+(ac_1+b-c_2)=f(k,d_1)+C</script><p>不要小看这个$+C$的作用�
 <p><img src="/2021/02/06/LatticeNotes5/9.png" alt="9"></p>
 <h4 id="4-Reference"><a href="#4-Reference" class="headerlink" title="4. Reference"></a>4. Reference</h4><p>因为自己的做法确实有些局限性，为了获得更普遍的方法，我还是跟shallow大佬讨论了以下这道题的做法，但我可能还是太菜了，思考了两小时都没能实现这个做法。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">shallow 2021&#x2F;2&#x2F;6 20:14:05</span><br><span class="line">这题给了你这么多数据，肯定不可能只用三个就做的</span><br><span class="line">shallow 2021&#x2F;2&#x2F;6 20:14:21</span><br><span class="line">我当时这题用的hnp的思路写的来着。。</span><br><span class="line">huangx607087 2021&#x2F;2&#x2F;6 20:14:46</span><br><span class="line">我用三个做出来了</span><br><span class="line">shallow 2021&#x2F;2&#x2F;6 20:14:55</span><br><span class="line">az</span><br><span class="line">huangx607087 2021&#x2F;2&#x2F;6 20:15:04</span><br><span class="line">不过调了几次参数</span><br><span class="line">shallow 2021&#x2F;2&#x2F;6 20:15:49</span><br><span class="line">那没事了</span><br><span class="line">shallow 2021&#x2F;2&#x2F;6 20:23:36</span><br><span class="line">负的直接绝对值就行</span><br><span class="line">shallow 2021&#x2F;2&#x2F;6 20:23:46</span><br><span class="line">刚刚算了一下界居然真的够。。</span><br><span class="line">huangx607087 2021&#x2F;2&#x2F;6 20:24:15</span><br><span class="line">那，大佬能说一下你当时是怎么做的吗</span><br><span class="line">shallow 2021&#x2F;2&#x2F;6 20:25:34</span><br><span class="line">把每个d表示成ad0 + b</span><br><span class="line">shallow 2021&#x2F;2&#x2F;6 20:25:52</span><br><span class="line">然后一排全a，第二排全b，剩下地方对角线填n</span><br><span class="line">shallow 2021&#x2F;2&#x2F;6 20:26:03</span><br><span class="line">LLL完剩下的就全是di了</span><br><span class="line">huangx607087 2021&#x2F;2&#x2F;6 20:26:14</span><br><span class="line">好的，谢谢了，我过会试一下</span><br><span class="line">huangx607087 2021&#x2F;2&#x2F;6 22:03:59</span><br><span class="line">n就是他给出来的20个高位吗</span><br><span class="line">huangx607087 2021&#x2F;2&#x2F;6 22:07:03</span><br><span class="line">（不好意思我理解失误）</span><br><span class="line">shallow 2021&#x2F;2&#x2F;6 22:07:30</span><br><span class="line">n的是那个p</span><br><span class="line">shallow 2021&#x2F;2&#x2F;6 22:07:35</span><br><span class="line">就是模</span><br><span class="line">shallow 2021&#x2F;2&#x2F;6 22:09:00</span><br><span class="line">随便吧</span><br><span class="line">shallow 2021&#x2F;2&#x2F;6 22:09:01</span><br><span class="line">都可以</span><br><span class="line">huangx607087 2021&#x2F;2&#x2F;6 22:09:05</span><br><span class="line">OK</span><br><span class="line">shallow 2021&#x2F;2&#x2F;6 22:09:15</span><br><span class="line">20×22也可以，22×22也可以</span><br><span class="line">huangx607087 2021&#x2F;2&#x2F;6 22:13:11</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
 <h3 id="14x02-ACTF2021-hashgame"><a href="#14x02-ACTF2021-hashgame" class="headerlink" title="14x02 ACTF2021 [hashgame]"></a>14x02 ACTF2021 [hashgame]</h3><p><strong>Updated 2021.2.20</strong></p>
 <h4 id="1-读取题目："><a href="#1-读取题目：" class="headerlink" title="1.读取题目："></a>1.读取题目：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> binascii <span class="keyword">import</span> hexlify, unhexlify</span><br><span class="line">banner = <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">               _  ___        _   _           _      ____                      </span></span><br><span class="line"><span class="string"> _ __ ___   __| |/ _ \      | | | | __ _ ___| |__  / ___| __ _ _ __ ___   ___ </span></span><br><span class="line"><span class="string">| &#x27;_ ` _ \ / _` | (_) |_____| |_| |/ _` / __| &#x27;_ \| |  _ / _` | &#x27;_ ` _ \ / _ \\</span></span><br><span class="line"><span class="string">| | | | | | (_| |\__, |_____|  _  | (_| \__ \ | | | |_| | (_| | | | | | |  __/</span></span><br><span class="line"><span class="string">|_| |_| |_|\__,_|  /_/      |_| |_|\__,_|___/_| |_|\____|\__,_|_| |_| |_|\___|</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">md9</span>(<span class="params">m</span>):</span></span><br><span class="line">    n, N = <span class="number">32</span>, <span class="number">2</span>**<span class="number">256</span></span><br><span class="line">    h = <span class="number">69444099843545663157429813687097031070079259699713394209624552060334679683924</span></span><br><span class="line">    g = <span class="number">91404868204801963538299172115753433950696139669081509476098772951762196709558</span></span><br><span class="line">    <span class="keyword">assert</span>(isinstance(m, bytes) <span class="keyword">and</span> len(m) == n)</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> m:</span><br><span class="line">        h = ((h + x) * g) % N</span><br><span class="line">    <span class="keyword">return</span> long_to_bytes(h)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">challenge</span>():</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">        m1 = input(<span class="string">&quot;&gt; &quot;</span>)</span><br><span class="line">        m2 = input(<span class="string">&quot;&gt; &quot;</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            m1, m2 = unhexlify(m1), unhexlify(m2)</span><br><span class="line">            <span class="keyword">if</span> m1 != m2:</span><br><span class="line">                <span class="keyword">if</span> md9(m1) != md9(m2):</span><br><span class="line">                    print(<span class="string">&quot;Failed!&quot;</span>)</span><br><span class="line">                    <span class="keyword">return</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    print(<span class="string">&quot;&#123;&#125; win!&quot;</span>.format(i+<span class="number">1</span>))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                print(<span class="string">&quot;Foolish try!&quot;</span>)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            print(<span class="string">&quot;Something your input is wrong!&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">    flag = os.environ.get(<span class="string">&#x27;FLAG&#x27;</span>)</span><br><span class="line">    print(<span class="string">&quot;Win!Here is the flag: &#123;&#125;&quot;</span>.format(flag))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    print(banner)</span><br><span class="line">    challenge()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-<h4 id="Step-2：初步分析，构造矩阵"><a href="#Step-2：初步分析，构造矩阵" class="headerlink" title="Step 2：初步分析，构造矩阵"></a>Step 2：初步分析，构造矩阵</h4><p>对于题目中给出的计算，我们可以进行简单地化简,在阅读题目要求后，我们可以理解为：题目要求我们找两组数字$x,y$，每组数字$32$个，并且数组$x$和数组$y$不能完全相同。最后就是找到满足条件的$2$组数字，使得</p>
-<script type="math/tex; mode=display">
-hg^{32}+\sum_{i=1}^{32} x_i g^{33-i}\equiv hg^{32}+\sum_{i=1}^{32} y_i g^{33-i} \pmod{2^{256}}</script><p>很显然地，我们可以约去两边的$hg^{32}$，等式变成了</p>
-<script type="math/tex; mode=display">
-\sum_{i=1}^{32} x_i g^{33-i}\equiv\sum_{i=1}^{32} y_i g^{33-i} \pmod{2^{256}}</script><p>然后将模式写成等式，得</p>
-<script type="math/tex; mode=display">
-\sum_{i=1}^{32} x_i g^{32-i}=\sum_{i=1}^{32} y_i g^{33-i} +2^{256}k</script><p>然后我们可以合并一下两边：</p>
-<script type="math/tex; mode=display">
-\sum_{i=1}^{32}(x_i-y_i)g^{33-i}=2^{256}k</script><p>可以顺带进行移项</p>
-<script type="math/tex; mode=display">
-\sum_{i=1}^{32}(x_i-y_i)g^{33-i}-2^{256}k=0</script><p>观察化简后的式子，其中未知量是$x_i-y_i$和$k$，已知量是$g$。因此我们应该建立相应的递推式。</p>
+
+<h4 id="Step-2：初步分析，构造矩阵"><a href="#Step-2：初步分析，构造矩阵" class="headerlink" title="Step 2：初步分析，构造矩阵"></a>Step 2：初步分析，构造矩阵</h4><p>对于题目中给出的计算，我们可以进行简单地化简,在阅读题目要求后，我们可以理解为：题目要求我们找两组数字$x,y$，每组数字$32$个，并且数组$x$和数组$y$不能完全相同。最后就是找到满足条件的$2$组数字，使得<br>$$<br>hg^{32}+\sum_{i=1}^{32} x_i g^{33-i}\equiv hg^{32}+\sum_{i=1}^{32} y_i g^{33-i} \pmod{2^{256}}<br>$$<br>很显然地，我们可以约去两边的$hg^{32}$，等式变成了<br>$$<br>\sum_{i=1}^{32} x_i g^{33-i}\equiv\sum_{i=1}^{32} y_i g^{33-i} \pmod{2^{256}}<br>$$<br>然后将模式写成等式，得<br>$$<br>\sum_{i=1}^{32} x_i g^{32-i}=\sum_{i=1}^{32} y_i g^{33-i} +2^{256}k<br>$$<br>然后我们可以合并一下两边：<br>$$<br>\sum_{i=1}^{32}(x_i-y_i)g^{33-i}=2^{256}k<br>$$<br>可以顺带进行移项<br>$$<br>\sum_{i=1}^{32}(x_i-y_i)g^{33-i}-2^{256}k=0<br>$$</p>
+<p>观察化简后的式子，其中未知量是$x_i-y_i$和$k$，已知量是$g$。因此我们应该建立相应的递推式。</p>
 <p>为了简化表达，我们先假设$i$的取值从$1$到$32$缩减成$1$到$3$来模拟构造矩阵。</p>
 <p>在只有$3$组差值的情况下，并且我们最后要求出来的是$x_i-y_i$的值，因此，$E_3=\text{diag}(1,1,1)$必须是我们构造矩阵中的一个子矩阵。并且$k$也是未知的，因此我们矩阵中还要加一个元素$k$。这样我们的向量就是$4$维行向量$(x_1-y_1,x_2-y_2,x_3-y_3,k)$，最后我们期望得到的内容就是前$3$个参量，而又因为$g^3(x_1-y_1)+g^2(x_2-y_2)+g(x_3-y_3)-2^{256}k=0$。因此我们矩阵需要增加至$5$列。最后一列为列向量$(g^3,g^2,g,2^{256})^T$，负号扔给$k$。而最后我们得到的向量就是$(x_1-y_1,x_2-y_2,x_3-y_3,-k,0)$，向量的最后一列必须是$0$。</p>
 <p>所以我们可以尝试构造一个这样的矩阵及其计算方式。</p>
@@ -533,15 +514,14 @@ hg^{32}+\sum_{i=1}^{32} x_i g^{33-i}\equiv hg^{32}+\sum_{i=1}^{32} y_i g^{33-i} 
 <p>我们到最后只需要找到尾数是$0$的那一列，那么就成功了。</p>
 <p>但这样好像是失败了（，因为LLL算法后结出来的最后的结果不为$0$。</p>
 <p>看来，这里的计算应该是跟上面那个例子除了相同的问题。</p>
-<h4 id="Step-3：构造并调整矩阵"><a href="#Step-3：构造并调整矩阵" class="headerlink" title="Step 3：构造并调整矩阵"></a>Step 3：构造并调整矩阵</h4><p>因此我们现在就需要对上面的矩阵进行调整。因为最短向量总是小于$\sqrt n \sqrt[n]{\det L}$。当格$L$对应的矩阵$M$不是方阵的时候，我们规定格$L$的行列式$\det L=\det MM^T$。而当$\det L$太小的时候，就会导致最后解出来的向量更短，导致计算错误。因为：</p>
-<script type="math/tex; mode=display">
-a^2+b^2<(a+b)^2</script><p>这就意味着符合条件时，最后一个$0$参数会被微笑提升，来缓解其他分量的负担，向量长度变小了，但却不是我们想要的结果。</p>
+<h4 id="Step-3：构造并调整矩阵"><a href="#Step-3：构造并调整矩阵" class="headerlink" title="Step 3：构造并调整矩阵"></a>Step 3：构造并调整矩阵</h4><p>因此我们现在就需要对上面的矩阵进行调整。因为最短向量总是小于$\sqrt n \sqrt[n]{\det L}$。当格$L$对应的矩阵$M$不是方阵的时候，我们规定格$L$的行列式$\det L=\det MM^T$。而当$\det L$太小的时候，就会导致最后解出来的向量更短，导致计算错误。因为：<br>$$<br>a^2+b^2&lt;(a+b)^2<br>$$<br>这就意味着符合条件时，最后一个$0$参数会被微笑提升，来缓解其他分量的负担，向量长度变小了，但却不是我们想要的结果。</p>
 <p>因此我们就要扩大$\det L$。而我们又想保持住等号右边的向量的形式，因此我们就需要对矩阵最右边一列所有数字同时乘上一个数$C$（不取模），然后这样格$L$的行列式就会提升到原来的$C^8$倍（如果构造出的是$M$规模是$33\text x34$，则$MM^T$就是$33\text x33$方阵，最右边乘上$C$就会导致矩阵行列式提升到原来的$C^{66}$倍）。而向量的长度，提升倍数将会小于$\sqrt[33]{C^{66}}=C^2$倍。</p>
 <p>因此，我们最后期望得到的矩阵计算是这样的，而在这道题中，$C$取$70$多就够了，然而我还是取了$2^{700}$为了保险。</p>
 <p><img src="/2021/02/06/LatticeNotes5/11.png" alt="11"></p>
 <p>构造矩阵运行了一下，可以发现，向量的所有分量都小于$255$。然后我们就可以构造一段模板$x$和一段变化过的$y$就行了。</p>
 <p>这里有个问题：解出来的值有正有负，这个时候我们可以把所有正数都基于$\text{00H}$作为模板，负数基于$\text{FFH}$作为模板。例如，假如解出来的前$4$个数字是$32,-64,-96,128$，那么我们$x$组就构造$\text{00FFFF00H}$，$y$组构造$\text{20BF9F80}$。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath 9.1</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> urandom</span><br><span class="line">mod=<span class="number">2</span>^<span class="number">256</span></span><br><span class="line">K,n=<span class="number">2</span>^<span class="number">700</span>,<span class="number">32</span></span><br><span class="line">g=<span class="number">91404868204801963538299172115753433950696139669081509476098772951762196709558</span></span><br><span class="line">M=[[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(n+<span class="number">2</span>)]<span class="keyword">for</span> __ <span class="keyword">in</span> range(n+<span class="number">1</span>)]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(n+<span class="number">1</span>):</span><br><span class="line">    ge=ZZ(pow(g,n-i,mod))</span><br><span class="line">    M[i][i]=<span class="number">1</span></span><br><span class="line">    M[i][n+<span class="number">1</span>]=ZZ(ge*K)</span><br><span class="line">M[n][n+<span class="number">1</span>]=ZZ(K*mod)</span><br><span class="line">M=matrix(M)</span><br><span class="line">A=M.LLL()</span><br><span class="line">B,D=A[<span class="number">0</span>],[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> B:</span><br><span class="line">    <span class="keyword">if</span> i&lt;<span class="number">0</span>:</span><br><span class="line">        D.append(<span class="number">255</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        D.append(<span class="number">0</span>)</span><br><span class="line">B=list(B)</span><br><span class="line">print(B,len(B))</span><br><span class="line">print(D,len(D))</span><br><span class="line">s,t=<span class="string">&quot;&quot;</span>,<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">padhex</span>(<span class="params">x,l</span>):</span></span><br><span class="line">    s=hex(x)[<span class="number">2</span>:]</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;0&#x27;</span>*(l-len(s))+s</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">32</span>):</span><br><span class="line">    s+=padhex(D[i],<span class="number">2</span>)</span><br><span class="line">    t+=padhex(B[i]+D[i],<span class="number">2</span>)</span><br><span class="line">print(s)</span><br><span class="line">print(t)</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">b=[64, -39, 118, 7, 39, -3, 102, -7, -9, -9, -32, -48, 69, 58, 120, 133, 23, -197, 53, 23, -41, -45, 61, -101, 26, 2, -74, -57, 24, -23, -60, 52, -16, 0] 34</span></span><br><span class="line"><span class="string">d=[0, 255, 0, 0, 0, 255, 0, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 255, 0, 0, 255, 255, 0, 255, 0, 0, 255, 255, 0, 255, 255, 0, 255, 0] 34</span></span><br><span class="line"><span class="string">s=00ff000000ff00ffffffffff0000000000ff0000ffff00ff0000ffff00ffff00</span></span><br><span class="line"><span class="string">t=40d8760727fc66f8f6f6dfcf453a7885173a3517d6d23d9a1a02b5c618e8c334</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <h4 id="4-Reference-1"><a href="#4-Reference-1" class="headerlink" title="4.Reference"></a>4.Reference</h4><p>一开始自己想的是构造$64\text{x}64$的矩阵，想分出$y_{32}$，构造从$(x_1,x_2,…,x_{32},y_1,y_2,…,y_{31},k)$递推出$(x_1,x_2,…,y_{32},y_1,y_2,…,y_{31},k)$的想法，不过发现这样做构造矩阵并不可以。可能是因为这种构造下，$x_1$和$y_1$孤立，导致直接出$0$解。也就是说，这样由于是构造的方阵，可以直接使得LLL之后的向量结果，每一行的行向量都是单位矩阵中对应行向量的某个整数的倍数，直接构造出了$H(B)=1$的完全正交基……。</p>
 <p>这件事还是暴露了一个严重的问题就是：<del>huangx607087 is a feiwu</del></p>
 <h2 id="15-总结"><a href="#15-总结" class="headerlink" title="15.总结"></a>15.总结</h2><p>到这里为止，格密码的5篇笔记全部投放完毕。由于最后一篇限于时间，没有过多地提及LLL算法的原理，仅仅是简单地提了一下LLL算法的使用方法，和解决了之前所抛出来的几个问题。后面主要就是将这些算法应用到CTF中的题目里去。可能会投放Notes6。但Notes6大概率会属于ExpLog。</p>
@@ -632,132 +612,6 @@ a^2+b^2<(a+b)^2</script><p>这就意味着符合条件时，最后一个$0$参�
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -1013,60 +867,6 @@ a^2+b^2<(a+b)^2</script><p>这就意味着符合条件时，最后一个$0$参�
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">

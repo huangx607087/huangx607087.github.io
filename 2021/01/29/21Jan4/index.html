@@ -455,38 +455,35 @@
 <p>今天BUUCTF上到了2000分，后面剩下的题目就都是那些90+分，做出来的人很少的那种了，难度也是非常大的。因此打算后面几天把理论看看，<del>并且还要打杭电持续一个月的CTF，自己的人工智能项目也摸了3天了，哎</del></p>
 <h2 id="1-GUET-CTF2019-Uncle-Sam"><a href="#1-GUET-CTF2019-Uncle-Sam" class="headerlink" title="1.[GUET-CTF2019]Uncle Sam"></a>1.[GUET-CTF2019]Uncle Sam</h2><p>我们还是先看一下加密代码</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generkey</span>(<span class="params">k</span>):</span></span><br><span class="line">	p, q = getPrime(k), getPrime(k)</span><br><span class="line">	pubkey = p**<span class="number">2</span> * q</span><br><span class="line">	n = pubkey</span><br><span class="line">	l = (p<span class="number">-1</span>)*(q<span class="number">-1</span>) / gcd(p<span class="number">-1</span>, q<span class="number">-1</span>)</span><br><span class="line">	privkey = inverse(n, l)</span><br><span class="line">	<span class="keyword">return</span> pubkey, privkey</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span>(<span class="params">m, pubkey</span>):</span></span><br><span class="line">	<span class="keyword">return</span> pow(bytes_to_long(m), pubkey, pubkey)</span><br><span class="line"><span class="comment"># n =  *</span></span><br><span class="line"><span class="comment"># d = *</span></span><br><span class="line"><span class="comment"># c = * 给出部分略去</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <p>很显然，这与RSA不一样，因为这道题公钥$n=p^2q$，虽然貌似也出现过所谓的$p^2q$之类的分解因式法，不过这貌似也并不可分解。</p>
 <p>注意到$l=\text{lcm}(p-1,q-1)$，并且还给出了私钥$d$值位$n$模$l$下的逆元。查阅了相关资料，可以得知这是Schmidt-Samoa 公钥密码体系。</p>
 <p>这一加密体系中，加密过程是$c\equiv m^n \pmod n $，而解密函数则是$m\equiv c^d\pmod{pq} $</p>
 <p>下面简单地证明一下：</p>
-<p>已知</p>
-<script type="math/tex; mode=display">
-\phi(n)=\phi(p^2q)=p(p-1)(q-1)</script><p>由费马小定理，可以推出</p>
-<script type="math/tex; mode=display">
-a^{p(p-1)(q-1)} \equiv 1 \pmod n</script><p>又因为</p>
-<script type="math/tex; mode=display">
-dn\equiv 1 \pmod {(p-1)(q-1)}</script><p>所以</p>
-<script type="math/tex; mode=display">
-a^{nd}\equiv a^{nd \mod ((p-1)(q-1))} \equiv a</script><p>所以</p>
-<script type="math/tex; mode=display">
-a^{nd}-a\equiv 0 \pmod{pq}</script><p>因此</p>
-<script type="math/tex; mode=display">
-pq=\gcd(a^{nd}-a,n)</script><p>由于$a$是任意的数字，因此我们可以取$a=2,3,4…$均可，为方便起见这里取$2$</p>
+<p>已知<br>$$<br>\phi(n)=\phi(p^2q)=p(p-1)(q-1)<br>$$<br>由费马小定理，可以推出<br>$$<br>a^{p(p-1)(q-1)} \equiv 1 \pmod n<br>$$<br>又因为<br>$$<br>dn\equiv 1 \pmod {(p-1)(q-1)}<br>$$<br>所以<br>$$<br>a^{nd}\equiv a^{nd \mod ((p-1)(q-1))} \equiv a<br>$$<br>所以<br>$$<br>a^{nd}-a\equiv 0 \pmod{pq}<br>$$<br>因此<br>$$<br>pq=\gcd(a^{nd}-a,n)<br>$$<br>由于$a$是任意的数字，因此我们可以取$a=2,3,4…$均可，为方便起见这里取$2$</p>
 <p>解密代码非常短，不过推出这个式子还是非常不容易的（，何况这个加密方法一开始自己也没怎么接触过，看到$pq$总是会想到RSA上去。根本原因还是自己<del>太菜了</del></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> given <span class="keyword">import</span> n,c,d</span><br><span class="line">x=GCD(n,pow(<span class="number">2</span>,n*d,n)<span class="number">-2</span>)</span><br><span class="line">print(long_to_bytes(pow(c,d,x)))</span><br></pre></td></tr></table></figure>
+
 <h2 id="2-XNUCA2018-baby-crypto"><a href="#2-XNUCA2018-baby-crypto" class="headerlink" title="2.[XNUCA2018]baby_crypto"></a>2.[XNUCA2018]baby_crypto</h2><p>题目给出的内容非常简单</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">The <span class="number">26</span> letters a, b, c, ..., y, z correspond to the integers <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, ..., <span class="number">25</span></span><br><span class="line">len(key_a) = m</span><br><span class="line">len(key_k) = n</span><br><span class="line">c[i] = (p[i] * key_a[i % m] + key_k[i % n]) % <span class="number">26</span></span><br><span class="line">p <span class="keyword">is</span> plain text, only lowercase letters are refered to.</span><br><span class="line">c <span class="keyword">is</span> encrypted text</span><br><span class="line">I have appended the flag at the end of plain text, the format of which <span class="keyword">is</span> like <span class="string">&#x27;flagis......&#x27;</span></span><br><span class="line">Now you have the encrypted text, Good luck!</span><br></pre></td></tr></table></figure>
+
 <p>很显然这是一个线性的加密，应该跟Vigena密码相似，我们还是一样，每$3$个字母一组，求出周期。</p>
 <h3 id="PART-1-求周期部分"><a href="#PART-1-求周期部分" class="headerlink" title="PART 1 求周期部分"></a>PART 1 求周期部分</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="built_in">string</span> s;</span><br><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;lst,mil;</span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">string</span> c=<span class="string">&quot;&quot;</span>;</span><br><span class="line">	c+=(x/(<span class="number">26</span>*<span class="number">26</span>))+<span class="number">97</span>;</span><br><span class="line">	c+=(x%(<span class="number">26</span>*<span class="number">26</span>)/<span class="number">26</span>)+<span class="number">97</span>;</span><br><span class="line">	c+=x%<span class="number">26</span>+<span class="number">97</span>;</span><br><span class="line">	<span class="keyword">return</span> c;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	freopen(<span class="string">&quot;enc.txt&quot;</span>,<span class="string">&quot;r&quot;</span>,<span class="built_in">stdin</span>);</span><br><span class="line">	freopen(<span class="string">&quot;detPro.txt&quot;</span>,<span class="string">&quot;w&quot;</span>,<span class="built_in">stdout</span>);</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	<span class="built_in">cin</span>&gt;&gt;s;</span><br><span class="line">	s=<span class="string">&quot; &quot;</span>+s;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;s.length()<span class="number">-1</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(lst[s.substr(i,<span class="number">3</span>)]==<span class="number">0</span>)</span><br><span class="line">			lst[s.substr(i,<span class="number">3</span>)]=i;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> det=i-lst[s.substr(i,<span class="number">3</span>)];</span><br><span class="line">			<span class="keyword">if</span>(mil[s.substr(i,<span class="number">3</span>)]==<span class="number">0</span>)</span><br><span class="line">				mil[s.substr(i,<span class="number">3</span>)]=det;</span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line">				<span class="keyword">if</span>(det&gt;<span class="number">10</span>)</span><br><span class="line">					mil[s.substr(i,<span class="number">3</span>)]=min(det,mil[s.substr(i,<span class="number">3</span>)]);</span><br><span class="line">			lst[s.substr(i,<span class="number">3</span>)]=i;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;=<span class="number">26</span>*<span class="number">26</span>*<span class="number">26</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(mil[f(i)]!=<span class="number">0</span>)</span><br><span class="line">			<span class="built_in">cout</span>&lt;&lt;f(i)&lt;&lt;<span class="string">&quot;   &quot;</span>&lt;&lt;mil[f(i)]&lt;&lt;<span class="built_in">endl</span>; </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
 <p>打开最后的文件，我们可以看到，最后很多的间隔都是$6$的倍数，比如$6,12,18,24,30,…$之类的数字，因此可以猜测，周期应该是$6$。</p>
 <h3 id="PART-2-分割-amp-求表达式"><a href="#PART-2-分割-amp-求表达式" class="headerlink" title="PART 2 分割&amp;求表达式"></a>PART 2 分割&amp;求表达式</h3><p>得到周期是$6$之后，我们可以把原来的密文拆分成$6$个文件，间隔$6$个字母一个文件进行输出，然后分别求表达式。</p>
 <p>求表达式的时候，由于加密是一次函数，因此我们不需要考虑加密函数，直接枚举解密函数（也是一次函数，一共有$12×26$个），然后根据字母频率分析，计算方差即可，最后将方差排个序，每次选出最小的那个即可。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">double</span> pos[<span class="number">26</span>],cul[<span class="number">26</span>];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">asdf</span>&#123;</span><span class="keyword">int</span> K,B;<span class="keyword">double</span> loss;</span><br><span class="line">&#125;data[<span class="number">500</span>];</span><br><span class="line"><span class="keyword">int</span> n,k[<span class="number">12</span>],str[<span class="number">40000</span>];</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(asdf a,asdf b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a.loss&lt;b.loss;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	pos[<span class="number">0</span>]=<span class="number">8.15</span>,pos[<span class="number">1</span>]=<span class="number">1.44</span>,pos[<span class="number">2</span>]=<span class="number">2.76</span>,pos[<span class="number">3</span>]=<span class="number">3.79</span>;</span><br><span class="line">	pos[<span class="number">4</span>]=<span class="number">13.11</span>,pos[<span class="number">5</span>]=<span class="number">2.92</span>,pos[<span class="number">6</span>]=<span class="number">1.99</span>,pos[<span class="number">7</span>]=<span class="number">5.26</span>;</span><br><span class="line">	pos[<span class="number">8</span>]=<span class="number">6.35</span>,pos[<span class="number">9</span>]=<span class="number">0.13</span>,pos[<span class="number">10</span>]=<span class="number">0.42</span>,pos[<span class="number">11</span>]=<span class="number">3.39</span>;</span><br><span class="line">	pos[<span class="number">12</span>]=<span class="number">2.54</span>,pos[<span class="number">13</span>]=<span class="number">7.1</span>,pos[<span class="number">14</span>]=<span class="number">8</span>,pos[<span class="number">15</span>]=<span class="number">1.98</span>;</span><br><span class="line">	pos[<span class="number">16</span>]=<span class="number">0.12</span>,pos[<span class="number">17</span>]=<span class="number">6.83</span>,pos[<span class="number">18</span>]=<span class="number">6.1</span>,pos[<span class="number">19</span>]=<span class="number">10.47</span>;</span><br><span class="line">	pos[<span class="number">20</span>]=<span class="number">2.46</span>,pos[<span class="number">21</span>]=<span class="number">0.92</span>,pos[<span class="number">22</span>]=<span class="number">1.54</span>,pos[<span class="number">23</span>]=<span class="number">0.17</span>;</span><br><span class="line">	pos[<span class="number">24</span>]=<span class="number">1.98</span>,pos[<span class="number">25</span>]=<span class="number">0.08</span>; </span><br><span class="line">	FILE *fp;</span><br><span class="line">	fp=fopen(<span class="string">&quot;enc6.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);</span><br><span class="line">	<span class="keyword">char</span> c;</span><br><span class="line">	str[<span class="number">0</span>]=<span class="number">-1</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=<span class="number">4771</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">fscanf</span>(fp,<span class="string">&quot;%c&quot;</span>,&amp;c);</span><br><span class="line">		str[i]=c<span class="number">-97</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	fclose(fp);</span><br><span class="line">	k[<span class="number">0</span>]=<span class="number">1</span>,k[<span class="number">1</span>]=<span class="number">3</span>,k[<span class="number">2</span>]=<span class="number">5</span>,k[<span class="number">3</span>]=<span class="number">7</span>,k[<span class="number">4</span>]=<span class="number">9</span>,k[<span class="number">5</span>]=<span class="number">11</span>;</span><br><span class="line">	k[<span class="number">6</span>]=<span class="number">15</span>,k[<span class="number">7</span>]=<span class="number">17</span>,k[<span class="number">8</span>]=<span class="number">19</span>,k[<span class="number">9</span>]=<span class="number">21</span>,k[<span class="number">10</span>]=<span class="number">23</span>,k[<span class="number">11</span>]=<span class="number">25</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">culcvarp</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	<span class="keyword">double</span> P=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)</span><br><span class="line">		P+=(cul[i]-pos[i])*(cul[i]-pos[i]);</span><br><span class="line">	<span class="keyword">return</span> P;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">transform</span><span class="params">(<span class="keyword">int</span> K,<span class="keyword">int</span> B)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++) cul[i]=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=<span class="number">4771</span>;i++)</span><br><span class="line">		cul[(K*str[i]+B)%<span class="number">26</span>]++;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)</span><br><span class="line">		cul[i]/=<span class="number">47.71</span>;</span><br><span class="line">	data[++n].K=K,data[n].B=B,data[n].loss=culcvarp();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	init();</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">12</span>;i++)</span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">26</span>;j++)</span><br><span class="line">			transform(k[i],j);</span><br><span class="line">	sort(data+<span class="number">1</span>,data+n+<span class="number">1</span>,cmp);s</span><br><span class="line">	FILE *fp;</span><br><span class="line">	fp=fopen(<span class="string">&quot;fnc&amp;pso6.txt&quot;</span>,<span class="string">&quot;w&quot;</span>);</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">		<span class="built_in">fprintf</span>(fp,<span class="string">&quot;D(x)=%dx+%d:loss=%.9lf\n&quot;</span>,data[i].K,data[i].B,data[i].loss);</span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
 <p>每次求出来后，我们可以发现，输出的第一个表达式的loss只有$12$左右，而第二个表达式的loss已经达到了$200+$，因此我们可以断定，第一个表达式就是我们想求的那个表达式。</p>
 <p>求出所有解密表达式之后，我们就可以求出最后的flag了,到时候只需要直接在输出文件中找到<code>flag is...</code>的字样即可。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="keyword">char</span> str[<span class="number">40000</span>],ans[<span class="number">40000</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	FILE *fp=fopen(<span class="string">&quot;enc.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);</span><br><span class="line">	<span class="built_in">fscanf</span>(fp,<span class="string">&quot;%s&quot;</span>,str);</span><br><span class="line">	n=<span class="built_in">strlen</span>(str);</span><br><span class="line">	fclose(fp);</span><br><span class="line">	fp=fopen(<span class="string">&quot;dec.txt&quot;</span>,<span class="string">&quot;w&quot;</span>);</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i+=<span class="number">6</span>)</span><br><span class="line">		ans[i]=(<span class="number">11</span>*(str[i]<span class="number">-97</span>)+<span class="number">20</span>)%<span class="number">26</span>+<span class="number">97</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;n;i+=<span class="number">6</span>)</span><br><span class="line">		ans[i]=(<span class="number">15</span>*(str[i]<span class="number">-97</span>)+<span class="number">21</span>)%<span class="number">26</span>+<span class="number">97</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">2</span>;i&lt;n;i+=<span class="number">6</span>)</span><br><span class="line">		ans[i]=(<span class="number">17</span>*(str[i]<span class="number">-97</span>)+<span class="number">1</span>)%<span class="number">26</span>+<span class="number">97</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">3</span>;i&lt;n;i+=<span class="number">6</span>)</span><br><span class="line">		ans[i]=(<span class="number">11</span>*(str[i]<span class="number">-97</span>)+<span class="number">22</span>)%<span class="number">26</span>+<span class="number">97</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">4</span>;i&lt;n;i+=<span class="number">6</span>)</span><br><span class="line">		ans[i]=(<span class="number">15</span>*(str[i]<span class="number">-97</span>)+<span class="number">24</span>)%<span class="number">26</span>+<span class="number">97</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">5</span>;i&lt;n;i+=<span class="number">6</span>)</span><br><span class="line">		ans[i]=(<span class="number">17</span>*(str[i]<span class="number">-97</span>)+<span class="number">5</span>)%<span class="number">26</span>+<span class="number">97</span>;</span><br><span class="line">	<span class="built_in">fprintf</span>(fp,<span class="string">&quot;%s&quot;</span>,ans);</span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="3-AFCTF2018-MagicNum"><a href="#3-AFCTF2018-MagicNum" class="headerlink" title="3.[AFCTF2018]MagicNum"></a>3.[AFCTF2018]MagicNum</h2><p>题目给出了$6$个浮点数，会想到以前讲过，C++的<code>float</code>和<code>int</code>都是$4$个字节，也就是$8$位十六进制数。因此，我们肯定是要把float转化成与之对应的在内存中存储方式完全一致的int值。因此我们可以考虑强制转换指针类型，将<code>float</code>指针类型输出时强制转换成<code>int</code>指针类型，代码如下</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	<span class="keyword">float</span> f;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=<span class="number">6</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%f&quot;</span>,&amp;f);</span><br><span class="line">		<span class="keyword">float</span> *p=&amp;f;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%x\n&quot;</span>,*(<span class="keyword">int</span>*) p);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//72065910510177138000000000000000.000000</span></span><br><span class="line"><span class="comment">//74636661</span></span><br></pre></td></tr></table></figure>
+
 <p>最后只需要把我们每次得到的八位十六进制数一个字节一个字节地倒过来重新组装，就变成了flag</p>
 <h2 id="4-LeftOrRight"><a href="#4-LeftOrRight" class="headerlink" title="4.LeftOrRight"></a>4.LeftOrRight</h2><p>题目给出了一个无法打开的图片，转换成txt，可以看到开始和解为都有$32$个十六进制数，转换成字符，貌似这两个字符都仅仅是打乱了顺序而已，根据题目提示，这种题目应该是给出了一棵二叉树的先序遍历和中序遍历，让你求后序遍历。</p>
 <p>难度不大，随便在网上找一个脚本抄一下就可以得到最后的答案了（<del>我只是一个当年用6个月速成NOIP然后拿了245的fw而已</del></p>
@@ -578,132 +575,6 @@ pq=\gcd(a^{nd}-a,n)</script><p>由于$a$是任意的数字，因此我们可以�
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -959,60 +830,6 @@ pq=\gcd(a^{nd}-a,n)</script><p>由于$a$是任意的数字，因此我们可以�
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">

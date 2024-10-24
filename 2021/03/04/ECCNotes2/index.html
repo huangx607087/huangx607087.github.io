@@ -455,10 +455,9 @@
 <p>这一系列笔记主要介绍椭圆曲线密码学的知识，接着笔记1继续扩展。</p>
 <p>这一笔记本来2.22就创建开始写了，咕到了3月4日才勉强提交，哎（准备补充笔记3了。<strong>笔记3不会接着笔记2继续讲</strong>。。。。。</p>
 <h2 id="6-椭圆曲线上的双线性对"><a href="#6-椭圆曲线上的双线性对" class="headerlink" title="6.椭圆曲线上的双线性对"></a>6.椭圆曲线上的双线性对</h2><p>在线性代数中，向量空间$R^n$中两个向量$\vec v,\vec w$，它们的数量积就是它们对应分量的积之和。</p>
-<p>现在有两个$n$维行向量$\vec v,\vec w$和一个$n$阶方阵$A$，那么我们可以定义一个函数$\beta(\vec v,\vec w)=\vec vA\vec w^T$。其中$\vec w^T$中的上标$T$表示转置，将行向量化为列向量以满足矩阵乘法的规则。当然有</p>
-<script type="math/tex; mode=display">
-\beta(a_1\vec v_1+a_2\vec v_2,\vec w)=a_1\beta(\vec v_1,\vec w)+a_2\beta(\vec v_2,\vec w)</script><script type="math/tex; mode=display">
-\beta(\vec v,b_1\vec w_1+b_2\vec w_2)=b_1\beta(\vec v,\vec w_1)+a_2\beta(\vec v,\vec w_2)</script><p>还有一种双线性配对是$R^2$上的行列式映射。 因此，如果$\vec v=(v_1,v_2)$和$\vec w=(w_1,w_2)$，那么有$\delta(\vec v,\vec w)=v_1w_2-v_2w_1$，也就是将这两个行向量构造出的矩阵的行列式的值。</p>
+<p>现在有两个$n$维行向量$\vec v,\vec w$和一个$n$阶方阵$A$，那么我们可以定义一个函数$\beta(\vec v,\vec w)=\vec vA\vec w^T$。其中$\vec w^T$中的上标$T$表示转置，将行向量化为列向量以满足矩阵乘法的规则。当然有<br>$$<br>\beta(a_1\vec v_1+a_2\vec v_2,\vec w)=a_1\beta(\vec v_1,\vec w)+a_2\beta(\vec v_2,\vec w)<br>$$</p>
+<p>$$<br>\beta(\vec v,b_1\vec w_1+b_2\vec w_2)=b_1\beta(\vec v,\vec w_1)+a_2\beta(\vec v,\vec w_2)<br>$$</p>
+<p>还有一种双线性配对是$R^2$上的行列式映射。 因此，如果$\vec v=(v_1,v_2)$和$\vec w=(w_1,w_2)$，那么有$\delta(\vec v,\vec w)=v_1w_2-v_2w_1$，也就是将这两个行向量构造出的矩阵的行列式的值。</p>
 <p>我们在本节中讨论的双线性对是相似的，因为它们以椭圆曲线上的两个点作为输入，并给出一个数字作为输出。 然而，双线性条件略有不同，因为输出值是有限场的非零元素，所以用乘积代替刚才最上面两个线性组合右边的和。</p>
 <p>椭圆曲线上的双线性对具有许多重要的密码学应用。 对于这些应用程序中的大多数，有必要使用有限域的素数阶$GF(p^k)$。</p>
 <h3 id="6x01-椭圆曲线上的有限阶点"><a href="#6x01-椭圆曲线上的有限阶点" class="headerlink" title="6x01 椭圆曲线上的有限阶点"></a>6x01 椭圆曲线上的有限阶点</h3><p>我们首先简要描述椭圆曲线上的有限阶点</p>
@@ -467,20 +466,8 @@
 <p>当椭圆曲线的定义域为$Q,R,C$时，那么$E(C)[m]=\dfrac{Z}{mZ}×\dfrac{Z}{mZ}$。</p>
 <p>当椭圆曲线在$GF(p)$上时，如果$p$不是$m$的因数，那么对于任意的$j$，都存在$k$使得$E(GF(P^{jk}))[m]=\dfrac{Z}{mZ}×\dfrac{Z}{mZ}$。</p>
 <p>如果$l$为素数，曲线的定义域为$K$，那么有$E(K)[l]=\dfrac{Z}{lZ}×\dfrac{Z}{lZ}$，那么我们可以认为$E[l]$是在$\dfrac{Z}{lZ}×\dfrac{Z}{lZ}$上的一个向量空间。当然，对于合数$m$，$E(K)[m]$中也会有两个点$P_1,P_2$，使得$E[m]$中的任意一个点$P$，都可以用$P_1,P_2$线性表示成$P=aP_1+bP_2$。对于系数$a,b∈\dfrac{Z}{mZ}$的唯一选择。 当然，如果$m$很大，可能很难找到$a$和$b$。 实际上，如果$P$是$P_1$的倍数，那么求$a$的值与解$P$和$P1$的ECDLP是相同的。</p>
-<h3 id="6x02-椭圆曲线上的有理数函数和约数"><a href="#6x02-椭圆曲线上的有理数函数和约数" class="headerlink" title="6x02 椭圆曲线上的有理数函数和约数"></a>6x02 椭圆曲线上的有理数函数和约数</h3><p>为了定义Weil和Tate对，我们需要解释椭圆曲线上的有理函数如何与其零点和极点相关。 我们从一个变量的有理函数的简单情况开始。 有理数函数是多项式的比值</p>
-<script type="math/tex; mode=display">
-f(x)=\dfrac{\sum_{i=0}^{n}a_ix^i}{\sum_{i=0}^{n}b_ix^i}</script><p>根据代数基本定理，在复数范围内，于$n$次方程有$n$个根，那么$f(x)$还可以写成这样的形式，其中所有的$\alpha$和所有的$\beta$都不相同。</p>
-<script type="math/tex; mode=display">
-f(x)=\dfrac{a\prod_{i=1}^r (x-\alpha_i)^{e_i}}{b\prod_{i=1}^s (x-\beta_i)^{d_i}}</script><p>由于$\alpha$与$\beta$中的值没有交集，因此，我们得到所有的$\alpha$值都是$f(x)$的零点，所有的$\beta$值都是$f(x)$的极点。我们通过定义$f(x)$的除数为形式和来跟踪$f(x)$的零点和极点及其倍数。定义：</p>
-<script type="math/tex; mode=display">
-\mathrm{div} (f(x))=\sum_{i=1}^r e_i\alpha_i-\sum_{i=1}^sd_i\beta_i</script><p>在椭圆曲线$E:y^2=x^3+Ax+B$中，如果把$x,y$都看成是某个变量的有理函数$x(t),y(t)$，那么椭圆曲线$E$上面的$f$的有些零点和极点会消失。此外，可以将倍数分配给零点和极点，因此 $f$ 有一个相关的除数</p>
-<script type="math/tex; mode=display">
-\mathrm{div}(f)=\sum_{P\in E} n_P[P]</script><p>在这个形式和中，系数$n_P$是整数，只有有限的$n_P$是非零的，所以$\mathrm{div}(f)$是有限和。</p>
-<p>下面我们假设一个椭圆曲线方程$y^2=x^3+Ax+B$，那么我们可以有</p>
-<script type="math/tex; mode=display">
-x^3+Ax+B=(x-\alpha_1)(x-\alpha_2)(x-\alpha_3)</script><p>那么很显然，$(\alpha_i,0)$都是椭圆曲线上阶数为$2$的点，设$P_i=(\alpha_i,0)$，那么我们可以有$2P_1=2P_2=2P_3=O$。那么$y$就会在这三个点上消失，然后我们就有</p>
-<script type="math/tex; mode=display">
-\mathrm{div}(Y)=[P_1]+[P_2]+[P_3]-3[O]</script><p>并且可以推出，$P_1,P_2,P_3$都是不同的点。</p>
+<h3 id="6x02-椭圆曲线上的有理数函数和约数"><a href="#6x02-椭圆曲线上的有理数函数和约数" class="headerlink" title="6x02 椭圆曲线上的有理数函数和约数"></a>6x02 椭圆曲线上的有理数函数和约数</h3><p>为了定义Weil和Tate对，我们需要解释椭圆曲线上的有理函数如何与其零点和极点相关。 我们从一个变量的有理函数的简单情况开始。 有理数函数是多项式的比值<br>$$<br>f(x)=\dfrac{\sum_{i=0}^{n}a_ix^i}{\sum_{i=0}^{n}b_ix^i}<br>$$<br>根据代数基本定理，在复数范围内，于$n$次方程有$n$个根，那么$f(x)$还可以写成这样的形式，其中所有的$\alpha$和所有的$\beta$都不相同。<br>$$<br>f(x)=\dfrac{a\prod_{i=1}^r (x-\alpha_i)^{e_i}}{b\prod_{i=1}^s (x-\beta_i)^{d_i}}<br>$$<br>由于$\alpha$与$\beta$中的值没有交集，因此，我们得到所有的$\alpha$值都是$f(x)$的零点，所有的$\beta$值都是$f(x)$的极点。我们通过定义$f(x)$的除数为形式和来跟踪$f(x)$的零点和极点及其倍数。定义：<br>$$<br>\mathrm{div} (f(x))=\sum_{i=1}^r e_i\alpha_i-\sum_{i=1}^sd_i\beta_i<br>$$<br>在椭圆曲线$E:y^2=x^3+Ax+B$中，如果把$x,y$都看成是某个变量的有理函数$x(t),y(t)$，那么椭圆曲线$E$上面的$f$的有些零点和极点会消失。此外，可以将倍数分配给零点和极点，因此 $f$ 有一个相关的除数<br>$$<br>\mathrm{div}(f)=\sum_{P\in E} n_P[P]<br>$$<br>在这个形式和中，系数$n_P$是整数，只有有限的$n_P$是非零的，所以$\mathrm{div}(f)$是有限和。</p>
+<p>下面我们假设一个椭圆曲线方程$y^2=x^3+Ax+B$，那么我们可以有<br>$$<br>x^3+Ax+B=(x-\alpha_1)(x-\alpha_2)(x-\alpha_3)<br>$$<br>那么很显然，$(\alpha_i,0)$都是椭圆曲线上阶数为$2$的点，设$P_i=(\alpha_i,0)$，那么我们可以有$2P_1=2P_2=2P_3=O$。那么$y$就会在这三个点上消失，然后我们就有<br>$$<br>\mathrm{div}(Y)=[P_1]+[P_2]+[P_3]-3[O]<br>$$<br>并且可以推出，$P_1,P_2,P_3$都是不同的点。</p>
 <p>更一般地，我们可以定义椭圆曲线$E$上的除数定义成$D=\sum_{P\in E}n_P[P]$，其中$n_p\in Z$并且$n_P=0$对所有但是有限个点$P\in E$。</p>
 <p>其中，除数的度数就是它的系数之和：$\deg D =\deg \sum_{P\in E}n_P[P]=\sum_{P \in E} n_p$。</p>
 <p>我们也可以通过方括号来定义除数的和：$\mathrm{Sum}(D)=\mathrm{Sum}\sum_{P\in E}n_P[P]=\sum_{P\in E}n_PP$。</p>
@@ -488,50 +475,31 @@ x^3+Ax+B=(x-\alpha_1)(x-\alpha_2)(x-\alpha_3)</script><p>那么很显然，$(\al
 <p><strong>定理1：</strong>设$f$和$g$是椭圆曲线上的有理函数，如果$\mathrm{div}(f)=\mathrm {div} (g)$，那么存在一个非零常数$c$使得$f=cg$。</p>
 <p><strong>定理2：</strong>设$D=\sum_{P\in E}n_P[P]$，为椭圆曲线$E$上的一个除数，则$D$是$E$上有理函数的除数当且仅当$\deg D=0 \text{ and Sum}(D)=O$。</p>
 <p>特别地，如果$E$上的有理函数没有零或极点，那么它就是一个常数。</p>
-<h3 id="6x03-Weil配对"><a href="#6x03-Weil配对" class="headerlink" title="6x03 Weil配对"></a>6x03 Weil配对</h3><p>用$e_m$表示的Weil配对以一对点作为输入$P, Q∈E[m]$，并给出单位$e_m(P,Q)$的第$m$个根作为输出。双线性Weil对的性质用方程表示</p>
-<script type="math/tex; mode=display">
-e_m(P_1+P_2,Q)=e_m(P_1,Q)e_m(P_2Q)</script><script type="math/tex; mode=display">
-e_m(P,Q_1+Q_2)=e_m(P,Q_1)e_m(P,Q_2)</script><p><strong>定义：</strong>设$P,Q∈E[m]$，即$P$和$Q$是$m$阶点群$E$。设$f_P$和$f_Q$是$E$上的有理函数满足$\mathrm{div}(f_P)=m[P]−m[O]$和$\mathrm{div}(fQ)=m[Q]−m[O]$。$P$和$Q$的Weil配对值就是</p>
-<script type="math/tex; mode=display">
-e_m(P,Q)=\dfrac{f_P(Q+S)f_Q(-S)}{f_P(S)f_Q(P-S)}</script><p>其中$S\in E $且$S$不为$O,P,-Q,P-Q$。并且$e_m(P,Q)$的值与函数$f_P,f_Q$的选取无关。</p>
+<h3 id="6x03-Weil配对"><a href="#6x03-Weil配对" class="headerlink" title="6x03 Weil配对"></a>6x03 Weil配对</h3><p>用$e_m$表示的Weil配对以一对点作为输入$P, Q∈E[m]$，并给出单位$e_m(P,Q)$的第$m$个根作为输出。双线性Weil对的性质用方程表示<br>$$<br>e_m(P_1+P_2,Q)=e_m(P_1,Q)e_m(P_2Q)<br>$$</p>
+<p>$$<br>e_m(P,Q_1+Q_2)=e_m(P,Q_1)e_m(P,Q_2)<br>$$</p>
+<p><strong>定义：</strong>设$P,Q∈E[m]$，即$P$和$Q$是$m$阶点群$E$。设$f_P$和$f_Q$是$E$上的有理函数满足$\mathrm{div}(f_P)=m[P]−m[O]$和$\mathrm{div}(fQ)=m[Q]−m[O]$。$P$和$Q$的Weil配对值就是<br>$$<br>e_m(P,Q)=\dfrac{f_P(Q+S)f_Q(-S)}{f_P(S)f_Q(P-S)}<br>$$<br>其中$S\in E $且$S$不为$O,P,-Q,P-Q$。并且$e_m(P,Q)$的值与函数$f_P,f_Q$的选取无关。</p>
 <p>Weil配对的值满足$e_m(P,Q)^m=1$、$e_m(P,Q)=e_m(Q,P)^{-1}$，其中$P,Q\in E[m]$且对于任何的$P\in E[m]$，都有$e_m(P,P)=1$。</p>
 <p>并且，Weil配对是非退化的，也就是说，如果对于任意的$Q\in E[m]$，都有$e_m(P,Q)=1$，那么可以推出$P=O$。</p>
 <p>我们选择一个基$P_1,P_2∈E[m]$。那么任意元素$P∈E[m]$都可以是在此基础上写成$P=a_PP_1+b_PP_2$。</p>
-<p>因此我们可以又以下的式子:</p>
-<script type="math/tex; mode=display">
-e_m(P,Q)=e_m(P_1,P_2)^{a_Pb_Q-a_Qb_P}</script><p>Weil配对的优点是它可以非常有效地计算不必用$E[m]$的基来表示$P$和$Q$。</p>
-<h3 id="6x04-一种有效的算法来计算Weil配对"><a href="#6x04-一种有效的算法来计算Weil配对" class="headerlink" title="6x04 一种有效的算法来计算Weil配对"></a>6x04 一种有效的算法来计算Weil配对</h3><p>我们设椭圆曲线$E$上有两点$P,Q$，直线$P,Q$的斜率为$k$，$S(x,y)\in E$，那么我们设</p>
-<script type="math/tex; mode=display">
-g_{P,Q}=\dfrac{y-y_P-k(x-x_P)}{x+x_P+x_Q-k^2}</script><p>如果$x_P=x_Q$且$P \not =Q$，那么上式的值视为$x-x_P$。如果$P=Q$，那么$k$视为$P$点在椭圆曲线上对应点的切线的斜率，而切线的斜率可以用高等数学中隐函数求导法求出为$y’=\dfrac{3x^2+A}{2y}$</p>
+<p>因此我们可以又以下的式子:<br>$$<br>e_m(P,Q)=e_m(P_1,P_2)^{a_Pb_Q-a_Qb_P}<br>$$<br>Weil配对的优点是它可以非常有效地计算不必用$E[m]$的基来表示$P$和$Q$。</p>
+<h3 id="6x04-一种有效的算法来计算Weil配对"><a href="#6x04-一种有效的算法来计算Weil配对" class="headerlink" title="6x04 一种有效的算法来计算Weil配对"></a>6x04 一种有效的算法来计算Weil配对</h3><p>我们设椭圆曲线$E$上有两点$P,Q$，直线$P,Q$的斜率为$k$，$S(x,y)\in E$，那么我们设<br>$$<br>g_{P,Q}=\dfrac{y-y_P-k(x-x_P)}{x+x_P+x_Q-k^2}<br>$$<br>如果$x_P=x_Q$且$P \not =Q$，那么上式的值视为$x-x_P$。如果$P=Q$，那么$k$视为$P$点在椭圆曲线上对应点的切线的斜率，而切线的斜率可以用高等数学中隐函数求导法求出为$y’=\dfrac{3x^2+A}{2y}$</p>
 <p>因此，我们还可以获得这样一个式子：$\mathrm{div}(g_{P,Q})=[P]+[Q]-[P+Q]-[O]$。</p>
 <p>下面的算法返回一个除数满足$\mathrm{div}(f_P ) = m[P] − [mP] − (m − 1)[O]$。</p>
 <p>已知$P(36,60)$和$Q(121,387)$均为有限域上椭圆曲线$y^2\equiv x^3+30x+34\pmod{631} $上的$5$阶点，设$S(x,y)=(19,186)$为椭圆曲线上符合条件的任意一点，通过下面的代码，我们可以求出$e_5(P.Q)$的值。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">o1=GF(<span class="number">631</span>)</span><br><span class="line">A,B=<span class="number">30</span>,<span class="number">34</span></span><br><span class="line">E=EllipticCurve(o1,[A,B])</span><br><span class="line">m=<span class="number">5</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">g</span>(<span class="params">P,Q,S</span>):</span></span><br><span class="line">    <span class="keyword">if</span>(P[<span class="number">0</span>]==Q[<span class="number">0</span>] <span class="keyword">and</span> P!=Q):</span><br><span class="line">        <span class="keyword">return</span> S[<span class="number">0</span>]-P[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">if</span> P[<span class="number">0</span>]==Q[<span class="number">0</span>]:</span><br><span class="line">        k=(<span class="number">3</span>*P[<span class="number">0</span>]*P[<span class="number">0</span>]+A)/(<span class="number">2</span>*P[<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        k=(P[<span class="number">1</span>]-Q[<span class="number">1</span>])/(P[<span class="number">0</span>]-Q[<span class="number">0</span>])</span><br><span class="line">    <span class="keyword">return</span> (S[<span class="number">1</span>]-P[<span class="number">1</span>]-k*(S[<span class="number">0</span>]-P[<span class="number">0</span>]))/(S[<span class="number">0</span>]+P[<span class="number">0</span>]+Q[<span class="number">0</span>]-k*k)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">F</span>(<span class="params">P,S</span>):</span></span><br><span class="line">    T,f=P,<span class="number">1</span></span><br><span class="line">    n=bin(m)[<span class="number">2</span>:]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(n)):</span><br><span class="line">        f=f*f*g(T,T,S)</span><br><span class="line">        T=<span class="number">2</span>*T</span><br><span class="line">        <span class="keyword">if</span> int(n[i]):</span><br><span class="line">            f=f*g(T,P,S)</span><br><span class="line">            T=T+P</span><br><span class="line">    <span class="keyword">return</span> f</span><br><span class="line">P,Q,S=E(<span class="number">36</span>,<span class="number">60</span>),E(<span class="number">121</span>,<span class="number">387</span>),E(<span class="number">19</span>,<span class="number">186</span>)</span><br><span class="line">tmp1=F(P,Q+S)/F(P,S)</span><br><span class="line">tmp2=F(Q,P-S)/F(Q,-S)</span><br><span class="line">ePQ=tmp1/tmp2</span><br><span class="line">print(tmp1,tmp2,ePQ)</span><br><span class="line"><span class="comment">#198 345 242</span></span><br></pre></td></tr></table></figure>
+
 <p>可以看出：$242^5\equiv 1 \pmod {631}$</p>
 <p>特别地，如果$P \in E[m]$，那么$\mathrm{div}(f_P)=m[P]-m[O]$。</p>
 <h3 id="6x05-Tate配对"><a href="#6x05-Tate配对" class="headerlink" title="6x05 Tate配对"></a>6x05 Tate配对</h3><p> Weil对是椭圆曲线上的非退化双线性形式在任何领域。对于有限域上的椭圆曲线还有另一对，我们称之为Tate配对在密码学中经常使用，因为它在计算上有点复杂比Weil配对更有效。在本节中，我们将简要介绍Tate配对。</p>
-<p>设$E$是$GF(q)$上的一个椭圆曲线，$l$是一个素数，设$P\in E(GF(q))[l],Q \in E(GF(q))$，选择$E$上的有理函数$f_P$使得：</p>
-<script type="math/tex; mode=display">
-\mathrm{div}(f_P)=l[P]-l[O]</script><p>并且Tate对$P,Q$的值为</p>
-<script type="math/tex; mode=display">
-τ (P,Q)=\dfrac{f_P(Q+S)}{f_P(S)}</script><p>其中$S$是$E(GF(q))$上任一点，并且使得上式的分子分母不为$0$的点。</p>
-<p>事实证明，Tate配对的值只有在乘以$GF(q)$元素的$l$次幂之后才有明确的定义。如果$q \equiv 1 \pmod l$，我们定义$P,Q$的Tate配对为</p>
-<script type="math/tex; mode=display">
-τ'(P,Q)=τ'(P,Q)^{(q-1)/l}=(\dfrac{f_P(Q+S)}{f_P(S)})^{(q-1)/l}</script><p>设$E$是$GF(q)$上的一个椭圆曲线，$l$是素数满足$q\equiv 1 \pmod l$且$E(GF(q))[L]=\dfrac{Z}{lZ}$。</p>
-<p>那么我们可以得到这样一个映射：</p>
-<script type="math/tex; mode=display">
-:E(GF(q))[l]×E(GF(q))[l] \rightarrow GF(q)</script><p>并且这个$τ’$的性质也满足：</p>
-<script type="math/tex; mode=display">
-τ'(P_1+P_2,Q)=τ'(P_1,Q)τ'(P_2Q)</script><script type="math/tex; mode=display">
-τ'(P,Q_1+Q_2)=τ'(P,Q_1)τ'(P,Q_2)</script><p>并且$τ’(P,P)$的值$x$满足$x^l\equiv 1 \pmod p$且$x \not =1$。</p>
+<p>设$E$是$GF(q)$上的一个椭圆曲线，$l$是一个素数，设$P\in E(GF(q))[l],Q \in E(GF(q))$，选择$E$上的有理函数$f_P$使得：<br>$$<br>\mathrm{div}(f_P)=l[P]-l[O]<br>$$<br>并且Tate对$P,Q$的值为<br>$$<br>τ (P,Q)=\dfrac{f_P(Q+S)}{f_P(S)}<br>$$<br>其中$S$是$E(GF(q))$上任一点，并且使得上式的分子分母不为$0$的点。</p>
+<p>事实证明，Tate配对的值只有在乘以$GF(q)$元素的$l$次幂之后才有明确的定义。如果$q \equiv 1 \pmod l$，我们定义$P,Q$的Tate配对为<br>$$<br>τ’(P,Q)=τ’(P,Q)^{(q-1)/l}=(\dfrac{f_P(Q+S)}{f_P(S)})^{(q-1)/l}<br>$$<br>设$E$是$GF(q)$上的一个椭圆曲线，$l$是素数满足$q\equiv 1 \pmod l$且$E(GF(q))[L]=\dfrac{Z}{lZ}$。</p>
+<p>那么我们可以得到这样一个映射：<br>$$<br>:E(GF(q))[l]×E(GF(q))[l] \rightarrow GF(q)<br>$$<br>并且这个$τ’$的性质也满足：<br>$$<br>τ’(P_1+P_2,Q)=τ’(P_1,Q)τ’(P_2Q)<br>$$</p>
+<p>$$<br>τ’(P,Q_1+Q_2)=τ’(P,Q_1)τ’(P,Q_2)<br>$$</p>
+<p>并且$τ’(P,P)$的值$x$满足$x^l\equiv 1 \pmod p$且$x \not =1$。</p>
 <h2 id="7-GF-p-k-上的Weil对"><a href="#7-GF-p-k-上的Weil对" class="headerlink" title="7.$GF(p^k)$上的Weil对"></a>7.$GF(p^k)$上的Weil对</h2><h3 id="7x01-嵌入度和MOV算法"><a href="#7x01-嵌入度和MOV算法" class="headerlink" title="7x01 嵌入度和MOV算法"></a>7x01 嵌入度和MOV算法</h3><p>设$E$是$GF(p)$上的一个椭圆曲线，$m≥1$且$p$不整除$m$，为了能够获得非零的Weil配对值，我们需要用一个$E$上的独立的阶为$m$的点，一般情况下，阶为$m$的点一般有$m^2$个，但它们的坐标可能在一个更大的域中才能完全出现。</p>
-<p><strong>定义：嵌入度</strong> 设$E$是$GF(p)$上的椭圆曲线，$m≥1$且$p$不整除$m$，$E$对$m$的嵌入度的值为使得以下式子成立的最小$k$值：</p>
-<script type="math/tex; mode=display">
-E(GF(p^k))[m] = (\dfrac Z{mZ})^2</script><p>而在密码学的应用中，当$m$是一个大素数时，这一情况下嵌入度也可以这样理解：</p>
+<p><strong>定义：嵌入度</strong> 设$E$是$GF(p)$上的椭圆曲线，$m≥1$且$p$不整除$m$，$E$对$m$的嵌入度的值为使得以下式子成立的最小$k$值：<br>$$<br>E(GF(p^k))[m] = (\dfrac Z{mZ})^2<br>$$<br>而在密码学的应用中，当$m$是一个大素数时，这一情况下嵌入度也可以这样理解：</p>
 <p>设$E$是$GF(p)$上的一个椭圆曲线，$l$是一个与$p$不相等的素数，那么$E$对$l$的嵌入度可能是下面三种情况之一：</p>
-<p>1.$E$的嵌入度为$1$，不过当$l&gt;\sqrt p +1$的时候这张情况时不可能的<br>2.$p \equiv 1 \pmod l$时，$E$的嵌入度为$l$<br>3.$p \not \equiv 1 \pmod l$时，此时的嵌入度就是使得下面式子成立的最小$k(≥2)$值。</p>
-<script type="math/tex; mode=display">
-p^k \equiv 1 \pmod l</script><p>设$E$是$GF(p)$上的一个椭圆曲线，$P\in E$并且$P$的阶为$l$，$l$是一个大素数且$l&gt;\sqrt p +1$。那么我们可以用下面的步骤来求解ECDLP，而这里求解ECDLP的问题就需要用到求解DLP的问题</p>
+<p>1.$E$的嵌入度为$1$，不过当$l&gt;\sqrt p +1$的时候这张情况时不可能的<br>2.$p \equiv 1 \pmod l$时，$E$的嵌入度为$l$<br>3.$p \not \equiv 1 \pmod l$时，此时的嵌入度就是使得下面式子成立的最小$k(≥2)$值。<br>$$<br>p^k \equiv 1 \pmod l<br>$$<br>设$E$是$GF(p)$上的一个椭圆曲线，$P\in E$并且$P$的阶为$l$，$l$是一个大素数且$l&gt;\sqrt p +1$。那么我们可以用下面的步骤来求解ECDLP，而这里求解ECDLP的问题就需要用到求解DLP的问题</p>
 <p>1.计算$n=|E(GF(p^k))|$，其中$|E|$表示椭圆曲线内所含点数<br>2.随机选取一个点$T \in E(GF(p^k))$且$T\not \in E(GF(p))$<br>3.设$T’=(n/l)T$，如果$T’=O$，重新选择$T$<br>4.计算$\alpha=e_l(P,T’)$和$\beta =e_l(Q,T’)$<br>5.计算离散对数$\alpha^x\equiv \beta \pmod p$<br>6.那么我们可以求出$Q=xP$，ECDLP求解。</p>
 <h2 id="99-后记"><a href="#99-后记" class="headerlink" title="99.后记"></a>99.后记</h2><p>ECC笔记2到这里暂时先结束，写的比较匆忙，书上5.8、5.9、5.10有很多比较晦涩难懂的东西，个人感觉在CTF中的应用不是很广泛，后期会对这一笔记进行更新补充（<del>根本原因是因为自己太菜了，看不懂（</del></p>
 
@@ -620,132 +588,6 @@ p^k \equiv 1 \pmod l</script><p>设$E$是$GF(p)$上的一个椭圆曲线，$P\in
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -1001,60 +843,6 @@ p^k \equiv 1 \pmod l</script><p>设$E$是$GF(p)$上的一个椭圆曲线，$P\in
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">

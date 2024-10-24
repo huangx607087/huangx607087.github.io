@@ -455,56 +455,43 @@
 <p>自己6月初申请留任了校科协和院科协，看来以后不能再摸鱼了。并且如果CTF和平时文化课双开的话，应该难度并不小，<del>不过希望自己可以做到</del>。</p>
 <h2 id="1-GKCTF-2021-Random"><a href="#1-GKCTF-2021-Random" class="headerlink" title="1.[GKCTF 2021]Random"></a>1.[GKCTF 2021]Random</h2><p>通过观察题目代码可以知道，又是一道典型的MT19937预测随机数的题目</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_mask</span>():</span></span><br><span class="line">    file = open(<span class="string">&quot;random.txt&quot;</span>,<span class="string">&quot;w&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">104</span>):</span><br><span class="line">        file.write(str(random.getrandbits(<span class="number">32</span>))+<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">        file.write(str(random.getrandbits(<span class="number">64</span>))+<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">        file.write(str(random.getrandbits(<span class="number">96</span>))+<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">    file.close()</span><br><span class="line">get_mask()</span><br><span class="line">flag = md5(str(random.getrandbits(<span class="number">32</span>)).encode()).hexdigest()</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+
 <p>题目一次给出了$104$组数字，每组数字由$32$位、$64$位、$96$位的二进制数各一个。每一组等价于$6$组$32$位二进制数，总共$624$组$32$位二进制数，因此可以进行预测。</p>
 <p>不过这里要注意一下预测的顺序，设一次给出的分别是$^{32}A,^{64}B,^{96}C$，那么我们预测顺序应该是：$^{32}A_{[31,0]}$,$^{64}B_{[31,0]}$,$^{64}B_{[63,32]}$,$^{96}C_{[31,0]}$,$^{96}C_{[63,32]}$,$^{96}C_{[95,64]}$，其中$^{64}B_{[31,0]}$表示$B$一共有$64$位，取其代表着$2^{31}$到$2^{0}$的比特位。</p>
 <p>我们可以导入上一个博客我们探究出来的包。将其命名为<code>MT19937tools</code>放入我们的解题文件夹中，通过<code>import</code>到我们的解题脚本中来即可。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line"><span class="keyword">from</span> MT19937tools <span class="keyword">import</span> *</span><br><span class="line">f=open(<span class="string">&quot;random.txt&quot;</span>,<span class="string">&quot;r&quot;</span>)</span><br><span class="line">S=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">104</span>):</span><br><span class="line">    a32=int(f.readline())</span><br><span class="line">    a64=int(f.readline())</span><br><span class="line">    a96=int(f.readline())</span><br><span class="line">    S.append(a32)</span><br><span class="line">    S.append(a64&amp;<span class="number">0xffffffff</span>)</span><br><span class="line">    S.append(a64&gt;&gt;<span class="number">32</span>)</span><br><span class="line">    S.append(a96&amp;<span class="number">0xffffffff</span>)</span><br><span class="line">    S.append((a96&gt;&gt;<span class="number">32</span>)&amp;<span class="number">0xffffffff</span>)</span><br><span class="line">    S.append(a96&gt;&gt;<span class="number">64</span>)</span><br><span class="line">f.close()</span><br><span class="line">D=MT19937(<span class="number">0</span>)</span><br><span class="line">flag= md5(str(D.predict(S)).encode()).hexdigest()</span><br><span class="line">print(flag)</span><br><span class="line"><span class="comment">#14c71fec812b754b2061a35a4f6d8421</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="2-GKCTF-2021-RRRRsa"><a href="#2-GKCTF-2021-RRRRsa" class="headerlink" title="2.[GKCTF 2021]RRRRsa"></a>2.[GKCTF 2021]RRRRsa</h2><h3 id="Step-1-初步审题"><a href="#Step-1-初步审题" class="headerlink" title="Step 1 初步审题"></a>Step 1 初步审题</h3><p>按照惯例先看一下题目代码，然后将题目后面给出来的所有数据放入<code>given.py</code>文件中</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span> gcd</span><br><span class="line">flag = <span class="string">b&#x27;xxxxxxxxxxxxx&#x27;</span></span><br><span class="line">p = getPrime(<span class="number">512</span>)</span><br><span class="line">q = getPrime(<span class="number">512</span>)</span><br><span class="line">m = bytes_to_long(flag)</span><br><span class="line">n = p*q</span><br><span class="line">e = <span class="number">65537</span></span><br><span class="line">c = pow(m,e,n)</span><br><span class="line">print(<span class="string">&#x27;c=&#123;&#125;&#x27;</span>.format(c))</span><br><span class="line">p1 = getPrime(<span class="number">512</span>)</span><br><span class="line">q1 = getPrime(<span class="number">512</span>)</span><br><span class="line">n1 = p1*q1</span><br><span class="line">e1 = <span class="number">65537</span></span><br><span class="line"><span class="keyword">assert</span> gcd(e1,(p1<span class="number">-1</span>)*(q1<span class="number">-1</span>)) == <span class="number">1</span></span><br><span class="line">c1 = pow(p,e1,n1)</span><br><span class="line">print(<span class="string">&#x27;n1=&#123;&#125;&#x27;</span>.format(n1))</span><br><span class="line">print(<span class="string">&#x27;c1=&#123;&#125;&#x27;</span>.format(c1))</span><br><span class="line">hint1 = pow(<span class="number">2020</span> * p1 + q1, <span class="number">202020</span>, n1)</span><br><span class="line">hint2 = pow(<span class="number">2021</span> * p1 + <span class="number">212121</span>, q1, n1)</span><br><span class="line">print(<span class="string">&#x27;hint1=&#123;&#125;&#x27;</span>.format(hint1))</span><br><span class="line">print(<span class="string">&#x27;hint2=&#123;&#125;&#x27;</span>.format(hint2))</span><br><span class="line">p2 = getPrime(<span class="number">512</span>)</span><br><span class="line">q2 = getPrime(<span class="number">512</span>)</span><br><span class="line">n2 = p2*q2</span><br><span class="line">e2 = <span class="number">65537</span></span><br><span class="line"><span class="keyword">assert</span> gcd(e1,(p2<span class="number">-1</span>)*(q2<span class="number">-1</span>)) == <span class="number">1</span></span><br><span class="line">c2 = pow(q,e2,n2)</span><br><span class="line">hint3 = pow(<span class="number">2020</span> * p2 + <span class="number">2021</span> * q2, <span class="number">202020</span>, n2)</span><br><span class="line">hint4 = pow(<span class="number">2021</span> * p2 + <span class="number">2020</span> * q2, <span class="number">212121</span>, n2)</span><br><span class="line">print(<span class="string">&#x27;n2=&#123;&#125;&#x27;</span>.format(n2))</span><br><span class="line">print(<span class="string">&#x27;c2=&#123;&#125;&#x27;</span>.format(c2))</span><br><span class="line">print(<span class="string">&#x27;hint3=&#123;&#125;&#x27;</span>.format(hint3))</span><br><span class="line">print(<span class="string">&#x27;hint4=&#123;&#125;&#x27;</span>.format(hint4))</span><br></pre></td></tr></table></figure>
-<p>可以看出整个过程中先加密了$\mathrm {flag}$，然后对加密$\mathrm{flag}$的$p,q$进行了二次加密。对于第一组式子我们可以得到：</p>
-<script type="math/tex; mode=display">
-h_1\equiv (2020p_1+q_1)^{202020} \pmod{n_1}</script><script type="math/tex; mode=display">
-h_2\equiv (2021p_1+212121)^{q_1} \pmod {n_1}</script><p>同时我们可以根据代码提炼出第二组式子：</p>
-<script type="math/tex; mode=display">
-h_3\equiv (2020p_2+2021q_2)^{202020} \pmod{n_2}</script><script type="math/tex; mode=display">
-h_4\equiv (2021p_2+2020q_2)^{212121} \pmod {n_2}</script><p>鉴于第二组式子略微简单一点，我们先化简第二组式子</p>
-<h3 id="Step-2-第二组式子的化简"><a href="#Step-2-第二组式子的化简" class="headerlink" title="Step 2 第二组式子的化简"></a>Step 2 第二组式子的化简</h3><p>对于第二组式子：</p>
-<script type="math/tex; mode=display">
-h_3\equiv (2020p_2+2021q_2)^{202020} \pmod{n_2}</script><script type="math/tex; mode=display">
-h_4\equiv (2021p_2+2020q_2)^{212121} \pmod {n_2}</script><p>根据二项式定理，加上$n_2=p_2q_2$，对这两个式子展开，由于中间项全没有了，我们可以得到：</p>
-<script type="math/tex; mode=display">
-h_3\equiv 2020^{202020}p_2^{202020} + 2021^{202020} q_2^{202020}\pmod{n_2}</script><script type="math/tex; mode=display">
-h_4\equiv 2021^{212121}p_2^{212121}+2020^{212121}q_2^{212121}\pmod{n_2}</script><p>设$t=202020×212121$,那么我们也可以得到：</p>
-<script type="math/tex; mode=display">
-h_3^{212121}\equiv 2020^tp_2^t+2021^tq_2^t\pmod{n_2}</script><script type="math/tex; mode=display">
-h_4^{202020}\equiv 2021^tp_2^t +2020^tq_2^t\pmod{n_2}</script><p>然后我们可以继续得到</p>
-<script type="math/tex; mode=display">
-2021^th_3^{212121} \equiv 2020^t2021^tp_2^t+2021^{2t}q_2^t\pmod{n_2}</script><script type="math/tex; mode=display">
-2020^{t}h_4^{202020}\equiv 2020^t2021^tp_2^t+2020^{2t}q_2^t \pmod{n_2}</script><p>两式相减，得</p>
-<script type="math/tex; mode=display">
-2021^th_3^{212121}-2020^{t}h_4^{202020} \equiv 2021^{2t}q_2^t-2020^{2t}q_2^t=(2021^{2t}-2020^{2t})q_2^t \pmod {n_2}</script><p>可以看出这个数字肯定是$q_2$的倍数，将其记为$kq_2$,由于$n_2=p_2q_2$，且$p_2,q_2$均为素数，因此可以得到$\gcd(n,kq_2)=q_2$，进而分解$n_2$，解密后得到$q$。</p>
-<h3 id="Step-3-第一组式子的化简"><a href="#Step-3-第一组式子的化简" class="headerlink" title="Step 3 第一组式子的化简"></a>Step 3 第一组式子的化简</h3><p>我们再回过来看一下第一组式子：</p>
-<script type="math/tex; mode=display">
-h_1\equiv (2020p_1+q_1)^{202020} \pmod{n_1}</script><script type="math/tex; mode=display">
-h_2\equiv (2021p_1+212121)^{q_1} \pmod {n_1}</script><p>根据二项式定理，很容易将第一个式子化简</p>
-<script type="math/tex; mode=display">
-h_1\equiv 2020^{202020}p_1^{202020}+q_1^{202020}\pmod {n_1}</script><p>但对于第二个式子，展开化简很显然是不太可能的事情</p>
+
+<p>可以看出整个过程中先加密了$\mathrm {flag}$，然后对加密$\mathrm{flag}$的$p,q$进行了二次加密。对于第一组式子我们可以得到：<br>$$<br>h_1\equiv (2020p_1+q_1)^{202020} \pmod{n_1}<br>$$</p>
+<p>$$<br>h_2\equiv (2021p_1+212121)^{q_1} \pmod {n_1}<br>$$</p>
+<p>同时我们可以根据代码提炼出第二组式子：<br>$$<br>h_3\equiv (2020p_2+2021q_2)^{202020} \pmod{n_2}<br>$$</p>
+<p>$$<br>h_4\equiv (2021p_2+2020q_2)^{212121} \pmod {n_2}<br>$$</p>
+<p>鉴于第二组式子略微简单一点，我们先化简第二组式子</p>
+<h3 id="Step-2-第二组式子的化简"><a href="#Step-2-第二组式子的化简" class="headerlink" title="Step 2 第二组式子的化简"></a>Step 2 第二组式子的化简</h3><p>对于第二组式子：<br>$$<br>h_3\equiv (2020p_2+2021q_2)^{202020} \pmod{n_2}<br>$$</p>
+<p>$$<br>h_4\equiv (2021p_2+2020q_2)^{212121} \pmod {n_2}<br>$$</p>
+<p>根据二项式定理，加上$n_2=p_2q_2$，对这两个式子展开，由于中间项全没有了，我们可以得到：<br>$$<br>h_3\equiv 2020^{202020}p_2^{202020} + 2021^{202020} q_2^{202020}\pmod{n_2}<br>$$</p>
+<p>$$<br>h_4\equiv 2021^{212121}p_2^{212121}+2020^{212121}q_2^{212121}\pmod{n_2}<br>$$</p>
+<p>设$t=202020×212121$,那么我们也可以得到：<br>$$<br>h_3^{212121}\equiv 2020^tp_2^t+2021^tq_2^t\pmod{n_2}<br>$$</p>
+<p>$$<br>h_4^{202020}\equiv 2021^tp_2^t +2020^tq_2^t\pmod{n_2}<br>$$</p>
+<p>然后我们可以继续得到<br>$$<br>2021^th_3^{212121} \equiv 2020^t2021^tp_2^t+2021^{2t}q_2^t\pmod{n_2}<br>$$</p>
+<p>$$<br>2020^{t}h_4^{202020}\equiv 2020^t2021^tp_2^t+2020^{2t}q_2^t \pmod{n_2}<br>$$</p>
+<p>两式相减，得<br>$$<br>2021^th_3^{212121}-2020^{t}h_4^{202020} \equiv 2021^{2t}q_2^t-2020^{2t}q_2^t=(2021^{2t}-2020^{2t})q_2^t \pmod {n_2}<br>$$<br>可以看出这个数字肯定是$q_2$的倍数，将其记为$kq_2$,由于$n_2=p_2q_2$，且$p_2,q_2$均为素数，因此可以得到$\gcd(n,kq_2)=q_2$，进而分解$n_2$，解密后得到$q$。</p>
+<h3 id="Step-3-第一组式子的化简"><a href="#Step-3-第一组式子的化简" class="headerlink" title="Step 3 第一组式子的化简"></a>Step 3 第一组式子的化简</h3><p>我们再回过来看一下第一组式子：<br>$$<br>h_1\equiv (2020p_1+q_1)^{202020} \pmod{n_1}<br>$$</p>
+<p>$$<br>h_2\equiv (2021p_1+212121)^{q_1} \pmod {n_1}<br>$$</p>
+<p>根据二项式定理，很容易将第一个式子化简<br>$$<br>h_1\equiv 2020^{202020}p_1^{202020}+q_1^{202020}\pmod {n_1}<br>$$<br>但对于第二个式子，展开化简很显然是不太可能的事情</p>
 <p>由于$n_1=p_1q_1$，想到离散对数中的一些内容，很显然，在这里$\mathrm{ord}(p_1) = q_1$，因为$p_1^x \mod n_1$的值只有$q_1$种结果。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注：这个结论很好证明，随便搞几个特殊数据试试就出来了</span><br></pre></td></tr></table></figure>
+
 <p>因此，展开式中第一项即为$2021^{q_1}p_1$，但这边还是出现了一个问题，那就是$q_1$总是在指数上，很难去掉。</p>
-<p>由于$p$是素数，那么根据费马小定理$a^{p}\equiv a \pmod p$和二项式展开定理，可以得到：</p>
-<script type="math/tex; mode=display">
-h_2\equiv \sum_{i=0}^{q} \mathrm C_q^{i}2021^ip^i212121^{q-i} \pmod {n_1}</script><p>简单化简一下：</p>
-<script type="math/tex; mode=display">
-h_2\equiv 2021^{q_1}p_1+\sum_{i=0}^{q-1}  212121^{-i}\mathrm C_q^{i}2021^ip^i212121^{q} \pmod {n_1}</script><p>干脆别管常数了（</p>
-<script type="math/tex; mode=display">
-h_2\equiv 2021^{q_1}p_1+\sum_{i=0}^{q-1}  K_ip^i212121^{q} \pmod {n_1}</script><p>再模一下$q_1$：</p>
-<script type="math/tex; mode=display">
-H=h_2 \mod q_1 \equiv 2021p_1+212121+Kq_1 \mod q_1 \pmod {n_1}</script><p>如果我们减去$212121$，那么$H=2021p_1+Kq_1$，将$H$升高到$202020$次方，然后再用Step2中一样的方法消元，就可以得到$kq_1$，然后与$n_1$求GCD就出结果了。</p>
+<p>由于$p$是素数，那么根据费马小定理$a^{p}\equiv a \pmod p$和二项式展开定理，可以得到：<br>$$<br>h_2\equiv \sum_{i=0}^{q} \mathrm C_q^{i}2021^ip^i212121^{q-i} \pmod {n_1}<br>$$<br>简单化简一下：<br>$$<br>h_2\equiv 2021^{q_1}p_1+\sum_{i=0}^{q-1}  212121^{-i}\mathrm C_q^{i}2021^ip^i212121^{q} \pmod {n_1}<br>$$<br>干脆别管常数了（<br>$$<br>h_2\equiv 2021^{q_1}p_1+\sum_{i=0}^{q-1}  K_ip^i212121^{q} \pmod {n_1}<br>$$<br>再模一下$q_1$：<br>$$<br>H=h_2 \mod q_1 \equiv 2021p_1+212121+Kq_1 \mod q_1 \pmod {n_1}<br>$$<br>如果我们减去$212121$，那么$H=2021p_1+Kq_1$，将$H$升高到$202020$次方，然后再用Step2中一样的方法消元，就可以得到$kq_1$，然后与$n_1$求GCD就出结果了。</p>
 <h3 id="Step-4-解题代码"><a href="#Step-4-解题代码" class="headerlink" title="Step 4 解题代码"></a>Step 4 解题代码</h3><p>根据上面的分析，不难写出解题代码</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> given <span class="keyword">import</span> *</span><br><span class="line">l=<span class="number">202020</span>*<span class="number">212121</span></span><br><span class="line">H3,H4=pow(hint3,<span class="number">212121</span>,n2),pow(hint4,<span class="number">202020</span>,n2)</span><br><span class="line">HH3,HH4=pow(<span class="number">2021</span>,l,n2)*H3%n2,pow(<span class="number">2020</span>,l,n2)*H4%n2</span><br><span class="line">kq2=HH4-HH3</span><br><span class="line">q2=GCD(kq2,n2)</span><br><span class="line">p2=n2//q2</span><br><span class="line"><span class="keyword">assert</span> isPrime(p2) <span class="keyword">and</span> isPrime(q2)</span><br><span class="line">Q=pow(c2,inverse(e2,(p2<span class="number">-1</span>)*(q2<span class="number">-1</span>)),n2)</span><br><span class="line"><span class="keyword">assert</span> isPrime(Q)</span><br><span class="line">t=pow(hint2<span class="number">-212121</span>,<span class="number">202020</span>,n1)</span><br><span class="line">HH1=pow(<span class="number">2021</span>,<span class="number">202020</span>,n1)*hint1%n1</span><br><span class="line">HH2=pow(<span class="number">2020</span>,<span class="number">202020</span>,n1)*t%n1</span><br><span class="line">kq1=abs(HH1-HH2)</span><br><span class="line">q1=GCD(kq1,n1)</span><br><span class="line">p1=n1//q1</span><br><span class="line"><span class="keyword">assert</span> isPrime(p1) <span class="keyword">and</span> isPrime(q1)</span><br><span class="line">P=pow(c1,inverse(e1,(p1<span class="number">-1</span>)*(q1<span class="number">-1</span>)),n1)</span><br><span class="line"><span class="keyword">assert</span> isPrime(P)</span><br><span class="line">flag=long_to_bytes(pow(c,inverse(e,(P<span class="number">-1</span>)*(Q<span class="number">-1</span>)),P*Q))</span><br><span class="line">print(flag)</span><br><span class="line"><span class="comment">#GKCTF&#123;f64310b5-d5e6-45cb-ae69-c86600cdf8d8&#125;</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="3-GKCTF-2021-XOR"><a href="#3-GKCTF-2021-XOR" class="headerlink" title="3.[GKCTF 2021]XOR"></a>3.[GKCTF 2021]XOR</h2><p>看一下题目的代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line">a = getPrime(<span class="number">512</span>)</span><br><span class="line">b = getPrime(<span class="number">512</span>)</span><br><span class="line">c = getPrime(<span class="number">512</span>)</span><br><span class="line">d = getPrime(<span class="number">512</span>)</span><br><span class="line">d1 = int(bin(d)[<span class="number">2</span>:][::<span class="number">-1</span>] , <span class="number">2</span>)</span><br><span class="line">n1 = a*b</span><br><span class="line">x1 = a^b</span><br><span class="line">n2 = c*d</span><br><span class="line">x2 = c^d1</span><br><span class="line">flag = md5(str(a+b+c+d).encode()).hexdigest()</span><br><span class="line">print(<span class="string">&quot;n1 =&quot;</span>,n1)</span><br><span class="line">print(<span class="string">&quot;x1 =&quot;</span>,x1)</span><br><span class="line">print(<span class="string">&quot;n2 =&quot;</span>,n2)</span><br><span class="line">print(<span class="string">&quot;x2 =&quot;</span>,x2)</span><br></pre></td></tr></table></figure>
+
 <p>题目给出了$a$和$b$的乘积、$a$和$b$异或后的值、$c$和$d$的乘积和$c$和$d’$异或的值。</p>
 <p>对于第一个问情况，我们只需要不断枚举它的每一位就可以了。不过注意一下这样一个同余的性质：不论在几进制下，如果已知$A,B$两个数的最后$n$位，那么它们的乘积的最后$n$位我们也会知道了。</p>
 <p>例如：</p>
@@ -516,15 +503,19 @@ H=h_2 \mod q_1 \equiv 2021p_1+212121+Kq_1 \mod q_1 \pmod {n_1}</script><p>如果
 <p>而第二种情况再之前的XDCTF中，脚本见5月17日发布的<strong>21May1</strong>中的第三题，不过这里对于三个剪枝条件我再阐述一下：</p>
 <p>一：不同余的时候剪枝，这个我刚刚讲过，实现代码如下</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(CurP*CurQ)%(<span class="number">2</span>**(Round+<span class="number">1</span>))!=n%(<span class="number">2</span>**(Round+<span class="number">1</span>)):</span><br><span class="line">    <span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+
 <p>二：最小值情况下总数过大，超过了$n$（定上界）</p>
 <p>由于我们是高位低位两头双面夹击，不断补充比特位的，因此在枚举一开始的时候，中间所有的比特位都是$0$。也就是此时枚举时$P,Q$的值都是小于真值的。因此如果此时乘积超过$n$，就说明某个数的高位定大了，需要返回重新定值。实现代码如下</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> CurP*CurQ&gt;n:</span><br><span class="line">    <span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+
 <p>三：最大值情况下总数过小，无法到达$n$。（定下界）</p>
 <p>有一个很好的办法是把中间所有的未确认的比特位全填充成$1$，这种方法也是可行的，但或许会比较麻烦（</p>
 <p>根据第二条中的理论，这个时候我们可以给枚举的数字定个下界。由于我们第$\mathrm {Round}$的轮定下的高位是代表着$2^{511-\mathrm{Round}}$的值，这个时候我们可以给这一位强行$+1$，也就是原本的$0$变$1$，原本的$1$变$2$（进到下一位），如果此时两数的乘积还不到$n$，就说明我们的两个数字确定得小了，需要枚举更大的比特位了。实现代码如下</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(CurP+<span class="number">2</span>**(<span class="number">511</span>-Round))*((CurQ+<span class="number">2</span>**(<span class="number">511</span>-Round)))&lt;n: </span><br><span class="line">    <span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+
 <p>最后上一下完整的解题代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line"><span class="keyword">from</span> given <span class="keyword">import</span> *</span><br><span class="line">bina=bin(x2)[<span class="number">2</span>:]</span><br><span class="line">bina=<span class="string">&#x27;0&#x27;</span>*(<span class="number">512</span>-len(bina))+bina</span><br><span class="line">binb=bin(x1)[<span class="number">2</span>:]</span><br><span class="line">binb=<span class="string">&#x27;0&#x27;</span>*(<span class="number">512</span>-len(binb))+binb</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs2</span>(<span class="params">P,Q,n,Round</span>):</span></span><br><span class="line">    <span class="keyword">if</span> Round==<span class="number">256</span>:</span><br><span class="line">        <span class="keyword">if</span> P*Q==n:</span><br><span class="line">            <span class="keyword">global</span> c,d</span><br><span class="line">            c,d=P,Q</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">2</span>):</span><br><span class="line">            CurP=P+i*(<span class="number">2</span>**(<span class="number">511</span>-Round))+(int(bina[Round])^j)*(<span class="number">2</span>**Round)</span><br><span class="line">            CurQ=Q+j*(<span class="number">2</span>**(<span class="number">511</span>-Round))+(int(bina[<span class="number">511</span>-Round])^i)*(<span class="number">2</span>**Round)</span><br><span class="line">            <span class="keyword">if</span> CurP*CurQ&gt;n:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">if</span>(CurP+<span class="number">2</span>**(<span class="number">511</span>-Round))*((CurQ+<span class="number">2</span>**(<span class="number">511</span>-Round)))&lt;n: </span><br><span class="line">                <span class="keyword">continue</span>     </span><br><span class="line">            <span class="keyword">if</span>(CurP*CurQ)%(<span class="number">2</span>**(Round+<span class="number">1</span>))!=n%(<span class="number">2</span>**(Round+<span class="number">1</span>)):</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            dfs2(CurP,CurQ,n,Round+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs1</span>(<span class="params">P,Q,n,Round</span>):</span></span><br><span class="line">    <span class="keyword">if</span> Round&gt;<span class="number">512</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">if</span> Round==<span class="number">512</span>:</span><br><span class="line">        <span class="keyword">if</span> P*Q==n:</span><br><span class="line">          <span class="keyword">global</span> a,b</span><br><span class="line">          a,b=P,Q</span><br><span class="line">          <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>):</span><br><span class="line">        CurP=(i&lt;&lt;Round)+P</span><br><span class="line">        CurQ=((i^int(binb[<span class="number">511</span>-Round]))&lt;&lt;Round)+Q</span><br><span class="line">        <span class="keyword">if</span>(CurP*CurQ%(<span class="number">2</span>**(Round))!=n%(<span class="number">2</span>**(Round))):</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        dfs1(CurP,CurQ,n,Round+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="comment">#----MAIN BELOW----#</span></span><br><span class="line">a,b,c,d=<span class="literal">None</span>,<span class="literal">None</span>,<span class="literal">None</span>,<span class="literal">None</span></span><br><span class="line">dfs2(<span class="number">0</span>,<span class="number">0</span>,n2,<span class="number">0</span>)</span><br><span class="line"><span class="keyword">assert</span> isPrime(c) <span class="keyword">and</span> isPrime(d)</span><br><span class="line">dfs1(<span class="number">0</span>,<span class="number">0</span>,n1,<span class="number">0</span>)</span><br><span class="line"><span class="keyword">assert</span> isPrime(a) <span class="keyword">and</span> isPrime(b)</span><br><span class="line">flag = <span class="string">&quot;GKCTF&#123;&quot;</span>+md5(str(a+b+c+d).encode()).hexdigest()+<span class="string">&quot;&#125;&quot;</span></span><br><span class="line">print(flag)</span><br><span class="line"><span class="comment">#GKCTF&#123;f28ed218415356b4336e2f778f2981bb&#125;</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h2><p>暑假放假回家第一篇复现的wp，总体感觉好久没做过CTF水平下降了很多的样子（</p>
 
                 
@@ -612,132 +603,6 @@ H=h_2 \mod q_1 \equiv 2021p_1+212121+Kq_1 \mod q_1 \pmod {n_1}</script><p>如果
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -993,60 +858,6 @@ H=h_2 \mod q_1 \equiv 2021p_1+212121+Kq_1 \mod q_1 \pmod {n_1}</script><p>如果
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">

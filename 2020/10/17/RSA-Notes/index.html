@@ -464,27 +464,43 @@
 <h3 id="0x03-只给出了-n-c-e-并且-e-3-的情况"><a href="#0x03-只给出了-n-c-e-并且-e-3-的情况" class="headerlink" title="0x03 只给出了$n,c,e$并且$e=3$的情况"></a>0x03 只给出了$n,c,e$并且$e=3$的情况</h3><p>根据$c=E(m)=m^3 \mod n $,也就是$m^3=c+kn,k∈${$0,1,2,3,…$}，这个时候可以枚举$k$的值，通过二分$m$确定$m$的值，一般$k$不会太大的</p>
 <h3 id="0x04-只给出了-n-c-e-并且-ln-e≈-ln-n-（也就是-e-非常大的时候"><a href="#0x04-只给出了-n-c-e-并且-ln-e≈-ln-n-（也就是-e-非常大的时候" class="headerlink" title="0x04 只给出了$n,c,e$并且$\ln e≈\ln n$（也就是$e$非常大的时候)"></a>0x04 只给出了$n,c,e$并且$\ln e≈\ln n$（也就是$e$非常大的时候)</h3><p>使用winnerattack算法，具体代码见下<del>（别看，这个代码不是本fw打的）</del></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">continued_fractions_expansion</span>(<span class="params">numerator,denominator</span>):</span><span class="comment">#(e,N)</span></span><br><span class="line">	result=[]</span><br><span class="line">	divident = numerator % denominator</span><br><span class="line">	quotient = numerator // denominator</span><br><span class="line">	result.append(quotient)</span><br><span class="line">	<span class="keyword">while</span> divident != <span class="number">0</span>:</span><br><span class="line">		numerator = numerator - quotient * denominator</span><br><span class="line">		tmp = denominator</span><br><span class="line">		denominator = numerator</span><br><span class="line">		numerator = tmp</span><br><span class="line">		divident = numerator % denominator</span><br><span class="line">		quotient = numerator // denominator</span><br><span class="line">		result.append(quotient)</span><br><span class="line">	<span class="keyword">return</span> result</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convergents</span>(<span class="params">expansion</span>):</span></span><br><span class="line">	convergents=[(expansion[<span class="number">0</span>], <span class="number">1</span>)]</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(expansion)):</span><br><span class="line">		numerator = <span class="number">1</span></span><br><span class="line">		denominator = expansion[i]</span><br><span class="line">		<span class="keyword">for</span> j <span class="keyword">in</span> range(i - <span class="number">1</span>, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">			numerator += expansion[j] * denominator</span><br><span class="line">			<span class="keyword">if</span> j==<span class="number">0</span>:</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			tmp = denominator</span><br><span class="line">			denominator = numerator</span><br><span class="line">			numerator = tmp</span><br><span class="line">		convergents.append((numerator, denominator)) <span class="comment">#(k,d)</span></span><br><span class="line">	<span class="keyword">return</span> convergents</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">newtonSqrt</span>(<span class="params">n</span>):</span></span><br><span class="line">	approx = n // <span class="number">2</span></span><br><span class="line">	better = (approx + n // approx) // <span class="number">2</span></span><br><span class="line">	<span class="keyword">while</span> better != approx:</span><br><span class="line">	    approx = better</span><br><span class="line">	    better = (approx + n // approx) // <span class="number">2</span></span><br><span class="line">	<span class="keyword">return</span> approx</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wiener_attack</span>(<span class="params">cons, e, N</span>):</span></span><br><span class="line">	<span class="keyword">for</span> cs <span class="keyword">in</span> cons:</span><br><span class="line">		k,d = cs</span><br><span class="line">		<span class="keyword">if</span> k == <span class="number">0</span>:</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		phi_N = (e * d - <span class="number">1</span>) // k</span><br><span class="line">		<span class="comment">#x**2 - ((N - phi_N) + 1) * x + N = 0</span></span><br><span class="line">		a = <span class="number">1</span></span><br><span class="line">		b = -((N - phi_N) + <span class="number">1</span>)</span><br><span class="line">		c = N</span><br><span class="line">		delta = b * b - <span class="number">4</span> * a * c</span><br><span class="line">		<span class="keyword">if</span> delta &lt;= <span class="number">0</span>:</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		x1 = (newtonSqrt(delta) - b)//(<span class="number">2</span> * a)</span><br><span class="line">		x2 = -(newtonSqrt(delta) + b)//(<span class="number">2</span> * a)</span><br><span class="line">		<span class="keyword">if</span> x1 * x2 == N:</span><br><span class="line">			<span class="keyword">return</span> [x1, x2, k, d]</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    n = <span class="comment">#填写n的值</span></span><br><span class="line">    e = <span class="comment">#填写e的值</span></span><br><span class="line">    c = <span class="comment">#填写c的值</span></span><br><span class="line">    expansion = continued_fractions_expansion(e, n)</span><br><span class="line">    cons = convergents(expansion)</span><br><span class="line">    p, q, k, d = wiener_attack(cons, e, n)</span><br><span class="line">    m = pow(c, d, n)</span><br><span class="line">    print(libnum.n2s(m))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
 <h3 id="0x05-给出了-n-c-e-并且给出-f-d-phi-的一个一次式"><a href="#0x05-给出了-n-c-e-并且给出-f-d-phi-的一个一次式" class="headerlink" title="0x05 给出了$n,c,e$并且给出$f(d,\phi)$的一个一次式"></a>0x05 给出了$n,c,e$并且给出$f(d,\phi)$的一个一次式</h3><p>直接求出$ef(d,\phi)$的值,然后确定模数</p>
 <h3 id="0x06-已知-n-c-e-，-e-3-并且得知-m-m-mod-2-k-的值"><a href="#0x06-已知-n-c-e-，-e-3-并且得知-m-m-mod-2-k-的值" class="headerlink" title="0x06 已知$n,c,e$，$e=3$,并且得知$m-(m \mod 2^k)$的值"></a>0x06 已知$n,c,e$，$e=3$,并且得知$m-(m \mod 2^k)$的值</h3><p>这种情况下根本不可能用0x03的方法，因为$k$值也很大</p>
 <p>在Sagemath中的Notebook上打开网页，创建一个Sagemath网页文件，把以下代码补完整后运行</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="comment">#你已知的n值</span></span><br><span class="line">e = <span class="number">3</span></span><br><span class="line">m = randrange(n)<span class="comment">#不要改</span></span><br><span class="line">c = pow(m, e, n)<span class="comment">#不要改</span></span><br><span class="line">beta = <span class="number">1</span></span><br><span class="line">epsilon = beta^<span class="number">2</span>/<span class="number">7</span><span class="comment">#不要改</span></span><br><span class="line">nbits = n.nbits()<span class="comment">#不要改</span></span><br><span class="line">kbits=<span class="comment">#m被掩盖的字位数</span></span><br><span class="line">print(nbits,kbits)</span><br><span class="line">mbar = <span class="comment">#你得到的不完整的m值</span></span><br><span class="line">c = <span class="comment">#你得到的c值</span></span><br><span class="line"><span class="keyword">print</span> (<span class="string">&quot;upper %d bits (of %d bits) is given&quot;</span> % (nbits-kbits, nbits))</span><br><span class="line">PR.&lt;x&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">f = (mbar + x)^e - c</span><br><span class="line"><span class="keyword">print</span> (m)</span><br><span class="line">x0 = f.small_roots(X=<span class="number">2</span>^kbits, beta=<span class="number">1</span>)[<span class="number">0</span>]  <span class="comment"># find root &lt; 2^kbits with factor = n1</span></span><br><span class="line">print( mbar + x0)</span><br></pre></td></tr></table></figure>
+
 <h3 id="0x07-Parity-Oracle"><a href="#0x07-Parity-Oracle" class="headerlink" title="0x07 Parity Oracle"></a>0x07 Parity Oracle</h3><p>直接看0xGame Div 2的相关内容</p>
 <h3 id="0x08已知-n-c-e-，-e-3-和-p-p-mod-2-k-的值"><a href="#0x08已知-n-c-e-，-e-3-和-p-p-mod-2-k-的值" class="headerlink" title="0x08已知$n,c,e$，$e=3$和$p-(p \mod 2^k)$的值"></a>0x08已知$n,c,e$，$e=3$和$p-(p \mod 2^k)$的值</h3><p>在Sagemath中的Notebook上打开网页，创建一个Sagemath网页文件，把以下代码补完整后运行</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="comment">#你得到的n值</span></span><br><span class="line">p_fake = <span class="comment">#你得到的不完整的p值</span></span><br><span class="line">pbits = p_fake.nbits()</span><br><span class="line">kbits = <span class="comment">#p失去的低位</span></span><br><span class="line">pbar = p_fake &amp; (<span class="number">2</span>^pbits<span class="number">-2</span>^kbits)</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;upper %d bits (of %d bits) is given&quot;</span> % (pbits-kbits, pbits)</span><br><span class="line">PR.&lt;x&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">f = x + pbar</span><br><span class="line">x0 = f.small_roots(X=<span class="number">2</span>^kbits, beta=<span class="number">0.4</span>)[<span class="number">0</span>]  <span class="comment"># find root &lt; 2^kbits with factor &gt;= n^0.3</span></span><br><span class="line">p= x0 + pbar</span><br><span class="line"><span class="keyword">print</span> p</span><br></pre></td></tr></table></figure>
+
 <p>有$p$就可以得到$q$，进而就很简单了</p>
 <h3 id="0x09-已知-n-c-e-，-e-3-和-d-mod-2-k-值"><a href="#0x09-已知-n-c-e-，-e-3-和-d-mod-2-k-值" class="headerlink" title="0x09 已知$n,c,e$，$e=3$和$d \mod 2^k$值"></a>0x09 已知$n,c,e$，$e=3$和$d \mod 2^k$值</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partial_p</span>(<span class="params">p0, kbits, n</span>):</span></span><br><span class="line">    PR.&lt;x&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">    nbits = n.nbits()</span><br><span class="line">    f = <span class="number">2</span>^kbits*x + p0</span><br><span class="line">    f = f.monic()</span><br><span class="line">    roots = f.small_roots(X=<span class="number">2</span>^(nbits//<span class="number">2</span>-kbits), beta=<span class="number">0.3</span>)  <span class="comment"># find root &lt; 2^(nbits//2-kbits) with factor &gt;= n^0.3</span></span><br><span class="line">    <span class="keyword">if</span> roots:</span><br><span class="line">        x0 = roots[<span class="number">0</span>]</span><br><span class="line">        p = gcd(<span class="number">2</span>^kbits*x0 + p0, n)</span><br><span class="line">        <span class="keyword">return</span> ZZ(p)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_p</span>(<span class="params">d0, kbits, e, n</span>):</span></span><br><span class="line">    X = var(<span class="string">&#x27;X&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> xrange(<span class="number">1</span>, e+<span class="number">1</span>):</span><br><span class="line">        results = solve_mod([e*d0*X - k*X*(n-X+<span class="number">1</span>) + k*n == X], <span class="number">2</span>^kbits)</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> results:</span><br><span class="line">            p0 = ZZ(x[<span class="number">0</span>])</span><br><span class="line">            p = partial_p(p0, kbits, n)</span><br><span class="line">            <span class="keyword">if</span> p:</span><br><span class="line">                <span class="keyword">return</span> p</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    n = <span class="comment">#你得到的n值</span></span><br><span class="line">    e = <span class="number">3</span></span><br><span class="line">    d = <span class="comment">#你得到的d的低位</span></span><br><span class="line">    beta = <span class="number">0.5</span></span><br><span class="line">    epsilon = beta^<span class="number">2</span>/<span class="number">7</span></span><br><span class="line">    nbits = n.nbits()</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;nbits:%d:&quot;</span>%(nbits)</span><br><span class="line">    <span class="comment">#kbits = floor(nbits*(beta^2+epsilon))</span></span><br><span class="line">    kbits = nbits - d.nbits()<span class="number">-1</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;kbits:%d&quot;</span>%(kbits)</span><br><span class="line">    d0 = d &amp; (<span class="number">2</span>^kbits<span class="number">-1</span>)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;lower %d bits (of %d bits) is given&quot;</span> % (kbits, nbits)</span><br><span class="line">    p = find_p(d0, kbits, e, n)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;found p: %d&quot;</span> % p</span><br><span class="line">    q = n//p</span><br><span class="line">    <span class="keyword">print</span> d</span><br><span class="line">    <span class="keyword">print</span> inverse_mod(e, (p<span class="number">-1</span>)*(q<span class="number">-1</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <h3 id="0x0A-两个模数-n-1-n-2-不互素（模不互素）"><a href="#0x0A-两个模数-n-1-n-2-不互素（模不互素）" class="headerlink" title="0x0A 两个模数$n_1,n_2$不互素（模不互素）"></a>0x0A 两个模数$n_1,n_2$不互素<strong>（模不互素）</strong></h3><p>这种题目一般给出$2$组$n,e,c$的值，我们可以求一下$\gcd (n_1,n_2)$ 如果不等于$1$的话，我们就得到了$n$的一个因数$p$,一除就得到了$q_1,q_2$，分别求解即可得到明文。</p>
 <h3 id="0x0B-模数-n-相同-指数-e-不同（共模攻击）"><a href="#0x0B-模数-n-相同-指数-e-不同（共模攻击）" class="headerlink" title="0x0B 模数$n$相同,指数$e$不同（共模攻击）"></a>0x0B 模数$n$相同,指数$e$不同<strong>（共模攻击）</strong></h3><p>这种题目一般也是给出$2$组$n,e,c$的值。也就是$5$个数字：$n,e_1,e_2,c_1,c_2$。此时可以不求$d_1,d_2$也可以直接获得明文。</p>
 <p>步骤：<br>显然，多数情况下$\gcd(e_1,e_2)=1$，所以有$e_1s_1+e_2s_2=1$，一般$s_1,s_2$为一正一负的两个整数，用EXGCD可以求得该式子的一组解</p>
 <p>我们可以得到算式 ：$(c1^{s1}c2^{s2})\mod n = ((m^{e1}\mod n)^{s1}(m^{e2}\mod n)^{s2})\mod n$ .<strong>(1)</strong></p>
 <p>化简，有：$(c1^{s1}c2^{s2})\mod n = (m^{(e1^{s1}+e2^{s2})})\mod n$  .<strong>(2)</strong></p>
 <p>又$e_1s_1+e_2s_2=1$   . <strong>(3)</strong></p>
-<p>所以由<strong>(2)(3)</strong>可知：$c1^{s1}*c2^{s2} \equiv  m \mod n $</p>
+<p>所以由**(2)(3)**可知：$c1^{s1}*c2^{s2} \equiv  m \mod n $</p>
 <p>所以我们可以写出以下的脚本：<del>别膜，这很显然不是我这个fw能够写出来的！，我有过这样的码风？</del></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> libnum <span class="keyword">import</span> n2s,s2n</span><br><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span> invert</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">egcd</span>(<span class="params">a, b</span>):</span></span><br><span class="line">  <span class="keyword">if</span> a == <span class="number">0</span>:</span><br><span class="line">    <span class="keyword">return</span> (b, <span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    g, y, x = egcd(b % a, a)</span><br><span class="line">    <span class="keyword">return</span> (g, x - (b // a) * y, y)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">  n = <span class="comment">#填写n值</span></span><br><span class="line">  c1 = <span class="comment">#填写c1值</span></span><br><span class="line">  c2 = <span class="comment">#填写c2值</span></span><br><span class="line">  e1 = <span class="comment">#填写e1值</span></span><br><span class="line">  e2 = <span class="comment">#填写e2值</span></span><br><span class="line">  s = egcd(e1, e2)</span><br><span class="line">  s1 = s[<span class="number">1</span>]</span><br><span class="line">  s2 = s[<span class="number">2</span>]</span><br><span class="line">  <span class="keyword">if</span> s1&lt;<span class="number">0</span>:</span><br><span class="line">    s1 = - s1</span><br><span class="line">    c1 = invert(c1, n)</span><br><span class="line">  <span class="keyword">elif</span> s2&lt;<span class="number">0</span>:</span><br><span class="line">    s2 = - s2</span><br><span class="line">    c2 = invert(c2, n)</span><br><span class="line">  m = pow(c1,s1,n)*pow(c2,s2,n) % n</span><br><span class="line">  <span class="keyword">print</span> n2s(m)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">  main()</span><br></pre></td></tr></table></figure>
+
 <h3 id="0x0C-给出pem和bin文件的RSA题目"><a href="#0x0C-给出pem和bin文件的RSA题目" class="headerlink" title="0x0C 给出pem和bin文件的RSA题目"></a>0x0C 给出pem和bin文件的RSA题目</h3><p>在脚本前加上这些内容。然后pub1和pub2都有两个值(n和e，没有c)</p>
 <p>这个脚本的后半部分也可以作为一个更加简洁的共模攻击觉得脚本。<del>我就是个只会利用别人脚本的fw55555555555</del></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.PublicKey <span class="keyword">import</span> RSA</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line">c1=libnum.s2n(open(<span class="string">&#x27;cipher1.txt&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>).read())</span><br><span class="line">c2=libnum.s2n(open(<span class="string">&#x27;cipher2.txt&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>).read())</span><br><span class="line">pub1=RSA.importKey(open(<span class="string">&#x27;publickey1.pem&#x27;</span>).read())</span><br><span class="line">pub2=RSA.importKey(open(<span class="string">&#x27;publickey2.pem&#x27;</span>).read())</span><br><span class="line"><span class="comment">#注：如果文件是bin类型的话，应该写成这样：</span></span><br><span class="line"><span class="comment">#c=bytes_to_long(open(&#x27;cipher.bin&#x27;,&#x27;rb&#x27;).read())</span></span><br><span class="line">n=pub1.n</span><br><span class="line">e1,e2=pub1.e,pub2.e</span><br><span class="line">s = gmpy2.gcdext(pub1.e,pub2.e)</span><br><span class="line">s1,s2=s[<span class="number">1</span>],s[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">if</span> s1&lt;<span class="number">0</span>:</span><br><span class="line">    s1 = -s1</span><br><span class="line">    c1 = gmpy2.invert(c1, n)</span><br><span class="line"><span class="keyword">elif</span> s2&lt;<span class="number">0</span>:</span><br><span class="line">    s2 = -s2</span><br><span class="line">    c2 = gmpy2.invert(c2, n)</span><br><span class="line">m=pow(c1,s1,n)*pow(c2,s2,n)%n</span><br><span class="line">print(long_to_bytes(m))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
 
                 
             </div>
@@ -571,132 +587,6 @@
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -952,60 +842,6 @@
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">

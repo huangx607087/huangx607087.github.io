@@ -456,24 +456,31 @@
 <p>而在实际应用中，并不是所有的伪随机数都是32位的，有的时候也会出现8位、16位、64位、96位等32的倍数或约数。当然也有可能出现9位、33位，34位、70位等不规则的情形。因此，上面提到的“连续$624$个$32$位二进制数”可以被替换成“连续$19968$个比特位”。（这里有个很神奇的地方，就是$623×32$的值恰好是$19936$）。</p>
 <p>下面上一下MT19937的基本代码</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_int32</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="keyword">return</span> int(<span class="number">0xFFFFFFFF</span> &amp; x)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MT19937</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, seed</span>):</span></span><br><span class="line">        self.mt = [<span class="number">0</span>] * <span class="number">624</span></span><br><span class="line">        self.mt[<span class="number">0</span>] = seed</span><br><span class="line">        self.mti = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">624</span>):</span><br><span class="line">            self.mt[i] = _int32(<span class="number">1812433253</span> * (self.mt[i - <span class="number">1</span>] ^ self.mt[i - <span class="number">1</span>] &gt;&gt; <span class="number">30</span>) + i)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getstate</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">if</span> self.mti == <span class="number">0</span>:</span><br><span class="line">            self.twist()</span><br><span class="line">        y = self.mt[self.mti]</span><br><span class="line">        y = y ^ y &gt;&gt; <span class="number">11</span></span><br><span class="line">        y = y ^ y &lt;&lt; <span class="number">7</span> &amp; <span class="number">2636928640</span></span><br><span class="line">        y = y ^ y &lt;&lt; <span class="number">15</span> &amp; <span class="number">4022730752</span></span><br><span class="line">        y = y ^ y &gt;&gt; <span class="number">18</span></span><br><span class="line">        self.mti = (self.mti + <span class="number">1</span>) % <span class="number">624</span></span><br><span class="line">        <span class="keyword">return</span> _int32(y)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twist</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">624</span>):</span><br><span class="line">            y = _int32((self.mt[i] &amp; <span class="number">0x80000000</span>) + (self.mt[(i + <span class="number">1</span>) % <span class="number">624</span>] &amp; <span class="number">0x7fffffff</span>))</span><br><span class="line">            self.mt[i] = (y &gt;&gt; <span class="number">1</span>) ^ self.mt[(i + <span class="number">397</span>) % <span class="number">624</span>]</span><br><span class="line">            <span class="keyword">if</span> y % <span class="number">2</span> != <span class="number">0</span>:</span><br><span class="line">                self.mt[i] = self.mt[i] ^ <span class="number">0x9908b0df</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">    print(D.getstate())        </span><br></pre></td></tr></table></figure>
+
 <p>可以看出，在MT19937中，由于getstate函数并不是直接把内部数组的内容输出，而是经过一个可逆并且一一对应的处理后输出的。这就使得输出的数字随机性较高。</p>
 <p>而如果我们想要生成的随机数的比特位数是$32$的倍数的话，那么这个随机数也是可以预测出来的。这个时候我们只需要将每$32$个比特位看作一个整体，然后按照最低$32$位先生成的原则，就可以预测出整个随机数序列了。也就是说，如果我们想要预测$64$位的随机数序列，那么我们只需要将每个$64$位的随机数拆成两个$32$位的数字，然后把代表着$2^{31}$到$2^{0}$的比特位放前面，$2^{63}$到$2^{32}$的比特位放后面，这样就可以恢复所有的$32$位序列进行预测了。同理可以预测$96,128$等$32$的倍数的随机数的序列。</p>
 <h2 id="0x02-CTF中MT19937常见题型"><a href="#0x02-CTF中MT19937常见题型" class="headerlink" title="0x02 CTF中MT19937常见题型"></a>0x02 CTF中MT19937常见题型</h2><h3 id="2o01-题型一：逆向随机数产生器内部的state中的内容"><a href="#2o01-题型一：逆向随机数产生器内部的state中的内容" class="headerlink" title="2o01 题型一：逆向随机数产生器内部的state中的内容"></a>2o01 题型一：逆向随机数产生器内部的state中的内容</h3><p>根据上面的代码分析内容可知，最后输出的内容并不是随机数产生时原本的state。根据去年10月26日的那篇文章的分析。我们利用下面的代码中的<code>recover()</code>函数和<code>extract_number()</code>函数，就可以实现内部state和实际输出之间数值的互相转换。（具体原理见去年10.26文章的分析）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inverse_right</span>(<span class="params">res, shift, mask=<span class="number">0xffffffff</span>, bits=<span class="number">32</span></span>):</span></span><br><span class="line">    tmp = res</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(bits // shift):</span><br><span class="line">        tmp = res ^ tmp &gt;&gt; shift &amp; mask</span><br><span class="line">    <span class="keyword">return</span> tmp</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inverse_left</span>(<span class="params">res, shift, mask=<span class="number">0xffffffff</span>, bits=<span class="number">32</span></span>):</span></span><br><span class="line">    tmp = res</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(bits // shift):</span><br><span class="line">        tmp = res ^ tmp &lt;&lt; shift &amp; mask</span><br><span class="line">    <span class="keyword">return</span> tmp</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract_number</span>(<span class="params">y</span>):</span></span><br><span class="line">    y = y ^ y &gt;&gt; <span class="number">11</span></span><br><span class="line">    y = y ^ y &lt;&lt; <span class="number">7</span> &amp; <span class="number">2636928640</span></span><br><span class="line">    y = y ^ y &lt;&lt; <span class="number">15</span> &amp; <span class="number">4022730752</span></span><br><span class="line">    y = y ^ y &gt;&gt; <span class="number">18</span></span><br><span class="line">    <span class="keyword">return</span> y&amp;<span class="number">0xffffffff</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">recover</span>(<span class="params">y</span>):</span></span><br><span class="line">    y = inverse_right(y,<span class="number">18</span>)</span><br><span class="line">    y = inverse_left(y,<span class="number">15</span>,<span class="number">4022730752</span>)</span><br><span class="line">    y = inverse_left(y,<span class="number">7</span>,<span class="number">2636928640</span>)</span><br><span class="line">    y = inverse_right(y,<span class="number">11</span>)</span><br><span class="line">    <span class="keyword">return</span> y&amp;<span class="number">0xffffffff</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="2o02-题型二：预测后续的随机数"><a href="#2o02-题型二：预测后续的随机数" class="headerlink" title="2o02 题型二：预测后续的随机数"></a>2o02 题型二：预测后续的随机数</h3><p>我们可以直接用以下代码来进行预测随机数。也就是直接对已知的$624$个随机数处理成随机数产生器内部状态，然后进行一次推测就行了</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">setstate</span>(<span class="params">self,s</span>):</span></span><br><span class="line">    <span class="keyword">if</span>(len(s)!=<span class="number">624</span>):</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">&quot;The length of prediction must be 624!&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">624</span>):</span><br><span class="line">        self.mt[i]=self.recover(s[i])</span><br><span class="line">    self.mti=<span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">predict</span>(<span class="params">self,s</span>):</span></span><br><span class="line">    self.setstate(s)</span><br><span class="line">    self.twist()</span><br><span class="line">    <span class="keyword">return</span> self.getstate(<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
 <h3 id="2o03-题型三：求之前的随机数，即逆向twist-函数"><a href="#2o03-题型三：求之前的随机数，即逆向twist-函数" class="headerlink" title="2o03 题型三：求之前的随机数，即逆向twist()函数"></a>2o03 题型三：求之前的随机数，即逆向<code>twist()</code>函数</h3><p>我们先来观察一下这个<code>twist()</code>函数：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">twist</span>(<span class="params">self</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">624</span>):</span><br><span class="line">        y = _int32((self.mt[i] &amp; <span class="number">0x80000000</span>) + (self.mt[(i + <span class="number">1</span>) % <span class="number">624</span>] &amp; <span class="number">0x7fffffff</span>))</span><br><span class="line">        self.mt[i] = (y &gt;&gt; <span class="number">1</span>) ^ self.mt[(i + <span class="number">397</span>) % <span class="number">624</span>]</span><br><span class="line">        <span class="keyword">if</span> y % <span class="number">2</span> != <span class="number">0</span>:</span><br><span class="line">            self.mt[i] = self.mt[i] ^ <span class="number">0x9908b0df</span></span><br></pre></td></tr></table></figure>
+
 <p>很显然，对于内部的每一状态，该函数先继承了原状态的最高位，加上下一状态的最低$31$位，然后又是一次异或的过程，最后有根据临时值$y$的奇偶性又会对内部状态进行一次异或。由于异或过程都是可逆的，如果我们举一个特殊值进行简单的分析，可以得到：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> <span class="number">11100110110101000100101111000001</span> // state[i]</span><br><span class="line"><span class="number">2.</span> <span class="number">10101110111101011001001001011111</span> // state[i + <span class="number">1</span>]</span><br><span class="line"><span class="number">3.</span> <span class="number">11101010010001001010000001001001</span> // state[i + <span class="number">397</span>]</span><br><span class="line">// y = state[i] &amp; <span class="number">0x80000000</span> | state[i + <span class="number">1</span>] &amp; <span class="number">0x7fffffff</span></span><br><span class="line"><span class="number">4.</span> <span class="number">10101110111101011001001001011111</span> // y</span><br><span class="line"><span class="number">5.</span> <span class="number">01010111011110101100100100101111</span> // next = y &gt;&gt;&gt; <span class="number">1</span></span><br><span class="line"><span class="number">6.</span> <span class="number">11001110011100100111100111110000</span> // next ^= <span class="number">0x9908b0df</span></span><br><span class="line">0x9908b0df =&gt; 10011001000010001011000011011111</span><br><span class="line"><span class="number">7.</span> <span class="number">00100100001101101101100110111001</span> // next ^= state[i + <span class="number">397</span>]</span><br></pre></td></tr></table></figure>
+
 <p>可以看出，处理后<code>state[i]</code>内容与<code>state[i+1]</code>和<code>state[i+397]</code>有关。</p>
 <p>其中第7步是必须进行的一步(异或的次序不影响结果，所以异或<code>state[i+397]</code>可以看成最后一步。</p>
 <p>但第6步是根据第4步结果的奇偶性确定的,不一定有第6步,但是因为第7步是第5步或者第6步异或<code>state[i+397]</code>的结果,我们可以考察新生成的<code>state[i]</code>异或<code>state[i+397]</code>的结果，来判断是否进行了第六步的操作。 </p>
 <p>由于<code>0x9908b0df =&gt; 10011001000010001011000011011111</code>,而第5步的最高位必定是0,但是如果执行了第6步那么执行后的结果首位则会变成1,于是我们可以根据第7步逆向出的结果的首位判断是否进行了第6步.进而推出第5步,第5步的后31位包含了<code>state[i]</code>的第1位和<code>state[i+1]</code>的第2位至第31位,根据第6步是否进行可以得到<code>state[i+1]</code>的最后1位,所以根据现在的<code>state[i]</code>和以前的<code>state[i+397]</code>,可以获得原来<code>state[i]</code>的1位信息和<code>state[i+1]</code>的31位信息,要获得<code>state[i]</code>剩下的31位信息,需要对现在的<code>state[i-1]</code>进行同样的运算.当需要计算第一位<code>state</code>时,剩下的<code>state</code>都已经恢复了,可以利用恢复了的最后一位<code>state</code>获得还未恢复的<code>state[0]</code>的后31位。</p>
 <p>逆向代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">invtwist</span>(<span class="params">self</span>):</span></span><br><span class="line">    high = <span class="number">0x80000000</span></span><br><span class="line">    low = <span class="number">0x7fffffff</span></span><br><span class="line">    mask = <span class="number">0x9908b0df</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">623</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">        tmp = self.mt[i]^self.mt[(i+<span class="number">397</span>)%<span class="number">624</span>]</span><br><span class="line">        <span class="keyword">if</span> tmp &amp; high == high:</span><br><span class="line">            tmp ^= mask</span><br><span class="line">            tmp &lt;&lt;= <span class="number">1</span></span><br><span class="line">            tmp |= <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tmp &lt;&lt;=<span class="number">1</span></span><br><span class="line">        res = tmp&amp;high</span><br><span class="line">        tmp = self.mt[i<span class="number">-1</span>]^self.mt[(i+<span class="number">396</span>)%<span class="number">624</span>]</span><br><span class="line">        <span class="keyword">if</span> tmp &amp; high == high:</span><br><span class="line">            tmp ^= mask</span><br><span class="line">            tmp &lt;&lt;= <span class="number">1</span></span><br><span class="line">            tmp |= <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tmp &lt;&lt;=<span class="number">1</span></span><br><span class="line">        res |= (tmp)&amp;low</span><br><span class="line">        self.mt[i] = res</span><br></pre></td></tr></table></figure>
+
 <p>由此，我们可以上一下整个MT19937的工具包供使用</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_int32</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="keyword">return</span> int(<span class="number">0xFFFFFFFF</span> &amp; x)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MT19937</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, seed=<span class="number">0</span></span>):</span></span><br><span class="line">        self.mt = [<span class="number">0</span>] * <span class="number">624</span></span><br><span class="line">        self.mt[<span class="number">0</span>] = seed</span><br><span class="line">        self.mti = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">624</span>):</span><br><span class="line">            self.mt[i] = _int32(<span class="number">1812433253</span> * (self.mt[i - <span class="number">1</span>] ^ self.mt[i - <span class="number">1</span>] &gt;&gt; <span class="number">30</span>) + i)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getstate</span>(<span class="params">self,op=False</span>):</span></span><br><span class="line">        <span class="keyword">if</span> self.mti == <span class="number">0</span> <span class="keyword">and</span> op==<span class="literal">False</span>:</span><br><span class="line">            self.twist()</span><br><span class="line">        y = self.mt[self.mti]</span><br><span class="line">        y = y ^ y &gt;&gt; <span class="number">11</span></span><br><span class="line">        y = y ^ y &lt;&lt; <span class="number">7</span> &amp; <span class="number">2636928640</span></span><br><span class="line">        y = y ^ y &lt;&lt; <span class="number">15</span> &amp; <span class="number">4022730752</span></span><br><span class="line">        y = y ^ y &gt;&gt; <span class="number">18</span></span><br><span class="line">        self.mti = (self.mti + <span class="number">1</span>) % <span class="number">624</span></span><br><span class="line">        <span class="keyword">return</span> _int32(y)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">twist</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">624</span>):</span><br><span class="line">            y = _int32((self.mt[i] &amp; <span class="number">0x80000000</span>) + (self.mt[(i + <span class="number">1</span>) % <span class="number">624</span>] &amp; <span class="number">0x7fffffff</span>))</span><br><span class="line">            self.mt[i] = (y &gt;&gt; <span class="number">1</span>) ^ self.mt[(i + <span class="number">397</span>) % <span class="number">624</span>]</span><br><span class="line">            <span class="keyword">if</span> y % <span class="number">2</span> != <span class="number">0</span>:</span><br><span class="line">                self.mt[i] = self.mt[i] ^ <span class="number">0x9908b0df</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inverse_right</span>(<span class="params">self,res, shift, mask=<span class="number">0xffffffff</span>, bits=<span class="number">32</span></span>):</span></span><br><span class="line">        tmp = res</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(bits // shift):</span><br><span class="line">            tmp = res ^ tmp &gt;&gt; shift &amp; mask</span><br><span class="line">        <span class="keyword">return</span> tmp</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inverse_left</span>(<span class="params">self,res, shift, mask=<span class="number">0xffffffff</span>, bits=<span class="number">32</span></span>):</span></span><br><span class="line">        tmp = res</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(bits // shift):</span><br><span class="line">            tmp = res ^ tmp &lt;&lt; shift &amp; mask</span><br><span class="line">        <span class="keyword">return</span> tmp</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">extract_number</span>(<span class="params">self,y</span>):</span></span><br><span class="line">        y = y ^ y &gt;&gt; <span class="number">11</span></span><br><span class="line">        y = y ^ y &lt;&lt; <span class="number">7</span> &amp; <span class="number">2636928640</span></span><br><span class="line">        y = y ^ y &lt;&lt; <span class="number">15</span> &amp; <span class="number">4022730752</span></span><br><span class="line">        y = y ^ y &gt;&gt; <span class="number">18</span></span><br><span class="line">        <span class="keyword">return</span> y&amp;<span class="number">0xffffffff</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">recover</span>(<span class="params">self,y</span>):</span></span><br><span class="line">        y = self.inverse_right(y,<span class="number">18</span>)</span><br><span class="line">        y = self.inverse_left(y,<span class="number">15</span>,<span class="number">4022730752</span>)</span><br><span class="line">        y = self.inverse_left(y,<span class="number">7</span>,<span class="number">2636928640</span>)</span><br><span class="line">        y = self.inverse_right(y,<span class="number">11</span>)</span><br><span class="line">        <span class="keyword">return</span> y&amp;<span class="number">0xffffffff</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">setstate</span>(<span class="params">self,s</span>):</span></span><br><span class="line">        <span class="keyword">if</span>(len(s)!=<span class="number">624</span>):</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">&quot;The length of prediction must be 624!&quot;</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">624</span>):</span><br><span class="line">            self.mt[i]=self.recover(s[i])</span><br><span class="line">        <span class="comment">#self.mt=s</span></span><br><span class="line">        self.mti=<span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">predict</span>(<span class="params">self,s</span>):</span></span><br><span class="line">        self.setstate(s)</span><br><span class="line">        self.twist()</span><br><span class="line">        <span class="keyword">return</span> self.getstate(<span class="literal">True</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">invtwist</span>(<span class="params">self</span>):</span></span><br><span class="line">        high = <span class="number">0x80000000</span></span><br><span class="line">        low = <span class="number">0x7fffffff</span></span><br><span class="line">        mask = <span class="number">0x9908b0df</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">623</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">            tmp = self.mt[i]^self.mt[(i+<span class="number">397</span>)%<span class="number">624</span>]</span><br><span class="line">            <span class="keyword">if</span> tmp &amp; high == high:</span><br><span class="line">                tmp ^= mask</span><br><span class="line">                tmp &lt;&lt;= <span class="number">1</span></span><br><span class="line">                tmp |= <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                tmp &lt;&lt;=<span class="number">1</span></span><br><span class="line">            res = tmp&amp;high</span><br><span class="line">            tmp = self.mt[i<span class="number">-1</span>]^self.mt[(i+<span class="number">396</span>)%<span class="number">624</span>]</span><br><span class="line">            <span class="keyword">if</span> tmp &amp; high == high:</span><br><span class="line">                tmp ^= mask</span><br><span class="line">                tmp &lt;&lt;= <span class="number">1</span></span><br><span class="line">                tmp |= <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                tmp &lt;&lt;=<span class="number">1</span></span><br><span class="line">            res |= (tmp)&amp;low</span><br><span class="line">            self.mt[i] = res</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">example</span>():</span></span><br><span class="line">    D=MT19937(<span class="number">48</span>)</span><br><span class="line">    print(D.getstate())</span><br><span class="line">    print(D.mt[:<span class="number">5</span>])</span><br><span class="line">    print(D.recover(<span class="number">90324435</span>))</span><br><span class="line">    print(D.extract_number(<span class="number">90324435</span>))</span><br><span class="line">    D.twist()</span><br><span class="line">    print(D.mt[:<span class="number">5</span>])</span><br><span class="line">    D.invtwist()</span><br><span class="line">    print(D.mt[:<span class="number">5</span>])</span><br><span class="line"><span class="comment">#Main Below#</span></span><br><span class="line">example()</span><br></pre></td></tr></table></figure>
+
 
                 
             </div>
@@ -560,132 +567,6 @@
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -941,60 +822,6 @@
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">

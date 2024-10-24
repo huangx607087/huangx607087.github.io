@@ -477,14 +477,10 @@
 <p><img src="/2021/02/05/LatticeNotes4/2.png" alt="2"></p>
 <p>Alice收到Bob的密文后，计算$a(x)=c(x)f(x)=x^6+10x^5+33x^4+40x^3+40x^2+x+40$。</p>
 <p><img src="/2021/02/05/LatticeNotes4/3.png" alt="3"></p>
-<p>在这里需要注意调整一下，由于$q=41$，因此我们将$a(x)$中所有的系数的绝对值调到不超过$20$，于是有了</p>
-<script type="math/tex; mode=display">
-a(x)=x^6+10x^5-8x^4-x^3-x^2+x-1</script><p>最后我们计算$F_p(x)a(x)=2x^5+x^3+x^2+2x+1$，调整系数后，得到$-x^5+x^3+x^2-x+1=m(x)$。因此获取明文。</p>
+<p>在这里需要注意调整一下，由于$q=41$，因此我们将$a(x)$中所有的系数的绝对值调到不超过$20$，于是有了<br>$$<br>a(x)=x^6+10x^5-8x^4-x^3-x^2+x-1<br>$$<br>最后我们计算$F_p(x)a(x)=2x^5+x^3+x^2+2x+1$，调整系数后，得到$-x^5+x^3+x^2-x+1=m(x)$。因此获取明文。</p>
 <p><img src="/2021/02/05/LatticeNotes4/4.png" alt="4"></p>
 <p><strong>这个加密算法中，最容易搞混的就是环在不断地换，不过归纳一下，发现只有$m(x)$的确定与解密的最后一步是用到$Zmod(p)$的，其他大多数时候用到的都是$Zmod(q)$。</strong></p>
-<h3 id="10x02-NTRU中的数学问题"><a href="#10x02-NTRU中的数学问题" class="headerlink" title="10x02 NTRU中的数学问题"></a>10x02 NTRU中的数学问题</h3><p>我们发现，$h(x)$的系数貌似是随机的，但经过验证，我们可以得出一个非常重要的结论</p>
-<script type="math/tex; mode=display">
-f(x)h(x)\equiv g(x) \pmod {(x^N-1)} \text{   in   } Zmod(q)</script><p><img src="/2021/02/05/LatticeNotes4/5.png" alt="4"></p>
+<h3 id="10x02-NTRU中的数学问题"><a href="#10x02-NTRU中的数学问题" class="headerlink" title="10x02 NTRU中的数学问题"></a>10x02 NTRU中的数学问题</h3><p>我们发现，$h(x)$的系数貌似是随机的，但经过验证，我们可以得出一个非常重要的结论<br>$$<br>f(x)h(x)\equiv g(x) \pmod {(x^N-1)} \text{   in   } Zmod(q)<br>$$<br><img src="/2021/02/05/LatticeNotes4/5.png" alt="4"></p>
 <p>并且$f(x),g(x)$的系数都是非常小的。因此假如已知$h(x)$的情况下，我们是否可以找到符合条件的$f(x)$和$g(x)$呢？</p>
 <p>然而，这个解实际上并不唯一，因为如果$f(x),g(x)$满足上面那个等式，那么$x^kf(x),x^kg(x),k\in Z_N$也符合上面那个等式。此时我们解出来的答案就是$x^km(x)$。</p>
 <p>更一般地，具有足够小系数和满足上面那个结论的任意对多项式$f(x),g(x)$作为NTRU解密密钥。 例如，如果$f(x)$是原始解密密钥，且$θ(x)$有微小的系数，那么$θ(X)f(X)$也可以作为解密密钥。</p>
@@ -498,24 +494,18 @@ f(x)h(x)\equiv g(x) \pmod {(x^N-1)} \text{   in   } Zmod(q)</script><p><img src=
 <p>故除了$f(x)$的循环移位之后的表达式外，有其他密钥的概率非常低。</p>
 <h2 id="11-NTRU与格密码系统"><a href="#11-NTRU与格密码系统" class="headerlink" title="11.NTRU与格密码系统"></a>11.NTRU与格密码系统</h2><h3 id="11x01-NTRU格"><a href="#11x01-NTRU格" class="headerlink" title="11x01 NTRU格"></a>11x01 NTRU格</h3><p>在这一部分中，我们解释了如何将NTRU密钥恢复表示为某一特殊类型晶格中的最短向量问题。 </p>
 <p>假设我们在某一次解出来的$N=3$情况下的$h(x)=39x^2+23x+48$，对应的$q$值为$61$，那么我们可以构造这样一个矩阵，其中空白部分均为$0$，大小是$6\text{x}6$</p>
-<p><img src="/2021/02/05/LatticeNotes4/6.png" alt="6" style="zoom:115%;"></p>
+<img src="/2021/02/05/LatticeNotes4/6.png" alt="6" style="zoom:115%;">
+
 <p>扩展到$n$阶，则是一个$2n$阶的矩阵</p>
-<p><img src="/2021/02/05/LatticeNotes4/7.png" alt="7" style="zoom:90%;"></p>
+<img src="/2021/02/05/LatticeNotes4/7.png" alt="7" style="zoom:90%;">
+
 <p>其中左上角是单位阵$E$，左下角是$0$矩阵，右下角是数量矩阵$qE$，右上角则是$h(x)$的各个系数循环得来的。</p>
-<p>假如我们现在有</p>
-<script type="math/tex; mode=display">
-f(x)=\sum_{i=0}^{N-1} a_ix^i \text{   and    }g(x)=\sum_{i=0}^{N-1} b_ix^i</script><p>然后我们可以构建一个向量$(\vec a,\vec b)=(a_0,a_1,…,a_{N-1},b_0,b_1,…b_{N-1})$。这个向量也是$2n$维的，因此可以右乘$M_{\text h}^{\text{NTRU}}$</p>
+<p>假如我们现在有<br>$$<br>f(x)=\sum_{i=0}^{N-1} a_ix^i \text{   and    }g(x)=\sum_{i=0}^{N-1} b_ix^i<br>$$<br>然后我们可以构建一个向量$(\vec a,\vec b)=(a_0,a_1,…,a_{N-1},b_0,b_1,…b_{N-1})$。这个向量也是$2n$维的，因此可以右乘$M_{\text h}^{\text{NTRU}}$</p>
 <p>我们现在假设NTRU公钥$h(x)$是使用私有多项式$f(x)$和$g(x)$创建的，并计算当我们将NTRU矩阵乘以一个精心选择的向量时会发生什么。</p>
 <p>因为我们刚才提到过一个式子：$f(x)h(x)\equiv g(x)\pmod{x^N-1} \text{  in  } R_q$。</p>
-<p>那么我们可以写出这样的式子，其中$u(x)$也是一个多项式</p>
-<script type="math/tex; mode=display">
-f(x)h(x)=g(x)+qu(x)</script><p>因此，我们可以有</p>
-<script type="math/tex; mode=display">
-(\vec f,-\vec {u})M_{\text h}^{\text{NTRU}}=(\vec f,\vec f·\vec h-q\vec u)=(\vec f,\vec g)</script><p>因此，$(\vec f,\vec g)$在格$L_{\text h}^{\text{NTRU}}$中。</p>
+<p>那么我们可以写出这样的式子，其中$u(x)$也是一个多项式<br>$$<br>f(x)h(x)=g(x)+qu(x)<br>$$<br>因此，我们可以有<br>$$<br>(\vec f,-\vec {u})M_{\text h}^{\text{NTRU}}=(\vec f,\vec f·\vec h-q\vec u)=(\vec f,\vec g)<br>$$<br>因此，$(\vec f,\vec g)$在格$L_{\text h}^{\text{NTRU}}$中。</p>
 <p>当公钥中的$d≈\dfrac N 3,q≈6d≈2N$时。则$\det L_{\text h}^{\text{NTRU}}=q^N $，$|(\vec f,\vec g)|≈2\sqrt d$。且由高斯启发式可以推出，最短非$0$向量的长度约为$\sigma(L_{\text h}^{\text{NTRU}})≈\dfrac{Nq}{\pi e}≈0.484N$。</p>
-<p>当然，当$N$很大的时候，很大概率上，格中最短非零向量就是$(\vec f,\vec g)$或者其循环移位（又称旋转）。并且</p>
-<script type="math/tex; mode=display">
-\dfrac {|(\vec f,\vec g)|}{\sigma (L)}≈\dfrac{2.39}{\sqrt N}</script><p>所以$(\vec f,\vec g)$的长度数量级是$O(N^{-\frac 1 2})$，比高斯启发式所预测的长度要短。</p>
+<p>当然，当$N$很大的时候，很大概率上，格中最短非零向量就是$(\vec f,\vec g)$或者其循环移位（又称旋转）。并且<br>$$<br>\dfrac {|(\vec f,\vec g)|}{\sigma (L)}≈\dfrac{2.39}{\sqrt N}<br>$$<br>所以$(\vec f,\vec g)$的长度数量级是$O(N^{-\frac 1 2})$，比高斯启发式所预测的长度要短。</p>
 <h3 id="11x02-对NTRU晶格的安全性的定量分析"><a href="#11x02-对NTRU晶格的安全性的定量分析" class="headerlink" title="11x02 对NTRU晶格的安全性的定量分析"></a>11x02 对NTRU晶格的安全性的定量分析</h3><p>由我们之前的分析，可以得出：如果攻击者能够在NTRU格中找到一个最短的向量，那么解决这个问题的难度就至少达到了SVP问题的求解，如果攻击者可以在格中解决apprSVP问题在不超过$O(\sqrt N)$的短向量，那么攻击者发现的短向量就很可能是解密密钥。因此，这里就涉及到了如何估计在NTRU格综合你找到一个给短的或者最短的向量难度的问题。因此我们在下一条笔记中会讲到有多项式时间复杂度的LLL算法，但$N$很大时，LLL算法是找不到很小的向量的，因此笔记5我们还会讨论讨论BKZ-LLL算法。不过其运行时间有可能会达到指数级别。</p>
 <p>不幸的是，标准晶格约简算法(如BKZ-LLL)的操作特性并没有像素数筛算法、指数微积分胡总和Pollard Rho算法那么得到较好的理解。这使得理论上很难预测晶格约简算法在任何给定的类格上的性能。 因此，在实践中，必须通过实验确定基于晶格的密码体制(如NTRU)的安全性。</p>
 <p>粗略地说，一个参数序列$(N,q,d)$，其中$N$增长，使涉及$N,q,d$的某些比率保持近似恒定。 对于每组参数，一个人使用BKZ-LLL进行了许多实验，随着块大小的增加$β$直到算法在$L^{NTRU}_h$中找到一个短向量。 然后绘制平均运行时间对N的对数，验证点近似在线，并计算最佳拟合线$\ln(\text{Running Time}=Ax+B)$。</p>
@@ -607,132 +597,6 @@ f(x)h(x)=g(x)+qu(x)</script><p>因此，我们可以有</p>
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -988,60 +852,6 @@ f(x)h(x)=g(x)+qu(x)</script><p>因此，我们可以有</p>
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">

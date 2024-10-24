@@ -456,41 +456,37 @@
 <p>卡米歇尔数就是符合$a^{p-1}\equiv 1 \pmod p $并且$ \text{isPrime}(p)=0$的一类数字，最小的数是$561$，$10000$以内的卡米歇尔数一共有$7$个，分别是$561,1105,1729,2465,2821,6601,8911$</p>
 <p><strong>卡米歇尔数的性质</strong> 设$C$为卡米歇尔数，$p$是$C$的质因数，则$p^2$不整除$C$，并且$p-1$可以整除$C-1$</p>
 <p><strong>根据以上的结论，我们不可以用费马小定理判断一个数是否为素数(虽然准确率很高，但还是有错误率的)，于是我们可以得到下面的素数性质</strong></p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
 <th>素数的的性质 2</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>如果$p$是素数，那么$p$满足以下$2$个条件之一（设$p-1=2^kq$，其中$q$为奇数）<br>1.$a^q\equiv 1 \pmod p$<br>2.$a^q,a^{2q},a^{4q},…,a^{2^{k-1}q}$中至少有一个模$p$结果为$-1\pmod p$</td>
 </tr>
-</tbody>
-</table>
-</div>
+</tbody></table>
 <p>所以，我们就有了以下判断素数的代码，一次误判率低于$0.25$，基本上$30$次的判断准确率就超过了费马小定理了。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> urandom</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">izprime</span>(<span class="params">p</span>):</span></span><br><span class="line">    q=p<span class="number">-1</span></span><br><span class="line">    B=p.bit_length()</span><br><span class="line">    K=<span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span>(q&amp;<span class="number">1</span>==<span class="number">0</span>):</span><br><span class="line">        q&gt;&gt;=<span class="number">1</span></span><br><span class="line">        K=K+<span class="number">1</span></span><br><span class="line">    print(q,K)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">30</span>):</span><br><span class="line">        a=bytes_to_long(urandom(B%<span class="number">700</span>))%p</span><br><span class="line">        <span class="keyword">if</span>( pow(a,q,p)==<span class="number">1</span> <span class="keyword">or</span> pow(a,q,p)==p<span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        E=q</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(K):</span><br><span class="line">            E=(E*<span class="number">2</span>)%p</span><br><span class="line">            <span class="keyword">if</span>(pow(a,E,p)==p<span class="number">-1</span>):</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">print(izprime(<span class="number">7878787629</span>))</span><br></pre></td></tr></table></figure>
+
 <h2 id="2-二次互反律和有限域开平方"><a href="#2-二次互反律和有限域开平方" class="headerlink" title="2.二次互反律和有限域开平方"></a>2.二次互反律和有限域开平方</h2><h3 id="PART-1：二次互反律"><a href="#PART-1：二次互反律" class="headerlink" title="PART 1：二次互反律"></a>PART 1：二次互反律</h3><p>二次互反律在 0xGame Div 4 里面有很详细的讲解，这里直接放一下结论。</p>
 <p><img src="/2021/01/10/NumberTheory3/1.png" alt="1"></p>
 <p>程序代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isqr</span>(<span class="params">x,p</span>):</span></span><br><span class="line">    <span class="keyword">if</span> p==<span class="number">1</span> <span class="keyword">or</span> x==<span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    sgn=<span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> x%<span class="number">2</span>==<span class="number">0</span>:</span><br><span class="line">        x=x//<span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> p%<span class="number">8</span>==<span class="number">3</span> <span class="keyword">or</span> p%<span class="number">8</span>==<span class="number">5</span>:</span><br><span class="line">            sgn=-sgn</span><br><span class="line">    <span class="keyword">if</span> x&lt;p:</span><br><span class="line">        _tmp=p</span><br><span class="line">        p=x</span><br><span class="line">        x=_tmp</span><br><span class="line">        <span class="keyword">if</span> x%<span class="number">4</span>==<span class="number">3</span> <span class="keyword">and</span> p%<span class="number">4</span>==<span class="number">3</span> :</span><br><span class="line">            sgn=-sgn</span><br><span class="line">    <span class="keyword">return</span> sgn*isqr(x%p,p)</span><br></pre></td></tr></table></figure>
+
 <h3 id="PART-2：有限域开平方公式-UPD-2021-2-10-2021-8-5"><a href="#PART-2：有限域开平方公式-UPD-2021-2-10-2021-8-5" class="headerlink" title="PART 2：有限域开平方公式[UPD 2021 .2.10,2021.8.5]"></a>PART 2：有限域开平方公式[UPD 2021 .2.10,2021.8.5]</h3><p>解方程$x^2\equiv a \pmod p$，其中$p$是素数，那么开平方有如下公式：</p>
-<p>当$p\equiv 3 \pmod 4$时，$x^2\equiv a \pmod p$的一个解为</p>
-<script type="math/tex; mode=display">
-x=a^{(p+1)/4}</script><p>当$p\equiv 5 \pmod 8$时，$x^2\equiv a \pmod p$的一个解为</p>
-<script type="math/tex; mode=display">
-x=2^{(p-1)/4}a^{(p+3)/8}</script><p>这一种情况，也有版本说是$a^{(p+3)/8}$和$2a(4a)^{(p-5)/8}$两个数中的一个。</p>
+<p>当$p\equiv 3 \pmod 4$时，$x^2\equiv a \pmod p$的一个解为<br>$$<br>x=a^{(p+1)/4}<br>$$<br>当$p\equiv 5 \pmod 8$时，$x^2\equiv a \pmod p$的一个解为<br>$$<br>x=2^{(p-1)/4}a^{(p+3)/8}<br>$$<br>这一种情况，也有版本说是$a^{(p+3)/8}$和$2a(4a)^{(p-5)/8}$两个数中的一个。</p>
 <p>最困难的就是$p\equiv 1 \pmod 8$的情况了，这个方法没有公式可用。</p>
 <p>以下就是完整的有限域开平方的代码了（实际上<code>solve_M8R1</code>这个函数适用于任何素数，但由于其他两类素数已经有公式可用，故这里只用于$p\equiv 1 \pmod8$的情况里）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> urandom</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Complex</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,x=<span class="number">0</span>,y=<span class="number">0</span></span>):</span></span><br><span class="line">        self.real=x</span><br><span class="line">        self.imag=y</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isqr</span>(<span class="params">x,p</span>):</span></span><br><span class="line">    <span class="keyword">if</span> p==<span class="number">1</span> <span class="keyword">or</span> x==<span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    sgn=<span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> x&amp;<span class="number">1</span>==<span class="number">0</span>:</span><br><span class="line">        x&gt;&gt;=<span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> p&amp;<span class="number">7</span>==<span class="number">3</span> <span class="keyword">or</span> p&amp;<span class="number">7</span>==<span class="number">5</span>:</span><br><span class="line">            sgn=-sgn</span><br><span class="line">    <span class="keyword">if</span> x&lt;p:</span><br><span class="line">        x,p=p,x</span><br><span class="line">        <span class="keyword">if</span> x&amp;<span class="number">3</span>==<span class="number">3</span> <span class="keyword">and</span> p&amp;<span class="number">3</span>==<span class="number">3</span> :</span><br><span class="line">            sgn=-sgn</span><br><span class="line">    <span class="keyword">return</span> sgn*isqr(x%p,p)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Rand</span>(<span class="params">p</span>):</span></span><br><span class="line">    <span class="keyword">return</span> bytes_to_long(urandom(<span class="number">80</span>))%p</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Cmul</span>(<span class="params">a,b,nr,p</span>):</span></span><br><span class="line">    Real=a.real*b.real+a.imag*b.imag*nr</span><br><span class="line">    Imag=a.real*b.imag+b.real*a.imag</span><br><span class="line">    Res=Complex(Real%p,Imag%p)</span><br><span class="line">    <span class="keyword">return</span> Res</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Cpow</span>(<span class="params">a,e,nr,p</span>):</span></span><br><span class="line">    Res=Complex(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">while</span> e:</span><br><span class="line">        <span class="keyword">if</span> e&amp;<span class="number">1</span>:</span><br><span class="line">            Res=Cmul(a,Res,nr,p)</span><br><span class="line">        a=Cmul(a,a,nr,p)</span><br><span class="line">        e&gt;&gt;=<span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> Res</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solve_M8R1</span>(<span class="params">n,p</span>):</span></span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        a=Rand(p)</span><br><span class="line">        nr=(a*a-n)%p</span><br><span class="line">        <span class="keyword">if</span> isqr(nr,p)==<span class="number">-1</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    Res=Complex(a,<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> Cpow(Res,(p+<span class="number">1</span>)//<span class="number">2</span>,nr,p)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solve</span>(<span class="params">n,p</span>):</span></span><br><span class="line">    <span class="keyword">assert</span> isPrime(p)</span><br><span class="line">    A=<span class="literal">None</span></span><br><span class="line">    <span class="keyword">if</span> n==<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> str(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">if</span> isqr(n,p)==<span class="number">-1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;No Solution!&quot;</span></span><br><span class="line">    <span class="keyword">if</span> p&amp;<span class="number">3</span>==<span class="number">3</span>:</span><br><span class="line">        A=pow(n,(p+<span class="number">1</span>)//<span class="number">4</span>,p)</span><br><span class="line">    <span class="keyword">elif</span> p&amp;<span class="number">7</span>==<span class="number">5</span>:</span><br><span class="line">        A=pow(n,(p+<span class="number">3</span>)//<span class="number">8</span>,p)</span><br><span class="line">        <span class="keyword">if</span> pow(A,<span class="number">2</span>,p)!=n:</span><br><span class="line">            A=<span class="number">2</span>*n*pow(<span class="number">4</span>*n,(p<span class="number">-5</span>)//<span class="number">8</span>,p)%p</span><br><span class="line">    <span class="keyword">elif</span> p&amp;<span class="number">7</span>==<span class="number">1</span>:</span><br><span class="line">        A=solve_M8R1(n,p).real</span><br><span class="line">    <span class="keyword">return</span> min(A,p-A)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getQR</span>(<span class="params">p</span>):</span></span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        qr=Rand(p)</span><br><span class="line">        <span class="keyword">if</span> isqr(qr,p)==<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> qr</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getNR</span>(<span class="params">p</span>):</span></span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        nr=Rand(p)</span><br><span class="line">        <span class="keyword">if</span> isqr(nr,p)==<span class="number">-1</span>:</span><br><span class="line">            <span class="keyword">return</span> nr</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getmod8prime</span>(<span class="params">Rem,nbits=<span class="number">100</span></span>):</span></span><br><span class="line">    <span class="keyword">assert</span> Rem <span class="keyword">in</span> [<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>]</span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        p=getPrime(nbits)</span><br><span class="line">        <span class="keyword">if</span>(p%<span class="number">8</span>==Rem):</span><br><span class="line">            <span class="keyword">return</span> p</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">example</span>():</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> [<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>]:</span><br><span class="line">        p=getmod8prime(i)</span><br><span class="line">        qr=getQR(p)</span><br><span class="line">        print(i,qr,p)</span><br><span class="line">        print(solve(qr,p))</span><br><span class="line">example()</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">1 564173686680696855894901625202 778582575909658190525427416257</span></span><br><span class="line"><span class="string">140078267336201622222046402618</span></span><br><span class="line"><span class="string">3 20669060859351317353915889852 727816416573858078097661465723</span></span><br><span class="line"><span class="string">130587125639883746397277540316</span></span><br><span class="line"><span class="string">5 791308279743632016519220848802 1167144785223888272103478393117</span></span><br><span class="line"><span class="string">544427040026345522165219328929</span></span><br><span class="line"><span class="string">7 40133816673762059960442044861 635211803801872717209601629487</span></span><br><span class="line"><span class="string">129389297469578896835881311090</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="3-p-a-2-b-2"><a href="#3-p-a-2-b-2" class="headerlink" title="3.$p=a^2+b^2?$"></a>3.$p=a^2+b^2?$</h2><p><strong>结论1：</strong>如果某素数$p$可以表示成两个正整数的平方和， 那么$p\equiv 1 \pmod 4$，反过来也同样成立。</p>
 <p>下面用递降法求$a,b$：<br>首先，写$A^2+B^2=Mp,M&lt;p$<br>然后，选取$u,v$，使得$u\equiv A \pmod p,v\equiv B \pmod p,u,v,\in [\dfrac{-M}{2},\dfrac{M}{2}]$<br>我们可以得到$u^2+v^2=A^2+B^2\equiv 0 \pmod M$。从而设$u^2+v^2=Mr,A^2+B^2=Mp$<br>将上面两个式子相乘，得$(u^2+v^2)(A^2+B^2)=M^2rp$<br>这个式子经过恒等变形，可以化为$(uA+vB)^2+(vA-uB)^2=M^2rp$<br>两端同时除以$M^2$，就有$\dfrac{(uA+vB)^2+(vA-uB)^2}{M^2}=rp$<br>可以证明，$r≤\dfrac{M}{2}$，然后继续递降即可。</p>
 <p><strong>关于选取$A,B$时需要的注意点：</strong> 我们可以取$x^2\equiv -1 \pmod p$，那么有$A=x,B=1,M=\dfrac{A^2+B^2}{p}$<br>解方程$x^2\equiv -1 \pmod p$时，我们可以随机选取一个数$t$，然后计算$b\equiv t^{\frac{(p-1)}{4}}\pmod p$。又因为$b^2\equiv(\frac{t}{p})\pmod p$。所以$t$总是有$\dfrac{1}{2}$的成功概率。</p>
 <p>下面上一下代码，时间复杂度是$O(\ln p)$级别的，$2048$位的质数用时为$2$秒，运行起来还是很快的。</p>
 <p><strong>Update 2021.8.8 将<code>M==1</code>的判断中 <code>return(A,B)</code>中的<code>A,B</code>加上了绝对值，因为我们只讨论正数</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> urandom</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getA</span>(<span class="params">p</span>):</span></span><br><span class="line">    <span class="keyword">assert</span>(p%<span class="number">4</span>==<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        t=bytes_to_long(urandom(<span class="number">195</span>))%p</span><br><span class="line">        s=pow(t,(p<span class="number">-1</span>)//<span class="number">4</span>,p)</span><br><span class="line">        <span class="keyword">if</span>(pow(s,<span class="number">2</span>,p)==p<span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">return</span> s</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getAns</span>(<span class="params">A,B,M,p</span>):</span></span><br><span class="line">    <span class="keyword">if</span>(M==<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">return</span> (abs(A),abs(B))</span><br><span class="line">    u,v=A%M,B%M</span><br><span class="line">    <span class="keyword">if</span>(u&gt;M//<span class="number">2</span>):</span><br><span class="line">        u-=M</span><br><span class="line">    <span class="keyword">if</span>(v&gt;M//<span class="number">2</span>):</span><br><span class="line">        v-=M</span><br><span class="line">    <span class="keyword">assert</span>((u**<span class="number">2</span>+v**<span class="number">2</span>)%M==<span class="number">0</span> <span class="keyword">and</span> (A**<span class="number">2</span>+B**<span class="number">2</span>)%M==<span class="number">0</span> )</span><br><span class="line">    r=(u**<span class="number">2</span>+v**<span class="number">2</span>)//M</span><br><span class="line">    A2=(u*A+v*B)//M</span><br><span class="line">    B2=(-u*B+v*A)//M</span><br><span class="line">    <span class="keyword">return</span> getAns(A2,B2,r,p)</span><br><span class="line"><span class="comment">#------MAIN BELOW------#</span></span><br><span class="line">p=getPrime(<span class="number">256</span>)</span><br><span class="line"><span class="keyword">while</span>(p%<span class="number">4</span>==<span class="number">3</span>):</span><br><span class="line">    p=getPrime(<span class="number">256</span>)</span><br><span class="line">A=getA(p)</span><br><span class="line">B=<span class="number">1</span></span><br><span class="line"><span class="keyword">assert</span>(A**<span class="number">2</span>+B**<span class="number">2</span>)%p==<span class="number">0</span></span><br><span class="line">M=(A**<span class="number">2</span>+B**<span class="number">2</span>)//p</span><br><span class="line">Ans,Bns=getAns(A,B,M,p)</span><br><span class="line">Ans,Bns=Ans%p,Bns%p</span><br><span class="line">print(<span class="string">&#x27;p=&#x27;</span>,hex(p)[<span class="number">2</span>:])</span><br><span class="line">print(<span class="string">&#x27;Ans=&#x27;</span>,hex(Ans)[<span class="number">2</span>:])</span><br><span class="line">print(<span class="string">&#x27;Bns=&#x27;</span>,hex(Bns)[<span class="number">2</span>:])</span><br><span class="line">print(<span class="string">&#x27;The answer is:&#x27;</span>,(Ans*Ans+Bns*Bns)%p==<span class="number">0</span>)</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">p= d01bb38ba2700cdbd299f1182d0219cc43a9fd03bcdb9c53b69ea2a38dd3cec1</span></span><br><span class="line"><span class="string">Ans= e0940478adf7d82d6c27327dbfce631f</span></span><br><span class="line"><span class="string">Bns= 354b787c45b1c0cf60b30879b3caab70</span></span><br><span class="line"><span class="string">The answer is: True</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 
                 
             </div>
@@ -577,132 +573,6 @@ x=2^{(p-1)/4}a^{(p+3)/8}</script><p>这一种情况，也有版本说是$a^{(p+3
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -958,60 +828,6 @@ x=2^{(p-1)/4}a^{(p+3)/8}</script><p>这一种情况，也有版本说是$a^{(p+3
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">

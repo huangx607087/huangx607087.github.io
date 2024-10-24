@@ -459,10 +459,12 @@
 <p>然后选择随机整数$g$。计算密文$E(m,r)c\equiv g^mr^n\pmod {n^2}$，其中$r$是随机整数</p>
 <p>解密方法为$D(c,\lambda)=m\equiv \dfrac{L(c^\lambda \mod n^2)}{L(g^\lambda \mod n^2)}\pmod n$，其中$L(x)=\dfrac{x-1}{n}$</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span> lcm</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getMyPrime</span>(<span class="params">nbits</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">genProduct</span>(<span class="params">nbits</span>):</span></span><br><span class="line">        p = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> p.bit_length() &lt; nbits:</span><br><span class="line">            p *= random.choice(sieve_base)</span><br><span class="line">        <span class="keyword">return</span> p</span><br><span class="line">    P = genProduct(nbits)</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> isPrime(P<span class="number">-1</span>):</span><br><span class="line">        P = genProduct(nbits)</span><br><span class="line">    <span class="keyword">return</span> (P<span class="number">-1</span>)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Homo</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        p, q = getMyPrime(<span class="number">512</span>), getMyPrime(<span class="number">512</span>)</span><br><span class="line">        n = p*q</span><br><span class="line">        g = random.randint(<span class="number">1</span>, n*n)</span><br><span class="line">        <span class="keyword">while</span> GCD(self.L(pow(g, lcm(p<span class="number">-1</span>, q<span class="number">-1</span>), n*n), n), n) != <span class="number">1</span>:</span><br><span class="line">            g = random.randint(<span class="number">1</span>, n*n)</span><br><span class="line">        self.g, self.n = g, n</span><br><span class="line">        print(<span class="string">&quot;n =&quot;</span>, n)</span><br><span class="line">        print(<span class="string">&quot;g =&quot;</span>, g)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">enc</span>(<span class="params">self, m</span>):</span></span><br><span class="line">        n = self.n</span><br><span class="line">        <span class="keyword">return</span> (pow(self.g, int(m), n*n)*pow(random.randint(<span class="number">1</span>, n), n, n*n)) % (n*n)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">L</span>(<span class="params">self, u, n</span>):</span> <span class="keyword">return</span> (u<span class="number">-1</span>)//n</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt_img</span>(<span class="params">homo, img_array</span>):</span></span><br><span class="line">    cip_list = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(img_array)):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(len(img_array[i])):</span><br><span class="line">            cip_list.append(homo.enc(img_array[i][j]))</span><br><span class="line">    <span class="keyword">return</span> cip_list</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt_flag</span>(<span class="params">homo, flag</span>):</span></span><br><span class="line">    flag_bin = bin(flag)[<span class="number">2</span>:]</span><br><span class="line">    cip_list = [homo.enc(int(i) &lt;&lt; <span class="number">8</span>) <span class="keyword">for</span> i <span class="keyword">in</span> flag_bin]</span><br><span class="line">    <span class="keyword">return</span> cip_list</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    homo = Homo()</span><br><span class="line">    img = Image.open(<span class="string">&quot;./img.png&quot;</span>).convert(<span class="string">&quot;L&quot;</span>) <span class="comment"># 56x56</span></span><br><span class="line">    img_array = np.array(img)</span><br><span class="line">    img_enc = encrypt_img(homo, img_array)</span><br><span class="line">    flag = bytes_to_long(flag.encode())</span><br><span class="line">    flag_enc = encrypt_flag(homo, flag)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">assert</span> len(img_enc) &gt; len(flag_enc)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">&quot;data&quot;</span>, <span class="string">&quot;w&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(img_enc)):</span><br><span class="line">            <span class="keyword">if</span> i &lt; len(flag_enc):</span><br><span class="line">                enc = (flag_enc[i]*img_enc[i]) % (homo.n**<span class="number">2</span>)</span><br><span class="line">                f.write(hex(enc)[<span class="number">2</span>:]+<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                f.write(hex(img_enc[i])[<span class="number">2</span>:]+<span class="string">&quot;\n&quot;</span>)</span><br><span class="line"><span class="comment"># n = 18434491463536053807355381425234564739214857081161321309756933006496704225386021314592003940717664842835425875706674652882353813796736161102105318696602774157554627232038142092845118667433422811370679163251506433284182749390704212211677891535882993540750379419384629735499044085104591893176847835387567644762636961</span></span><br><span class="line"><span class="comment"># g = 99894228586367782940715460732971967417359410558715186789679488951080212107512884192976002563404881263875114900183845944243751294600634946131559701908524899495387780188074842981190381617301097312646907480816373003121403029154865843313001145153263200356271270964096284006748227606839491672635131818273934109984977288621523498782962389115299664149676881349445940131040928322172748228670542470966453917916224551852329336572423059849239115479150176538160893340622774682474615303826972971312087884483400100816655408278649954266707268236152380355955111697822333005733513834283677509165970313043388621472231706074701389916165894223877</span></span><br></pre></td></tr></table></figure>
+
 <p>从加密代码中可以看出：这个生成的素数$p,q$满足$p+1,q+1$为光滑的数字，因此可以利用PrimeFac插件在linux环境下分解因数，在自己的电脑<code>Lenovo Legion Y7000(512G,16G)</code>上跑大概$9$分钟左右</p>
 <p><img src="/2021/01/26/21Jan3/1.jpg" alt="1"></p>
 <p>分解因数后，我们就可以用下面的脚本进行解密：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> given <span class="keyword">import</span> n,p,q,g</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">L</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="keyword">return</span> (x<span class="number">-1</span>)//(n)</span><br><span class="line"><span class="comment">#-----MAIN BELOW-----#</span></span><br><span class="line">f=open(<span class="string">&quot;data.txt&quot;</span>,<span class="string">&quot;r&quot;</span>)</span><br><span class="line">b=f.read()</span><br><span class="line">f.close()</span><br><span class="line">C,M=[],[]</span><br><span class="line">s=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(b)):</span><br><span class="line">    <span class="keyword">if</span> b[i]==<span class="string">&#x27;\n&#x27;</span>:</span><br><span class="line">        C.append(int(s,<span class="number">16</span>))</span><br><span class="line">        s=<span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        s=s+b[i]</span><br><span class="line">lm=(p<span class="number">-1</span>)*(q<span class="number">-1</span>)//GCD(p<span class="number">-1</span>,q<span class="number">-1</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(C)):</span><br><span class="line">    <span class="keyword">if</span>(i%<span class="number">100</span>==<span class="number">0</span>):</span><br><span class="line">        print(i)</span><br><span class="line">    m=L(pow(C[i],lm,n*n))*inverse(L(pow(g,lm,n*n)),n)%n</span><br><span class="line">    M.append(m)</span><br><span class="line">    print(M)</span><br></pre></td></tr></table></figure>
+
 <p>然后我们可以得到很多的数据，在记事本用$16$进制打开时这样的</p>
 <p><img src="/2021/01/26/21Jan3/2.png" alt="2"></p>
 <p>很显然，有些数字大于等于$100_h$，一张图片正常的灰度值应该是在$[00_h,\text{FF}_h]$之间，根据这个加密算法的加法同态性与加密代码，我们可以认为那些大于$\text{FF}_h$的数字应该对应的是flag字节中的$1$</p>
@@ -470,23 +472,30 @@
 <h2 id="2-b01lers2020-safety-in-numbers"><a href="#2-b01lers2020-safety-in-numbers" class="headerlink" title="2.[b01lers2020]safety_in_numbers"></a>2.[b01lers2020]safety_in_numbers</h2><p>PublicKey读取后，我们可以看到$n$有一千多万位，$e=65537$，$c$有$900$多万位，$\ln n-\ln c &gt; 400000$，此时直接用gmpy2中的iroot函数对$c$进行开根即可。</p>
 <p>不过注意到这里有个<code>byteorder=&#39;little&#39;</code>，也就意味着写在最后的那个字节代表着最高位，这样才能得到正确答案</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from Crypto.Util.number import *</span><br><span class="line">from gmpy2 import *</span><br><span class="line">from E import e</span><br><span class="line">import libnum</span><br><span class="line">with open(&#39;flag.enc&#39;,&#39;rb&#39;) as f:</span><br><span class="line">    cipher &#x3D; f.read()</span><br><span class="line">c &#x3D; int.from_bytes(cipher, byteorder&#x3D;&#39;little&#39;)</span><br><span class="line">print(iroot(c,e)[0])</span><br><span class="line">for i in range(4):</span><br><span class="line">    input()</span><br></pre></td></tr></table></figure>
+
 <h2 id="3-INSHack2019-Yet-Another-RSA-Challenge-Part-1"><a href="#3-INSHack2019-Yet-Another-RSA-Challenge-Part-1" class="headerlink" title="3.[INSHack2019]Yet Another RSA Challenge - Part 1"></a>3.[INSHack2019]Yet Another RSA Challenge - Part 1</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line">p = subprocess.check_output(<span class="string">&#x27;openssl prime -generate -bits 2048 -hex&#x27;</span>)</span><br><span class="line">q = subprocess.check_output(<span class="string">&#x27;openssl prime -generate -bits 2048 -hex&#x27;</span>)</span><br><span class="line">flag = int(<span class="string">&#x27;INSA&#123;REDACTED&#125;&#x27;</span>.encode(<span class="string">&#x27;hex&#x27;</span>), <span class="number">16</span>)</span><br><span class="line">N = int(p,<span class="number">16</span>) * int(q,<span class="number">16</span>)</span><br><span class="line"><span class="keyword">print</span> N</span><br><span class="line"><span class="keyword">print</span> <span class="string">&#x27;0x&#x27;</span>+p.replace(<span class="string">&#x27;9F&#x27;</span>,<span class="string">&#x27;FC&#x27;</span>)</span><br><span class="line"><span class="keyword">print</span> pow(flag,<span class="number">65537</span>,N)</span><br></pre></td></tr></table></figure>
+
 <p>题目难度较为简单，给出了一个将$p$中所有$\text{9F}_h$字节替换成了$\text{FC}_h$字节，查了一下给出的数字中一共有$4$个$\text{FC}_h$字节，因此一共有$16$个可能的的数字，直接枚举一下看看哪个整除$n$就可以把$n$分解了，难度很低。</p>
 <h2 id="4-AFCTF2018-一道有趣的题目"><a href="#4-AFCTF2018-一道有趣的题目" class="headerlink" title="4.[AFCTF2018]一道有趣的题目"></a>4.[AFCTF2018]一道有趣的题目</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#加密代码</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span>(<span class="params">plainText</span>):</span></span><br><span class="line">    space = <span class="number">10</span></span><br><span class="line">    cipherText = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(plainText)):</span><br><span class="line">        <span class="keyword">if</span> i + space &lt; len(plainText) - <span class="number">1</span>:</span><br><span class="line">            cipherText += chr(ord(plainText[i]) ^ ord(plainText[i + space]))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            cipherText += chr(ord(plainText[i]) ^ ord(plainText[space]))</span><br><span class="line">        <span class="keyword">if</span> ord(plainText[i]) % <span class="number">2</span> == <span class="number">0</span>:</span><br><span class="line">            space += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            space -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> cipherText</span><br><span class="line"><span class="comment"># 密码</span></span><br><span class="line"><span class="comment">#00| 15 12 0d 1a 0a</span></span><br><span class="line"><span class="comment">#05| 08 10 01 0a 03</span></span><br><span class="line"><span class="comment">#10| 1d 3e 31 00 0d</span></span><br><span class="line"><span class="comment">#15| 1d 17 0d 17 3b</span></span><br><span class="line"><span class="comment">#20| 0d 17 3b 0c 07</span></span><br><span class="line"><span class="comment">#25| 06 02 06</span></span><br></pre></td></tr></table></figure>
+
 <p>我们根据最后输出的内容得到flag长度是$28$位，并且我们可以盲猜<code>flag[:6]=&#39;afctf&#123;&#39;,flag[-1]=&#39;&#125;&#39;</code></p>
 <p>然后我们光<code>afctf&#123;</code>这个字段跑一边，得到了这样的内容：<code>afctf&#123;cr??t?n?l?sis_isih??_&#125;</code>（问号处表示未知字符）。</p>
 <p>然后我们用下面的C++程序把这个字符带进去，考虑到最后一个下划线可能是错的，因此我们可以把最后一个下划线也改成问号</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">char</span> c[<span class="number">35</span>]=&#123;<span class="number">0x15</span>,<span class="number">0x12</span>,<span class="number">0x0d</span>,<span class="number">0x1a</span>,<span class="number">0x0a</span>,<span class="number">0x08</span>,<span class="number">0x10</span>,<span class="number">0x01</span>,<span class="number">0x0a</span>,<span class="number">0x03</span>,<span class="number">0x1d</span>,<span class="number">0x3e</span>,<span class="number">0x31</span>,<span class="number">0x00</span>,<span class="number">0x0d</span>,<span class="number">0x1d</span>,<span class="number">0x17</span>,<span class="number">0x0d</span>,<span class="number">0x17</span>,<span class="number">0x3b</span>,<span class="number">0x0d</span>,<span class="number">0x17</span>,<span class="number">0x3b</span>,<span class="number">0xc</span> ,<span class="number">07</span> ,<span class="number">06</span> ,<span class="number">02</span>,<span class="number">06</span>&#125;;</span><br><span class="line"><span class="keyword">char</span> m[<span class="number">35</span>]=<span class="string">&quot;afctf&#123;cr??t?n?l?sis_isih???&#125;&quot;</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,s=<span class="number">10</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;=<span class="number">27</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(m[i+s]==<span class="string">&#x27;?&#x27;</span>&amp;&amp;m[i]!=<span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">			m[i+s]=m[i]^c[i];</span><br><span class="line">		<span class="keyword">if</span>(m[i+s]!=<span class="string">&#x27;?&#x27;</span>&amp;&amp;m[i]==<span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">			m[i]=m[i+s]^c[i];</span><br><span class="line">		<span class="keyword">if</span>(m[i]!=<span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(m[i]%<span class="number">2</span>==<span class="number">0</span>)</span><br><span class="line">				++s;</span><br><span class="line">			<span class="keyword">else</span> </span><br><span class="line">				--s;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;=<span class="number">27</span>;i++)</span><br><span class="line">		<span class="built_in">cout</span>&lt;&lt;m[i];</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
 <p>然后跑出来了这个玩意：afctf{cryptWn?l`sis_isiha}</p>
 <p>盲猜最后一个单词是hard，带进去，得<code>afctf&#123;cryptWnalysis_isihard&#125;</code>。</p>
 <p>调整一下，得<code>afctf&#123;cryptanalysis_is_hard&#125;</code>即可得出答案</p>
 <h2 id="5-V-amp-N2020-公开赛-Backtrace"><a href="#5-V-amp-N2020-公开赛-Backtrace" class="headerlink" title="5.[V&amp;N2020 公开赛]Backtrace"></a>5.[V&amp;N2020 公开赛]Backtrace</h2><p>题目给出的代码<del>非常简单</del>。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line">flag = <span class="string">&quot;flag&#123;&quot;</span> + <span class="string">&#x27;&#x27;</span>.join(str(random.getrandbits(<span class="number">32</span>)) <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">4</span>)) + <span class="string">&quot;&#125;&quot;</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):</span><br><span class="line">        f.write(str(random.getrandbits(<span class="number">32</span>)) + <span class="string">&quot;\n&quot;</span>)</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+
 <p> 一开始我也不知道这道题应该怎么解，直到看到了这个：</p>
-<p><img src="/2021/01/26/21Jan3/4.jpg" alt="3" style="zoom:50%;"></p>
+<img src="/2021/01/26/21Jan3/4.jpg" alt="3" style="zoom:50%;">
+
 <p>才知道这是一个梅森旋转算法，给出了$1000$个状态，但前$4$个状态被做成了flag，也就是说，我们无法得知一个完整的$624$个状态</p>
 <p>不过我们既然知道了编号为$624,625,626,627$的四个状态，就很容易会推到$0,1,2,3$这四个状态，也就是我们想要的flag，脚本代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> Random</span><br><span class="line"><span class="comment"># right shift inverse</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inverse_right</span>(<span class="params">res,shift,mask=<span class="number">0xffffffff</span>,bits=<span class="number">32</span></span>):</span></span><br><span class="line">    tmp = res</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(bits//shift):</span><br><span class="line">        tmp = res ^ tmp&gt;&gt;shift &amp; mask</span><br><span class="line">    <span class="keyword">return</span> tmp</span><br><span class="line"><span class="comment"># left shift inverse</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inverse_left</span>(<span class="params">res,shift,mask=<span class="number">0xffffffff</span>,bits=<span class="number">32</span></span>):</span></span><br><span class="line">    tmp = res</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(bits//shift):</span><br><span class="line">        tmp = res ^ tmp &lt;&lt; shift &amp; mask</span><br><span class="line">    <span class="keyword">return</span> tmp</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">backtrace</span>(<span class="params">cur</span>):</span></span><br><span class="line">    high = <span class="number">0x80000000</span></span><br><span class="line">    low = <span class="number">0x7fffffff</span></span><br><span class="line">    mask = <span class="number">0x9908b0df</span></span><br><span class="line">    state = cur</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">        tmp = state[i+<span class="number">624</span>]^state[i+<span class="number">397</span>]</span><br><span class="line">        <span class="comment"># recover Y,tmp = Y</span></span><br><span class="line">        <span class="keyword">if</span> tmp &amp; high == high:</span><br><span class="line">            tmp ^= mask</span><br><span class="line">            tmp &lt;&lt;= <span class="number">1</span></span><br><span class="line">            tmp |= <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tmp &lt;&lt;=<span class="number">1</span></span><br><span class="line">        <span class="comment"># recover highest bit</span></span><br><span class="line">        res = tmp&amp;high</span><br><span class="line">        <span class="comment"># recover other 31 bits,when i =0,it just use the method again it so beautiful!!!!</span></span><br><span class="line">        tmp = state[i<span class="number">-1</span>+<span class="number">624</span>]^state[i+<span class="number">396</span>]</span><br><span class="line">        <span class="comment"># recover Y,tmp = Y</span></span><br><span class="line">        <span class="keyword">if</span> tmp &amp; high == high:</span><br><span class="line">            tmp ^= mask</span><br><span class="line">            tmp &lt;&lt;= <span class="number">1</span></span><br><span class="line">            tmp |= <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            tmp &lt;&lt;=<span class="number">1</span></span><br><span class="line">        res |= (tmp)&amp;low</span><br><span class="line">        state[i] = res</span><br><span class="line">    <span class="keyword">return</span> state</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">recover_state</span>(<span class="params">out</span>):</span></span><br><span class="line">    state = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> out:</span><br><span class="line">        i = inverse_right(i,<span class="number">18</span>)</span><br><span class="line">        i = inverse_left(i,<span class="number">15</span>,<span class="number">0xefc60000</span>)</span><br><span class="line">        i = inverse_left(i,<span class="number">7</span>,<span class="number">0x9d2c5680</span>)</span><br><span class="line">        i = inverse_right(i,<span class="number">11</span>)</span><br><span class="line">        state.append(i)</span><br><span class="line">    <span class="keyword">return</span> state</span><br><span class="line">f = open(<span class="string">&quot;output.txt&quot;</span>,<span class="string">&quot;r&quot;</span>).readlines()</span><br><span class="line">c = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1000</span>):</span><br><span class="line">    c.append(int(f[i].strip()))</span><br><span class="line">partS = recover_state(c)</span><br><span class="line">state = backtrace([<span class="number">0</span>]*<span class="number">4</span>+partS)[:<span class="number">624</span>]</span><br><span class="line"><span class="comment"># print(state)</span></span><br><span class="line">prng = Random()</span><br><span class="line">prng.setstate((<span class="number">3</span>,tuple(state+[<span class="number">0</span>]),<span class="literal">None</span>))</span><br><span class="line">flag = <span class="string">&quot;flag&#123;&quot;</span> + <span class="string">&#x27;&#x27;</span>.join(str(prng.getrandbits(<span class="number">32</span>)) <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">4</span>)) + <span class="string">&quot;&#125;&quot;</span></span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+
 <h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h2><p>寒假第三波题目，后面还要继续加油（</p>
 
                 
@@ -574,132 +583,6 @@
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -955,60 +838,6 @@
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">

@@ -455,6 +455,7 @@
 <p>今天BUUCTF上到了2500分，Crypto榜，会解比较简单的格密码学的题目了。同时椭圆曲线的内容也看了一些。BUU上刷了几题，不过因为是深水区，都是非常难的大题目，看来自己CTF的水平还是有一定差距的（</p>
 <h2 id="1-CISCN2018-sm"><a href="#1-CISCN2018-sm" class="headerlink" title="1.[CISCN2018]sm"></a>1.[CISCN2018]sm</h2><p>按照惯例应该先阅读一下题目，可以看出BUUCTF的深水区的题目都是非常难的，代码长度也相比于以前增加了很多。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> getPrime,long_to_bytes,bytes_to_long</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen512num</span>():</span></span><br><span class="line">    order=[]</span><br><span class="line">    <span class="keyword">while</span> len(order)!=<span class="number">512</span>:</span><br><span class="line">        tmp=randint(<span class="number">1</span>,<span class="number">512</span>)</span><br><span class="line">        <span class="keyword">if</span> tmp <span class="keyword">not</span> <span class="keyword">in</span> order:</span><br><span class="line">            order.append(tmp)</span><br><span class="line">    ps=[]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">512</span>):</span><br><span class="line">        p=getPrime(<span class="number">512</span>-order[i]+<span class="number">10</span>)</span><br><span class="line">        pre=bin(p)[<span class="number">2</span>:][<span class="number">0</span>:(<span class="number">512</span>-order[i])]+<span class="string">&quot;1&quot;</span></span><br><span class="line">        ps.append(int(pre+<span class="string">&quot;0&quot;</span>*(<span class="number">512</span>-len(pre)),<span class="number">2</span>))</span><br><span class="line">    <span class="keyword">return</span> ps</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span>():</span></span><br><span class="line">    choose=getPrime(<span class="number">512</span>)</span><br><span class="line">    ps=gen512num()</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;gen over&quot;</span></span><br><span class="line">    bchoose=bin(choose)[<span class="number">2</span>:]</span><br><span class="line">    r=<span class="number">0</span></span><br><span class="line">    bchoose = <span class="string">&quot;0&quot;</span>*(<span class="number">512</span>-len(bchoose))+bchoose</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">512</span>):</span><br><span class="line">        <span class="keyword">if</span> bchoose[i]==<span class="string">&#x27;1&#x27;</span>:</span><br><span class="line">            r=r^ps[i]</span><br><span class="line">    flag=open(<span class="string">&quot;flag&quot;</span>,<span class="string">&quot;r&quot;</span>).read()</span><br><span class="line">    key=long_to_bytes(int(hashlib.md5(long_to_bytes(choose)).hexdigest(),<span class="number">16</span>))</span><br><span class="line">    aes_obj = AES.new(key, AES.MODE_ECB)</span><br><span class="line">    ef=aes_obj.encrypt(flag).encode(<span class="string">&quot;base64&quot;</span>)</span><br><span class="line">    open(<span class="string">&quot;r&quot;</span>, <span class="string">&quot;w&quot;</span>).write(str(r))</span><br><span class="line">    open(<span class="string">&quot;ef&quot;</span>,<span class="string">&quot;w&quot;</span>).write(ef)</span><br><span class="line">    gg=<span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> ps:</span><br><span class="line">        gg+=str(p)+<span class="string">&quot;\n&quot;</span></span><br><span class="line">    open(<span class="string">&quot;ps&quot;</span>,<span class="string">&quot;w&quot;</span>).write(gg)</span><br><span class="line">run()</span><br></pre></td></tr></table></figure>
+
 <p>题目中给出了$r$这个数字的值，还给出了ps这个序列，当然还有加密后的flag。</p>
 <p>题目的意思很简单，就是生成了一个素数$p$，然后把素数$p$的二进制表示出来，并且生成了$512$个数字。如果$p$的那个比特位是$1$那就把$r$异或一下ps序列中的值。最后，$r$的值就是对应$p$的$1$比特位上的那个pr值得异或和。</p>
 <p>因此，我们首要的任务就是求$p$。而想要求$p$，就需要求出$r$是哪些pr值的和。</p>
@@ -467,16 +468,20 @@
 <p>最后就是正常的解密，直接模仿题目给的内容即可。</p>
 <p>个人做题有个习惯，就是喜欢把题目给出的一些特别长的list放到另一个python文件中，在exp里面直接import</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> log2</span><br><span class="line"><span class="keyword">from</span> base64 <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> md5</span><br><span class="line"><span class="keyword">from</span> pslist <span class="keyword">import</span> ps</span><br><span class="line"><span class="keyword">from</span> r <span class="keyword">import</span> r</span><br><span class="line"><span class="keyword">from</span> ef <span class="keyword">import</span> ef</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lowbit</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="keyword">return</span> x&amp;(-x)</span><br><span class="line">s=[]</span><br><span class="line">endexnum,endexid=[<span class="number">0</span>]*<span class="number">512</span>,[<span class="number">0</span>]*<span class="number">512</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">512</span>):</span><br><span class="line">    s.append(int(log2(lowbit(ps[i]))))</span><br><span class="line">    endexnum[s[<span class="number">-1</span>]]=ps[i]</span><br><span class="line">    endexid[s[<span class="number">-1</span>]]=i</span><br><span class="line">kount=<span class="number">0</span></span><br><span class="line">xored=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">512</span>):</span><br><span class="line">    tmp1,tmp2=(r&gt;&gt;i)&amp;<span class="number">1</span>,(kount&gt;&gt;i)&amp;<span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> tmp1^tmp2:</span><br><span class="line">        xored.append(i)</span><br><span class="line">        kount^=endexnum[i]</span><br><span class="line">p=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xored:</span><br><span class="line">    p+=(<span class="number">1</span>&lt;&lt;(<span class="number">511</span>-endexid[i]))</span><br><span class="line">key=long_to_bytes(int(md5(long_to_bytes(p)).hexdigest(),<span class="number">16</span>))</span><br><span class="line">aes_obj = AES.new(key, AES.MODE_ECB)</span><br><span class="line">ef=b64decode(ef)</span><br><span class="line">ef=aes_obj.decrypt(ef)</span><br><span class="line">print(ef)</span><br></pre></td></tr></table></figure>
+
 <p>然后我们就拿到了最后的flag：<code>flag&#123;shemir_alotof_in_wctf_fun!&#125;</code></p>
 <h2 id="2-Zer0pts2020-ROR"><a href="#2-Zer0pts2020-ROR" class="headerlink" title="2.[Zer0pts2020]ROR"></a>2.[Zer0pts2020]ROR</h2><p>先看一下题目</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line">ror = <span class="keyword">lambda</span> x, l, b: (x &gt;&gt; l) | ((x &amp; ((<span class="number">1</span>&lt;&lt;l)<span class="number">-1</span>)) &lt;&lt; (b-l))</span><br><span class="line">N = <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> base <span class="keyword">in</span> [<span class="number">2</span>, <span class="number">3</span>, <span class="number">7</span>]:</span><br><span class="line">    N *= pow(base, random.randint(<span class="number">123</span>, <span class="number">456</span>))</span><br><span class="line">e = random.randint(<span class="number">271828</span>, <span class="number">314159</span>)</span><br><span class="line">m = int.from_bytes(flag, byteorder=<span class="string">&#x27;big&#x27;</span>)</span><br><span class="line"><span class="keyword">assert</span> m.bit_length() &lt; N.bit_length()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(m.bit_length()):</span><br><span class="line">    print(pow(ror(m, i, m.bit_length()), e, N))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <p>一开始不知道ror究竟是个什么，自己写了个程序测试了一下，原来是将$x$循环左移$l$位，总字节数为$b$。</p>
 <p>这道题乍一看以为是个RSA加密，但是根本不知道$N,e$的值，并且仅根据题目给出来的线索是根本求不出来的。不过还是能注意到$N$是个偶数，而一个数如果对一个偶数取模，那么其奇偶性不变。而乘方运算是不改变一个数字的奇偶性的。所以这道题给出的数字中，每个数字都泄露了明文的最后一个比特位，拼接起来就是flag。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line">s,i=<span class="number">0</span>,<span class="number">0</span></span><br><span class="line">fp=open(<span class="string">&quot;chall.txt&quot;</span>,<span class="string">&quot;r&quot;</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        a=int(fp.readline())&amp;<span class="number">1</span></span><br><span class="line">        s+=(a&lt;&lt;i)</span><br><span class="line">        i=i+<span class="number">1</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">print(long_to_bytes(s))</span><br></pre></td></tr></table></figure>
+
 <p><code>zer0pts&#123;0h_1t_l34ks_th3_l34st_s1gn1f1c4nt_b1t&#125;</code></p>
 <h2 id="3-羊城杯-2020-Power"><a href="#3-羊城杯-2020-Power" class="headerlink" title="3.[羊城杯 2020]Power"></a>3.[羊城杯 2020]Power</h2><h3 id="PART-1"><a href="#PART-1" class="headerlink" title="PART 1"></a>PART 1</h3><p>如果说前面两道题还算比较简单的，个人认为BUUCTF上从这道题开始，就是真正的硬核了。</p>
 <p>首先看一下题目。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line">p = getPrime(<span class="number">512</span>)</span><br><span class="line">q = getPrime(<span class="number">512</span>)</span><br><span class="line">n = p**<span class="number">4</span>*q</span><br><span class="line">e = <span class="number">0x10001</span></span><br><span class="line">phi = gmpy2.lcm(p - <span class="number">1</span>, q - <span class="number">1</span>)</span><br><span class="line">d = gmpy2.invert(e, phi)</span><br><span class="line">dp = d % (p - <span class="number">1</span>)</span><br><span class="line">m = bytes_to_long(flag)</span><br><span class="line">c = pow(m, e, n)</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;dp = &quot;</span> + str(dp)</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;c = &quot;</span> + str(c)</span><br><span class="line">y = <span class="comment">#略去 *</span></span><br><span class="line">g = <span class="number">2</span></span><br><span class="line">x = <span class="number">2019</span>*p**<span class="number">2</span> + <span class="number">2020</span>*p**<span class="number">3</span> + <span class="number">2021</span>*p**<span class="number">4</span></span><br><span class="line">c1 = pow(g, x, y)</span><br><span class="line"><span class="keyword">print</span> <span class="string">&quot;c1 = &quot;</span> + str(c1)</span><br><span class="line"><span class="comment">#最后给出了dp,c,c1的值。</span></span><br></pre></td></tr></table></figure>
+
 <p>题目代码较短<del>但这并不意味着题目容易解出来</del>。大致看了一下加密过程，我们应当先设法求出$p$。（不过$N$一直是未知的）。而想要求出$p$，就要尝试求出$x$。</p>
 <p>首先，我们就是要解决一个离散对数问题。我们发现$y$是一个素数，因此我们尝试分解$y-1$，发现其大概是$100$万的光滑。</p>
 <p><img src="/2021/02/09/21Feb1/3.png" alt="3"></p>
@@ -485,12 +490,17 @@
 <p>这样我们就解出了$x$。</p>
 <p>解出$x$之后，由于$2021p^4+2020p^3+2019p^2-x=0$。这个关于$p$的函数具有单调性，因此我们可以使用OI中讲过的二分答案的方式解决。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> valc <span class="keyword">import</span> C</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">2021</span>*x**<span class="number">4</span>+<span class="number">2020</span>*x**<span class="number">3</span>+<span class="number">2019</span>*x**<span class="number">2</span>-C</span><br><span class="line">L,R=<span class="number">0</span>,<span class="number">1</span>&lt;&lt;<span class="number">5120</span></span><br><span class="line"><span class="keyword">while</span> L&lt;=R:</span><br><span class="line">    M=(L+R)//<span class="number">2</span></span><br><span class="line">    <span class="keyword">if</span>(f(M)&gt;<span class="number">0</span>):</span><br><span class="line">        R=M</span><br><span class="line">    <span class="keyword">elif</span>(f(M)&lt;<span class="number">0</span>):</span><br><span class="line">        L=M</span><br><span class="line">    <span class="keyword">elif</span>(f(M)==<span class="number">0</span>):</span><br><span class="line">        print(M)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    print(hex(L),hex(R))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</span><br><span class="line">    input()</span><br></pre></td></tr></table></figure>
+
 <p>解出$p$之后，知道了$d_p$，查阅资料，可以用这样的算法解决，这个代码也是在已知$d_p,p$和$n$的结构为$p^kq$类型的求$m$方法。</p>
 <p><img src="/2021/02/09/21Feb1/5.png" alt="5"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> given <span class="keyword">import</span> p,c,dp,e</span><br><span class="line">mp1=pow(c,dp,p)</span><br><span class="line">mp=pow(c,dp<span class="number">-1</span>,p)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>):</span><br><span class="line">    x=(c-pow(mp1,e))%(p**(i+<span class="number">1</span>))</span><br><span class="line">    y=x*mp1*inverse(e,p)%(p**(i+<span class="number">1</span>))</span><br><span class="line">    mp1+=y</span><br><span class="line">print(long_to_bytes(mp1))</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="4-watevrCTF-2019-Baby-RLWE"><a href="#4-watevrCTF-2019-Baby-RLWE" class="headerlink" title="4.[watevrCTF 2019]Baby RLWE"></a>4.[watevrCTF 2019]Baby RLWE</h2><h3 id="PART-1-1"><a href="#PART-1-1" class="headerlink" title="PART 1"></a>PART 1</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath Ver 9.0</span></span><br><span class="line"><span class="keyword">from</span> sage.stats.distributions.discrete_gaussian_polynomial <span class="keyword">import</span> DiscreteGaussianDistributionPolynomialSampler <span class="keyword">as</span> d_gauss</span><br><span class="line">flag = bytearray(raw_input())</span><br><span class="line">flag = list(flag)</span><br><span class="line">n = len(flag)</span><br><span class="line">q = <span class="number">40961</span></span><br><span class="line"><span class="comment">## Finite Field of size q. </span></span><br><span class="line">F = GF(q)</span><br><span class="line"><span class="comment">## Univariate Polynomial Ring in y over Finite Field of size q</span></span><br><span class="line">R.&lt;y&gt; = PolynomialRing(F)</span><br><span class="line"><span class="comment">## Univariate Quotient Polynomial Ring in x over Finite Field of size 40961 with modulus b^n + 1</span></span><br><span class="line">S.&lt;x&gt; = R.quotient(y^n + <span class="number">1</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_small_poly</span>():</span></span><br><span class="line">    sigma = <span class="number">2</span>/sqrt(<span class="number">2</span>*pi)</span><br><span class="line">    d = d_gauss(S, n, sigma)</span><br><span class="line">    <span class="keyword">return</span> d()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_large_poly</span>():</span></span><br><span class="line">    <span class="keyword">return</span> S.random_element()</span><br><span class="line"><span class="comment">## Public key 1</span></span><br><span class="line">a = gen_large_poly()</span><br><span class="line"><span class="comment">## Secret key</span></span><br><span class="line">s = S(flag)</span><br><span class="line">file_out = open(<span class="string">&quot;downloads/public_keys.txt&quot;</span>, <span class="string">&quot;w&quot;</span>)</span><br><span class="line">file_out.write(<span class="string">&quot;a: &quot;</span> + str(a) + <span class="string">&quot;\n&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">    <span class="comment">## Error</span></span><br><span class="line">    e = gen_small_poly()</span><br><span class="line">    <span class="comment">## Public key 2</span></span><br><span class="line">    b = a*s + e</span><br><span class="line">    file_out.write(<span class="string">&quot;b: &quot;</span> + str(b) + <span class="string">&quot;\n&quot;</span>)</span><br><span class="line">file_out.close()</span><br></pre></td></tr></table></figure>
+
 <p>这道题直接就给出的是Sagemath里的应用。题目给出的数据是一个多项式$a(x)$，和$100$个多项式$b(x)$。仔细观察一下发现$b(x)$对应次数接近。初步判定$n=104$。</p>
-<p><code>gen_large_poly()</code>函数是在多项式环里随机选取一个元素，这个不难理解。不过最后不知道<code>gen_small_poly()</code>究竟讲的什么，不过我们可以把它放到Sagemath中试验一下</p>
+<p><code> gen_large_poly()</code>函数是在多项式环里随机选取一个元素，这个不难理解。不过最后不知道<code>gen_small_poly()</code>究竟讲的什么，不过我们可以把它放到Sagemath中试验一下</p>
 <p><img src="/2021/02/09/21Feb1/1.png" alt="1"></p>
 <p>我们发现它生成的多项式的系数基本上在$[-2,2]$之间，说明最后加上的小多项式$e(x)$的每一项基本上也都是在$[-2,2]$之间。并且发现小多项式里面$0$是可取的。说明我们有可能只需要统计一下$b(x)$中对应次数哪个系数出现得最多，就说明原来的$b(x)$的值了。</p>
 <p>因此，我们首先统计一下给出来的$100$个$b(x)$多项式值得情况，最终可以确定真正的$b(x)$。</p>
@@ -598,132 +608,6 @@
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -979,60 +863,6 @@
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">

@@ -458,9 +458,7 @@
 <p>而将问题退化一个层次，我们可以通过Coppersmith定理来获取有限域内多项式的小根。</p>
 <p>Coppersmith定理：在定义域为$Z_n$的$e$阶多项式$f(x)$中，如果有一个根$x$满足$e\ln x&lt;\ln n$ ，就可以运用一个$O(\ln n)$的算法求出这些根。</p>
 <p><strong>Update 2021.8.2 增加了一些关于ECC的解题方法</strong></p>
-<h2 id="1-几种简单的构造多项式的情况"><a href="#1-几种简单的构造多项式的情况" class="headerlink" title="1.几种简单的构造多项式的情况"></a>1.几种简单的构造多项式的情况</h2><h3 id="1o01-已知明文高位"><a href="#1o01-已知明文高位" class="headerlink" title="1o01 已知明文高位"></a>1o01 已知明文高位</h3><p>假设在RSA传播过程中造成$m$的高位泄露，如果$e$是$3$，假设已知部分是$m_0$，未知部分是$x$，满足$m=m_0+x$且$3\ln x &lt; \ln n$，那么我们这个时候就可以使用Coppersmith进行攻击，此时我们只需要构造多项式</p>
-<script type="math/tex; mode=display">
-f(x)=(m_0+x)^{3}</script><p>令$f(x)=0$，由于$3\ln x&lt;\ln n$，我们可以在Sagemath中直接来<code>f.small_roots()</code>来解决这一问题。这也是目前最简单的一个问题了。同理，如果我把$e$上升至$5$，那么我们就需要知道八成的比特位数，满足$5\ln x &lt; \ln n$即可。</p>
+<h2 id="1-几种简单的构造多项式的情况"><a href="#1-几种简单的构造多项式的情况" class="headerlink" title="1.几种简单的构造多项式的情况"></a>1.几种简单的构造多项式的情况</h2><h3 id="1o01-已知明文高位"><a href="#1o01-已知明文高位" class="headerlink" title="1o01 已知明文高位"></a>1o01 已知明文高位</h3><p>假设在RSA传播过程中造成$m$的高位泄露，如果$e$是$3$，假设已知部分是$m_0$，未知部分是$x$，满足$m=m_0+x$且$3\ln x &lt; \ln n$，那么我们这个时候就可以使用Coppersmith进行攻击，此时我们只需要构造多项式<br>$$<br>f(x)=(m_0+x)^{3}<br>$$<br>令$f(x)=0$，由于$3\ln x&lt;\ln n$，我们可以在Sagemath中直接来<code>f.small_roots()</code>来解决这一问题。这也是目前最简单的一个问题了。同理，如果我把$e$上升至$5$，那么我们就需要知道八成的比特位数，满足$5\ln x &lt; \ln n$即可。</p>
 <p>同理，如果RSA中明文$m$满足$e\ln m &lt;\ln n$。（$e=3$时即$3\ln m &lt; \ln n$），那么此时我们知道了$c_1\equiv m^3 \pmod n$和$c_2\equiv (m+1)^{3} \pmod n$，那么我们可以在定义域$Z_n$中定义多项式$f(x)=x^3-c_1$和$g(x)=(x+1)^3 -c_2$，求这两个算式的公约数公约式即可。（一般是一个形如$x-a$的一次式） 这样就可以求出最终的结果了。当然，如果已知的是$(Ax+B)^3$和$(Cx+D)^3$的结果，我们也可以通过求最小公倍数的方法求出小根$x$。</p>
 <h3 id="1o02-低指数填充广播攻击的情况"><a href="#1o02-低指数填充广播攻击的情况" class="headerlink" title="1o02 低指数填充广播攻击的情况"></a>1o02 低指数填充广播攻击的情况</h3><p>由于已知低指数广播攻击可以使用中国剩余定理直接解决，我们设想一个这样的情形：</p>
 <p>假设在某种情况下，为了把同一个信息发送给多人，如果我们对明文$m$进行一个较为复杂的填充$r(\mathrm{id})$，该填充式可为多项式，也可为指数式如$2^{\mathrm{id}}$，似乎这样就不会产生问题。</p>
@@ -468,35 +466,31 @@ f(x)=(m_0+x)^{3}</script><p>令$f(x)=0$，由于$3\ln x&lt;\ln n$，我们可以
 <p>设想$m_i=x^r+i2^k$，加密指数$e$一定（比如为$3$），$i$已知。此时也可以通过构造多项式来进行低指数广播攻击</p>
 <p>下面看一下这道题目：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> getPrime, bytes_to_long</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pad</span>(<span class="params">s,i</span>):</span></span><br><span class="line">    <span class="keyword">return</span> i * pow(<span class="number">3</span>,s.bit_length()) + s**<span class="number">2</span>  <span class="comment">#s.bit_length()=431</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_N</span>():</span></span><br><span class="line">    <span class="keyword">return</span> getPrime(<span class="number">512</span>) * getPrime(<span class="number">512</span>)</span><br><span class="line"><span class="keyword">assert</span> len(flag) == <span class="number">54</span></span><br><span class="line">invite = bytes_to_long(flag)</span><br><span class="line">e_list = [random.choice([<span class="number">3</span>,<span class="number">5</span>,<span class="number">7</span>]) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">14</span>)]</span><br><span class="line">N_list = [gen_N() <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">14</span>)]</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">&#x27;./invitations&#x27;</span>,<span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">14</span>):</span><br><span class="line">        invis = pow(pad(invite,i+<span class="number">1</span>),e_list[i],N_list[i])</span><br><span class="line">        f.write(<span class="string">&#x27;Invitation%d: %d \n&#x27;</span>%(i+<span class="number">1</span>,invis))</span><br><span class="line">    f.write(<span class="string">&#x27;Wait a minute! \n&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">14</span>):</span><br><span class="line">        f.write(<span class="string">&#x27;[e%d,N%d]: [%d,%d]\n&#x27;</span>%(i+<span class="number">1</span>,i+<span class="number">1</span>,e_list[i],N_list[i]))</span><br></pre></td></tr></table></figure>
+
 <p>题目的填充$m_i=x^{2}+3^{341}i$，也是低指数广播攻击，一共给了$14$组数据。其中$e=3$四组，$e=5,7$各五组。</p>
 <p>由于要保证$e$一定，此处选择$e=3$的$4$组数据情况。</p>
 <p>模仿之前的中国剩余定理的步骤，我们还可以设$N=\prod_{i=1}^4 n_i$。然后设$N_i$，使$N_i$满足$N_i \equiv 0 \pmod {\dfrac{N}{n_i}}$且$N_i \equiv 1 \pmod n_i$。也就是$N_i$除以$n_i$的余数是$1$，除以$N$的其他因数的余数是$0$。</p>
 <p>由于这里$\dfrac{\ln N}{\ln 2}=4096,\dfrac{\ln x}{\ln 2}=342$，多项式次数为$6$，满足$6\ln x&lt;\ln n$，因此可以求出对应的根。</p>
 <p>然后我们可以在$Z_N$中构造$f(x)=\sum_{i=1}^{4}N_i((x^2+a_i3^{341})^3-c_i)$的一个六次多项式，直接求小根即为最终答案。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath 9.2</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> urandom</span><br><span class="line">c=[</span><br><span class="line">    <span class="number">1292</span>****<span class="number">3823</span> ,</span><br><span class="line">    <span class="number">814</span>****<span class="number">8214</span> ,</span><br><span class="line">    <span class="number">2543</span>****<span class="number">4080</span> ,</span><br><span class="line">    <span class="number">943</span>****<span class="number">1346</span> </span><br><span class="line">]</span><br><span class="line">n=[</span><br><span class="line">    <span class="number">1466</span>****<span class="number">8391</span>,</span><br><span class="line">    <span class="number">650</span>****<span class="number">6029</span>,</span><br><span class="line">    <span class="number">1261</span>****<span class="number">1901</span>,</span><br><span class="line">    <span class="number">756</span>****<span class="number">0471</span></span><br><span class="line">]</span><br><span class="line">MulNs=n[<span class="number">0</span>]*n[<span class="number">1</span>]*n[<span class="number">2</span>]*n[<span class="number">3</span>]</span><br><span class="line">padd=[<span class="number">3</span>,<span class="number">8</span>,<span class="number">10</span>,<span class="number">11</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">    padd[i]=padd[i]*pow(<span class="number">3</span>,<span class="number">431</span>)</span><br><span class="line">Anscrts=[<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">    Rem=[<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>]</span><br><span class="line">    Rem[i]=<span class="number">1</span></span><br><span class="line">    Anscrts[i]=crt(Rem,n)</span><br><span class="line">R.&lt;x&gt;=PolynomialRing(Zmod(MulNs))</span><br><span class="line">Gxs,Gx=[<span class="literal">None</span>,<span class="literal">None</span>,<span class="literal">None</span>,<span class="literal">None</span>],<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">    Gxs[i]=Anscrts[i]*(pow(x*x+padd[i],<span class="number">3</span>)-c[i])</span><br><span class="line">    Gx+=Gxs[i]</span><br><span class="line">Gx=Gx.monic()</span><br><span class="line">Flag=Gx.small_roots(epsilon=<span class="number">0.035</span>)</span><br><span class="line"><span class="keyword">if</span>(len(Flag)!=<span class="number">0</span>):</span><br><span class="line">    Flag.sort()</span><br><span class="line">print(long_to_bytes(Flag[<span class="number">0</span>]))</span><br><span class="line"><span class="comment">#b&#x27;GWHT&#123;e959e3f8e7242954b43e1b91de9886e1&#125;Welc0metomyp4rty&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="2-简单的格构造情况"><a href="#2-简单的格构造情况" class="headerlink" title="2.简单的格构造情况"></a>2.简单的格构造情况</h2><h3 id="2o01-直接构造法"><a href="#2o01-直接构造法" class="headerlink" title="2o01 直接构造法"></a>2o01 直接构造法</h3><p>当然，有些时候，我们可能会组建多个未知数与已知数之间的关系，而在这其中，有极小量的出现</p>
 <p>我们来看一下这道题：（自己出的一个Lattice入门题）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> urandom</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line">m=bytes_to_long(flag)</span><br><span class="line">p=getPrime(<span class="number">256</span>)</span><br><span class="line">q=getPrime(<span class="number">2048</span>)</span><br><span class="line">e=<span class="number">10007</span></span><br><span class="line">n=p*q</span><br><span class="line">f=getPrime(<span class="number">200</span>)</span><br><span class="line">c=pow(m,e,n)</span><br><span class="line">r=getPrime(<span class="number">7500</span>)</span><br><span class="line">h=(p<span class="number">-60708760708733</span>)*inverse(f,r)%r</span><br><span class="line">ooo=open(<span class="string">&quot;given.py&quot;</span>,<span class="string">&quot;w&quot;</span>)</span><br><span class="line">ooo.write(<span class="string">&quot;e=&quot;</span>+str(e)+<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">ooo.write(<span class="string">&quot;n=&quot;</span>+str(n)+<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">ooo.write(<span class="string">&quot;r=&quot;</span>+str(r)+<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">ooo.write(<span class="string">&quot;h=&quot;</span>+str(h)+<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">ooo.write(<span class="string">&quot;c=&quot;</span>+str(c)+<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">ooo.close()</span><br></pre></td></tr></table></figure>
+
 <p>很显然，本题有明显的漏洞，就是$\dfrac{\ln p}{\ln 2}=256,\dfrac{\ln q}{\ln 2}=2048,\dfrac{\ln r}{\ln 2}=7500,\dfrac{\ln f}{\ln 2}=200$。已知量是$(e,n,r,h,c)$。如此巨大的差异，那就要考虑一下基本的格的关系了：</p>
-<p>根据</p>
-<script type="math/tex; mode=display">
-h\equiv (p-60708760708733)f^{-1} \pmod r</script><p>我们可以得到</p>
-<script type="math/tex; mode=display">
-fh\equiv p-60708760708733 \pmod r</script><p>也就是</p>
-<script type="math/tex; mode=display">
-fh-kr=p-60708760708733</script><p>盘点一下：我们已经有了三个未知量$f,k,p$，两个已知量。为了求出有意义的未知量$f,p$，那么我们还可以增加一共式子$1f+0k\equiv f$。这样我们就构造出来$\vec xA =\vec y$的情形了。其中$A$里面均为已知量，$\vec x,\vec y$里面包含了所有的未知量。然后就可以求出$p$，分解$n$，得出最终的值了。</p>
+<p>根据<br>$$<br>h\equiv (p-60708760708733)f^{-1} \pmod r<br>$$<br>我们可以得到<br>$$<br>fh\equiv p-60708760708733 \pmod r<br>$$<br>也就是<br>$$<br>fh-kr=p-60708760708733<br>$$<br>盘点一下：我们已经有了三个未知量$f,k,p$，两个已知量。为了求出有意义的未知量$f,p$，那么我们还可以增加一共式子$1f+0k\equiv f$。这样我们就构造出来$\vec xA =\vec y$的情形了。其中$A$里面均为已知量，$\vec x,\vec y$里面包含了所有的未知量。然后就可以求出$p$，分解$n$，得出最终的值了。</p>
 <p>我们可以看到：$h,r$的比特位都是$7500$，$f$的比特位是$200$，$p$的比特位是$256$。向量$(f,-k),(1,h),(0,r)$的长度都是超过$7000$位的。而最后的向量$(f,p-60708760708733)$的向量长度仅为$300$位不到。该数值远小于$\sqrt{2 \det A}$。而每个格$L$中一定是含有一个长度小于$\sqrt n \sqrt[n]{\det L}$的向量的。$n$是格$L$的维数</p>
 <p><img src="/2021/07/25/LatticeNotes7/1.png" alt="1"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath</span></span><br><span class="line">r=<span class="number">3488391316101515024972590.</span>.....</span><br><span class="line">h=<span class="number">3143155356724417989594202.</span>.....</span><br><span class="line">M=matrix([[<span class="number">1</span>,h],[<span class="number">0</span>,r]])</span><br><span class="line">p=M.LLL()[<span class="number">0</span>][<span class="number">1</span>]</span><br><span class="line">p+=<span class="number">60708760708733</span></span><br><span class="line">print(p,is_prime(p))</span><br><span class="line"><span class="comment">#75287619124953899281094544588134588339526984734091359573347610235691729399693 True</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="2o02-角最大值-对角-1-k-对值构造法"><a href="#2o02-角最大值-对角-1-k-对值构造法" class="headerlink" title="2o02 角最大值+对角$(1,-k)$对值构造法"></a>2o02 角最大值+对角$(1,-k)$对值构造法</h3><p>有些时候，若我们知道的未知数$x_i$和已知数$a_i$的关系均为线性关系，甚至可能具有一定的同态性，并且可能出现的最大数字都不超过某个特定的值（比如$2^{128}$）之类的值。那么我们可以用此方法构造。</p>
 <p>此类问题中最典型的一个就是我之前在<strong>LatticeNotes5</strong>中提及的一个LCG问题：假设你知道了一个$128$位的LCG的参数及其输出，但每一个LCG最后的$40$位被隐去了。让你求这个数列的完整值。</p>
 <p>假设我们知道的所有的输出数列可表示为$u_n=a_n+x_n$。其中$a_n$是已知的高$88$位，$x_n$是未知的低$40$位。$u_{n}$和$u_{n+1}$之间的关系是$u_{n+1} \equiv Au_n+B \pmod M$。</p>
-<p>也就是：</p>
-<script type="math/tex; mode=display">
-a_{n+1}+x_{n+1} =Aa_{n}+B+x_n+k_nM</script><p>建立已知数和未知数之间的关系，得：</p>
-<p><strong>Update 7.30 原先公式$x_n$前少了个系数$A$，已补上</strong></p>
-<script type="math/tex; mode=display">
-x_{n+1}=Aa_n+B-a_{n+1}+Ax_n+k_nM</script><p>由于均为线性操作，因此我们可以设$f_2(x)=f(f(x)),f_3(x)=f(f(f(x)))$，若$f(x)=Ax+B$，则$f_2(x),f_3(x)$仍然具有线性规律。且规律为$A_{n+1}=AA_{n},B_{n+1}=AB_{n}+Aa_n+B-a_{n+1}$，不断迭代即可。</p>
+<p>也就是：<br>$$<br>a_{n+1}+x_{n+1} =Aa_{n}+B+x_n+k_nM<br>$$<br>建立已知数和未知数之间的关系，得：</p>
+<p><strong>Update 7.30 原先公式$x_n$前少了个系数$A$，已补上</strong><br>$$<br>x_{n+1}=Aa_n+B-a_{n+1}+Ax_n+k_nM<br>$$<br>由于均为线性操作，因此我们可以设$f_2(x)=f(f(x)),f_3(x)=f(f(f(x)))$，若$f(x)=Ax+B$，则$f_2(x),f_3(x)$仍然具有线性规律。且规律为$A_{n+1}=AA_{n},B_{n+1}=AB_{n}+Aa_n+B-a_{n+1}$，不断迭代即可。</p>
 <p>若我们已知了$6$组数据，就可以构造这样得一个格</p>
 <p><strong>Update 8.2： 这里原来右下角的$2^{40}$是错误的，正解是$2^{128}$</strong></p>
 <p><img src="/2021/07/25/LatticeNotes7/2.png" alt="2"></p>
@@ -505,24 +499,23 @@ x_{n+1}=Aa_n+B-a_{n+1}+Ax_n+k_nM</script><p>由于均为线性操作，因此我
 <p>我们可以再来看一下，我们构造的格是$7$维的，$M,A,B$均为$128$位，$k$也为$128$位。$\vec x$和矩阵$L$中的每一个行向量的长度均为$130$位以上。而右边的$\vec y$由于每个数字均为$40$位，因此长度约为$42$位。此处$\dfrac {\ln}{\ln 2}\det A$的值约为$680$，而短向量的长度$\dfrac {\ln}{\ln 2}|\vec y|$的值仅仅为$42$，$ \dfrac \ln {\ln 2}\sqrt 7 \sqrt[7]{\det A}&gt;97$。因此我们所构造的短向量是符合要求的，LLL立刻出解。</p>
 <p>还有一个典型的题目如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath</span></span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line">PublicKey = namedtuple(<span class="string">&#x27;PublicKey&#x27;</span>, [<span class="string">&#x27;n&#x27;</span>, <span class="string">&#x27;b&#x27;</span>])</span><br><span class="line">SecretKey = namedtuple(<span class="string">&#x27;SecretKey&#x27;</span>, [<span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;q&#x27;</span>, <span class="string">&#x27;A&#x27;</span>])</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_key</span>():</span></span><br><span class="line">    p = random_prime(<span class="number">2</span>^<span class="number">512</span>, lbound=<span class="number">2</span>^<span class="number">511</span>)</span><br><span class="line">    q = random_prime(<span class="number">2</span>^<span class="number">512</span>, lbound=<span class="number">2</span>^<span class="number">511</span>)</span><br><span class="line">    n = p * q</span><br><span class="line">    a11, a12, a21 = [random_prime(<span class="number">2</span>^<span class="number">100</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">3</span>)]</span><br><span class="line">    a22 = random_prime(<span class="number">2</span>^<span class="number">100</span>)</span><br><span class="line">    <span class="keyword">while</span> a11 * a22 == a12 * a21:</span><br><span class="line">        a22 = random_prime(<span class="number">2</span>^<span class="number">100</span>)</span><br><span class="line">    A = Matrix(ZZ, [[a11, a12], [a21, a22]])</span><br><span class="line">    a1 = crt([a11, a21], [p, q])</span><br><span class="line">    a2 = crt([a12, a22], [p, q])</span><br><span class="line">    b = a1 * inverse_mod(a2, n) % n</span><br><span class="line">    PK = PublicKey(n, b)</span><br><span class="line">    SK = SecretKey(p, q, A)</span><br><span class="line">    <span class="keyword">return</span> (PK, SK)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span>(<span class="params">m, pk</span>):</span></span><br><span class="line">    <span class="keyword">assert</span> <span class="number">0</span> &lt; m &lt; <span class="number">2</span>^<span class="number">400</span></span><br><span class="line">    r = randint(<span class="number">0</span>, <span class="number">2</span>^<span class="number">400</span><span class="number">-1</span>)</span><br><span class="line">    c = (pk.b*m + r) % pk.n</span><br><span class="line">    <span class="keyword">return</span> c</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decrypt</span>(<span class="params">c, sk</span>):</span></span><br><span class="line">    a2 = crt([sk.A[<span class="number">0</span>,<span class="number">1</span>], sk.A[<span class="number">1</span>,<span class="number">1</span>]], [sk.p, sk.q])</span><br><span class="line">    s1 = a2 * c % sk.p</span><br><span class="line">    s2 = a2 * c % sk.q</span><br><span class="line">    m, r = sk.A.solve_right(vector([s1, s2]))</span><br><span class="line">    <span class="keyword">return</span> m</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span>(<span class="params">pk, sk, num=<span class="number">3</span></span>):</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(num):</span><br><span class="line">        m = randint(<span class="number">0</span>, <span class="number">2</span>^<span class="number">400</span><span class="number">-1</span>)</span><br><span class="line">        c = encrypt(m, pk)</span><br><span class="line">        mm = decrypt(c, sk)</span><br><span class="line">        <span class="keyword">assert</span> m == mm</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line">    <span class="keyword">from</span> secret <span class="keyword">import</span> m, FLAG</span><br><span class="line">    <span class="keyword">assert</span> FLAG == <span class="string">&#x27;d3ctf&#123;%s&#125;&#x27;</span> % sha256(int(m).to_bytes(<span class="number">50</span>, <span class="string">&#x27;big&#x27;</span>)).hexdigest()</span><br><span class="line">    PK, SK = gen_key()</span><br><span class="line">    test(PK, SK)</span><br><span class="line">    c = encrypt(m, PK)</span><br><span class="line">    print(<span class="string">f&quot;PK = <span class="subst">&#123;PK&#125;</span>&quot;</span>)</span><br><span class="line">    print(<span class="string">f&quot;c = <span class="subst">&#123;c&#125;</span>&quot;</span>)</span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">PK = PublicKey(n=*, b=*)</span></span><br><span class="line"><span class="string">c = *</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <p>通过审计代码，我们可以得出一个最简单的线性内容：$r=bm-c-kn$，其中$r$是一个$400$位的随机数，而我们要求的数字就是$m$。</p>
 <p>但我们只能得到两个式子(另一个是$1m=m$)，这个时候就可以根据$m,r$均不超过$400$位的条件，放一个$2^{400}$进行占位。然后LLL即可。</p>
 <p><img src="/2021/07/25/LatticeNotes7/3.png" alt="3"></p>
 <p><strong>LatticeNotes5</strong>还有一个解决哈希冲突的题目，也是此类问题的典型。</p>
 <p>这种方法就是在定上限的情况下，若我们构造的行向量$\vec x$中涉及到常数$1$，此时就可以通过$\vec x$中的那个$1$与矩阵$L$中的上限值相乘得到上限值放入结果向量$\vec y$中。</p>
-<p>还可以点击<a href="[Intended Solution to NHP in GxzyCTF 2020 | Soreat_u&#39;s Blog (soreatu.com">这里</a>](<a target="_blank" rel="noopener" href="https://blog.soreatu.com/posts/intended-solution-to-nhp-in-gxzyctf-2020/))对此方法身价了解。">https://blog.soreatu.com/posts/intended-solution-to-nhp-in-gxzyctf-2020/))对此方法身价了解。</a></p>
+<p>还可以点击[这里](<a target="_blank" rel="noopener" href="https://blog.soreatu.com/posts/intended-solution-to-nhp-in-gxzyctf-2020/">Intended Solution to NHP in GxzyCTF 2020 | Soreat_u’s Blog (soreatu.com)</a>)对此方法身价了解。</p>
 <h3 id="2o03-构造大数，化大为小"><a href="#2o03-构造大数，化大为小" class="headerlink" title="2o03 构造大数，化大为小"></a>2o03 构造大数，化大为小</h3><p>根据Coppersmith定理：若多项式$f(x)$模数为$n$，次数为$e$，如果存在$x$满足$f(x)=0$且$e\ln x&lt;\ln n$，那么符合条件的这个$x$值是可以被快速解出的。</p>
 <p>比如看一下这道题：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> urandom</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> m1,m2</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Enc</span>(<span class="params">Mx,My</span>):</span></span><br><span class="line">    p=getPrime(<span class="number">400</span>)</span><br><span class="line">    a=bytes_to_long(urandom(<span class="number">80</span>))%p</span><br><span class="line">    b=(My**<span class="number">2</span>-Mx**<span class="number">3</span>-a*Mx)%p</span><br><span class="line">    E=EllipticCurve(GF(p),[a,b])</span><br><span class="line">    M=E(Mx,My)</span><br><span class="line">    C=<span class="number">3</span>*M</span><br><span class="line">    <span class="keyword">return</span> C[<span class="number">0</span>],C[<span class="number">1</span>],a,b,p</span><br><span class="line">m1,m2=*,* <span class="comment">#To Solve</span></span><br><span class="line">Cipher=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">87</span>):</span><br><span class="line">    Cipher.append(Enc(m1,m2))</span><br><span class="line">print(Cipher)</span><br></pre></td></tr></table></figure>
+
 <p>很明显，这是椭圆曲线上的低指数广播攻击，明文点$M(x,y)$，通过构造不同的椭圆曲线$E$，对这个$M$点进行了加密，但加密指数统一为$3$，也就是最后给出了在不同曲线上的$3P$值。</p>
-<p>根据椭圆曲线上的点$x_{3P}(=c)$与$x{_P}(=x)$的关系可以得到：</p>
-<script type="math/tex; mode=display">
-c=\dfrac{x^9 - 12ax^7 - 96bx^6 + 30a^2x^5 - 24abx^4 + (36a^3 + 48b^2)x^3 + 48a^2bx^2 + (a^4 + 32ab^2 + 8(a^3 + 8b^2)a)x + 8(a^3 + 8b^2)b}{9x^8 + 36ax^6 + 72bx^5 + 30a^2x^4 + 144abx^3 + (-12a^3 + 144b^2)x^2 - 24a^2bx + a^4}</script><p>因此，对于题目中给出的$87$个不同曲线上的$3P$，我们都可以通过构造上面的多项式来解决这个问题，如果设上面公式中等号右边的分子部分是$S$，分母部分是$D$，那么我们可以构造$9$次多项式</p>
-<script type="math/tex; mode=display">
-f_n(x)\equiv S-Dc \pmod {p_n}</script><p>其中$n$从$1$取到$87$，这样就有了$87$个不同的多项式了，但这些多项式的作用域都不相同。</p>
+<p>根据椭圆曲线上的点$x_{3P}(=c)$与$x{_P}(=x)$的关系可以得到：<br>$$<br>c=\dfrac{x^9 - 12ax^7 - 96bx^6 + 30a^2x^5 - 24abx^4 + (36a^3 + 48b^2)x^3 + 48a^2bx^2 + (a^4 + 32ab^2 + 8(a^3 + 8b^2)a)x + 8(a^3 + 8b^2)b}{9x^8 + 36ax^6 + 72bx^5 + 30a^2x^4 + 144abx^3 + (-12a^3 + 144b^2)x^2 - 24a^2bx + a^4}<br>$$<br>因此，对于题目中给出的$87$个不同曲线上的$3P$，我们都可以通过构造上面的多项式来解决这个问题，如果设上面公式中等号右边的分子部分是$S$，分母部分是$D$，那么我们可以构造$9$次多项式<br>$$<br>f_n(x)\equiv S-Dc \pmod {p_n}<br>$$<br>其中$n$从$1$取到$87$，这样就有了$87$个不同的多项式了，但这些多项式的作用域都不相同。</p>
 <p>这个时候跟RSA中的广播攻击一样，也可以使用中国剩余定理了。但这一次的中国剩余定理的运用略有不同：首先我们计算$N=\prod_{i=1}^{87}p_i$，即所有$p$的乘积。由于$\dfrac{\ln p}{\ln 2}=400$，因此这里差不多是$\ln n=87\ln p$，$n$的比特位数迅速上涨到了$34000$以上——这比任何数都大。</p>
 <p>然后对于所有$f_n(x)$中，从常数项到$9$次项，每一项均使用一次中国剩余定理，也就是所有常数项构成的数组对所有$p$构成的数组进行计算。并最后汇总$Z_N$上的一个非常大的九次多项式$F(x)$，该式不仅处于一个很大的环$Z_N$上，常数项到$x^8$项每一项的系数都非常大（$x^9$的系数恒定为$1$）。而我们想求的$x_P$，仍然满足$F(x_P)\equiv 0 \pmod N$。并且这里一定满足$9\ln x_P&lt;\ln N$，可以直接用Coppersmith定理求解</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath</span></span><br><span class="line">Cipher=[]</span><br><span class="line">Cxarr,Cyarr,Aarr,Barr,Parr=[[[<span class="number">0</span>] <span class="keyword">for</span> __ <span class="keyword">in</span> range(<span class="number">87</span>)]<span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">5</span>)]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">87</span>):</span><br><span class="line">    Cxarr[i],Cyarr[i],Aarr[i],Barr[i],Parr[i]=Cipher[i]</span><br><span class="line">N=prod(Parr)</span><br><span class="line">F=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">87</span>):</span><br><span class="line">    a,b,p=Aarr[i],Barr[i],Parr[i]</span><br><span class="line">    R.&lt;x&gt;=PolynomialRing(Zmod(p))</span><br><span class="line">    Fz=x^<span class="number">9</span> - <span class="number">12</span>*a*x^<span class="number">7</span> - <span class="number">96</span>*b*x^<span class="number">6</span> + <span class="number">30</span>*a^<span class="number">2</span>*x^<span class="number">5</span> - <span class="number">24</span>*a*b*x^<span class="number">4</span> + (<span class="number">36</span>*a^<span class="number">3</span> + <span class="number">48</span>*b^<span class="number">2</span>)*x^<span class="number">3</span> + <span class="number">48</span>*a^<span class="number">2</span>*b*x^<span class="number">2</span> + (a^<span class="number">4</span> + <span class="number">32</span>*a*b^<span class="number">2</span> + <span class="number">8</span>*(a^<span class="number">3</span> + <span class="number">8</span>*b^<span class="number">2</span>)*a)*x + <span class="number">8</span>*(a^<span class="number">3</span> + <span class="number">8</span>*b^<span class="number">2</span>)*b</span><br><span class="line">    Fm=<span class="number">9</span>*x^<span class="number">8</span> + <span class="number">36</span>*a*x^<span class="number">6</span> + <span class="number">72</span>*b*x^<span class="number">5</span> + <span class="number">30</span>*a^<span class="number">2</span>*x^<span class="number">4</span> + <span class="number">144</span>*a*b*x^<span class="number">3</span> + (<span class="number">-12</span>*a^<span class="number">3</span> + <span class="number">144</span>*b^<span class="number">2</span>)*x^<span class="number">2</span> - <span class="number">24</span>*a^<span class="number">2</span>*b*x + a^<span class="number">4</span></span><br><span class="line">    Fx=(Fz-Cxarr[i]*Fm)</span><br><span class="line">    F.append(Fx)</span><br><span class="line">R.&lt;x&gt;=PolynomialRing(Zmod(N))</span><br><span class="line">G=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    Arrcrt=[]</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">87</span>):</span><br><span class="line">        Arrcrt.append(Integer(F[j][i]))</span><br><span class="line">    G+=crt(Arrcrt,Parr)*x**i</span><br><span class="line">m1=G.small_roots(epsilon=<span class="number">1</span>/<span class="number">13</span>)[<span class="number">0</span>]</span><br><span class="line">print(m1)</span><br><span class="line">E=EllipticCurve(GF(Parr[<span class="number">0</span>]),[Aarr[<span class="number">0</span>],Barr[<span class="number">0</span>]])</span><br><span class="line">O=E(<span class="number">483680648326747026189680</span>, <span class="number">119181855961981</span>)</span><br><span class="line">(m1^<span class="number">3</span>+Aarr[<span class="number">0</span>]*m1+Barr[<span class="number">0</span>])%Parr[<span class="number">0</span>],<span class="number">119181855961981</span>**<span class="number">2</span>%Parr[<span class="number">0</span>]</span><br><span class="line">m2=min(Parr[<span class="number">0</span>]-pow(<span class="number">14204314790542386034917444361</span>,(Parr[<span class="number">0</span>]+<span class="number">1</span>)//<span class="number">4</span>,Parr[<span class="number">0</span>]),pow(<span class="number">14204314790542386034917444361</span>,(Parr[<span class="number">0</span>]+<span class="number">1</span>)//<span class="number">4</span>,Parr[<span class="number">0</span>]))</span><br><span class="line">print(m2)</span><br><span class="line">print(long_to_bytes(m1)+long_to_bytes(m2))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">483680648326747026189680</span></span><br><span class="line"><span class="string">119181855961981</span></span><br><span class="line"><span class="string">flag&#123;Example003&#125;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <p>至于$y_{P}$怎么求，我们可以选一组带模$4$余$3$的$p$的数据，根据有限域内开平方公式，直接计算$(x^{3}+ax+b)^{(p+1)/4} \mod p$的值即可。</p>
 
                 
@@ -610,132 +603,6 @@ f_n(x)\equiv S-Dc \pmod {p_n}</script><p>其中$n$从$1$取到$87$，这样就�
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -991,60 +858,6 @@ f_n(x)\equiv S-Dc \pmod {p_n}</script><p>其中$n$从$1$取到$87$，这样就�
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">

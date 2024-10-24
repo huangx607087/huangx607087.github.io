@@ -463,16 +463,20 @@
 <p>不难发现最后$5$个字母对应的明文应该是<code>emagh</code>，符合凯撒密码的样式。因此直接找一个凯撒密码解密的网站即可得到最终的结果，最后倒过来提交以下就行了。</p>
 <h2 id="2-对称之美"><a href="#2-对称之美" class="headerlink" title="2.对称之美"></a>2.对称之美</h2><h3 id="PART-1-阅读题目"><a href="#PART-1-阅读题目" class="headerlink" title="PART 1 阅读题目"></a>PART 1 阅读题目</h3><p>首先先来看一下题目</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> itertools</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> FLAG</span><br><span class="line">key = <span class="string">&#x27;&#x27;</span>.join(random.choices(string.ascii_letters + string.digits, k=<span class="number">16</span>))</span><br><span class="line">cipher = bytes([ord(m)^ord(k) <span class="keyword">for</span> m, k <span class="keyword">in</span> zip(FLAG, itertools.cycle(key))])</span><br><span class="line">print(cipher)</span><br><span class="line"><span class="comment">#cipher=*</span></span><br></pre></td></tr></table></figure>
+
 <p>题目给出了密钥的长度是$16$，然后最终结果就是将flag和密钥异或得出来的值。其中密钥里只含有A-Z,a-z和0-9，密文的长度是$1069$</p>
 <h3 id="PART-2-拆解密文，计算方差"><a href="#PART-2-拆解密文，计算方差" class="headerlink" title="PART 2 拆解密文，计算方差"></a>PART 2 拆解密文，计算方差</h3><p>发现密钥的长度是$16$，密文很长，不出意外应该是通过字母频率攻击得到的。所以我们可以编写C++程序，将密文中的第$1,17,33…$位，$2,18,34,…$位进行逐个拆解，然后每个文件都爆破一下，计算爆破时的方差即可。</p>
 <p>拆解密文的代码</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">10000</span>];</span><br><span class="line"><span class="keyword">char</span> s[<span class="number">40</span>]=<span class="string">&quot;Cip00.txt&quot;</span>;</span><br><span class="line"><span class="keyword">int</span> f[<span class="number">18</span>]=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>&#125;;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">generate</span><span class="params">(<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	s[<span class="number">3</span>]=<span class="string">&#x27;0&#x27;</span>+x/<span class="number">10</span>;</span><br><span class="line">	s[<span class="number">4</span>]=<span class="string">&#x27;0&#x27;</span>+x%<span class="number">10</span>;</span><br><span class="line">	FILE *gp=fopen(s,<span class="string">&quot;w&quot;</span>);</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=x;i&lt;=<span class="number">1069</span>;i+=<span class="number">16</span>)</span><br><span class="line">		<span class="built_in">fprintf</span>(gp,<span class="string">&quot;%d\n&quot;</span>,a[i]);</span><br><span class="line">	fclose(gp);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FILE *fp;</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	fp=fopen(<span class="string">&quot;cipher.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=<span class="number">1069</span>;i++) </span><br><span class="line">		<span class="built_in">fscanf</span>(fp,<span class="string">&quot;%d&quot;</span>,&amp;a[i]);</span><br><span class="line">	fclose(fp);</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=<span class="number">16</span>;i++)</span><br><span class="line">		generate(i);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
 <p>然后是爆破密钥的代码，其中loss是计算的方差，初始化函数里有每个字母出现的概率，比如<code>A</code>出现的概率是$8.15\text{percent}$(注：以后博客中百分号用percent单词表示，因为上传博客时有百分号的地方会出错)，那么<code>pos[0]=8.15</code></p>
 <p>我们把每次爆破出的概率放到<code>cul</code>数组中，最后的方差$ V=\sum_{i=0}^{25}(\mathrm{pos}[i]-\mathrm{cul}[i])^2 $。</p>
 <p>这个方法也很巧妙，因为这个代码可以通过修改字符数组的方式 ，连续读取$16$个文件，并对应输出$16$个文件</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">asdf</span>&#123;</span><span class="keyword">char</span> chr;<span class="keyword">double</span> loss;</span><br><span class="line">&#125;data[<span class="number">95</span>];</span><br><span class="line"><span class="keyword">double</span> pos[<span class="number">26</span>],cul[<span class="number">26</span>],K=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">char</span> files[<span class="number">26</span>]=<span class="string">&quot;Cip00.txt&quot;</span>;</span><br><span class="line"><span class="keyword">char</span> outfiles[<span class="number">26</span>]=<span class="string">&quot;Res00.txt&quot;</span>;</span><br><span class="line"><span class="keyword">char</span> Table[<span class="number">90</span>]=<span class="string">&quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&quot;</span>;</span><br><span class="line"><span class="keyword">int</span> a[<span class="number">45000</span>],b[<span class="number">45000</span>],n=<span class="number">0</span>; </span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(asdf a,asdf b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a.loss&lt;b.loss;</span><br><span class="line">&#125; </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(cul,<span class="number">0</span>,<span class="keyword">sizeof</span>(cul));</span><br><span class="line">	<span class="built_in">memset</span>(a,<span class="number">0</span>,<span class="keyword">sizeof</span>(a));</span><br><span class="line">	<span class="built_in">memset</span>(b,<span class="number">0</span>,<span class="keyword">sizeof</span>(b));</span><br><span class="line">	n=<span class="number">0</span>;K=<span class="number">0</span>;</span><br><span class="line">	files[<span class="number">3</span>]=<span class="string">&#x27;0&#x27;</span>+x/<span class="number">10</span>;</span><br><span class="line">	files[<span class="number">4</span>]=<span class="string">&#x27;0&#x27;</span>+x%<span class="number">10</span>;</span><br><span class="line">	outfiles[<span class="number">3</span>]=<span class="string">&#x27;0&#x27;</span>+x/<span class="number">10</span>;</span><br><span class="line">	outfiles[<span class="number">4</span>]=<span class="string">&#x27;0&#x27;</span>+x%<span class="number">10</span>;</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	pos[<span class="number">0</span>]=<span class="number">8.15</span>,pos[<span class="number">1</span>]=<span class="number">1.44</span>,pos[<span class="number">2</span>]=<span class="number">2.76</span>,pos[<span class="number">3</span>]=<span class="number">3.79</span>;</span><br><span class="line">	pos[<span class="number">4</span>]=<span class="number">13.11</span>,pos[<span class="number">5</span>]=<span class="number">2.92</span>,pos[<span class="number">6</span>]=<span class="number">1.99</span>,pos[<span class="number">7</span>]=<span class="number">5.26</span>;</span><br><span class="line">	pos[<span class="number">8</span>]=<span class="number">6.35</span>,pos[<span class="number">9</span>]=<span class="number">0.13</span>,pos[<span class="number">10</span>]=<span class="number">0.42</span>,pos[<span class="number">11</span>]=<span class="number">3.39</span>;</span><br><span class="line">	pos[<span class="number">12</span>]=<span class="number">2.54</span>,pos[<span class="number">13</span>]=<span class="number">7.1</span>,pos[<span class="number">14</span>]=<span class="number">8</span>,pos[<span class="number">15</span>]=<span class="number">1.98</span>;</span><br><span class="line">	pos[<span class="number">16</span>]=<span class="number">0.12</span>,pos[<span class="number">17</span>]=<span class="number">6.83</span>,pos[<span class="number">18</span>]=<span class="number">6.1</span>,pos[<span class="number">19</span>]=<span class="number">10.47</span>;</span><br><span class="line">	pos[<span class="number">20</span>]=<span class="number">2.46</span>,pos[<span class="number">21</span>]=<span class="number">0.92</span>,pos[<span class="number">22</span>]=<span class="number">1.54</span>,pos[<span class="number">23</span>]=<span class="number">0.17</span>;</span><br><span class="line">	pos[<span class="number">24</span>]=<span class="number">1.98</span>,pos[<span class="number">25</span>]=<span class="number">0.08</span>; </span><br><span class="line">	FILE *fp=fopen(files,<span class="string">&quot;r&quot;</span>);</span><br><span class="line">	<span class="keyword">while</span>(~<span class="built_in">fscanf</span>(fp,<span class="string">&quot;%d&quot;</span>,&amp;a[++n]));</span><br><span class="line">	n--;</span><br><span class="line">	fclose(fp);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">culcloss</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">memset</span>(cul,<span class="number">0</span>,<span class="keyword">sizeof</span>(cul));</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	<span class="keyword">double</span> V=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(b[i]&gt;=<span class="string">&#x27;A&#x27;</span>&amp;&amp;b[i]&lt;=<span class="string">&#x27;Z&#x27;</span>)</span><br><span class="line">			cul[b[i]<span class="number">-65</span>]++;</span><br><span class="line">		<span class="keyword">if</span>(b[i]&gt;=<span class="string">&#x27;a&#x27;</span>&amp;&amp;b[i]&lt;=<span class="string">&#x27;z&#x27;</span>)</span><br><span class="line">			cul[b[i]<span class="number">-97</span>]++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">26</span>;i++)</span><br><span class="line">		V+=(pos[i]-cul[i])*(pos[i]-cul[i])*<span class="number">100</span>/K;</span><br><span class="line">	<span class="keyword">return</span> V;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">solve</span><span class="params">(<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	K=<span class="number">0</span>;</span><br><span class="line">	<span class="built_in">memset</span>(b,<span class="number">0</span>,<span class="keyword">sizeof</span>(b));</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">		b[i]=a[i]^Table[x];</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">		<span class="keyword">if</span>(b[i]&gt;=<span class="string">&#x27;a&#x27;</span>&amp;&amp;b[i]&lt;=<span class="string">&#x27;z&#x27;</span>||b[i]&gt;=<span class="string">&#x27;A&#x27;</span>&amp;&amp;b[i]&lt;=<span class="string">&#x27;Z&#x27;</span>)</span><br><span class="line">			++K;</span><br><span class="line">	data[x].chr=Table[x];</span><br><span class="line">	data[x].loss=culcloss();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,j;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=<span class="number">16</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		init(i);</span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="built_in">strlen</span>(Table);j++)</span><br><span class="line">			solve(j);</span><br><span class="line">		sort(data,data+<span class="built_in">strlen</span>(Table),cmp);</span><br><span class="line">		FILE *gp=fopen(outfiles,<span class="string">&quot;w&quot;</span>);</span><br><span class="line">		<span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="built_in">strlen</span>(Table);j++)</span><br><span class="line">			<span class="built_in">fprintf</span>(gp,<span class="string">&quot;chr=%c  loss=%.4lf\n&quot;</span>,data[j].chr,data[j].loss);</span><br><span class="line">		fclose(gp);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="PART-3-最后调整，得出答案"><a href="#PART-3-最后调整，得出答案" class="headerlink" title="PART 3 最后调整，得出答案"></a>PART 3 最后调整，得出答案</h3><p>我们来看看第$1$组输出的前$6$行输出和第$4$组输出的前$6$行</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Res01.txt                             _ [] X</span><br><span class="line">____________________________________________</span><br><span class="line">chr&#x3D;8  loss&#x3D;507.0642</span><br><span class="line">chr&#x3D;9  loss&#x3D;748.7868</span><br><span class="line">chr&#x3D;2  loss&#x3D;1161.6835</span><br><span class="line">chr&#x3D;3  loss&#x3D;1385.8863</span><br><span class="line">chr&#x3D;4  loss&#x3D;1426.1932</span><br><span class="line">chr&#x3D;5  loss&#x3D;1430.1443</span><br><span class="line"></span><br><span class="line">Res04.txt                             _ [] X</span><br><span class="line">_____________________________________________</span><br><span class="line">chr&#x3D;e  loss&#x3D;418.8335</span><br><span class="line">chr&#x3D;E  loss&#x3D;418.8335</span><br><span class="line">chr&#x3D;c  loss&#x3D;755.6027</span><br><span class="line">chr&#x3D;C  loss&#x3D;755.6027</span><br><span class="line">chr&#x3D;d  loss&#x3D;844.2964</span><br><span class="line">chr&#x3D;D  loss&#x3D;844.2964</span><br></pre></td></tr></table></figure>
+
 <p>很显然，我们可以看出，第一组输出loss最小的是字符$8$，所以密钥应该是以$8$开头的，不过问题来了，每组输出对应的大小写字母都是一致的，也就是说，第$4$组输出我们无法判断E究竟是大写还是小写。</p>
 <p>我们这边可以假设所有的字母都是大写字母，然后我们可以尝试解密。根据我解出的结果是<code>key=b&#39;89QEUTFDJAECOLTK&#39;</code></p>
 <p>然后带入密文进行异或解密，前40位是这样的：<code>\nSYmmetry\x00In\x00ARt iS when THe\x00ELemeNts of</code></p>
@@ -480,20 +484,22 @@
 <p>修改之后，我们可以继续发现很多地方的大小写字母杂乱，看到输出实际上有英文句号的，那么可以推出只有一句话的开头才能用大写字母，所以不对的地方密钥前给成小写字母，最终我们可以得到正确的密钥是<code>b&#39;89qEUTFDJaeColtK&#39;</code></p>
 <p>最后我们就可以得出答案了。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> given <span class="keyword">import</span> cipher</span><br><span class="line">key=<span class="string">b&#x27;89qEUTFDJaeColtK&#x27;</span></span><br><span class="line">s=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(cipher)):</span><br><span class="line">    s+=chr(key[i%len(key)]^cipher[i])</span><br><span class="line">print(s)</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">Symmetry in art is when the elements of </span></span><br><span class="line"><span class="string">a painting or drawing balance each other </span></span><br><span class="line"><span class="string">out. This could be the objects themselves, </span></span><br><span class="line"><span class="string">but it can also relate to colors and </span></span><br><span class="line"><span class="string">other compositional techniques.</span></span><br><span class="line"><span class="string">You may not realize it, but your brain </span></span><br><span class="line"><span class="string">is busy working behind the scenes to seek </span></span><br><span class="line"><span class="string">out symmetry when you look at a painting. </span></span><br><span class="line"><span class="string">There are several reasons for this. The </span></span><br><span class="line"><span class="string">first is that we&#x27;re hard-wired to look for </span></span><br><span class="line"><span class="string">it. Our ancient ancestors may not have had </span></span><br><span class="line"><span class="string">a name for it, but they knew that their </span></span><br><span class="line"><span class="string">own bodies were basically symmetrical, as </span></span><br><span class="line"><span class="string">were those of potential predators or prey. </span></span><br><span class="line"><span class="string">Therefore, this came in handy whether </span></span><br><span class="line"><span class="string">choosing a mate, catching dinner or </span></span><br><span class="line"><span class="string">avoiding being on the menu of a snarling, </span></span><br><span class="line"><span class="string">hungry pack of wolves or bears!</span></span><br><span class="line"><span class="string">Take a look at your face in the mirror </span></span><br><span class="line"><span class="string">and imagine a line straight down the </span></span><br><span class="line"><span class="string">middle. You&#x27;ll see both sides of your </span></span><br><span class="line"><span class="string">face are pretty symmetrical. This is </span></span><br><span class="line"><span class="string">known as bilateral symmetry and it&#x27;s </span></span><br><span class="line"><span class="string">where both sides either side of this </span></span><br><span class="line"><span class="string">dividing line appear more or less the same.</span></span><br><span class="line"><span class="string">So here is the flag: </span></span><br><span class="line"><span class="string">hgame&#123;X0r_i5-a_uS3fU1+4nd$fUNny_C1pH3r&#125;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="3-Transformer"><a href="#3-Transformer" class="headerlink" title="3.Transformer"></a>3.Transformer</h2><p>题目意思很简单，一个替换密码，给出了$240$个片段和打乱的密文。不过虽然是打乱的，但是解压后我们只需要在文件夹中按大小排序，就可以做到基本对应了（因为替换密码加密后长度不变。，最短的是$25$字节的，一共有$7$个，所以我们只需要阅读$7$个即可。</p>
 <p>看到flag文件中有疑似flag的内容，很明显，应该果断替换，盲猜最前面的内容是<code>hgame</code>，其他几个未知的字符也可以加进去，最后得到了这样的内容：<code>hgame&#123;ea5y_f0r_fun^3nd&amp;he11o_&#125;</code></p>
 <p>不过最后提交之后一直不对，看来还少些什么，回顾密文，我们决定把给出的这段话破译掉</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tqh ufso mnfcyh eaikauh kdkoht qpk aiud zkhc xpkkranc uayfi kfieh 2003, oqh xpkkranc fk &quot;qypth&#123;hp5d_s0n_szi^3ic&amp;qh11a_&#125;&quot;,Dai&#39;o sanyho oa pcc oqh dhpn po oqh hic.</span><br></pre></td></tr></table></figure>
+
 <p>果然，破译后有了大发现：最后的一句话内容是<code>to add the year at the end</code>，那么后面应该加个$2021$，最后提交内容是 </p>
 <p><code>hgame&#123;ea5y_f0r_fun^3nd&amp;he11o_2021&#125;</code>，果然对了。</p>
 <h2 id="4-signin"><a href="#4-signin" class="headerlink" title="4.signin"></a>4.signin</h2><p>先看一下题目</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> libnum <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> Crypto.Util <span class="keyword">import</span> number</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> FLAG</span><br><span class="line">m = s2n(FLAG)</span><br><span class="line">a = number.getPrime(<span class="number">1024</span>)</span><br><span class="line">p = number.getPrime(<span class="number">1024</span>)</span><br><span class="line">c = a ** p * m % p</span><br><span class="line">print(<span class="string">&quot;a = &#123;&#125;&quot;</span>.format(a))</span><br><span class="line">print(<span class="string">&quot;p = &#123;&#125;&quot;</span>.format(p))</span><br><span class="line">print(<span class="string">&quot;c = &#123;&#125;&quot;</span>.format(c))</span><br></pre></td></tr></table></figure>
+
 <p>题目最后给出了$a,p,c$的值。其中$a^pm\equiv c\pmod p$。</p>
 <p>根据费马小定理可知，$a^p\equiv a\pmod p$，因此原式就是$am\equiv c \pmod p$，故$a^{-1}c\equiv m \pmod p$，我们只需要用内置函数求个逆元就结束了。</p>
 <h2 id="5-WhitegiveRSA"><a href="#5-WhitegiveRSA" class="headerlink" title="5.WhitegiveRSA"></a>5.WhitegiveRSA</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">N &#x3D; 882564595536224140639625987659416029426239230804614613279163</span><br><span class="line">e &#x3D; 65537</span><br><span class="line">c &#x3D; 747831491353896780365654517748216624798517769637260742155527</span><br></pre></td></tr></table></figure>
-<p>题目描述得很简单。看到$N$并不是特别长，直接放Sagemath分解就得到</p>
-<script type="math/tex; mode=display">
-N=857504083339712752489993810777 ×1029224947942998075080348647219</script><p>然后就是正常的因式分解了。</p>
+
+<p>题目描述得很简单。看到$N$并不是特别长，直接放Sagemath分解就得到<br>$$<br>N=857504083339712752489993810777 ×1029224947942998075080348647219<br>$$<br>然后就是正常的因式分解了。</p>
 <h2 id="6-gcd-or-more"><a href="#6-gcd-or-more" class="headerlink" title="6.gcd or more?"></a>6.gcd or more?</h2><p>这道题是RSA，$e=2$的情景，首先想到的就是枚举$m=kn+c$，不过貌似不可行</p>
 <p>$e=2$时，我们可以口算出$x^2\equiv 1 \pmod p$的解是$1$和$p-1$。然后Sagemath开根得出一个特解。</p>
 <p>最后就是参考<strong>RSA Notes 3</strong>的内容，$e,\phi$不互素的情况的解法。</p>
@@ -505,6 +511,7 @@ N=857504083339712752489993810777 ×1029224947942998075080348647219</script><p>�
 <p><img src="/2021/02/14/HgameDiv1/2.png" alt="2"></p>
 <p>验证了一下，果然符合循环移位异或的结果。那么我们就可以构建矩阵来解决问题了，附上sagemath中的代码</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solve</span>(<span class="params">y,n,l,r</span>):</span></span><br><span class="line">    y^^=n</span><br><span class="line">    M,v=[],[]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">64</span>):</span><br><span class="line">        M.append([<span class="number">0</span>]*<span class="number">64</span>)</span><br><span class="line">        v.append([<span class="number">0</span>])</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">64</span>):</span><br><span class="line">        M[i][i],M[i][(i-l)%<span class="number">64</span>],M[i][(i+r)%<span class="number">64</span>]=<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span></span><br><span class="line">    M=matrix(GF(<span class="number">2</span>),M)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">64</span>):</span><br><span class="line">        v[i]=y&amp;<span class="number">1</span></span><br><span class="line">        y&gt;&gt;=<span class="number">1</span></span><br><span class="line">    v=vector(GF(<span class="number">2</span>),v)</span><br><span class="line">    M=M^<span class="number">-1</span></span><br><span class="line">    G=vector(ZZ,M*v)</span><br><span class="line">    s=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">64</span>):</span><br><span class="line">        s+=(G[i]&lt;&lt;i)</span><br><span class="line">    print(hex(s))</span><br><span class="line"><span class="comment">#------main-below------#</span></span><br><span class="line">Y=[<span class="number">15789597796041222200</span>,<span class="number">8279663441787235887</span>,<span class="number">9666438290109535850</span>,<span class="number">10529571502219113153</span>,<span class="number">8020289479524135048</span>,<span class="number">10914636017953100490</span>,<span class="number">4622436850708129231</span>]</span><br><span class="line">N=[<span class="number">14750142427529922</span>,<span class="number">2802568775308984</span>,<span class="number">15697145971486341</span>,<span class="number">9110411034859362</span>,<span class="number">4092084344173014</span>,<span class="number">2242282628961085</span>,<span class="number">10750832281632461</span>]</span><br><span class="line">L=[<span class="number">3</span>,<span class="number">9</span>,<span class="number">5</span>,<span class="number">13</span>,<span class="number">64</span><span class="number">-16</span>,<span class="number">7</span>,<span class="number">5</span>]</span><br><span class="line">R=[<span class="number">7</span>,<span class="number">4</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">5</span>,<span class="number">2</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>):</span><br><span class="line">    solve(Y[i],N[i],L[i],R[i])</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">0x6867616d657b6c</span></span><br><span class="line"><span class="string">0x316e6530725f61</span></span><br><span class="line"><span class="string">0x31676562723026</span></span><br><span class="line"><span class="string">0x697340316d706f</span></span><br><span class="line"><span class="string">0x7231306e315e31</span></span><br><span class="line"><span class="string">0x6e246372797074</span></span><br><span class="line"><span class="string">0x6f7d</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <p>flag也就得出来了。</p>
 
                 
@@ -592,132 +599,6 @@ N=857504083339712752489993810777 ×1029224947942998075080348647219</script><p>�
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -973,60 +854,6 @@ N=857504083339712752489993810777 ×1029224947942998075080348647219</script><p>�
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">

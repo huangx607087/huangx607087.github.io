@@ -459,6 +459,7 @@
 <p>2.执行旋转算法<br>连接$MT_{i}$的高$w-r$位和$MT_{i+1}$的低$r$位，若这个组合后的二进制数末位为$0$，将其除以$2$.。否则将这个数除以$2$后再与$a$进行异或。假设我们最终得到的数字为$P$<br>所以我们的递推式为$MT_i=MT_{i+m}$ xor $P$</p>
 <p>3.对于旋转算法所得结果进行处理：<br>设$x$为该序列下一个值，$y$是一个临时的中间变量，$z$是算法返回值<br>以下为处理过程：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">y=x <span class="keyword">xor</span>((x&gt;&gt;u)&amp;d)</span><br><span class="line">y=y <span class="keyword">xor</span>((y&lt;&lt;s)&amp;b)</span><br><span class="line">y=y <span class="keyword">xor</span>((y&lt;&lt;t)&amp;c)</span><br><span class="line">z=y <span class="keyword">xor</span>(y&gt;&gt;l)</span><br></pre></td></tr></table></figure>
+
 <h2 id="0x03-解密方法"><a href="#0x03-解密方法" class="headerlink" title="0x03 解密方法"></a>0x03 解密方法</h2><p><strong>解密关键：求出一个周期内的全部内容，然后就可以顺推得出前面所有的情况了</strong></p>
 <p>逆向处理。加密一共$4$步，都是异或运算，所以我们可以写出逆算法</p>
 <p>我们先来看看加密的最后一步：<code>z=y xor (y&gt;&gt;l)</code>，很显然，这一操作时不影响$y$的最高$l$位的，所以$z$的最高$l$位就是$y$的最高$l$位，我们可以通过$y&gt;&gt;l$的高$2l$位（最高$l$位全是$0$），从而我们可以得到$y$的$2l$位，进而得到$y&gt;&gt;l$的高$3l$位…….</p>
@@ -469,10 +470,12 @@
 <p>关于逆出第3步，$y_1=y$ xor$((y&lt;&lt;t)$&amp;$c)$，我们可以发现：$y_1$的低$t$位就是$y$的低$t$位异或$c$的低$t$位求出来的结果，所以$y_1$的低$t$位与$c$的低$t$位异或以下即为$y$的低$t$位，进而我们可以得到$(y&lt;&lt;t)$的低$2t$位，模仿上面的方法得到$y$的所有位</p>
 <p>第2步和第1步分别于第3步和第4步同理，我们可以直接放上解密脚本<del>（这么好的代码当然不是我这个fw能写出来的）</del></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># right shift inverse</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inverse_right</span>(<span class="params">res, shift, bits=<span class="number">32</span></span>):</span></span><br><span class="line">    tmp = res</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(bits // shift):</span><br><span class="line">        tmp = res ^ tmp &gt;&gt; shift</span><br><span class="line">    <span class="keyword">return</span> tmp</span><br><span class="line"><span class="comment"># right shift with mask inverse</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inverse_right_mask</span>(<span class="params">res, shift, mask, bits=<span class="number">32</span></span>):</span></span><br><span class="line">    tmp = res</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(bits // shift):</span><br><span class="line">        tmp = res ^ tmp &gt;&gt; shift &amp; mask</span><br><span class="line">    <span class="keyword">return</span> tmp</span><br><span class="line"><span class="comment"># left shift inverse</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inverse_left</span>(<span class="params">res, shift, bits=<span class="number">32</span></span>):</span></span><br><span class="line">    tmp = res</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(bits // shift):</span><br><span class="line">        tmp = res ^ tmp &lt;&lt; shift</span><br><span class="line">    <span class="keyword">return</span> tmp</span><br><span class="line"><span class="comment"># left shift with mask inverse</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">inverse_left_mask</span>(<span class="params">res, shift, mask, bits=<span class="number">32</span></span>):</span></span><br><span class="line">    tmp = res</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(bits // shift):</span><br><span class="line">        tmp = res ^ tmp &lt;&lt; shift &amp; mask</span><br><span class="line">    <span class="keyword">return</span> tmp</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">extract_number</span>(<span class="params">y</span>):</span></span><br><span class="line">    y = y ^ y &gt;&gt; <span class="number">11</span></span><br><span class="line">    y = y ^ y &lt;&lt; <span class="number">7</span> &amp; <span class="number">2636928640</span></span><br><span class="line">    y = y ^ y &lt;&lt; <span class="number">15</span> &amp; <span class="number">4022730752</span></span><br><span class="line">    y = y ^ y &gt;&gt; <span class="number">18</span></span><br><span class="line">    <span class="keyword">return</span> y&amp;<span class="number">0xffffffff</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">recover</span>(<span class="params">y</span>):</span></span><br><span class="line">    y = inverse_right(y,<span class="number">18</span>)</span><br><span class="line">    y = inverse_left_mask(y,<span class="number">15</span>,<span class="number">4022730752</span>)</span><br><span class="line">    y = inverse_left_mask(y,<span class="number">7</span>,<span class="number">2636928640</span>)</span><br><span class="line">    y = inverse_right(y,<span class="number">11</span>)</span><br><span class="line">    <span class="keyword">return</span> y&amp;<span class="number">0xffffffff</span></span><br><span class="line">print(recover(<span class="number">0xf1c680f8</span>))</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">for i in s:</span></span><br><span class="line"><span class="string">    print(recover(i))</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">y = extract_number(o)</span></span><br><span class="line"><span class="string">print(&#x27;y=&#x27;,y,&#x27;o=&#x27;,o)</span></span><br><span class="line"><span class="string">print(recover(y) == o)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <p>MT32的一些基本属性：<br>$(w,n,m,r)=(32,624,397,31)$<br>$(a,f)=(9908B0DF_h,1812433253)$<br>$(u,d,s,b,t,c)=(11,FFFFFFFF_h,7,9D2C5680_h,15,EFC60000_h)$<br>$l=18$</p>
 <h2 id="0x04-具体题目中分析"><a href="#0x04-具体题目中分析" class="headerlink" title="0x04 具体题目中分析"></a>0x04 具体题目中分析</h2><p><strong>0xCTF PRNG2详解</strong></p>
 <p>首先我们看一下源代码</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span>*</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line"><span class="keyword">assert</span> flag[:<span class="number">6</span>] == <span class="string">&quot;0xCTF&#123;&quot;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MT</span>():</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, seed</span>):</span></span><br><span class="line">        self.state = [seed]+[<span class="number">0</span>]*<span class="number">23</span></span><br><span class="line">        self.flag = <span class="number">0</span></span><br><span class="line">        self.srand()</span><br><span class="line">        self.generateNumbers()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">srand</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">23</span>):</span><br><span class="line">            self.state[i+<span class="number">1</span>] = <span class="number">1812433253</span> *  (self.state[i] ^ (self.state[i] &gt;&gt; <span class="number">27</span>)) - i</span><br><span class="line">            self.state[i+<span class="number">1</span>] &amp;= <span class="number">0xffffffff</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">generateNumbers</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">24</span>):</span><br><span class="line">            y = (self.state[i] &amp; <span class="number">0x80000000</span>) | (</span><br><span class="line">                self.state[(i+<span class="number">1</span>) % <span class="number">24</span>] &amp; <span class="number">0x7fffffff</span>)</span><br><span class="line">            temp = y &gt;&gt; <span class="number">1</span></span><br><span class="line">            temp ^= self.state[(i + <span class="number">12</span>) % <span class="number">24</span>]</span><br><span class="line">            <span class="keyword">if</span> y &amp; <span class="number">1</span>:</span><br><span class="line">                temp ^= <span class="number">0x9908b0df</span></span><br><span class="line">            self.state[i] = temp</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getRandomBits</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">if</span> self.flag == <span class="number">24</span>:</span><br><span class="line">            self.generateNumbers()</span><br><span class="line">            self.flag = <span class="number">0</span></span><br><span class="line">        bits = self.Next(self.state[self.flag])</span><br><span class="line">        self.flag += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> long_to_bytes(bits)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Next</span>(<span class="params">self, tmp</span>):</span></span><br><span class="line">        tmp ^= (tmp &gt;&gt; <span class="number">11</span>)</span><br><span class="line">        tmp ^= (tmp &lt;&lt; <span class="number">7</span>) &amp; <span class="number">0x9d2c5680</span></span><br><span class="line">        tmp ^= (tmp &lt;&lt; <span class="number">15</span>) &amp; <span class="number">0xefc60000</span></span><br><span class="line">        tmp ^= (tmp &gt;&gt; <span class="number">18</span>)</span><br><span class="line">        <span class="keyword">return</span> tmp</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Encrypt</span>(<span class="params">key, char</span>):</span></span><br><span class="line">    key = bytes_to_long(key)</span><br><span class="line">    temp = hex(pow(ord(char), <span class="number">65537</span>, <span class="number">2</span>**<span class="number">8</span><span class="number">-1</span>) ^ key)[<span class="number">2</span>:]</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;0&#x27;</span>*(<span class="number">32</span>-len(temp))+temp</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    mt = MT(getRandomNBitInteger(<span class="number">32</span>))</span><br><span class="line">    c = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(flag)):</span><br><span class="line">        c += Encrypt(<span class="string">b&#x27;&#x27;</span>.join([mt.getRandomBits() <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">4</span>)]), flag[i])</span><br><span class="line">    print(c)</span><br></pre></td></tr></table></figure>
+
 <p>这道题对标准的MT进行一下分析：与标准算法相比，只有$n$的值从$624$变成了$24$。</p>
 <p>然而一个很显然的事实是：<del>我这个密码学fw根本看不懂这么长的代码，怎么办？</del>答案当然是靠输出来调试调试程序究竟是如何运行的。通过加运行可以看到：对于每一位字符，这个处理器会处理$4$次，然而每一次，会对第$4$次求出的结果进行异或。。</p>
 <p>题目给出了一个很长的$c$字符$16$进制字符串，所以我们可以用C++等工具，把字符串$c$分为$8$位一小组(每组刚好是$32$位二进制数)，$4$小组以大组。根据代码调试分析一下，每一大组的最后一个数字与明文对应的字符进行了异或操作，所以对于这$6$个数字来说，我们可以通过Win10自带的计算机(或者手搓)，可以得到异或前的数字，也就是程序最后输出的bytes</p>
@@ -483,6 +486,7 @@
 <p>简单地改一下代码初始化部分，删去<code>__init__</code>中的srand和<code>generateNumbers</code>。把初始化的<code>seed</code>参数和主函数中的<code>getRandomNBitInteger(32)</code>删去。然后每次输出<code>mt.getRandomBits()</code>，就可以得到一个个解（推荐$4$个一行，以$16$进制输出）</p>
 <p>如果你是按照推荐的做法做的，我们可以一个一个比对一下(左边为程序输出结果，右边为给出来的数值)，此处为程序输出与给出数值第$7$到第$9$行的比较。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a46e5465 533477c6 3f7f5649 cc96ec79 | a46e5465 533477c6 3f7f5649 cc96ec49</span><br><span class="line">8bebeb18 c6f90a3c 38ff0c8a 0837182e | 8bebeb18 c6f90a3c 38ff0c8a 0837181b</span><br><span class="line">31ba3fa7 efaee340 f9b70a82 a6fafa6f | 31ba3fa7 efaee340 f9b70a82 a6fafa57</span><br></pre></td></tr></table></figure>
+
 <p>很显然，正如我们预期：最后的一个数字不一样，并且刚好有点略微的差别，这就说明这是个跟某个数异或过的结果，而那个数，恰好就是那一位字符的ASCII码值。我们只需要用C++的<code>freopen</code>提取出两处的第$4$位，然后异或一下就得出结果了(如果你用的C++务必把数值类型设置成<code>unsigned</code>而不是<code>int</code>，不然十六进制中大于等于$80000000_h$会被标记为负数，导致异或结果出错)</p>
 <p>最后异或完成的结果就是flag。</p>
 
@@ -571,132 +575,6 @@
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -952,60 +830,6 @@
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">

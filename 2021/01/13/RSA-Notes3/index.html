@@ -458,6 +458,7 @@
 <p>为了探讨大数字的一般性结论，我们先从小的数字开始，看一个引例：</p>
 <p>在数字极小的时候，我们假设$e=7,p=43,q=29,c=394$是已知的（这种情况下都是给出$p,q$的，并且注意到$p-1,q-1$都是$e$的倍数）。然后我们期望的$m$值是$26$（实际上应该是是未知的）。然后我们用下面的代码做一个先加密再解密的实验：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line">e,m,p,q=<span class="number">7</span>,<span class="number">26</span>,<span class="number">43</span>,<span class="number">29</span></span><br><span class="line">n,phi=p*q,(p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">print(pow(m,e,n))</span></span><br><span class="line"><span class="string">print(phi)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line">c=<span class="number">394</span></span><br><span class="line">phi=<span class="number">1176</span></span><br><span class="line">anses=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">    <span class="keyword">if</span>(pow(i,e,n)==c):</span><br><span class="line">        anses.append(i)</span><br><span class="line">print(anses)</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">[18, 26, 73, 114, 155, 157, 163, 200, 201, 244, 276, 287, 288, 308, 327, 329, 331, 374, 416, 421, 491, 501, 503, 534, 566, 577, 588, 636, 675, 679, 706, 714, 722, 781, 824, 851, 867, 878, 888, 972, 975, 996, 1023, 1062, 1146, 1168, 1187, 1230, 1233]</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <p>然后我们可以发现：当我们尝试用枚举法<del>（反正数字小）</del>尝试枚举符合条件的答案时，发现一共有多解（并且解的个数恰好是$7^2=49$）：我们期望的$26$只是其中的一个解。然而这里也仅仅时在数字较小的时候采用枚举法，我们必须要找到一种办法来真正地来解决这个问题。</p>
 <h3 id="0x02-有限域内开根"><a href="#0x02-有限域内开根" class="headerlink" title="0x02  有限域内开根"></a>0x02  有限域内开根</h3><h4 id="2o01-Introduction"><a href="#2o01-Introduction" class="headerlink" title="2o01 Introduction"></a>2o01 Introduction</h4><p>基础的数学早已告诉我们，$n$次方程有$n$个根。所以当$p-1$和$e$不互素时，$x^e\equiv a \pmod p$要么有$e$个根，要么没有根（这个很容易理解，$e=2$时，方程$x^2\equiv a\pmod p$如果$a$是模$p$二次剩余就有两个根，$a$不是模$p$的二次剩余就没根。）</p>
 <p>所以，我们就需要求出在有限域内开$e$次根号，在这里我们无需考虑无解的情况（因为在RSA中，显然有一个解是$m$）</p>
@@ -466,14 +467,19 @@
 <p>至于剩下的$6$个根，我们可以有这样的推导（仍然是以$e=7$为例）：$x=(\sqrt[7]{1×x})^7=(\sqrt[7]1)^7×(\sqrt[7]{x})^7$。可能某些无理数在模意义下不存在，但是这没有关系，因为$x^7\equiv 1 \pmod {43}$绝对不止$1$一个根，比如$41^7\equiv 1 \pmod {43}$。我们可以用下面的脚本求出来，原理见Am4dalao博客中的网页链接</p>
 <h4 id="Upd-2021-1-17"><a href="#Upd-2021-1-17" class="headerlink" title="Upd 2021.1.17"></a>Upd 2021.1.17</h4><p>用以下sagemath代码求特解更快（$e&gt;4200$的情况下）</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">AMM</span>(<span class="params">o, r, q</span>):</span></span><br><span class="line">    print(<span class="string">&#x27;\n----------------------------------------------------------------------------------&#x27;</span>)</span><br><span class="line">    print(<span class="string">&#x27;Start to run Adleman-Manders-Miller Root Extraction Method&#x27;</span>)</span><br><span class="line">    print(<span class="string">&#x27;Try to find one &#123;:#x&#125;th root of &#123;&#125; modulo &#123;&#125;&#x27;</span>.format(r, o, q))</span><br><span class="line">    g = GF(q)</span><br><span class="line">    o = g(o)</span><br><span class="line">    p = g(random.randint(<span class="number">1</span>, q))</span><br><span class="line">    <span class="keyword">while</span> p ^ ((q<span class="number">-1</span>) // r) == <span class="number">1</span>:</span><br><span class="line">        p = g(random.randint(<span class="number">1</span>, q))</span><br><span class="line">    print(<span class="string">&#x27;[+] Find p:&#123;&#125;&#x27;</span>.format(p))</span><br><span class="line">    t = <span class="number">0</span></span><br><span class="line">    s = q - <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> s % r == <span class="number">0</span>:</span><br><span class="line">        t += <span class="number">1</span></span><br><span class="line">        s = s // r</span><br><span class="line">    print(<span class="string">&#x27;[+] Find s:&#123;&#125;, t:&#123;&#125;&#x27;</span>.format(s, t))</span><br><span class="line">    k = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> (k * s + <span class="number">1</span>) % r != <span class="number">0</span>:</span><br><span class="line">        k += <span class="number">1</span></span><br><span class="line">    alp = (k * s + <span class="number">1</span>) // r</span><br><span class="line">    print(<span class="string">&#x27;[+] Find alp:&#123;&#125;&#x27;</span>.format(alp))</span><br><span class="line">    a = p ^ (r**(t<span class="number">-1</span>) * s)</span><br><span class="line">    b = o ^ (r*alp - <span class="number">1</span>)</span><br><span class="line">    c = p ^ s</span><br><span class="line">    h = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, t):</span><br><span class="line">        d = b ^ (r^(t<span class="number">-1</span>-i))</span><br><span class="line">        <span class="keyword">if</span> d == <span class="number">1</span>:</span><br><span class="line">            j = <span class="number">0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">&#x27;[+] Calculating DLP...&#x27;</span>)</span><br><span class="line">            j = - dicreat_log(a, d)</span><br><span class="line">            print(<span class="string">&#x27;[+] Finish DLP...&#x27;</span>)</span><br><span class="line">        b = b * (c^r)^j</span><br><span class="line">        h = h * c^j</span><br><span class="line">        c = c ^ r</span><br><span class="line">    result = o^alp * h</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">print(<span class="number">1</span>)</span><br><span class="line">p=</span><br><span class="line">q=</span><br><span class="line">n=p*q</span><br><span class="line">c=</span><br><span class="line">phi=(p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">cMp=c%p</span><br><span class="line">cMq=c%q</span><br><span class="line">print(AMM(cMp,<span class="number">4919</span>,p))</span><br><span class="line">print(AMM(cMq,<span class="number">4919</span>,q))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="2o77Code"><a href="#2o77Code" class="headerlink" title="2o77Code"></a>2o77Code</h4><p>代码还是要上一下的，<del>帮助理解，万一真有人看不懂原理呢？（我相信是不存在的）</del></p>
 <p>使用urandom的原因是因为虽然这道题的数字小，但以后的数字可能会很大，并且$\mathrm{get}(x,B)$中的$B$在$x$较大的时候也可以$40$换成更大的数字（例如$400$），如果数字太大可以使用文件输出。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> urandom</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getx</span>(<span class="params">p,B</span>):</span></span><br><span class="line">    x=bytes_to_long(urandom(B))%p</span><br><span class="line">    <span class="keyword">while</span>(x==<span class="number">0</span>):</span><br><span class="line">        x=bytes_to_long(urandom(B))%p</span><br><span class="line">    <span class="keyword">return</span> x</span><br><span class="line"><span class="comment">#------MAIN BELOW------#</span></span><br><span class="line">n,p=<span class="number">7</span>,<span class="number">29</span></span><br><span class="line"><span class="keyword">assert</span> (p<span class="number">-1</span>)%n==<span class="number">0</span></span><br><span class="line">rem=n</span><br><span class="line">anses=[]</span><br><span class="line"><span class="keyword">while</span> rem:</span><br><span class="line">    x=getx(p,<span class="number">40</span>)</span><br><span class="line">    g=pow(x,(p<span class="number">-1</span>)//n,p)</span><br><span class="line">    <span class="comment">#print(g,pow(g,2*n,p))</span></span><br><span class="line">    <span class="keyword">if</span>(pow(g,n*<span class="number">4</span>,p)==<span class="number">1</span> <span class="keyword">and</span> g <span class="keyword">not</span> <span class="keyword">in</span> anses):</span><br><span class="line">        anses.append(g)</span><br><span class="line">        rem=rem<span class="number">-1</span></span><br><span class="line">print(anses)     </span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">7th_root_of_1_under_condition_of_n,p=7,43:[35, 4, 41, 16, 21, 11, 1]</span></span><br><span class="line"><span class="string">7th_root_of_1_under_condition_of_n,p=7,29:[1, 7, 25, 24, 16, 23, 20]</span></span><br><span class="line"><span class="string">A_7th_root_of_394_under_condition_of_n,p=7,43:7</span></span><br><span class="line"><span class="string">A_7th_root_of_394_under_condition_of_n,p=7,29:12</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <p>我们以$n,p=7,43$的一组解为例：$[35,4,41,16,21,11,1]$一共有七个数字，这七个数字都满足$x^7\equiv 1 \pmod {43}$。然后我们注意一下我们刚才得到的一个数字值$7$。只要我们对这里面的数字每一个都乘上$7$，得到的数列为$[30, 28, 29, 26, 18, 34, 7]$,那么就有了$x^7\equiv394\pmod {43}$，注意到$7^7\equiv 394 \pmod{43}$，因此我们可以姑且地说$\sqrt[7]{394}\equiv 7 \pmod {43}$。$n=7,p=29$的情况也同理。</p>
 <h3 id="0x03：求根后两两组合，使用CRT"><a href="#0x03：求根后两两组合，使用CRT" class="headerlink" title="0x03：求根后两两组合，使用CRT"></a>0x03：求根后两两组合，使用CRT</h3><p>然后，我们回顾刚才的过程，$m\equiv \sqrt[e]{c} \pmod p,m\equiv \sqrt[e]{c} \pmod q$，一定要注意到由于模数的不同，两个$\sqrt[e]{c}$的值是不一样的，前者我们求出来的$\sqrt[7]{394}$是$[30,28,29,26,18,34,7]$，因为这是模$43$的意义下的数组。后者是模$29$意义下的数组。</p>
 <p>然后，我们可以把结果两两组合（组合定律告诉我们一共有$e^2$种方案），下面分别使用sagemath和python做的情况。</p>
 <h4 id="3o01：Sagemath截图"><a href="#3o01：Sagemath截图" class="headerlink" title="3o01：Sagemath截图"></a>3o01：Sagemath截图</h4><p><img src="/2021/01/13/RSA-Notes3/culc2.png" alt="3o01p1"></p>
 <h4 id="3o02-python代码"><a href="#3o02-python代码" class="headerlink" title="3o02 python代码"></a>3o02 python代码</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">crt2</span>(<span class="params">m1,m2,r1,r2</span>):</span></span><br><span class="line">    M=m1*m2</span><br><span class="line">    t1,t2=inverse(m2,m1),inverse(m1,m2)</span><br><span class="line">    <span class="keyword">return</span> (r1*t1*m2+r2*t2*m1)%M</span><br><span class="line"><span class="comment">#------MAIN BELOW-----#</span></span><br><span class="line">s43=[<span class="number">35</span>, <span class="number">4</span>, <span class="number">41</span>, <span class="number">16</span>, <span class="number">21</span>, <span class="number">11</span>, <span class="number">1</span>]</span><br><span class="line">s29=[<span class="number">1</span>, <span class="number">7</span>, <span class="number">25</span>, <span class="number">24</span>, <span class="number">16</span>, <span class="number">23</span>, <span class="number">20</span>]</span><br><span class="line">ans=[]</span><br><span class="line">p43=<span class="number">7</span></span><br><span class="line">p29=<span class="number">12</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>):</span><br><span class="line">    s43[i]=s43[i]*p43%<span class="number">43</span></span><br><span class="line">    s29[i]=s29[i]*p29%<span class="number">29</span></span><br><span class="line">print(s43)</span><br><span class="line">print(s29)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> s43:</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> s29:</span><br><span class="line">        ans.append(crt2(<span class="number">43</span>,<span class="number">29</span>,i,j))</span><br><span class="line">ans.sort()</span><br><span class="line">print(ans)</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">s43=[30, 28, 29, 26, 18, 34, 7]</span></span><br><span class="line"><span class="string">s29=[12, 26, 10, 27, 18, 15, 8]</span></span><br><span class="line"><span class="string">ans=[18, 26, 73, 114, 155, 157, 163, 200, 201, 244, 276, 287, 288, 308, 327, 329, 331, 374, 416, 421, 491, 501, 503, 534, 566, 577, 588, 636, 675, 679, 706, 714, 722, 781, 824, 851, 867, 878, 888, 972, 975, 996, 1023, 1062, 1146, 1168, 1187, 1230, 1233]</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <p>观察观察，是不是最后的结果与我们一开始枚举求解的结果一模一样？<del>（为了观察方便，特此对ans数组排了个序）</del></p>
 <h3 id="0x04：-最后微调，得出答案"><a href="#0x04：-最后微调，得出答案" class="headerlink" title="0x04： 最后微调，得出答案"></a>0x04： 最后微调，得出答案</h3><p>当我们得到$49$个解之后，我们可以根据题目的需要，将解筛选出来，因为在真正的CTF比赛中，flag都是有一定格式的，本题中由于仅仅是从数论的方法来讲解，并且数字较小，<del>所以就讲了个方法，筛选是很容易的，YS9X！</del></p>
 <h3 id="0x05：-总结一下知识点"><a href="#0x05：-总结一下知识点" class="headerlink" title="0x05： 总结一下知识点"></a>0x05： 总结一下知识点</h3><p><strong>1</strong>：解方程$x^e\equiv a \pmod p$，其中$p$为素数，那么当$\gcd(e,p-1)=1$时，该方程有唯一解，为$a^d$，其中$de\equiv 1 \pmod p$。如果$\gcd(e,p-1)\not = 1$，那么方程最多可以有$\gcd(e,p-1)$个解。</p>
@@ -486,6 +492,7 @@
 <p>利用$m_1\equiv c^{dq\mod (q-1)} \pmod q,m_2\equiv c^{dp\mod (p-1)}\pmod p$</p>
 <p>就可以直接求出答案了，直接上代码，不多说了。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> libnum</span><br><span class="line">p = </span><br><span class="line">q = </span><br><span class="line">dp = </span><br><span class="line">dq = </span><br><span class="line">c = </span><br><span class="line">invq=inverse(p,q)</span><br><span class="line">mp=pow(c,dp,p)</span><br><span class="line">mq=pow(c,dq,q)</span><br><span class="line">m=((mp-mq)*invq%p)*q+mq</span><br><span class="line">print(m)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 
                 
             </div>
@@ -572,132 +579,6 @@
 
                 </div>
             </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
-    });
-</script>
-
             
         </div>
     </div>
@@ -953,60 +834,6 @@
 
 
     <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="netease"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-
     
     <div class="container row center-align" style="margin-bottom: 15px !important;">
         <div class="col s12 m8 l8 copy-right">
