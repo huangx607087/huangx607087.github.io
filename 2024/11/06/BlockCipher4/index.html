@@ -453,7 +453,7 @@
             <div id="articleContent">
                 <h1 id="huangx607087学习分组密码的笔记4"><a href="#huangx607087学习分组密码的笔记4" class="headerlink" title="huangx607087学习分组密码的笔记4"></a>huangx607087学习分组密码的笔记4</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>38个月过去了，终于从 3 更新到 4 了，好耶！！</p>
 <p>因为0xGame出了一个简单的两轮DES差分，之前密码学课程中也讲了DES差分，因此自己决定尝试自行探索一下DES的差分攻击</p>
-<h2 id="4-对目前分组密码的相关攻击"><a href="#4-对目前分组密码的相关攻击" class="headerlink" title="4. 对目前分组密码的相关攻击"></a>4. 对目前分组密码的相关攻击</h2><h3 id="4o01-DES的差分攻击"><a href="#4o01-DES的差分攻击" class="headerlink" title="4o01 DES的差分攻击"></a>4o01 DES的差分攻击</h3><p>DES在 8 轮迭代之后，其原本明文的统计规律已经消失，并且扩散性达到了最好。为何DES还要设计成 16 轮呢？原因就在于，8轮DES很容易受到差分攻击。</p>
+<h2 id="4-DES的差分攻击"><a href="#4-DES的差分攻击" class="headerlink" title="4. DES的差分攻击"></a>4. DES的差分攻击</h2><h3 id="4o01-DES的差分攻击简介"><a href="#4o01-DES的差分攻击简介" class="headerlink" title="4o01 DES的差分攻击简介"></a>4o01 DES的差分攻击简介</h3><p>DES在 8 轮迭代之后，其原本明文的统计规律已经消失，并且扩散性达到了最好。为何DES还要设计成 16 轮呢？原因就在于，8轮DES很容易受到差分攻击。</p>
 <p>我们来回顾一下单轮DES的Festial结构：E扩展、P置换、轮密钥加、S盒四个部分，其中只有S盒为非线性部分，其余均为线性部分，可以根据已知内容去逆推。而差分攻击，就是构建两个明文 $M_1$ 和 $M_2$，加密后得到 $C_1$ 和 $C_2$，根据 $M_1\oplus M_2$ 和 $C_1\oplus C_2$ 的值，尝试反推 $K$ 的值。而差分攻击之所以能够起作用，其原因就是 $S$ 盒的不均匀性。下图显示了 $S_1$ 的差分情况，可以看出：当 $S_0$ 两个输入异或值为 $01\text{H}$ 时，有 $6/64$ 的概率两个输出的异或值为 $3$，$2/64$ 的概率两个输出的异或值为 $5$，$12/64$ 的概率输出 $\mathrm{10}$。而当 $S_0$ 的两个输入异或值为 $\mathrm{34H}$ 时，两个输出异或值为 $2$ 的概率达到了 $16/64$。 因此，差分攻击属于<strong>选择明文攻击</strong>，需要加密机才能实现。</p>
 <blockquote>
 <p>p.s. 本博文十六进制数均会出现 $\mathrm{0x}$ 前缀或 $\mathrm H$ 后缀，若无前后缀标明的，则均按照十进制看待。$S$ 盒编号取值为 $0\sim 7$。</p>
@@ -635,18 +635,17 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/11/06/BlockCipher4/">
+                <a href="/2024/11/08/24Nov1/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="BlockCipher4">
+                        <img src="/medias/featureimages/26.jpg" class="responsive-img" alt="24Nov1">
                         
-                        <span class="card-title">BlockCipher4</span>
+                        <span class="card-title">24Nov1</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -656,9 +655,9 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-11-06
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-11-08
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -671,12 +670,11 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Notes/">
-                        <span class="chip bg-color">Notes</span>
+                    <a href="/tags/ExpLog/">
+                        <span class="chip bg-color">ExpLog</span>
                     </a>
                     
                 </div>
