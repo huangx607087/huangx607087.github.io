@@ -1,511 +1,392 @@
-<!DOCTYPE HTML>
-<html lang="zh-CN">
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
 
 
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="An Interesting Problem-RSAOS, huangx607087&#39;s Blog">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="huangx607087">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="An Interesting Problem - RSAOS0.About最近自己在BUU上面刷题的时候发现了一个很好玩的题目——RSAOS，虽然本fw还是瞄了几眼WP才写出来的——因为自己tcl，但还是决定跟大家分享一下——因为确实非常的好玩 7月14日，BUUCTF上了5000分，以后还要继续努力。 #define huangx607087 fw Part 1 Beginning  题目什么附">
+<meta property="og:type" content="article">
+<meta property="og:title" content="An Interesting Problem-RSAOS">
+<meta property="og:url" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/index.html">
+<meta property="og:site_name" content="huangx607087&#39;s Blog">
+<meta property="og:description" content="An Interesting Problem - RSAOS0.About最近自己在BUU上面刷题的时候发现了一个很好玩的题目——RSAOS，虽然本fw还是瞄了几眼WP才写出来的——因为自己tcl，但还是决定跟大家分享一下——因为确实非常的好玩 7月14日，BUUCTF上了5000分，以后还要继续努力。 #define huangx607087 fw Part 1 Beginning  题目什么附">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/1.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/2.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/3.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/4.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/5.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/6.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/7.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/8.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/9.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/10.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/11.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/12.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/13.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/14.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/15.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/16.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/17.png">
+<meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/18.png">
+<meta property="article:published_time" content="2021-07-14T23:13:11.000Z">
+<meta property="article:modified_time" content="2021-07-15T00:40:02.410Z">
+<meta property="article:author" content="huangx607087">
+<meta property="article:tag" content="ExpLog">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/1.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>An Interesting Problem-RSAOS - huangx607087&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
-    <title>An Interesting Problem-RSAOS | huangx607087&#39;s Blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
 
-    <script src="/libs/jquery/jquery.min.js"></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
 
-<meta name="generator" content="Hexo 5.2.0"></head>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
 
 
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">huangx607087&#39;s Blog</span>
-                </a>
-            </div>
-            
+  
 
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
-  
-  <li class="hide-on-med-and-down nav-item">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header>
     
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/friends" class="waves-effect waves-light">
-      
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-      
-      <span>友情链接</span>
-    </a>
-    
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
-</ul>
 
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>huangx607087</strong>
+    </a>
 
-<div id="mobile-nav" class="side-nav sidenav">
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-    <div class="mobile-head bg-color">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">huangx607087&#39;s Blog</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
-    </div>
-
-    
-
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/friends" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-address-book"></i>
-			
-			友情链接
-		</a>
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
           
-        </li>
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/friends/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/site/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>更新日志</span>
+              </a>
+            </li>
+          
         
         
-        <li><div class="divider"></div></li>
-        <li>
-            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
-                <i class="fab fa-github-square fa-fw"></i>Fork Me
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
             </a>
-        </li>
+          </li>
+          
         
-    </ul>
-</div>
-
-
-        </div>
-
         
-            <style>
-    .nav-transparent .github-corner {
-        display: none !important;
-    }
-
-    .github-corner {
-        position: absolute;
-        z-index: 10;
-        top: 0;
-        right: 0;
-        border: 0;
-        transform: scale(1.1);
-    }
-
-    .github-corner svg {
-        color: #0f9d58;
-        fill: #fff;
-        height: 64px;
-        width: 64px;
-    }
-
-    .github-corner:hover .octo-arm {
-        animation: a 0.56s ease-in-out;
-    }
-
-    .github-corner .octo-arm {
-        animation: none;
-    }
-
-    @keyframes a {
-        0%,
-        to {
-            transform: rotate(0);
-        }
-        20%,
-        60% {
-            transform: rotate(-25deg);
-        }
-        40%,
-        80% {
-            transform: rotate(10deg);
-        }
-    }
-</style>
-
-<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
-   data-tooltip="Fork Me" data-position="left" data-delay="50">
-    <svg viewBox="0 0 250 250" aria-hidden="true">
-        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
-              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
-              fill="currentColor" class="octo-body"></path>
-    </svg>
-</a>
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
         
-    </nav>
-
-</header>
-
-    
-<script src="/libs/cryptojs/crypto-js.min.js"></script>
-<script>
-    (function() {
-        let pwd = '';
-        if (pwd && pwd.length > 0) {
-            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
-                alert('密码错误，将返回主页！');
-                location.href = '/';
-            }
-        }
-    })();
-</script>
-
-
-
-
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
-    <div class="container" style="right: 0px;left: 0px;">
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="brand">
-                    <h1 class="description center-align post-title">An Interesting Problem-RSAOS</h1>
-                </div>
-            </div>
-        </div>
+      </ul>
     </div>
-</div>
+  </div>
+</nav>
 
+  
 
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="An Interesting Problem-RSAOS"></span>
+          
+        </div>
 
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-07-15 07:13" pubdate>
+          2021/07/15 07:13:11 
+        </time>
+      </span>
+    
+  </div>
 
-<main class="post-container content">
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
-<style>
-    #articleContent h1::before,
-    #articleContent h2::before,
-    #articleContent h3::before,
-    #articleContent h4::before,
-    #articleContent h5::before,
-    #articleContent h6::before {
-        display: block;
-        content: " ";
-        height: 100px;
-        margin-top: -100px;
-        visibility: hidden;
-    }
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
 
-    #articleContent :focus {
-        outline: none;
-    }
-
-    .toc-fixed {
-        position: fixed;
-        top: 64px;
-    }
-
-    .toc-widget {
-        width: 345px;
-        padding-left: 20px;
-    }
-
-    .toc-widget .toc-title {
-        padding: 35px 0 15px 17px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        line-height: 1.5rem;
-    }
-
-    .toc-widget ol {
-        padding: 0;
-        list-style: none;
-    }
-
-    #toc-content {
-        padding-bottom: 30px;
-        overflow: auto;
-    }
-
-    #toc-content ol {
-        padding-left: 10px;
-    }
-
-    #toc-content ol li {
-        padding-left: 10px;
-    }
-
-    #toc-content .toc-link:hover {
-        color: #42b983;
-        font-weight: 700;
-        text-decoration: underline;
-    }
-
-    #toc-content .toc-link::before {
-        background-color: transparent;
-        max-height: 25px;
-
-        position: absolute;
-        right: 23.5vw;
-        display: block;
-    }
-
-    #toc-content .is-active-link {
-        color: #42b983;
-    }
-
-    #floating-toc-btn {
-        position: fixed;
-        right: 15px;
-        bottom: 76px;
-        padding-top: 15px;
-        margin-bottom: 0;
-        z-index: 998;
-    }
-
-    #floating-toc-btn .btn-floating {
-        width: 48px;
-        height: 48px;
-    }
-
-    #floating-toc-btn .btn-floating i {
-        line-height: 48px;
-        font-size: 1.4rem;
-    }
-</style>
-<div class="row">
-    <div id="main-content" class="col s12 m12 l9">
-        <!-- 文章内容详情 -->
-<div id="artDetail">
-    <div class="card">
-        <div class="card-content article-info">
-            <div class="row tag-cate">
-                <div class="col s7">
-                    
-                    <div class="article-tag">
-                        
-                            <a href="/tags/ExpLog/">
-                                <span class="chip bg-color">ExpLog</span>
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-                <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/CTFSeason3/" class="post-category">
-                                CTFSeason3
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="post-info">
-                
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-07-15
-                </div>
-                
-
-                
-
-                
-
-                
-
-                
-            </div>
-        </div>
-        <hr class="clearfix">
-
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
         
 
-        
-        <!-- 代码块折行 -->
-        <style type="text/css">
-            code[class*="language-"], pre[class*="language-"] { white-space: pre-wrap !important; }
-        </style>
-        
+      
+    
+  </div>
 
-        <div class="card-content article-card-content">
-            <div id="articleContent">
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">An Interesting Problem-RSAOS</h1>
+            
+            
+              <div class="markdown-body">
+                
                 <h1 id="An-Interesting-Problem-RSAOS"><a href="#An-Interesting-Problem-RSAOS" class="headerlink" title="An Interesting Problem - RSAOS"></a>An Interesting Problem - RSAOS</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>最近自己在BUU上面刷题的时候发现了一个很好玩的题目——RSAOS，<del>虽然本fw还是瞄了几眼WP才写出来的——因为自己tcl</del>，但还是决定跟大家分享一下——因为确实非常的好玩</p>
 <p>7月14日，BUUCTF上了5000分，以后还要继续努力。</p>
 <p><code>#define huangx607087 fw</code></p>
-<h2 id="Part-1-Beginning"><a href="#Part-1-Beginning" class="headerlink" title="Part 1 Beginning"></a>Part 1 Beginning</h2><img src="/2021/07/15/An-Interesting-Problem-RSAOS/1.png" alt="1" style="zoom:80%;">
+<h2 id="Part-1-Beginning"><a href="#Part-1-Beginning" class="headerlink" title="Part 1 Beginning"></a>Part 1 Beginning</h2><img src="/2021/07/15/An-Interesting-Problem-RSAOS/1.png" srcset="/img/loading.gif" lazyload alt="1" style="zoom:80%;">
 
 <p>题目什么附件都没有给，就是一个普普通通的远程题目，直接打开虚拟机远程连接上去（</p>
 <p>然后远程连接上去之后，似乎什么东西都没有（，并没有让你输出什么<code>sha256</code>验证的，也没有输出什么RSA必要的$c,e,n$的必要解密条件。随便输入一个<code>e</code>，<code>n</code>，<code>ls</code>之类的东西都显示”Commond Not Found”。。。。。。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/2.png" alt="2" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/2.png" srcset="/img/loading.gif" lazyload alt="2" style="zoom:80%;">
 
 <p>这就是一个很奇怪的玩意了——不仅没有源码，还没给什么其他的东西（</p>
 <p><del>于是本fw毫不要脸地去瞄了一眼这道题的wp</del>，原来第一步要先输入help获取菜单——行吧，怪我自己没有开发经验，谁叫自己是一个连机器人都配不好的fw呢?下亿次我拿到一个未知的系统一定要先输一下<code>help</code>或者<code>menu</code>等功能性命令，<del>（拿小本本记下来</del></p>
 <p>输入了help之后，似乎很多事情就好起来了（，得到了一连串的命令——</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/3.png" alt="3" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/3.png" srcset="/img/loading.gif" lazyload alt="3" style="zoom:80%;">
 
 <h2 id="Part-2-Attempt-1"><a href="#Part-2-Attempt-1" class="headerlink" title="Part 2 Attempt 1"></a>Part 2 Attempt 1</h2><p><del>乱搞阶段</del></p>
 <p>很显然，要输入<code>get-flag</code>或者<code>get-privatekey</code>，我们才能获得最终答案。因此先输一下get-flag来看看需要什么条件（</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/4.png" alt="4" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/4.png" srcset="/img/loading.gif" lazyload alt="4" style="zoom:80%;">
 
 <p>然后它给我冒出来了一个什么foldhash的东西（看来这玩意还是有点东西的。可能权限命令需要某个密码才能完成吧——要记住这是Crypto题目不是Pwn/Re题目，估计其他的内容不会很难</p>
 <p>输入<code>get-publickey</code>，服务器返回了这样一个东西：<del>貌似重连几遍内容一直不变</del></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Public key parameters:</span><br><span class="line">N: 0xd888075370effdb016d85de8c894ee7ac2764527210d8ce1d8bd14a06c67de148b4680781366002f9649e3885e18ab950120c660970ab9a499ea74ea7aa38fe732940b5204300ef7b96a608efec1a74007a4b1d592cf9eb23890d8fa416202857d0e0f9ebad79324d03d09db0502ff4bae0b2dfc0b150ddea806a5ff24e2d32f</span><br><span class="line">E: 0x10001</span><br></pre></td></tr></table></figure>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vbnet"><span class="hljs-keyword">Public</span> <span class="hljs-keyword">key</span> parameters:<br><span class="hljs-symbol">N:</span> <span class="hljs-number">0</span>xd888075370effdb016d85de8c894ee7ac2764527210d8ce1d8bd14a06c67de148b4680781366002f9649e3885e18ab950120c660970ab9a499ea74ea7aa38fe732940b5204300ef7b96a608efec1a74007a4b1d592cf9eb23890d8fa416202857d0e0f9ebad79324d03d09db0502ff4bae0b2dfc0b150ddea806a5ff24e2d32f<br><span class="hljs-symbol">E:</span> <span class="hljs-number">0</span>x10001<br></code></pre></td></tr></table></figure>
 
 <p><code>duck</code>不必管那么多，或许其他的东西应该试试看（，比如没试过的命令都尝试日一遍看看（，尤其是这个debug，我看你很不对劲[严肃]</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/5.png" alt="5" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/5.png" srcset="/img/loading.gif" lazyload alt="5" style="zoom:80%;">
 
 <p>果然debug这边确实有什么玄机在里面！或许我们应当enable一下这个debug才对</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/6.png" alt="6" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/6.png" srcset="/img/loading.gif" lazyload alt="6" style="zoom:80%;">
 
 <p>果然在<code>debug enable</code>之后，似乎每次输出命令都会给你一个什么<code>DBG-CRC32() SIG()</code>的模式。不过这个究竟是什么东西啊（</p>
 <p>百度了一下，原来<code>CRC32()</code>是一个$32$个比特位的哈希值，而<code>SIG</code>是签名结果。</p>
 <p>不过这个时候自己的发展又陷入僵局。。。。<del>（于是再一次瞄了眼别人的wp）</del></p>
 <p>结果发现这是个脑洞题——原来help后面还可以跟上命令名称来告诉你这个命令究竟是干什么用的</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/7.png" alt="7" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/7.png" srcset="/img/loading.gif" lazyload alt="7" style="zoom:80%;">
 
 <p>在<code>help security</code>这边，我们发现了比较有价值的信息：</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/8.png" alt="8" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/8.png" srcset="/img/loading.gif" lazyload alt="8" style="zoom:80%;">
 
 <p>简单翻译一下并概括，差不多是这两条内容：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.非特权命令的签名内容是对你输入内容的CRC32进行签名，而特权命令的签名内容是其FoldHash进行签名的内容</span><br><span class="line">2.FoldHash是通过输入内容sha1获得的160个比特位的前80个和后80比特位异或后得到的结果</span><br><span class="line">3.每次给出的签名和CRC32的值是一整行的内容，如果命令中有空格，那么最后实际执行的内容仅仅是第一个命令(argument)</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>.非特权命令的签名内容是对你输入内容的CRC32进行签名，而特权命令的签名内容是其FoldHash进行签名的内容<br><span class="hljs-attribute">2</span>.FoldHash是通过输入内容sha1获得的<span class="hljs-number">160</span>个比特位的前<span class="hljs-number">80</span>个和后<span class="hljs-number">80</span>比特位异或后得到的结果<br><span class="hljs-attribute">3</span>.每次给出的签名和CRC32的值是一整行的内容，如果命令中有空格，那么最后实际执行的内容仅仅是第一个命令(argument)<br></code></pre></td></tr></table></figure>
 
 <p>经过查询，CRC32是一种hash方法，其hash后取值范围是$0$到$2^{32}-1$，该方法哈希冲突率比较高。</p>
 <h2 id="Part-3-Analyzation"><a href="#Part-3-Analyzation" class="headerlink" title="Part 3 Analyzation"></a>Part 3 Analyzation</h2><p>于是乱搞到这里差不多可以结束了（，得正式地做题了（</p>
 <p>首先先来回顾一下一下RSA的数字签名</p>
 <p>签名方式：<br>$$<br>\mathrm{SIG}(x)\equiv x^d \pmod n<br>$$<br>验证方式：<br>$$<br>\mathrm{Verify}(x)\equiv \mathrm{SIG}^e(x)\pmod n<br>$$<br>很显然，用于验证的内容时私钥。因此我们需要尝试伪造一个签名才可以完成。</p>
 <p>根据题目提示，不难分析出其<code>foldhash</code>的原理。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foldhash</span>(<span class="params">s</span>):</span></span><br><span class="line">    s=sha1(s.encode()).digest()</span><br><span class="line">    a,b=bytes_to_long(s[:<span class="number">10</span>]),bytes_to_long(s[<span class="number">10</span>:])</span><br><span class="line">    <span class="keyword">return</span> a^^b</span><br><span class="line"><span class="comment"># Different from Python: in Sagemath, ^^ means xor and ^ means power</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#Sagemath</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">foldhash</span>(<span class="hljs-params">s</span>):<br>    s=sha1(s.encode()).digest()<br>    a,b=bytes_to_long(s[:<span class="hljs-number">10</span>]),bytes_to_long(s[<span class="hljs-number">10</span>:])<br>    <span class="hljs-keyword">return</span> a^^b<br><span class="hljs-comment"># Different from Python: in Sagemath, ^^ means xor and ^ means power</span><br></code></pre></td></tr></table></figure>
 
 <p>关注到foldhash实际上是一个数字，CRC32也是一个数字，只不过foldhash的比特位是$80$，而CRC32的结果是$32$位。如果使用特权命令，那么你需要搞出你输入的<strong>那一行内容</strong>的数字签名。</p>
 <p><strong>注意到上面分析的第三条</strong>，暗示着我们可以在特权命令后面加一下东西，我们就可以获取到必要的特权命令foldhash的签名了，也就是特权命令的$\mathrm{foldhash}(x)\equiv x^d \pmod n$的值。</p>
 <p>不过我们这边有个问题来了：$x$是$80$位的内容，但CRC32最后是$32$位内容，因此我们需要构造一个字符串，其格式为<code>&quot;get-flag &quot;+padding</code>，使得该字符串的foldhash值满足$\mathrm{FFFFFFFFH}$光滑，最后根据<strong>RSA的同态性</strong>将所有SIG值相乘后就是我们需要的内容了</p>
 <p>果然，<del>瞄了一眼WP</del>，WP也是这么写的，不过他直接用的<code>get-flag 0</code>，该命令的foldhash的值为$637185588446528046742504$。其分解质因数结果为：<br>$$<br>637185588446528046742504=2^3×250091×244079963×1304805461<br>$$<br>不过直接抄wp肯定是没意思的，但问题是这个<code>get-flag 0</code>真的这么好构造出来吗？于是我在Sagemath中测试了以下代码，随机在字符串<code>get flag </code>后面填充$8$位十六进制数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Sagemath</span></span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha1</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> *</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foldhash</span>(<span class="params">s</span>):</span></span><br><span class="line">    s=sha1(s.encode()).digest()</span><br><span class="line">    a,b=bytes_to_long(s[:<span class="number">10</span>]),bytes_to_long(s[<span class="number">10</span>:])</span><br><span class="line">    <span class="keyword">return</span> a^^b</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">padding</span>(<span class="params">s,n</span>):</span></span><br><span class="line">    TABLE=<span class="string">&quot;abcdef0123456789&quot;</span></span><br><span class="line">    t=<span class="string">&quot; &quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        t+=choice(TABLE)</span><br><span class="line">    <span class="keyword">return</span> s+t</span><br><span class="line">NUMBERS=<span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    NUMBERS+=<span class="number">1</span></span><br><span class="line">    s=padding(<span class="string">&quot;get-flag&quot;</span>,<span class="number">8</span>)</span><br><span class="line">    q=foldhash(s)</span><br><span class="line">    li=list(factor(q))</span><br><span class="line">    <span class="keyword">if</span>(li[<span class="number">-1</span>][<span class="number">0</span>]&lt;=<span class="number">0xffffffff</span>):</span><br><span class="line">        print(s)</span><br><span class="line">        print(q)</span><br><span class="line">        print(li)</span><br><span class="line">        print(NUMBERS)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#Sagemath</span><br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> hashlib <span class="hljs-keyword">import</span> sha1<br><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">foldhash</span>(<span class="hljs-params">s</span>):<br>    s=sha1(s.encode()).digest()<br>    a,b=bytes_to_long(s[:<span class="hljs-number">10</span>]),bytes_to_long(s[<span class="hljs-number">10</span>:])<br>    <span class="hljs-keyword">return</span> a^^b<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">padding</span>(<span class="hljs-params">s,n</span>):<br>    TABLE=<span class="hljs-string">&quot;abcdef0123456789&quot;</span><br>    t=<span class="hljs-string">&quot; &quot;</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n):<br>        t+=choice(TABLE)<br>    <span class="hljs-keyword">return</span> s+t<br>NUMBERS=<span class="hljs-number">0</span><br><span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>    NUMBERS+=<span class="hljs-number">1</span><br>    s=padding(<span class="hljs-string">&quot;get-flag&quot;</span>,<span class="hljs-number">8</span>)<br>    q=foldhash(s)<br>    li=<span class="hljs-built_in">list</span>(factor(q))<br>    <span class="hljs-keyword">if</span>(li[-<span class="hljs-number">1</span>][<span class="hljs-number">0</span>]&lt;=<span class="hljs-number">0xffffffff</span>):<br>        <span class="hljs-built_in">print</span>(s)<br>        <span class="hljs-built_in">print</span>(q)<br>        <span class="hljs-built_in">print</span>(li)<br>        <span class="hljs-built_in">print</span>(NUMBERS)<br>        <span class="hljs-keyword">break</span><br></code></pre></td></tr></table></figure>
 
 <p>下图是一次运行结果。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/9.png" alt="9" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/9.png" srcset="/img/loading.gif" lazyload alt="9" style="zoom:80%;">
 
 <p>于是我构造了一个不同并且更简单的字符串：<code>get-flag 8c5fdf74</code>，其foldhash值为$123923881117703856573281$，质因数分解结果为$2719×574657×931169×85174303$，随机生成了$5$次后得到了这个结果。</p>
 <p>然后我又重复运行了这个代码数次，发现最多的一次为$21$次尝试获得符合条件的字符串，最少一次可以一发命中符合条件的字符串，平均大概$6$到$7$次左右的尝试即可产生符合条件的字符串——说明符合条件的字符串并不难找。</p>
@@ -513,36 +394,36 @@
 <p>实际上枚举$6$位内容的可见字符串在原则上是可行的。不过github上还是能找到一个包（[戳这里](<a target="_blank" rel="noopener" href="https://github.com/theonlypwner/crc32">theonlypwner/crc32: CRC32 tools: reverse, undo/rewind, and calculate hashes (github.com)</a>)），直接下载即可。</p>
 <h2 id="Part-4-Attempt-2"><a href="#Part-4-Attempt-2" class="headerlink" title="Part 4 Attempt 2"></a>Part 4 Attempt 2</h2><p><del>真正的尝试阶段</del></p>
 <p>阅读过这个包的内容后，开始了尝试。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/10.png" alt="10" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/10.png" srcset="/img/loading.gif" lazyload alt="10" style="zoom:80%;">
 
 <p>然后我连续发送了三个过去，结果发现不对（，那边的验证结果是<code>0xe0db37ee</code>。这两个内容之间是不是有什么联系在里面啊（</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/11.png" alt="11" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/11.png" srcset="/img/loading.gif" lazyload alt="11" style="zoom:80%;">
 
 <p>那我找个<code>0xe0db37ee</code>的值发过去试试看呢？</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/12.png" alt="12" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/12.png" srcset="/img/loading.gif" lazyload alt="12" style="zoom:80%;">
 
 <p>果然，最后的结果是正确的，此时记录下签名结果</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/13.png" alt="13" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/13.png" srcset="/img/loading.gif" lazyload alt="13" style="zoom:80%;">
 
 <p>于是重复上面的步骤，我们就可以获得另外三个的内容了（</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/14.png" alt="14" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/14.png" srcset="/img/loading.gif" lazyload alt="14" style="zoom:80%;">
 
 <p>将得到的$4$个SIG乘起来模$n$，获得最终的结果。发送过去得到flag。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/15.png" alt="15" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/15.png" srcset="/img/loading.gif" lazyload alt="15" style="zoom:80%;">
 
 <h2 id="5-More-Exploration"><a href="#5-More-Exploration" class="headerlink" title="5.More Exploration"></a>5.More Exploration</h2><p>搞出来flag之后，本fw很形象再去看看另外两个命令是干什么的，于是决定如法炮制伪造字符串</p>
 <p>我们可以使用的字符串如下：</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/16.png" alt="16" style="zoom:80%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/16.png" srcset="/img/loading.gif" lazyload alt="16" style="zoom:80%;">
 
 <p>根据上面的内容可以获得其私钥：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">N: 0xd888075370effdb016d85de8c894ee7ac2764527210d8ce1d8bd14a06c67de148b4680781366002f9649e3885e18ab950120c660970ab9a499ea74ea7aa38fe732940b5204300ef7b96a608efec1a74007a4b1d592cf9eb23890d8fa416202857d0e0f9ebad79324d03d09db0502ff4bae0b2dfc0b150ddea806a5ff24e2d32f</span><br><span class="line">E: 0x10001</span><br><span class="line">P: 0xf0d4aa4868305cdbabba679014f940c0233ca0b10c9db62e3d829dd289103b21143da614b361c6043711956ff2ffd3bf7dcea0418a1e0bbf74784512f99733cd</span><br><span class="line">Q: 0xe62b8ad7f10d9921a3be7b0c74a81107b5fa704900f94028c6a6e401a00729f6ed961dabbc65878ba5b7f34ca406c7b27577fe5153909d036ecf7e028b555eeb</span><br><span class="line">D: 0x77de15f0233d37fb1b2a7c1239b7f8ad0ca9dc6e64e5d36fd34418ff160409f4e58509e96f13b056a7a40fc9960da22ec2891a48ae54c9a04d747574b89f83313d1902224cb7e90bf74a30a6e0201e3081c33ea14786adec8f7e05c898f9f55c7e332f7cc7a12263eac1ae60e2122e548207fe3c035e03eaf36798c62c3f6e41</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">N</span>: <span class="hljs-number">0</span>xd888075370effdb016d85de8c894ee7ac2764527210d8ce1d8bd14a06c67de148b4680781366002f9649e3885e18ab950120c660970ab9a499ea74ea7aa38fe732940b5204300ef7b96a608efec1a74007a4b1d592cf9eb23890d8fa416202857d0e0f9ebad79324d03d09db0502ff4bae0b2dfc0b150ddea806a5ff24e2d32f<br><span class="hljs-attribute">E</span>: <span class="hljs-number">0</span>x10001<br><span class="hljs-attribute">P</span>: <span class="hljs-number">0</span>xf0d4aa4868305cdbabba679014f940c0233ca0b10c9db62e3d829dd289103b21143da614b361c6043711956ff2ffd3bf7dcea0418a1e0bbf74784512f99733cd<br><span class="hljs-attribute">Q</span>: <span class="hljs-number">0</span>xe62b8ad7f10d9921a3be7b0c74a81107b5fa704900f94028c6a6e401a00729f6ed961dabbc65878ba5b7f34ca406c7b27577fe5153909d036ecf7e028b555eeb<br><span class="hljs-attribute">D</span>: <span class="hljs-number">0</span>x77de15f0233d37fb1b2a7c1239b7f8ad0ca9dc6e64e5d36fd34418ff160409f4e58509e96f13b056a7a40fc9960da22ec2891a48ae54c9a04d747574b89f83313d1902224cb7e90bf74a30a6e0201e3081c33ea14786adec8f7e05c898f9f55c7e332f7cc7a12263eac1ae60e2122e548207fe3c035e03eaf36798c62c3f6e41<br></code></pre></td></tr></table></figure>
 
 <p>而security命令的输出与help-security的输出一模一样。。。</p>
 <h2 id="6-Review"><a href="#6-Review" class="headerlink" title="6.Review"></a>6.Review</h2><p>一道很好玩的题目还是值得把玩以下的，感觉收获很大。</p>
 <p>最后附一下网上给的CRC32加密原理，以后研究。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/17.png" alt="17" style="zoom:100%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/17.png" srcset="/img/loading.gif" lazyload alt="17" style="zoom:100%;">
 
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/18.png" alt="18" style="zoom:100%;">
+<img src="/2021/07/15/An-Interesting-Problem-RSAOS/18.png" srcset="/img/loading.gif" lazyload alt="18" style="zoom:100%;">
 
 
 
@@ -550,616 +431,404 @@
 
 
                 
-            </div>
+              </div>
+            
             <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
 
-            
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTFSeason3/" class="category-chain-item">CTFSeason3</a>
+  
+  
 
-    <div class="reprint" id="reprint-statement">
-        
-            <div class="reprint__author">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-user">
-                        文章作者:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="/about" rel="external nofollow noreferrer">huangx607087</a>
-                </span>
-            </div>
-            <div class="reprint__type">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-link">
-                        文章链接:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/">http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/</a>
-                </span>
-            </div>
-            <div class="reprint__notice">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-copyright">
-                        版权声明:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    本博客所有文章除特別声明外，均采用
-                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
-                    许可协议。转载请注明来源
-                    <a href="/about" target="_blank">huangx607087</a>
-                    !
-                </span>
-            </div>
-        
+      </span>
+    
+  
+</span>
+
     </div>
-
-    <script async defer>
-      document.addEventListener("copy", function (e) {
-        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
-        M.toast({html: toastHTML})
-      });
-
-      function navToReprintStatement() {
-        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
-      }
-    </script>
-
-
-
-            <div class="tag_share" style="display: block;">
-                <div class="post-meta__tag-list" style="display: inline-block;">
-                    
-                        <div class="article-tag">
-                            
-                                <a href="/tags/ExpLog/">
-                                    <span class="chip bg-color">ExpLog</span>
-                                </a>
-                            
-                        </div>
-                    
-                </div>
-                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
-                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
-<div id="article-share">
-
-    
-
-    
-
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/ExpLog/" class="print-no-link">#ExpLog</a>
+      
+    </div>
+  
 </div>
 
-                </div>
-            </div>
-            
-        </div>
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>An Interesting Problem-RSAOS</div>
+      <div>http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/</div>
     </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-<article id="prenext-posts" class="prev-next articles">
-    <div class="row article-row">
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
-            <div class="card">
-                <a href="/2021/07/17/Blockbot-beginning/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="Blockbot beginning">
-                        
-                        <span class="card-title">Blockbot beginning</span>
-                    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>huangx607087</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年7月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
                 </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-07-17
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/SelfSkills/" class="post-category">
-                                    SelfSkills
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Skills/">
-                        <span class="chip bg-color">Skills</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
+              
+            
+          </div>
         </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2021/07/12/GKCTF2021-WriteUp/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="GKCTF2021 WriteUp">
-                        
-                        <span class="card-title">GKCTF2021 WriteUp</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-12
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/CTFSeason3/" class="post-category">
-                                    CTFSeason3
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/WriteUp/">
-                        <span class="chip bg-color">WriteUp</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
+      
     </div>
-</article>
+    <div class="license-icon iconfont"></div>
+  </div>
 
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/17/Blockbot-beginning/" title="Blockbot beginning">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Blockbot beginning</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/12/GKCTF2021-WriteUp/" title="GKCTF2021 WriteUp">
+                        <span class="hidden-mobile">GKCTF2021 WriteUp</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
 </div>
 
 
 
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+  </aside>
 
 
     </div>
-    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
-        <div class="toc-widget card" style="background-color: white;">
-            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
-            <div id="toc-content"></div>
-        </div>
-    </div>
-</div>
-
-<!-- TOC 悬浮按钮. -->
-
-<div id="floating-toc-btn" class="hide-on-med-and-down">
-    <a class="btn-floating btn-large bg-color">
-        <i class="fas fa-list-ul"></i>
-    </a>
+  </div>
 </div>
 
 
-<script src="/libs/tocbot/tocbot.min.js"></script>
-<script>
-    $(function () {
-        tocbot.init({
-            tocSelector: '#toc-content',
-            contentSelector: '#articleContent',
-            headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('0'),
-            headingSelector: 'h2, h3, h4, h5'
-        });
 
-        // modify the toc link href to support Chinese.
-        let i = 0;
-        let tocHeading = 'toc-heading-';
-        $('#toc-content a').each(function () {
-            $(this).attr('href', '#' + tocHeading + (++i));
-        });
 
-        // modify the heading title id to support Chinese.
-        i = 0;
-        $('#articleContent').children('h2, h3, h4, h5').each(function () {
-            $(this).attr('id', tocHeading + (++i));
-        });
 
-        // Set scroll toc fixed.
-        let tocHeight = parseInt($(window).height() * 0.4 - 64);
-        let $tocWidget = $('.toc-widget');
-        $(window).scroll(function () {
-            let scroll = $(window).scrollTop();
-            /* add post toc fixed. */
-            if (scroll > tocHeight) {
-                $tocWidget.addClass('toc-fixed');
-            } else {
-                $tocWidget.removeClass('toc-fixed');
-            }
-        });
+  
 
-        
-        /* 修复文章卡片 div 的宽度. */
-        let fixPostCardWidth = function (srcId, targetId) {
-            let srcDiv = $('#' + srcId);
-            if (srcDiv.length === 0) {
-                return;
-            }
 
-            let w = srcDiv.width();
-            if (w >= 450) {
-                w = w + 21;
-            } else if (w >= 350 && w < 450) {
-                w = w + 18;
-            } else if (w >= 300 && w < 350) {
-                w = w + 16;
-            } else {
-                w = w + 14;
-            }
-            $('#' + targetId).width(w);
-        };
 
-        // 切换TOC目录展开收缩的相关操作.
-        const expandedClass = 'expanded';
-        let $tocAside = $('#toc-aside');
-        let $mainContent = $('#main-content');
-        $('#floating-toc-btn .btn-floating').click(function () {
-            if ($tocAside.hasClass(expandedClass)) {
-                $tocAside.removeClass(expandedClass).hide();
-                $mainContent.removeClass('l9');
-            } else {
-                $tocAside.addClass(expandedClass).show();
-                $mainContent.addClass('l9');
-            }
-            fixPostCardWidth('artDetail', 'prenext-posts');
-        });
-        
-    });
-</script>
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
 
     
 
-</main>
-
-
-<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script>
-    MathJax.Hub.Config({
-        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
-    });
-</script>
-
-
-
-    <footer class="page-footer bg-color">
     
-    <div class="container row center-align" style="margin-bottom: 15px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            
-                <span id="year">2020-2024</span>
-            
-            <span id="year">2020</span>
-            <a href="/about" target="_blank">huangx607087</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            <br>
-            
-            <span id="sitetime">载入运行时间...</span>
-            <script>
-                function siteTime() {
-                    var seconds = 1000;
-                    var minutes = seconds * 60;
-                    var hours = minutes * 60;
-                    var days = hours * 24;
-                    var years = days * 365;
-                    var today = new Date();
-                    var startYear = "2020";
-                    var startMonth = "10";
-                    var startDate = "5";
-                    var startHour = "19";
-                    var startMinute = "20";
-                    var startSecond = "0";
-                    var todayYear = today.getFullYear();
-                    var todayMonth = today.getMonth() + 1;
-                    var todayDate = today.getDate();
-                    var todayHour = today.getHours();
-                    var todayMinute = today.getMinutes();
-                    var todaySecond = today.getSeconds();
-                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
-                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-                    var diff = t2 - t1;
-                    var diffYears = Math.floor(diff / years);
-                    var diffDays = Math.floor((diff / days) - diffYears * 365);
-                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
-                        minutes);
-                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
-                        diffMinutes * minutes) / seconds);
-                    if (startYear == todayYear) {
-                        document.getElementById("year").innerHTML = todayYear;
-                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
-                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
-                    } else {
-                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
-                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
-                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
-                    }
-                }
-                setInterval(siteTime, 1000);
-            </script>
-            
-            <br>
-            
-        </div>
-        <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/huangx607087" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-        <i class="fab fa-github"></i>
-    </a>
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-
-
-    <a href="mailto:1435756429@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1435756429" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1435756429" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
-        <i class="fas fa-rss"></i>
-    </a>
-
-</div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
         </div>
-        <div id="searchResult"></div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
+  </div>
 </div>
 
-<script type="text/javascript">
-$(function () {
-    var searchFunc = function (path, search_id, content_id) {
-        'use strict';
-        $.ajax({
-            url: path,
-            dataType: "xml",
-            success: function (xmlResponse) {
-                // get the contents from search data
-                var datas = $("entry", xmlResponse).map(function () {
-                    return {
-                        title: $("title", this).text(),
-                        content: $("content", this).text(),
-                        url: $("url", this).text()
-                    };
-                }).get();
-                var $input = document.getElementById(search_id);
-                var $resultContent = document.getElementById(content_id);
-                $input.addEventListener('input', function () {
-                    var str = '<ul class=\"search-result-list\">';
-                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
-                    $resultContent.innerHTML = "";
-                    if (this.value.trim().length <= 0) {
-                        return;
-                    }
-                    // perform local searching
-                    datas.forEach(function (data) {
-                        var isMatch = true;
-                        var data_title = data.title.trim().toLowerCase();
-                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
-                        var data_url = data.url;
-                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
-                        var index_title = -1;
-                        var index_content = -1;
-                        var first_occur = -1;
-                        // only match artiles with not empty titles and contents
-                        if (data_title !== '' && data_content !== '') {
-                            keywords.forEach(function (keyword, i) {
-                                index_title = data_title.indexOf(keyword);
-                                index_content = data_content.indexOf(keyword);
-                                if (index_title < 0 && index_content < 0) {
-                                    isMatch = false;
-                                } else {
-                                    if (index_content < 0) {
-                                        index_content = 0;
-                                    }
-                                    if (i === 0) {
-                                        first_occur = index_content;
-                                    }
-                                }
-                            });
-                        }
-                        // show search results
-                        if (isMatch) {
-                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
-                            var content = data.content.trim().replace(/<[^>]+>/g, "");
-                            if (first_occur >= 0) {
-                                // cut out 100 characters
-                                var start = first_occur - 20;
-                                var end = first_occur + 80;
-                                if (start < 0) {
-                                    start = 0;
-                                }
-                                if (start === 0) {
-                                    end = 100;
-                                }
-                                if (end > content.length) {
-                                    end = content.length;
-                                }
-                                var match_content = content.substr(start, end);
-                                // highlight all keywords
-                                keywords.forEach(function (keyword) {
-                                    var regS = new RegExp(keyword, "gi");
-                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
-                                });
+    
 
-                                str += "<p class=\"search-result\">" + match_content + "...</p>"
-                            }
-                            str += "</li>";
-                        }
-                    });
-                    str += "</ul>";
-                    $resultContent.innerHTML = str;
-                });
-            }
-        });
-    };
+    
+  </main>
 
-    searchFunc('/search.xml', 'searchInput', 'searchResult');
-});
-</script>
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
 
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
 </div>
 
+  
+  
+</div>
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
+  </footer>
 
-    <!-- Baidu Analytics -->
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-    <!-- Baidu Push -->
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
 
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
 <script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
         }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
 </script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
 
-    
+  <script>Fluid.plugins.codeWidget();</script>
 
-    <!--腾讯兔小巢-->
-    
-    
 
-    
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
 
-    
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
 
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
 
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         tex2jax: {
@@ -1174,7 +843,6 @@ $(function () {
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
-
 </html>

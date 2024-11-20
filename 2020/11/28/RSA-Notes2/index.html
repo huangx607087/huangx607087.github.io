@@ -1,476 +1,341 @@
-<!DOCTYPE HTML>
-<html lang="zh-CN">
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
 
 
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="RSA Notes 2, huangx607087&#39;s Blog">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="huangx607087">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="huangx607087学习RSA的笔记(2)O-About一个密码学废物的学习笔记2，很菜，别看。以后会不定时地补充。 约定：此博客中如果出现除法，未特殊说明的，均为向下取整的整除！ I-RSA的乘法的同态性0x01 简介和 得到$m$的二进制位数​    CTF中有些题目会在给出$e,n,c$的情况下，允许你和服务器交互，发送你自己的密文$c’$，然后告诉你有关$c’$解密后的明文的一些高位比">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RSA Notes 2">
+<meta property="og:url" content="http://example.com/2020/11/28/RSA-Notes2/index.html">
+<meta property="og:site_name" content="huangx607087&#39;s Blog">
+<meta property="og:description" content="huangx607087学习RSA的笔记(2)O-About一个密码学废物的学习笔记2，很菜，别看。以后会不定时地补充。 约定：此博客中如果出现除法，未特殊说明的，均为向下取整的整除！ I-RSA的乘法的同态性0x01 简介和 得到$m$的二进制位数​    CTF中有些题目会在给出$e,n,c$的情况下，允许你和服务器交互，发送你自己的密文$c’$，然后告诉你有关$c’$解密后的明文的一些高位比">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2020/11/28/RSA-Notes2/1-01.png">
+<meta property="og:image" content="http://example.com/2020/11/28/RSA-Notes2/1-02.png">
+<meta property="article:published_time" content="2020-11-28T00:45:34.000Z">
+<meta property="article:modified_time" content="2021-05-05T13:59:45.669Z">
+<meta property="article:author" content="huangx607087">
+<meta property="article:tag" content="Notes">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2020/11/28/RSA-Notes2/1-01.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>RSA Notes 2 - huangx607087&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
-    <title>RSA Notes 2 | huangx607087&#39;s Blog</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
 
-    <script src="/libs/jquery/jquery.min.js"></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
 
-<meta name="generator" content="Hexo 5.2.0"></head>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/KaTeX/0.16.2/katex.min.css" />
 
 
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 
 <body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">huangx607087&#39;s Blog</span>
-                </a>
-            </div>
-            
+  
 
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
-  
-  <li class="hide-on-med-and-down nav-item">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header>
     
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/friends" class="waves-effect waves-light">
-      
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-      
-      <span>友情链接</span>
-    </a>
-    
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
-</ul>
 
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>huangx607087</strong>
+    </a>
 
-<div id="mobile-nav" class="side-nav sidenav">
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-    <div class="mobile-head bg-color">
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">huangx607087&#39;s Blog</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
-    </div>
-
-    
-
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
           
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/friends" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-address-book"></i>
-			
-			友情链接
-		</a>
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
           
-        </li>
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/friends/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/site/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>更新日志</span>
+              </a>
+            </li>
+          
         
         
-        <li><div class="divider"></div></li>
-        <li>
-            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
-                <i class="fab fa-github-square fa-fw"></i>Fork Me
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
             </a>
-        </li>
+          </li>
+          
         
-    </ul>
-</div>
-
-
-        </div>
-
         
-            <style>
-    .nav-transparent .github-corner {
-        display: none !important;
-    }
-
-    .github-corner {
-        position: absolute;
-        z-index: 10;
-        top: 0;
-        right: 0;
-        border: 0;
-        transform: scale(1.1);
-    }
-
-    .github-corner svg {
-        color: #0f9d58;
-        fill: #fff;
-        height: 64px;
-        width: 64px;
-    }
-
-    .github-corner:hover .octo-arm {
-        animation: a 0.56s ease-in-out;
-    }
-
-    .github-corner .octo-arm {
-        animation: none;
-    }
-
-    @keyframes a {
-        0%,
-        to {
-            transform: rotate(0);
-        }
-        20%,
-        60% {
-            transform: rotate(-25deg);
-        }
-        40%,
-        80% {
-            transform: rotate(10deg);
-        }
-    }
-</style>
-
-<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
-   data-tooltip="Fork Me" data-position="left" data-delay="50">
-    <svg viewBox="0 0 250 250" aria-hidden="true">
-        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
-              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
-              fill="currentColor" class="octo-body"></path>
-    </svg>
-</a>
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
         
-    </nav>
-
-</header>
-
-    
-<script src="/libs/cryptojs/crypto-js.min.js"></script>
-<script>
-    (function() {
-        let pwd = '';
-        if (pwd && pwd.length > 0) {
-            if (pwd !== CryptoJS.SHA256(prompt('请输入访问本文章的密码')).toString(CryptoJS.enc.Hex)) {
-                alert('密码错误，将返回主页！');
-                location.href = '/';
-            }
-        }
-    })();
-</script>
-
-
-
-
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
-    <div class="container" style="right: 0px;left: 0px;">
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="brand">
-                    <h1 class="description center-align post-title">RSA Notes 2</h1>
-                </div>
-            </div>
-        </div>
+      </ul>
     </div>
-</div>
+  </div>
+</nav>
 
+  
 
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="RSA Notes 2"></span>
+          
+        </div>
 
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2020-11-28 08:45" pubdate>
+          2020/11/28 08:45:34 
+        </time>
+      </span>
+    
+  </div>
 
-<main class="post-container content">
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
-<style>
-    #articleContent h1::before,
-    #articleContent h2::before,
-    #articleContent h3::before,
-    #articleContent h4::before,
-    #articleContent h5::before,
-    #articleContent h6::before {
-        display: block;
-        content: " ";
-        height: 100px;
-        margin-top: -100px;
-        visibility: hidden;
-    }
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
 
-    #articleContent :focus {
-        outline: none;
-    }
-
-    .toc-fixed {
-        position: fixed;
-        top: 64px;
-    }
-
-    .toc-widget {
-        width: 345px;
-        padding-left: 20px;
-    }
-
-    .toc-widget .toc-title {
-        padding: 35px 0 15px 17px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        line-height: 1.5rem;
-    }
-
-    .toc-widget ol {
-        padding: 0;
-        list-style: none;
-    }
-
-    #toc-content {
-        padding-bottom: 30px;
-        overflow: auto;
-    }
-
-    #toc-content ol {
-        padding-left: 10px;
-    }
-
-    #toc-content ol li {
-        padding-left: 10px;
-    }
-
-    #toc-content .toc-link:hover {
-        color: #42b983;
-        font-weight: 700;
-        text-decoration: underline;
-    }
-
-    #toc-content .toc-link::before {
-        background-color: transparent;
-        max-height: 25px;
-
-        position: absolute;
-        right: 23.5vw;
-        display: block;
-    }
-
-    #toc-content .is-active-link {
-        color: #42b983;
-    }
-
-    #floating-toc-btn {
-        position: fixed;
-        right: 15px;
-        bottom: 76px;
-        padding-top: 15px;
-        margin-bottom: 0;
-        z-index: 998;
-    }
-
-    #floating-toc-btn .btn-floating {
-        width: 48px;
-        height: 48px;
-    }
-
-    #floating-toc-btn .btn-floating i {
-        line-height: 48px;
-        font-size: 1.4rem;
-    }
-</style>
-<div class="row">
-    <div id="main-content" class="col s12 m12 l9">
-        <!-- 文章内容详情 -->
-<div id="artDetail">
-    <div class="card">
-        <div class="card-content article-info">
-            <div class="row tag-cate">
-                <div class="col s7">
-                    
-                    <div class="article-tag">
-                        
-                            <a href="/tags/Notes/">
-                                <span class="chip bg-color">Notes</span>
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-                <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/CTFSeason1/" class="post-category">
-                                CTFSeason1
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="post-info">
-                
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-28
-                </div>
-                
-
-                
-
-                
-
-                
-
-                
-            </div>
-        </div>
-        <hr class="clearfix">
-
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
         
 
-        
-        <!-- 代码块折行 -->
-        <style type="text/css">
-            code[class*="language-"], pre[class*="language-"] { white-space: pre-wrap !important; }
-        </style>
-        
+      
+    
+  </div>
 
-        <div class="card-content article-card-content">
-            <div id="articleContent">
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">RSA Notes 2</h1>
+            
+            
+              <div class="markdown-body">
+                
                 <h1 id="huangx607087学习RSA的笔记-2"><a href="#huangx607087学习RSA的笔记-2" class="headerlink" title="huangx607087学习RSA的笔记(2)"></a>huangx607087学习RSA的笔记(2)</h1><h2 id="O-About"><a href="#O-About" class="headerlink" title="O-About"></a>O-About</h2><p><del>一个密码学废物的学习笔记2，很菜，别看。以后会不定时地补充。</del></p>
 <p><strong>约定：此博客中如果出现除法，未特殊说明的，均为向下取整的整除！</strong></p>
 <h2 id="I-RSA的乘法的同态性"><a href="#I-RSA的乘法的同态性" class="headerlink" title="I-RSA的乘法的同态性"></a>I-RSA的乘法的同态性</h2><h3 id="0x01-简介和-得到-m-的二进制位数"><a href="#0x01-简介和-得到-m-的二进制位数" class="headerlink" title="0x01 简介和 得到$m$的二进制位数"></a>0x01 简介和 得到$m$的二进制位数</h3><p>​    CTF中有些题目会在给出$e,n,c$的情况下，允许你和服务器交互，发送你自己的密文$c’$，然后告诉你有关$c’$解密后的明文的一些高位比特信息。在这种时候，我们就需要用到RSA乘法具有同态性的这一特殊性质，那么什么是RSA的同态性呢？</p>
 <p>​    我们已经知道，RSA加密函数$c=E(m) \equiv m^e \mod n$。其中$(e,n,c)$作为公钥，都是已知的。不过我们可以推导一下这样的公式：$E(2m)\equiv 2^em^e\equiv 2^e c\mod n$。所以如果在获得对个人密文的解密权的时候，我们就可以通过向服务器发送$2^e c$，这一就可以获得$2m$的值。同理，我们可以发送$2^{ke}c$，得到的解密结果就是$2^{k}m$。所以运行以下代码，我们得到的结果是$(12,24,48,96)$。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line">m=<span class="number">12</span></span><br><span class="line">p=getPrime(<span class="number">512</span>)</span><br><span class="line">q=getPrime(<span class="number">512</span>)</span><br><span class="line">n=p*q</span><br><span class="line">e=<span class="number">65537</span></span><br><span class="line">d=inverse(e,(p<span class="number">-1</span>)*(q<span class="number">-1</span>))</span><br><span class="line">c=pow(m,e,n)</span><br><span class="line">print(c)</span><br><span class="line">c2,c3,c4=c*pow(<span class="number">2</span>,e,n)%n,c*pow(<span class="number">2</span>,<span class="number">2</span>*e,n)%n,c*pow(<span class="number">2</span>,<span class="number">3</span>*e,n)%n</span><br><span class="line">print(c2)</span><br><span class="line">m1,m2,m3,m4=pow(c,d,n),pow(c2,d,n),pow(c3,d,n),pow(c4,d,n)</span><br><span class="line">print(m1,m2,m3,m4)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br>m=<span class="hljs-number">12</span><br>p=getPrime(<span class="hljs-number">512</span>)<br>q=getPrime(<span class="hljs-number">512</span>)<br>n=p*q<br>e=<span class="hljs-number">65537</span><br>d=inverse(e,(p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>))<br>c=<span class="hljs-built_in">pow</span>(m,e,n)<br><span class="hljs-built_in">print</span>(c)<br>c2,c3,c4=c*<span class="hljs-built_in">pow</span>(<span class="hljs-number">2</span>,e,n)%n,c*<span class="hljs-built_in">pow</span>(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>*e,n)%n,c*<span class="hljs-built_in">pow</span>(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>*e,n)%n<br><span class="hljs-built_in">print</span>(c2)<br>m1,m2,m3,m4=<span class="hljs-built_in">pow</span>(c,d,n),<span class="hljs-built_in">pow</span>(c2,d,n),<span class="hljs-built_in">pow</span>(c3,d,n),<span class="hljs-built_in">pow</span>(c4,d,n)<br><span class="hljs-built_in">print</span>(m1,m2,m3,m4)<br></code></pre></td></tr></table></figure>
 
 <p>​    这种方法我们可以确定明文的长度：假如$n$是$2048$位，每次给你最高$8$位，那么被隐藏了$2040$位。假如我们一共移动了$740$位发现高位不再为$0$，那么我们可以确定明文长度为$2040-740=1300$位二进制数。</p>
 <h3 id="0x02-RSA确定-m-位数后确定明文-m-的值"><a href="#0x02-RSA确定-m-位数后确定明文-m-的值" class="headerlink" title="0x02 RSA确定$m$位数后确定明文$m$的值"></a>0x02 RSA确定$m$位数后确定明文$m$的值</h3><p>​    假如我们以上面那个为例子，我们确定了明文是$1300$位二进制数，那么我们现在就可以二分了：我们可以设置$L=2^{739},R=2^{740}$进行二分操作。</p>
 <p>​    注意在RSA中，有一个很神奇的式子：<br>$$<br>(pm)^e \equiv cp^e \mod n<br>$$</p>
 <p>​    然后我们可以得到这样的方程：$I=\dfrac {2^{2040}}{m}∈[2^{739},2^{740}]$，也就是$I \in [2×2^{738},4×2^{738}]$。对服务器发送区间<strong>中值$M=3×2^{738}$的加密结果乘上$c$的值</strong>，如果服务器告诉你最高的$8$位二进制数值不为$0$，则说明我们发送的数字偏大，随后我们就可以换区间右边界$R$为这一次的中值$M$,区间变成$[4×2^{737},6×2^{737}]$。若最后告诉你结果为$0$，那么说明我们发送的值偏小，然后我们可以把左边界换成$M$，然后把区间换成$[6×2^{737},8×2^{737}]$。后面以此类推。</p>
 <p>​    然而，我发现：自己的取值出了一个严重的问题，下面是一次二分过后的运行结果：</p>
-<img src="/2020/11/28/RSA-Notes2/1-01.png" alt="2" style="zoom:77%;">
+<img src="/2020/11/28/RSA-Notes2/1-01.png" srcset="/img/loading.gif" lazyload alt="2" style="zoom:77%;">
 
 <p>​    分析了一下，原因很简单：因为这个时候除数是$2^{739}$到$2^{740}$左右的数量级，被除数是$2^{2040}$数量级，相差过大，于是我重新造数据：把flag的数量级降低到$2^{400}$,二分的$L,R$数量级提升到$2^{1640}$</p>
 <p>​    这一次的的运行结果，很准确：</p>
-<img src="/2020/11/28/RSA-Notes2/1-02.png" alt="2" style="zoom:77%;">
+<img src="/2020/11/28/RSA-Notes2/1-02.png" srcset="/img/loading.gif" lazyload alt="2" style="zoom:77%;">
 
 <p>​    做了几次实验，发现flag规模在$2^{1000}$以下的时候无误差，$2^{1050}$规模的flag有不超过$10$的误差，$2^{1100}$规模的flag有几百的误差，$2^{1200}$的flag有几十万的误差，$2^{1300}$的flag的误差比特已经接近总比特数的一半。目测如果flag在$\sqrt{n}$内的话，就不会出现误差值。</p>
 <p>最后贴一下测试代码</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">GetNumberBitz</span>(<span class="params">x</span>):</span></span><br><span class="line">    s=<span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        tmp=random.randint(<span class="number">0</span>,<span class="number">255</span>)</span><br><span class="line">        s=s*<span class="number">256</span>+tmp</span><br><span class="line">        <span class="keyword">if</span>(s&gt;(<span class="number">1</span>&lt;&lt;<span class="number">5000</span>)):</span><br><span class="line">           <span class="keyword">break</span></span><br><span class="line">    s=s%(<span class="number">1</span>&lt;&lt;(x+<span class="number">1</span>))</span><br><span class="line">    <span class="keyword">while</span>(s.bit_length()!=x):</span><br><span class="line">        s=GetNumberBitz(x)</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">GenerateKey</span>(<span class="params">B</span>):</span></span><br><span class="line">    e,p,q=getPrime(random.randrange(<span class="number">16</span>,<span class="number">20</span>)),getPrime(B//<span class="number">2</span>),getPrime(B//<span class="number">2</span>)</span><br><span class="line">    n,phi=p*q,(p<span class="number">-1</span>)*(q<span class="number">-1</span>)</span><br><span class="line">    d=inverse(e,phi)</span><br><span class="line">    <span class="keyword">return</span> e,n,d</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">judg</span>(<span class="params">CC,D,N</span>):</span></span><br><span class="line">    x=pow(CC,D,N)</span><br><span class="line">    st=long_to_bytes(x,<span class="number">2048</span>//<span class="number">8</span>)</span><br><span class="line">    <span class="keyword">if</span>(st.startswith(<span class="string">b&quot;\x00&quot;</span>)):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Attack</span>(<span class="params">E,N,C,D,B,T</span>):</span></span><br><span class="line">    L,R=<span class="number">2</span>**(B),<span class="number">2</span>**(B+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">while</span> R-L&gt;<span class="number">1</span>:</span><br><span class="line">        <span class="keyword">if</span>(R-L).bit_length()%<span class="number">50</span>==<span class="number">0</span>:</span><br><span class="line">            print(hex(L),hex(R))</span><br><span class="line">        M=(L+R)//<span class="number">2</span></span><br><span class="line">        CC=(pow(M,E,N)*C)%N</span><br><span class="line">        check=judg(CC,D,N)</span><br><span class="line">        <span class="keyword">if</span>(check==<span class="number">1</span>):</span><br><span class="line">            L=M</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            R=M</span><br><span class="line">    <span class="keyword">return</span> L</span><br><span class="line"><span class="comment">#----main below----#</span></span><br><span class="line">flag=GetNumberBitz(<span class="number">400</span>)</span><br><span class="line"><span class="keyword">assert</span> flag.bit_length()==<span class="number">400</span></span><br><span class="line">e,n,d=GenerateKey(<span class="number">2048</span>)</span><br><span class="line"><span class="keyword">while</span> n.bit_length()!=<span class="number">2048</span>:</span><br><span class="line">      e,n,d=GenerateKey(<span class="number">2048</span>)</span><br><span class="line">c=pow(flag,e,n)</span><br><span class="line">print(<span class="string">&#x27;e=&#x27;</span>,e)</span><br><span class="line">print(<span class="string">&#x27;n=&#x27;</span>,n)</span><br><span class="line">print(<span class="string">&#x27;c=&#x27;</span>,c)</span><br><span class="line">print(<span class="string">&#x27;2**2040//flag=&#x27;</span>,hex(<span class="number">2</span>**<span class="number">2040</span>//flag))</span><br><span class="line">F=Attack(e,n,c,d,<span class="number">2040</span><span class="number">-400</span>,<span class="number">2040</span>)</span><br><span class="line">print(hex(<span class="number">2</span>**<span class="number">2040</span>//F))</span><br><span class="line">print(hex(<span class="number">2</span>**<span class="number">2040</span>//(F+<span class="number">1</span>)))</span><br><span class="line">print(hex(flag))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">GetNumberBitz</span>(<span class="hljs-params">x</span>):<br>    s=<span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>        tmp=random.randint(<span class="hljs-number">0</span>,<span class="hljs-number">255</span>)<br>        s=s*<span class="hljs-number">256</span>+tmp<br>        <span class="hljs-keyword">if</span>(s&gt;(<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">5000</span>)):<br>           <span class="hljs-keyword">break</span><br>    s=s%(<span class="hljs-number">1</span>&lt;&lt;(x+<span class="hljs-number">1</span>))<br>    <span class="hljs-keyword">while</span>(s.bit_length()!=x):<br>        s=GetNumberBitz(x)<br>    <span class="hljs-keyword">return</span> s<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">GenerateKey</span>(<span class="hljs-params">B</span>):<br>    e,p,q=getPrime(random.randrange(<span class="hljs-number">16</span>,<span class="hljs-number">20</span>)),getPrime(B//<span class="hljs-number">2</span>),getPrime(B//<span class="hljs-number">2</span>)<br>    n,phi=p*q,(p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>)<br>    d=inverse(e,phi)<br>    <span class="hljs-keyword">return</span> e,n,d<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">judg</span>(<span class="hljs-params">CC,D,N</span>):<br>    x=<span class="hljs-built_in">pow</span>(CC,D,N)<br>    st=long_to_bytes(x,<span class="hljs-number">2048</span>//<span class="hljs-number">8</span>)<br>    <span class="hljs-keyword">if</span>(st.startswith(<span class="hljs-string">b&quot;\x00&quot;</span>)):<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span><br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">Attack</span>(<span class="hljs-params">E,N,C,D,B,T</span>):<br>    L,R=<span class="hljs-number">2</span>**(B),<span class="hljs-number">2</span>**(B+<span class="hljs-number">1</span>)<br>    <span class="hljs-keyword">while</span> R-L&gt;<span class="hljs-number">1</span>:<br>        <span class="hljs-keyword">if</span>(R-L).bit_length()%<span class="hljs-number">50</span>==<span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(L),<span class="hljs-built_in">hex</span>(R))<br>        M=(L+R)//<span class="hljs-number">2</span><br>        CC=(<span class="hljs-built_in">pow</span>(M,E,N)*C)%N<br>        check=judg(CC,D,N)<br>        <span class="hljs-keyword">if</span>(check==<span class="hljs-number">1</span>):<br>            L=M<br>        <span class="hljs-keyword">else</span>:<br>            R=M<br>    <span class="hljs-keyword">return</span> L<br><span class="hljs-comment">#----main below----#</span><br>flag=GetNumberBitz(<span class="hljs-number">400</span>)<br><span class="hljs-keyword">assert</span> flag.bit_length()==<span class="hljs-number">400</span><br>e,n,d=GenerateKey(<span class="hljs-number">2048</span>)<br><span class="hljs-keyword">while</span> n.bit_length()!=<span class="hljs-number">2048</span>:<br>      e,n,d=GenerateKey(<span class="hljs-number">2048</span>)<br>c=<span class="hljs-built_in">pow</span>(flag,e,n)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;e=&#x27;</span>,e)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;n=&#x27;</span>,n)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;c=&#x27;</span>,c)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;2**2040//flag=&#x27;</span>,<span class="hljs-built_in">hex</span>(<span class="hljs-number">2</span>**<span class="hljs-number">2040</span>//flag))<br>F=Attack(e,n,c,d,<span class="hljs-number">2040</span>-<span class="hljs-number">400</span>,<span class="hljs-number">2040</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(<span class="hljs-number">2</span>**<span class="hljs-number">2040</span>//F))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(<span class="hljs-number">2</span>**<span class="hljs-number">2040</span>//(F+<span class="hljs-number">1</span>)))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">hex</span>(flag))<br></code></pre></td></tr></table></figure>
 
 <h3 id="0x03-最后一个比特位泄露破解的原理-摘自CTFWIKI，本废物还不懂"><a href="#0x03-最后一个比特位泄露破解的原理-摘自CTFWIKI，本废物还不懂" class="headerlink" title="0x03 最后一个比特位泄露破解的原理(摘自CTFWIKI，本废物还不懂)"></a>0x03 最后一个比特位泄露破解的原理(摘自CTFWIKI，<del>本废物还不懂</del>)</h3><p>​    假设目前存在一个 Oracle，它会对一个给定的密文进行解密，并且会给出明文的最后一个字节。那么给定一个加密后的密文，我们只需要 $\log_{256}n$ 次就可以知道这个密文对应的明文消息。</p>
 <p>这个其实算作 RSA parity Oracle 的扩展，既然可以泄露出最后一个字节，那么按道理我们获取密文对应明文的次数应该可以减少。</p>
@@ -500,10 +365,10 @@
 <p>与此同时，由于 P 必然存在，所以第 i+1 得到的这个范围和第 i 次得到的范围必然存在交集。</p>
 <p>所以 y 必然与 x 相等。</p>
 <p>进一步我们可以这么归纳，初始情况下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lb &#x3D; 0</span><br><span class="line">ub &#x3D; N</span><br></pre></td></tr></table></figure>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">lb</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span><br><span class="hljs-attribute">ub</span> <span class="hljs-operator">=</span> N<br></code></pre></td></tr></table></figure>
 
 <p>假设服务器返回了 b，那么</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">k &#x3D; mab[b]</span><br><span class="line">interval &#x3D; (ub-lb)&#x2F;&#x2F;256</span><br><span class="line">lb &#x3D; lb + interval * k</span><br><span class="line">ub &#x3D; lb + interval</span><br></pre></td></tr></table></figure>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">k</span> = mab[b]<br><span class="hljs-attr">interval</span> = (ub-lb)//<span class="hljs-number">256</span><br><span class="hljs-attr">lb</span> = lb + interval * k<br><span class="hljs-attr">ub</span> = lb + interval<br></code></pre></td></tr></table></figure>
 
 <h2 id="II-关于一些特殊性质的-n-的因数分解"><a href="#II-关于一些特殊性质的-n-的因数分解" class="headerlink" title="II-关于一些特殊性质的$n$的因数分解"></a>II-关于一些特殊性质的$n$的因数分解</h2><h3 id="0x01-n-的值小于-512-位二进制数"><a href="#0x01-n-的值小于-512-位二进制数" class="headerlink" title="0x01 $n$的值小于$512$位二进制数"></a>0x01 $n$的值小于$512$位二进制数</h3><p>​    可以用yafu或者sagemath直接分解，一般$30$分钟内就可以分解成功</p>
 <h3 id="0x02-p-q-是两个相邻的素数"><a href="#0x02-p-q-是两个相邻的素数" class="headerlink" title="0x02 $p,q$ 是两个相邻的素数"></a>0x02 $p,q$ 是两个相邻的素数</h3><p>​    这种方法是非常简单的，我们只需要用gmpy2中的iroot函数直接取整开根。然后设$q$是$\sqrt n$的下一个素数，然后我们就可以得到$p$的值了，进而成功分解$n$</p>
@@ -519,630 +384,418 @@
 <p>​    对于每一个$n = 2, 3, 4, …$，我们任意选择一个底数$a$（事实上，我们可以简单地选择为$2$），并计算<br>$$<br>gcd(a^{n!-1}, N)<br>$$<br>​    如果结果落在1和$n$中间，那么我们就成功了。</p>
 <p>​    当然，这里的所有操作都可以在模$N$的操作下进行，也就是计算$a^{n!-1}\ \text{mod}\ N$。并且，我们也不必计算每一个数字，选择一个恰当的间隔（比如$15$）计算可以减少耗时</p>
 <h4 id="0o477-代码实现"><a href="#0o477-代码实现" class="headerlink" title="0o477 代码实现"></a>0o477 代码实现</h4><p>​    我们可以上一下代码：这里的的$N$是$104729$光滑的（因为$104729$刚好是第$10000$个素数）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Pollard_p_1</span>(<span class="params">N</span>):</span></span><br><span class="line">    a = <span class="number">2</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        f = a</span><br><span class="line">        <span class="comment"># precompute</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">80000</span>):</span><br><span class="line">            f = pow(f, i, N)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">80000</span>, <span class="number">104729</span>+<span class="number">1</span>):</span><br><span class="line">            f = pow(f, i, N)</span><br><span class="line">            <span class="keyword">if</span> i % <span class="number">15</span> == <span class="number">0</span>:</span><br><span class="line">                d = GCD(f<span class="number">-1</span>, N)</span><br><span class="line">                <span class="keyword">if</span> <span class="number">1</span> &lt; d &lt; N:</span><br><span class="line">                    <span class="keyword">return</span> d</span><br><span class="line">        print(a)</span><br><span class="line">        a += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">Pollard_p_1</span>(<span class="hljs-params">N</span>):<br>    a = <span class="hljs-number">2</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        f = a<br>        <span class="hljs-comment"># precompute</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">80000</span>):<br>            f = <span class="hljs-built_in">pow</span>(f, i, N)<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">80000</span>, <span class="hljs-number">104729</span>+<span class="hljs-number">1</span>):<br>            f = <span class="hljs-built_in">pow</span>(f, i, N)<br>            <span class="hljs-keyword">if</span> i % <span class="hljs-number">15</span> == <span class="hljs-number">0</span>:<br>                d = GCD(f-<span class="hljs-number">1</span>, N)<br>                <span class="hljs-keyword">if</span> <span class="hljs-number">1</span> &lt; d &lt; N:<br>                    <span class="hljs-keyword">return</span> d<br>        <span class="hljs-built_in">print</span>(a)<br>        a += <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 
 <h3 id="0x05-p-1-光滑-即-p-1-db-2-d-lt-256-text-isPrime-d-text-True"><a href="#0x05-p-1-光滑-即-p-1-db-2-d-lt-256-text-isPrime-d-text-True" class="headerlink" title="0x05 $p+1$光滑(即$p+1=db^2|_{d&lt;256,\text{isPrime}(d)=\text{True}}$)"></a>0x05 $p+1$光滑(即$p+1=db^2|_{d&lt;256,\text{isPrime}(d)=\text{True}}$)</h3><p>​    这种情况下，我们可以使用William $p+1$算法</p>
 <h4 id="0o501-理论基础"><a href="#0o501-理论基础" class="headerlink" title="0o501 理论基础"></a>0o501 理论基础</h4><p>​    从标题中我们可以知道：如果$p+1=db^2$    的话，我们可以考虑分解$n$的值。而这实际上基于这样一个理论基础：如果$n=pm$，并且$p$是素数，并且如果$4p$可以写成集合{$ 3b^2+1,11b^2+1,19b^2+1,43b^2+1,67b^2+1,163b^2+1$} ，其中${b\in N_+}$ 中的任意一个形式，那么我们可以在$\ln n$的复杂度里找到$p$的真实值。</p>
 <p>​    算法的原理太复杂，这里就不多讲了，直接看代码吧（</p>
 <h4 id="0o577-算法代码"><a href="#0o577-算法代码" class="headerlink" title="0o577 算法代码"></a>0o577 算法代码</h4><p>​    最后贴一下代码，$\text{Sagemath 9.1 Notebook}$中的代码，摘自$\text{NCTF 2020 WP}$</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">qicheng</span>(<span class="params">n: int</span>):</span></span><br><span class="line">    R = Integers(n)</span><br><span class="line">    js = [<span class="number">0</span>, (<span class="number">-2</span> ^ <span class="number">5</span>) ^ <span class="number">3</span>, (<span class="number">-2</span> ^ <span class="number">5</span>*<span class="number">3</span>) ^ <span class="number">3</span>, (<span class="number">-2</span> ^ <span class="number">5</span>*<span class="number">3</span>*<span class="number">5</span>*<span class="number">11</span>) ^ <span class="number">3</span>, (<span class="number">-2</span> ^ <span class="number">6</span>*<span class="number">3</span>*<span class="number">5</span>*<span class="number">23</span>*<span class="number">29</span>) ^ <span class="number">3</span>]</span><br><span class="line">    p, q = <span class="literal">None</span>, <span class="literal">None</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">20</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> js:</span><br><span class="line">            <span class="keyword">if</span> j == <span class="number">0</span>:</span><br><span class="line">                a = R.random_element()</span><br><span class="line">                E = EllipticCurve([<span class="number">0</span>, a])</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                a = R(j)/(R(<span class="number">1728</span>)-R(j))</span><br><span class="line">                c = R.random_element()</span><br><span class="line">                E = EllipticCurve([<span class="number">3</span>*a*c ^ <span class="number">2</span>, <span class="number">2</span>*a*c ^ <span class="number">3</span>])</span><br><span class="line">            x = R.random_element()</span><br><span class="line">            z = E.division_polynomial(n, x)</span><br><span class="line">            g = gcd(z, n)</span><br><span class="line">            <span class="keyword">if</span> g &gt; <span class="number">1</span>:</span><br><span class="line">                p = Integer(g)</span><br><span class="line">                q = Integer(n)//p</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">if</span> p:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">return</span> (p, q)</span><br><span class="line">print(qicheng(<span class="number">1444329727510154393553799612747635457542181563961160832013134005088873165794135221</span>))</span><br><span class="line"><span class="comment">#(74611921979343086722526424506387128972933, 19357894679486057806987068960980789709937)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">qicheng</span>(<span class="hljs-params">n: <span class="hljs-built_in">int</span></span>):<br>    R = Integers(n)<br>    js = [<span class="hljs-number">0</span>, (-<span class="hljs-number">2</span> ^ <span class="hljs-number">5</span>) ^ <span class="hljs-number">3</span>, (-<span class="hljs-number">2</span> ^ <span class="hljs-number">5</span>*<span class="hljs-number">3</span>) ^ <span class="hljs-number">3</span>, (-<span class="hljs-number">2</span> ^ <span class="hljs-number">5</span>*<span class="hljs-number">3</span>*<span class="hljs-number">5</span>*<span class="hljs-number">11</span>) ^ <span class="hljs-number">3</span>, (-<span class="hljs-number">2</span> ^ <span class="hljs-number">6</span>*<span class="hljs-number">3</span>*<span class="hljs-number">5</span>*<span class="hljs-number">23</span>*<span class="hljs-number">29</span>) ^ <span class="hljs-number">3</span>]<br>    p, q = <span class="hljs-literal">None</span>, <span class="hljs-literal">None</span><br>    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">20</span>):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> js:<br>            <span class="hljs-keyword">if</span> j == <span class="hljs-number">0</span>:<br>                a = R.random_element()<br>                E = EllipticCurve([<span class="hljs-number">0</span>, a])<br>            <span class="hljs-keyword">else</span>:<br>                a = R(j)/(R(<span class="hljs-number">1728</span>)-R(j))<br>                c = R.random_element()<br>                E = EllipticCurve([<span class="hljs-number">3</span>*a*c ^ <span class="hljs-number">2</span>, <span class="hljs-number">2</span>*a*c ^ <span class="hljs-number">3</span>])<br>            x = R.random_element()<br>            z = E.division_polynomial(n, x)<br>            g = gcd(z, n)<br>            <span class="hljs-keyword">if</span> g &gt; <span class="hljs-number">1</span>:<br>                p = Integer(g)<br>                q = Integer(n)//p<br>                <span class="hljs-keyword">break</span><br>        <span class="hljs-keyword">if</span> p:<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">return</span> (p, q)<br><span class="hljs-built_in">print</span>(qicheng(<span class="hljs-number">1444329727510154393553799612747635457542181563961160832013134005088873165794135221</span>))<br><span class="hljs-comment">#(74611921979343086722526424506387128972933, 19357894679486057806987068960980789709937)</span><br></code></pre></td></tr></table></figure>
 
 <h3 id="0x06-Pollord-Rho算法-时间复杂度-O-sqrt-4-n"><a href="#0x06-Pollord-Rho算法-时间复杂度-O-sqrt-4-n" class="headerlink" title="0x06 Pollord Rho算法(时间复杂度$O(\sqrt[4]{n})$)"></a>0x06 Pollord Rho算法(时间复杂度$O(\sqrt[4]{n})$)</h3><h4 id="0o601-算法介绍"><a href="#0o601-算法介绍" class="headerlink" title="0o601 算法介绍"></a>0o601 算法介绍</h4><p>​    这个算法的核心思想就是猜一个数，看看是否为$x$的因数。</p>
 <p>​    我们可以随机地选取两$v,t$个数，然后根据$v=v_{i-1}^2+t \mod x$ ,这样就会构成一个环。然后在循环内部猜测。即可。</p>
 <p>​    代码实现原理也比较复杂<del>（实际上是因为懒，博客写到后面也很累的）</del>，自己百度吧。上一个是百度不到的。<del>23333</del></p>
-<h4 id="0o677-代码实现（自己打的代码，Python常数较大，能过洛谷模板题93分）"><a href="#0o677-代码实现（自己打的代码，Python常数较大，能过洛谷模板题93分）" class="headerlink" title="0o677 代码实现（自己打的代码，Python常数较大，能过洛谷模板题93分）"></a>0o677 代码实现（自己打的代码，Python常数较大，能过洛谷模板题93分）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> *</span><br><span class="line">A=<span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">culc</span>(<span class="params">x,c,n</span>):</span></span><br><span class="line">    <span class="keyword">return</span> (x*x+c)%n</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">PollardRho</span>(<span class="params">x</span>):</span></span><br><span class="line">    s,t,goal,val=<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span></span><br><span class="line">    c=getrandbits(<span class="number">15</span>)%(x<span class="number">-1</span>)+<span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">for</span> det <span class="keyword">in</span> range(<span class="number">1</span>,goal+<span class="number">1</span>):</span><br><span class="line">            t=culc(t,c,x)</span><br><span class="line">            val=val*abs(t-s)%x</span><br><span class="line">            <span class="keyword">if</span>(det%<span class="number">127</span>==<span class="number">0</span>):</span><br><span class="line">                d=GCD(val,x)</span><br><span class="line">                <span class="keyword">if</span>(d&gt;<span class="number">1</span>):</span><br><span class="line">                    <span class="keyword">return</span> d</span><br><span class="line">        d=GCD(val,x)</span><br><span class="line">        <span class="keyword">if</span>(d&gt;<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">return</span> d</span><br><span class="line">        goal*=<span class="number">2</span></span><br><span class="line">        s=t</span><br><span class="line">        val=<span class="number">1</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">factor</span>(<span class="params">x</span>):</span></span><br><span class="line">    <span class="keyword">global</span> A</span><br><span class="line">    <span class="keyword">if</span>(x&lt;=A <span class="keyword">or</span> x&lt;<span class="number">2</span>):</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">if</span>(isPrime(x)):</span><br><span class="line">        A=max(A,x)</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    p=x</span><br><span class="line">    <span class="keyword">while</span>(p&gt;=x):</span><br><span class="line">        p=PollardRho(x)</span><br><span class="line">    <span class="keyword">while</span>((x%p)==<span class="number">0</span>):</span><br><span class="line">        x//=p</span><br><span class="line">    factor(x)</span><br><span class="line">    factor(p)</span><br><span class="line">T=int(input())</span><br><span class="line"><span class="keyword">while</span> T&gt;<span class="number">0</span>:</span><br><span class="line">    T-=<span class="number">1</span></span><br><span class="line">    A=<span class="number">0</span></span><br><span class="line">    a=int(input())</span><br><span class="line">    <span class="keyword">if</span>(isPrime(a)):</span><br><span class="line">        print(<span class="string">&#x27;Prime&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        factor(a)</span><br><span class="line">        print(A)</span><br></pre></td></tr></table></figure>
+<h4 id="0o677-代码实现（自己打的代码，Python常数较大，能过洛谷模板题93分）"><a href="#0o677-代码实现（自己打的代码，Python常数较大，能过洛谷模板题93分）" class="headerlink" title="0o677 代码实现（自己打的代码，Python常数较大，能过洛谷模板题93分）"></a>0o677 代码实现（自己打的代码，Python常数较大，能过洛谷模板题93分）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> *<br>A=<span class="hljs-number">0</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">culc</span>(<span class="hljs-params">x,c,n</span>):<br>    <span class="hljs-keyword">return</span> (x*x+c)%n<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">PollardRho</span>(<span class="hljs-params">x</span>):<br>    s,t,goal,val=<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span><br>    c=getrandbits(<span class="hljs-number">15</span>)%(x-<span class="hljs-number">1</span>)+<span class="hljs-number">1</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>        <span class="hljs-keyword">for</span> det <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,goal+<span class="hljs-number">1</span>):<br>            t=culc(t,c,x)<br>            val=val*<span class="hljs-built_in">abs</span>(t-s)%x<br>            <span class="hljs-keyword">if</span>(det%<span class="hljs-number">127</span>==<span class="hljs-number">0</span>):<br>                d=GCD(val,x)<br>                <span class="hljs-keyword">if</span>(d&gt;<span class="hljs-number">1</span>):<br>                    <span class="hljs-keyword">return</span> d<br>        d=GCD(val,x)<br>        <span class="hljs-keyword">if</span>(d&gt;<span class="hljs-number">1</span>):<br>            <span class="hljs-keyword">return</span> d<br>        goal*=<span class="hljs-number">2</span><br>        s=t<br>        val=<span class="hljs-number">1</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">factor</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-keyword">global</span> A<br>    <span class="hljs-keyword">if</span>(x&lt;=A <span class="hljs-keyword">or</span> x&lt;<span class="hljs-number">2</span>):<br>        <span class="hljs-keyword">return</span><br>    <span class="hljs-keyword">if</span>(isPrime(x)):<br>        A=<span class="hljs-built_in">max</span>(A,x)<br>        <span class="hljs-keyword">return</span><br>    p=x<br>    <span class="hljs-keyword">while</span>(p&gt;=x):<br>        p=PollardRho(x)<br>    <span class="hljs-keyword">while</span>((x%p)==<span class="hljs-number">0</span>):<br>        x//=p<br>    factor(x)<br>    factor(p)<br>T=<span class="hljs-built_in">int</span>(<span class="hljs-built_in">input</span>())<br><span class="hljs-keyword">while</span> T&gt;<span class="hljs-number">0</span>:<br>    T-=<span class="hljs-number">1</span><br>    A=<span class="hljs-number">0</span><br>    a=<span class="hljs-built_in">int</span>(<span class="hljs-built_in">input</span>())<br>    <span class="hljs-keyword">if</span>(isPrime(a)):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Prime&#x27;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        factor(a)<br>        <span class="hljs-built_in">print</span>(A)<br></code></pre></td></tr></table></figure>
 
                 
-            </div>
+              </div>
+            
             <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
 
-            
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTFSeason1/" class="category-chain-item">CTFSeason1</a>
+  
+  
 
-    <div class="reprint" id="reprint-statement">
-        
-            <div class="reprint__author">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-user">
-                        文章作者:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="/about" rel="external nofollow noreferrer">huangx607087</a>
-                </span>
-            </div>
-            <div class="reprint__type">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-link">
-                        文章链接:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="http://example.com/2020/11/28/RSA-Notes2/">http://example.com/2020/11/28/RSA-Notes2/</a>
-                </span>
-            </div>
-            <div class="reprint__notice">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-copyright">
-                        版权声明:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    本博客所有文章除特別声明外，均采用
-                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
-                    许可协议。转载请注明来源
-                    <a href="/about" target="_blank">huangx607087</a>
-                    !
-                </span>
-            </div>
-        
+      </span>
+    
+  
+</span>
+
     </div>
-
-    <script async defer>
-      document.addEventListener("copy", function (e) {
-        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
-        M.toast({html: toastHTML})
-      });
-
-      function navToReprintStatement() {
-        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
-      }
-    </script>
-
-
-
-            <div class="tag_share" style="display: block;">
-                <div class="post-meta__tag-list" style="display: inline-block;">
-                    
-                        <div class="article-tag">
-                            
-                                <a href="/tags/Notes/">
-                                    <span class="chip bg-color">Notes</span>
-                                </a>
-                            
-                        </div>
-                    
-                </div>
-                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
-                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
-<div id="article-share">
-
-    
-
-    
-
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Notes/" class="print-no-link">#Notes</a>
+      
+    </div>
+  
 </div>
 
-                </div>
-            </div>
-            
-        </div>
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>RSA Notes 2</div>
+      <div>http://example.com/2020/11/28/RSA-Notes2/</div>
     </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-<article id="prenext-posts" class="prev-next articles">
-    <div class="row article-row">
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
-            <div class="card">
-                <a href="/2021/01/10/NumberTheory3/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="NumberTheory3">
-                        
-                        <span class="card-title">NumberTheory3</span>
-                    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>huangx607087</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2020年11月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
                 </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-01-10
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/CTFSeason2/" class="post-category">
-                                    CTFSeason2
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Notes/">
-                        <span class="chip bg-color">Notes</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
+              
+            
+          </div>
         </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/11/13/UNCTFwp/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="UNCTFwp">
-                        
-                        <span class="card-title">UNCTFwp</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-13
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/CTFSeason1/" class="post-category">
-                                    CTFSeason1
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/WriteUp/">
-                        <span class="chip bg-color">WriteUp</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
+      
     </div>
-</article>
+    <div class="license-icon iconfont"></div>
+  </div>
 
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/01/10/NumberTheory3/" title="NumberTheory3">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">NumberTheory3</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/11/13/UNCTFwp/" title="UNCTFwp">
+                        <span class="hidden-mobile">UNCTFwp</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
 </div>
 
 
 
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+  </aside>
 
 
     </div>
-    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
-        <div class="toc-widget card" style="background-color: white;">
-            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
-            <div id="toc-content"></div>
-        </div>
-    </div>
-</div>
-
-<!-- TOC 悬浮按钮. -->
-
-<div id="floating-toc-btn" class="hide-on-med-and-down">
-    <a class="btn-floating btn-large bg-color">
-        <i class="fas fa-list-ul"></i>
-    </a>
+  </div>
 </div>
 
 
-<script src="/libs/tocbot/tocbot.min.js"></script>
-<script>
-    $(function () {
-        tocbot.init({
-            tocSelector: '#toc-content',
-            contentSelector: '#articleContent',
-            headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('0'),
-            headingSelector: 'h2, h3, h4, h5'
-        });
 
-        // modify the toc link href to support Chinese.
-        let i = 0;
-        let tocHeading = 'toc-heading-';
-        $('#toc-content a').each(function () {
-            $(this).attr('href', '#' + tocHeading + (++i));
-        });
 
-        // modify the heading title id to support Chinese.
-        i = 0;
-        $('#articleContent').children('h2, h3, h4, h5').each(function () {
-            $(this).attr('id', tocHeading + (++i));
-        });
 
-        // Set scroll toc fixed.
-        let tocHeight = parseInt($(window).height() * 0.4 - 64);
-        let $tocWidget = $('.toc-widget');
-        $(window).scroll(function () {
-            let scroll = $(window).scrollTop();
-            /* add post toc fixed. */
-            if (scroll > tocHeight) {
-                $tocWidget.addClass('toc-fixed');
-            } else {
-                $tocWidget.removeClass('toc-fixed');
-            }
-        });
+  
 
-        
-        /* 修复文章卡片 div 的宽度. */
-        let fixPostCardWidth = function (srcId, targetId) {
-            let srcDiv = $('#' + srcId);
-            if (srcDiv.length === 0) {
-                return;
-            }
 
-            let w = srcDiv.width();
-            if (w >= 450) {
-                w = w + 21;
-            } else if (w >= 350 && w < 450) {
-                w = w + 18;
-            } else if (w >= 300 && w < 350) {
-                w = w + 16;
-            } else {
-                w = w + 14;
-            }
-            $('#' + targetId).width(w);
-        };
 
-        // 切换TOC目录展开收缩的相关操作.
-        const expandedClass = 'expanded';
-        let $tocAside = $('#toc-aside');
-        let $mainContent = $('#main-content');
-        $('#floating-toc-btn .btn-floating').click(function () {
-            if ($tocAside.hasClass(expandedClass)) {
-                $tocAside.removeClass(expandedClass).hide();
-                $mainContent.removeClass('l9');
-            } else {
-                $tocAside.addClass(expandedClass).show();
-                $mainContent.addClass('l9');
-            }
-            fixPostCardWidth('artDetail', 'prenext-posts');
-        });
-        
-    });
-</script>
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
 
     
 
-</main>
-
-
-<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script>
-    MathJax.Hub.Config({
-        tex2jax: {inlineMath: [['$', '$'], ['\(', '\)']]}
-    });
-</script>
-
-
-
-    <footer class="page-footer bg-color">
     
-    <div class="container row center-align" style="margin-bottom: 15px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            
-                <span id="year">2020-2024</span>
-            
-            <span id="year">2020</span>
-            <a href="/about" target="_blank">huangx607087</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            <br>
-            
-            <span id="sitetime">载入运行时间...</span>
-            <script>
-                function siteTime() {
-                    var seconds = 1000;
-                    var minutes = seconds * 60;
-                    var hours = minutes * 60;
-                    var days = hours * 24;
-                    var years = days * 365;
-                    var today = new Date();
-                    var startYear = "2020";
-                    var startMonth = "10";
-                    var startDate = "5";
-                    var startHour = "19";
-                    var startMinute = "20";
-                    var startSecond = "0";
-                    var todayYear = today.getFullYear();
-                    var todayMonth = today.getMonth() + 1;
-                    var todayDate = today.getDate();
-                    var todayHour = today.getHours();
-                    var todayMinute = today.getMinutes();
-                    var todaySecond = today.getSeconds();
-                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
-                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
-                    var diff = t2 - t1;
-                    var diffYears = Math.floor(diff / years);
-                    var diffDays = Math.floor((diff / days) - diffYears * 365);
-                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
-                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
-                        minutes);
-                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
-                        diffMinutes * minutes) / seconds);
-                    if (startYear == todayYear) {
-                        document.getElementById("year").innerHTML = todayYear;
-                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
-                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
-                    } else {
-                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
-                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
-                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
-                    }
-                }
-                setInterval(siteTime, 1000);
-            </script>
-            
-            <br>
-            
-        </div>
-        <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://github.com/huangx607087" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-        <i class="fab fa-github"></i>
-    </a>
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-
-
-    <a href="mailto:1435756429@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1435756429" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1435756429" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
-        <i class="fas fa-rss"></i>
-    </a>
-
-</div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
         </div>
-        <div id="searchResult"></div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
     </div>
+  </div>
 </div>
 
-<script type="text/javascript">
-$(function () {
-    var searchFunc = function (path, search_id, content_id) {
-        'use strict';
-        $.ajax({
-            url: path,
-            dataType: "xml",
-            success: function (xmlResponse) {
-                // get the contents from search data
-                var datas = $("entry", xmlResponse).map(function () {
-                    return {
-                        title: $("title", this).text(),
-                        content: $("content", this).text(),
-                        url: $("url", this).text()
-                    };
-                }).get();
-                var $input = document.getElementById(search_id);
-                var $resultContent = document.getElementById(content_id);
-                $input.addEventListener('input', function () {
-                    var str = '<ul class=\"search-result-list\">';
-                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
-                    $resultContent.innerHTML = "";
-                    if (this.value.trim().length <= 0) {
-                        return;
-                    }
-                    // perform local searching
-                    datas.forEach(function (data) {
-                        var isMatch = true;
-                        var data_title = data.title.trim().toLowerCase();
-                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
-                        var data_url = data.url;
-                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
-                        var index_title = -1;
-                        var index_content = -1;
-                        var first_occur = -1;
-                        // only match artiles with not empty titles and contents
-                        if (data_title !== '' && data_content !== '') {
-                            keywords.forEach(function (keyword, i) {
-                                index_title = data_title.indexOf(keyword);
-                                index_content = data_content.indexOf(keyword);
-                                if (index_title < 0 && index_content < 0) {
-                                    isMatch = false;
-                                } else {
-                                    if (index_content < 0) {
-                                        index_content = 0;
-                                    }
-                                    if (i === 0) {
-                                        first_occur = index_content;
-                                    }
-                                }
-                            });
-                        }
-                        // show search results
-                        if (isMatch) {
-                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
-                            var content = data.content.trim().replace(/<[^>]+>/g, "");
-                            if (first_occur >= 0) {
-                                // cut out 100 characters
-                                var start = first_occur - 20;
-                                var end = first_occur + 80;
-                                if (start < 0) {
-                                    start = 0;
-                                }
-                                if (start === 0) {
-                                    end = 100;
-                                }
-                                if (end > content.length) {
-                                    end = content.length;
-                                }
-                                var match_content = content.substr(start, end);
-                                // highlight all keywords
-                                keywords.forEach(function (keyword) {
-                                    var regS = new RegExp(keyword, "gi");
-                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
-                                });
+    
 
-                                str += "<p class=\"search-result\">" + match_content + "...</p>"
-                            }
-                            str += "</li>";
-                        }
-                    });
-                    str += "</ul>";
-                    $resultContent.innerHTML = str;
-                });
-            }
-        });
-    };
+    
+  </main>
 
-    searchFunc('/search.xml', 'searchInput', 'searchResult');
-});
-</script>
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
 
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
 </div>
 
+  
+  
+</div>
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
+  </footer>
 
-    <!-- Baidu Analytics -->
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
-    <!-- Baidu Push -->
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
 
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
 <script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
         }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
 </script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
 
-    
+  <script>Fluid.plugins.codeWidget();</script>
 
-    <!--腾讯兔小巢-->
-    
-    
 
-    
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
 
-    
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
 
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
 
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         tex2jax: {
@@ -1157,7 +810,6 @@ $(function () {
             all[i].SourceElement().parentNode.className += ' has-jax';
     });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
-
 </html>
