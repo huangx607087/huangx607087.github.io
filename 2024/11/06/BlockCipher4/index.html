@@ -19,12 +19,12 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087学习分组密码的笔记40.About38个月过去了，终于从 3 更新到 4 了，好耶！！ 因为0xGame出了一个简单的两轮DES差分，之前密码学课程中也讲了DES差分，因此自己决定尝试自行探索一下DES的差分攻击 4. DES的差分攻击4o01 DES的差分攻击简介DES在 8 轮迭代之后，其原本明文的统计规律已经消失，并且扩散性达到了最好。为何DES还要设计成 16 轮呢">
+    <meta name="description" content="huangx607087学习分组密码的笔记40.About38个月过去了，终于从 3 更新到 4 了，好耶！！ 因为0xGame出了一个简单的两轮DES差分，之前密码学课程中也讲了DES差分，因此自己决定尝试自行探索一下DES的差分攻击  Review:你当年写这个的时候，应该不会意识到3和4之间隔了多久吧  4. DES的差分攻击4o01 DES的差分攻击简介DES在 8 轮迭代之后，其原本明文">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BlockCipher4">
 <meta property="og:url" content="http://example.com/2024/11/06/BlockCipher4/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087学习分组密码的笔记40.About38个月过去了，终于从 3 更新到 4 了，好耶！！ 因为0xGame出了一个简单的两轮DES差分，之前密码学课程中也讲了DES差分，因此自己决定尝试自行探索一下DES的差分攻击 4. DES的差分攻击4o01 DES的差分攻击简介DES在 8 轮迭代之后，其原本明文的统计规律已经消失，并且扩散性达到了最好。为何DES还要设计成 16 轮呢">
+<meta property="og:description" content="huangx607087学习分组密码的笔记40.About38个月过去了，终于从 3 更新到 4 了，好耶！！ 因为0xGame出了一个简单的两轮DES差分，之前密码学课程中也讲了DES差分，因此自己决定尝试自行探索一下DES的差分攻击  Review:你当年写这个的时候，应该不会意识到3和4之间隔了多久吧  4. DES的差分攻击4o01 DES的差分攻击简介DES在 8 轮迭代之后，其原本明文">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2024/11/06/BlockCipher4/1.png">
 <meta property="og:image" content="http://example.com/2024/11/06/BlockCipher4/2.png">
@@ -33,7 +33,7 @@
 <meta property="og:image" content="http://example.com/2024/11/06/BlockCipher4/5.png">
 <meta property="og:image" content="http://example.com/2024/11/06/BlockCipher4/6.png">
 <meta property="article:published_time" content="2024-11-06T13:00:00.000Z">
-<meta property="article:modified_time" content="2024-11-08T08:12:57.235Z">
+<meta property="article:modified_time" content="2024-11-27T15:29:23.197Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="Notes">
 <meta name="twitter:card" content="summary_large_image">
@@ -256,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.3k 字
+          4.4k 字
         
       </span>
     
@@ -320,6 +320,9 @@
                 
                 <h1 id="huangx607087学习分组密码的笔记4"><a href="#huangx607087学习分组密码的笔记4" class="headerlink" title="huangx607087学习分组密码的笔记4"></a>huangx607087学习分组密码的笔记4</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>38个月过去了，终于从 3 更新到 4 了，好耶！！</p>
 <p>因为0xGame出了一个简单的两轮DES差分，之前密码学课程中也讲了DES差分，因此自己决定尝试自行探索一下DES的差分攻击</p>
+<blockquote>
+<p>Review:你当年写这个的时候，应该不会意识到3和4之间隔了多久吧</p>
+</blockquote>
 <h2 id="4-DES的差分攻击"><a href="#4-DES的差分攻击" class="headerlink" title="4. DES的差分攻击"></a>4. DES的差分攻击</h2><h3 id="4o01-DES的差分攻击简介"><a href="#4o01-DES的差分攻击简介" class="headerlink" title="4o01 DES的差分攻击简介"></a>4o01 DES的差分攻击简介</h3><p>DES在 8 轮迭代之后，其原本明文的统计规律已经消失，并且扩散性达到了最好。为何DES还要设计成 16 轮呢？原因就在于，8轮DES很容易受到差分攻击。</p>
 <p>我们来回顾一下单轮DES的Festial结构：E扩展、P置换、轮密钥加、S盒四个部分，其中只有S盒为非线性部分，其余均为线性部分，可以根据已知内容去逆推。而差分攻击，就是构建两个明文 $M_1$ 和 $M_2$，加密后得到 $C_1$ 和 $C_2$，根据 $M_1\oplus M_2$ 和 $C_1\oplus C_2$ 的值，尝试反推 $K$ 的值。而差分攻击之所以能够起作用，其原因就是 $S$ 盒的不均匀性。下图显示了 $S_1$ 的差分情况，可以看出：当 $S_0$ 两个输入异或值为 $01\text{H}$ 时，有 $6/64$ 的概率两个输出的异或值为 $3$，$2/64$ 的概率两个输出的异或值为 $5$，$12/64$ 的概率输出 $\mathrm{10}$。而当 $S_0$ 的两个输入异或值为 $\mathrm{34H}$ 时，两个输出异或值为 $2$ 的概率达到了 $16/64$。 因此，差分攻击属于<strong>选择明文攻击</strong>，需要加密机才能实现。</p>
 <blockquote>
@@ -837,6 +840,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -19,15 +19,15 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087学习ECC的笔记20. About一个密码学fw的学习笔记，别看，很菜的。 这一系列笔记主要介绍椭圆曲线密码学的知识，接着笔记1继续扩展。 这一笔记本来2.22就创建开始写了，咕到了3月4日才勉强提交，哎（准备补充笔记3了。笔记3不会接着笔记2继续讲。。。。。 6.椭圆曲线上的双线性对在线性代数中，向量空间$R^n$中两个向量$\vec v,\vec w$，它们的数量积就是">
+    <meta name="description" content="huangx607087学习ECC的笔记20. About这一系列笔记主要介绍椭圆曲线密码学的知识，接着笔记1继续扩展。 这一笔记本来2.22就创建开始写了，咕到了3月4日才勉强提交，哎（准备补充笔记3了。笔记3不会接着笔记2继续讲。。。。。 6.椭圆曲线上的双线性对在线性代数中，向量空间$R^n$中两个向量$\vec v,\vec w$，它们的数量积就是它们对应分量的积之和。 现在有两个$n$维">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ECCNotes2">
 <meta property="og:url" content="http://example.com/2021/03/04/ECCNotes2/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087学习ECC的笔记20. About一个密码学fw的学习笔记，别看，很菜的。 这一系列笔记主要介绍椭圆曲线密码学的知识，接着笔记1继续扩展。 这一笔记本来2.22就创建开始写了，咕到了3月4日才勉强提交，哎（准备补充笔记3了。笔记3不会接着笔记2继续讲。。。。。 6.椭圆曲线上的双线性对在线性代数中，向量空间$R^n$中两个向量$\vec v,\vec w$，它们的数量积就是">
+<meta property="og:description" content="huangx607087学习ECC的笔记20. About这一系列笔记主要介绍椭圆曲线密码学的知识，接着笔记1继续扩展。 这一笔记本来2.22就创建开始写了，咕到了3月4日才勉强提交，哎（准备补充笔记3了。笔记3不会接着笔记2继续讲。。。。。 6.椭圆曲线上的双线性对在线性代数中，向量空间$R^n$中两个向量$\vec v,\vec w$，它们的数量积就是它们对应分量的积之和。 现在有两个$n$维">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-03-04T01:03:53.000Z">
-<meta property="article:modified_time" content="2021-05-05T13:57:10.138Z">
+<meta property="article:modified_time" content="2024-11-27T15:25:18.928Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="Notes">
 <meta name="twitter:card" content="summary_large_image">
@@ -249,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.3k 字
+          3.2k 字
         
       </span>
     
@@ -311,8 +311,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="huangx607087学习ECC的笔记2"><a href="#huangx607087学习ECC的笔记2" class="headerlink" title="huangx607087学习ECC的笔记2"></a>huangx607087学习ECC的笔记2</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0. About"></a>0. About</h2><p>一个密码学fw的学习笔记，别看，很菜的。</p>
-<p>这一系列笔记主要介绍椭圆曲线密码学的知识，接着笔记1继续扩展。</p>
+                <h1 id="huangx607087学习ECC的笔记2"><a href="#huangx607087学习ECC的笔记2" class="headerlink" title="huangx607087学习ECC的笔记2"></a>huangx607087学习ECC的笔记2</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0. About"></a>0. About</h2><p>这一系列笔记主要介绍椭圆曲线密码学的知识，接着笔记1继续扩展。</p>
 <p>这一笔记本来2.22就创建开始写了，咕到了3月4日才勉强提交，哎（准备补充笔记3了。<strong>笔记3不会接着笔记2继续讲</strong>。。。。。</p>
 <h2 id="6-椭圆曲线上的双线性对"><a href="#6-椭圆曲线上的双线性对" class="headerlink" title="6.椭圆曲线上的双线性对"></a>6.椭圆曲线上的双线性对</h2><p>在线性代数中，向量空间$R^n$中两个向量$\vec v,\vec w$，它们的数量积就是它们对应分量的积之和。</p>
 <p>现在有两个$n$维行向量$\vec v,\vec w$和一个$n$阶方阵$A$，那么我们可以定义一个函数$\beta(\vec v,\vec w)=\vec vA\vec w^T$。其中$\vec w^T$中的上标$T$表示转置，将行向量化为列向量以满足矩阵乘法的规则。当然有<br>$$<br>\beta(a_1\vec v_1+a_2\vec v_2,\vec w)=a_1\beta(\vec v_1,\vec w)+a_2\beta(\vec v_2,\vec w)<br>$$</p>
@@ -805,6 +804,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

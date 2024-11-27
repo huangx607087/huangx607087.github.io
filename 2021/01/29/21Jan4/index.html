@@ -19,15 +19,15 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087寒假的切题40.简介一个密码学fw的切题笔记，很菜，别看 今天BUUCTF上到了2000分，后面剩下的题目就都是那些90+分，做出来的人很少的那种了，难度也是非常大的。因此打算后面几天把理论看看，并且还要打杭电持续一个月的CTF，自己的人工智能项目也摸了3天了，哎 1.[GUET-CTF2019]Uncle Sam我们还是先看一下加密代码 12345678910111213">
+    <meta name="description" content="huangx607087寒假的切题40.简介今天BUUCTF上到了2000分，后面剩下的题目就都是那些90+分，做出来的人很少的那种了，难度也是非常大的。因此打算后面几天把理论看看，并且还要打杭电持续一个月的CTF，自己的人工智能项目也摸了3天了，哎 1.[GUET-CTF2019]Uncle Sam我们还是先看一下加密代码 123456789101112131415from Crypto.Uti">
 <meta property="og:type" content="article">
 <meta property="og:title" content="21Jan4">
 <meta property="og:url" content="http://example.com/2021/01/29/21Jan4/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087寒假的切题40.简介一个密码学fw的切题笔记，很菜，别看 今天BUUCTF上到了2000分，后面剩下的题目就都是那些90+分，做出来的人很少的那种了，难度也是非常大的。因此打算后面几天把理论看看，并且还要打杭电持续一个月的CTF，自己的人工智能项目也摸了3天了，哎 1.[GUET-CTF2019]Uncle Sam我们还是先看一下加密代码 12345678910111213">
+<meta property="og:description" content="huangx607087寒假的切题40.简介今天BUUCTF上到了2000分，后面剩下的题目就都是那些90+分，做出来的人很少的那种了，难度也是非常大的。因此打算后面几天把理论看看，并且还要打杭电持续一个月的CTF，自己的人工智能项目也摸了3天了，哎 1.[GUET-CTF2019]Uncle Sam我们还是先看一下加密代码 123456789101112131415from Crypto.Uti">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-29T03:01:47.000Z">
-<meta property="article:modified_time" content="2021-05-05T13:55:40.465Z">
+<meta property="article:modified_time" content="2024-11-27T15:23:47.416Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="ExpLog">
 <meta name="twitter:card" content="summary_large_image">
@@ -311,8 +311,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="huangx607087寒假的切题4"><a href="#huangx607087寒假的切题4" class="headerlink" title="huangx607087寒假的切题4"></a>huangx607087寒假的切题4</h1><h2 id="0-简介"><a href="#0-简介" class="headerlink" title="0.简介"></a>0.简介</h2><p><del>一个密码学fw的切题笔记，很菜，别看</del></p>
-<p>今天BUUCTF上到了2000分，后面剩下的题目就都是那些90+分，做出来的人很少的那种了，难度也是非常大的。因此打算后面几天把理论看看，<del>并且还要打杭电持续一个月的CTF，自己的人工智能项目也摸了3天了，哎</del></p>
+                <h1 id="huangx607087寒假的切题4"><a href="#huangx607087寒假的切题4" class="headerlink" title="huangx607087寒假的切题4"></a>huangx607087寒假的切题4</h1><h2 id="0-简介"><a href="#0-简介" class="headerlink" title="0.简介"></a>0.简介</h2><p>今天BUUCTF上到了2000分，后面剩下的题目就都是那些90+分，做出来的人很少的那种了，难度也是非常大的。因此打算后面几天把理论看看，<del>并且还要打杭电持续一个月的CTF，自己的人工智能项目也摸了3天了，哎</del></p>
 <h2 id="1-GUET-CTF2019-Uncle-Sam"><a href="#1-GUET-CTF2019-Uncle-Sam" class="headerlink" title="1.[GUET-CTF2019]Uncle Sam"></a>1.[GUET-CTF2019]Uncle Sam</h2><p>我们还是先看一下加密代码</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">generkey</span>(<span class="hljs-params">k</span>):<br>	p, q = getPrime(k), getPrime(k)<br>	pubkey = p**<span class="hljs-number">2</span> * q<br>	n = pubkey<br>	l = (p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>) / gcd(p-<span class="hljs-number">1</span>, q-<span class="hljs-number">1</span>)<br>	privkey = inverse(n, l)<br>	<span class="hljs-keyword">return</span> pubkey, privkey<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">encrypt</span>(<span class="hljs-params">m, pubkey</span>):<br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">pow</span>(bytes_to_long(m), pubkey, pubkey)<br><span class="hljs-comment"># n =  *</span><br><span class="hljs-comment"># d = *</span><br><span class="hljs-comment"># c = * 给出部分略去</span><br><br></code></pre></td></tr></table></figure>
 
@@ -792,6 +791,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

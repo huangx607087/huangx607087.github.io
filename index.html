@@ -261,7 +261,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/12/10/LatticeNotes8/" target="_self">
         <div>
-          huangx607087学习格密码的笔记8:平衡常数的考虑0.Introduction
+          huangx607087学习格密码的笔记8:平衡常数的考虑0.Introduction最近看到几个题目构造矩阵然后LLL的，发现自己以前的一些做法存在一些问题，因此在这边记录一下新学到的一些内容。 和前面的笔记不一样，这篇笔记中，很多题目都是以前出现过一次的，因此在这里对部分题目再进行一个复盘。 1. 回顾几个定理高斯启发式：在笔记2中，我们提到了高斯启发式，也就是对于一个格矩阵 $L$ ，若想在
         </div>
       </a>
 
@@ -627,7 +627,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2024/11/06/BlockCipher4/" target="_self">
         <div>
-          huangx607087学习分组密码的笔记40.About38个月过去了，终于从 3 更新到 4 了，好耶！！ 因为0xGame出了一个简单的两轮DES差分，之前密码学课程中也讲了DES差分，因此自己决定尝试自行探索一下DES的差分攻击 4. DES的差分攻击4o01 DES的差分攻击简介DES在 8 轮迭代之后，其原本明文的统计规律已经消失，并且扩散性达到了最好。为何DES还要设计成 16 轮呢
+          huangx607087学习分组密码的笔记40.About38个月过去了，终于从 3 更新到 4 了，好耶！！ 因为0xGame出了一个简单的两轮DES差分，之前密码学课程中也讲了DES差分，因此自己决定尝试自行探索一下DES的差分攻击  Review:你当年写这个的时候，应该不会意识到3和4之间隔了多久吧  4. DES的差分攻击4o01 DES的差分攻击简介DES在 8 轮迭代之后，其原本明文
         </div>
       </a>
 
@@ -810,7 +810,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2021/09/04/BlockCipher3/" target="_self">
         <div>
-          huangx607087学习分组密码的笔记30.About一个密码学fw的学习笔记，很菜。 最近自己不知为何总想着摸鱼，算了，还是要以学习为重。 本篇博客接着前一篇的内容，在讲过DES AES后，对其加密模式进行分析。 3.DES,AES的加密模式在DES 和AES的各种加密模式中， 有五种操作模式最为常用，下面将逐一介绍下面的各种加密模式。 0o01 电子密码本模式 ECBECB模式是最简单的一
+          huangx607087学习分组密码的笔记30.About本篇博客接着前一篇的内容，在讲过DES AES后，对其加密模式进行分析。 3.DES,AES的加密模式在DES 和AES的各种加密模式中， 有五种操作模式最为常用，下面将逐一介绍下面的各种加密模式。 0o01 电子密码本模式 ECBECB模式是最简单的一种模式，实际上就是直接加密和直接解密，不需要其他的任何成分，仅需要明文$x$和密钥$k$
         </div>
       </a>
 
@@ -871,7 +871,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2021/09/01/BlockCipher2/" target="_self">
         <div>
-          huangx607087学习分组密码的笔记20.About一个密码学fw的学习笔记，很菜 9月1日，自己的第二个90天计划开始，自己上学期的第一个90天计划很成功，自己从来没想过自己六级能考587。。。所以自己第二个90天计划主要是为了提升自己的CTF水平，争取能够打入线下，然后再恰点烂钱。。。。。（对于我这个fw还是很难的。今年三门数学一门物理，希望自己这四门课都能考到60H吧。。。 这篇博客主
+          huangx607087学习分组密码的笔记20.About9月1日，自己的第二个90天计划开始，自己上学期的第一个90天计划很成功，自己从来没想过自己六级能考587。。。所以自己第二个90天计划主要是为了提升自己的CTF水平，争取能够打入线下，然后再恰点烂钱。。。。。（对于我这个fw还是很难的。今年三门数学一门物理，希望自己这四门课都能考到60H吧。。。 这篇博客主要是讲一下AES的算法，上承接一
         </div>
       </a>
 
@@ -1130,6 +1130,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

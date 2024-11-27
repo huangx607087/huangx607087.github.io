@@ -261,7 +261,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2020/11/28/RSA-Notes2/" target="_self">
         <div>
-          huangx607087学习RSA的笔记(2)O-About一个密码学废物的学习笔记2，很菜，别看。以后会不定时地补充。 约定：此博客中如果出现除法，未特殊说明的，均为向下取整的整除！ I-RSA的乘法的同态性0x01 简介和 得到$m$的二进制位数​    CTF中有些题目会在给出$e,n,c$的情况下，允许你和服务器交互，发送你自己的密文$c’$，然后告诉你有关$c’$解密后的明文的一些高位比
+          huangx607087学习RSA的笔记(2)O-情况说明约定：此博客中如果出现除法，未特殊说明的，均为向下取整的整除！ I-RSA的乘法的同态性0x01 简介和 得到$m$的二进制位数​    CTF中有些题目会在给出$e,n,c$的情况下，允许你和服务器交互，发送你自己的密文$c’$，然后告诉你有关$c’$解密后的明文的一些高位比特信息。在这种时候，我们就需要用到RSA乘法具有同态性的这一特殊
         </div>
       </a>
 
@@ -322,7 +322,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2020/11/13/UNCTFwp/" target="_self">
         <div>
-          huangx607087对于UNCTF密码学的笔记About在队伍里dxgdl的同意下，又水了一篇题解，然而有两道最难的题目我不会写，Hermes大佬却已经把7条密码学AK了，我果然是个fw Write Ups1.RSA1首先先看一下题目代码：（最后给出部分略） 12345678910111213141516171819from Crypto.Util import numberimport gm
+          UNCTF WP1.RSA1首先先看一下题目代码：（最后给出部分略） 12345678910111213141516171819from Crypto.Util import numberimport gmpy2from Crypto.Util.number import bytes_to_longp = number.getPrime(1024)q = number.getPrime(1024)
         </div>
       </a>
 
@@ -627,7 +627,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2020/10/29/0xGameDiv4/" target="_self">
         <div>
-          0xGame Div 4 题解About4周过去，7172分。还没第一周的某些人高，我果然是个fw。不过自己的CTF学习进入了第二阶段，很快就要进入数论了。 然而最近又在参加学校ACM菜鸟赛（（作为一个当年距离1=只差15分的2=蒟蒻，我该怎么办） Crypto1.  littleTrick一道并不算很难得题目，但我这个fw还是用了4个小时才做出来，wtcl 首先先看一下题目的主要代码： 1234
+          0xGame Div 4 题解About4周过去，7172分，不过自己的CTF学习进入了第二阶段，很快就要进入数论了。 然而最近又在参加学校ACM菜鸟赛（（作为一个当年距离1=只差15分的2=蒟蒻，我该怎么办） Crypto1.  littleTrick一道并不算很难得题目，但我这个fw还是用了4个小时才做出来，wtcl 首先先看一下题目的主要代码： 12345678910111213141516
         </div>
       </a>
 
@@ -810,7 +810,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2020/10/17/RSA-Notes/" target="_self">
         <div>
-          huangx607087学习RSA的笔记1O-About一个密码学废物的学习笔记，很菜，别看。以后会不定时地补充。 I-What is RSA体制：1.选择两个大质数$p$,$q$，计算$n=p×q$ 2.计算$\phi=(p-1)(q-1)$，也就是$n$的欧拉函数（也就是小于$n$的正整数中与$n$互质数量的个数） 3.取一个数字$e$，使$e,\phi$互质 4.计算$d$，使$ed\equ
+          huangx607087学习RSA的笔记1I-What is RSA体制：1.选择两个大质数$p$,$q$，计算$n=p×q$ 2.计算$\phi=(p-1)(q-1)$，也就是$n$的欧拉函数（也就是小于$n$的正整数中与$n$互质数量的个数） 3.取一个数字$e$，使$e,\phi$互质 4.计算$d$，使$ed\equiv 1 \mod \phi$ 5.加密函数：$c=E(m)=m^e \m
         </div>
       </a>
 
@@ -932,7 +932,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/2020/10/08/Nfsr/" target="_self">
         <div>
-          关于NFSR学习的一些笔记0x01解题背景10月6日刚把0xCTF上的所有密码学题目AK，这道题卡了我一周，得到了学长的帮助，查了CTFWIKI和学长的博客才勉强做出来，我果然是个密码学废物 0x02简介NFSR，又称非线性移位寄存器，在模$2$的意义下，异或可以视作加法，按位与可以视作乘法。所以LFSR一般都是只有异或，而NFSR有与运算。并且与运算的性质可以知道，这是一个不可逆的运算 。 一般
+          关于NFSR学习的一些笔记0x01解题背景10月6日刚把0xCTF上的所有密码学题目AK，这道题卡了我一周，得到了学长的帮助，查了CTFWIKI和学长的博客才勉强做出来，太难了 0x02简介NFSR，又称非线性移位寄存器，在模$2$的意义下，异或可以视作加法，按位与可以视作乘法。所以LFSR一般都是只有异或，而NFSR有与运算。并且与运算的性质可以知道，这是一个不可逆的运算 。 一般情况下，NFS
         </div>
       </a>
 
@@ -1130,6 +1130,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

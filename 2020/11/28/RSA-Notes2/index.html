@@ -19,17 +19,17 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087学习RSA的笔记(2)O-About一个密码学废物的学习笔记2，很菜，别看。以后会不定时地补充。 约定：此博客中如果出现除法，未特殊说明的，均为向下取整的整除！ I-RSA的乘法的同态性0x01 简介和 得到$m$的二进制位数​    CTF中有些题目会在给出$e,n,c$的情况下，允许你和服务器交互，发送你自己的密文$c’$，然后告诉你有关$c’$解密后的明文的一些高位比">
+    <meta name="description" content="huangx607087学习RSA的笔记(2)O-情况说明约定：此博客中如果出现除法，未特殊说明的，均为向下取整的整除！ I-RSA的乘法的同态性0x01 简介和 得到$m$的二进制位数​    CTF中有些题目会在给出$e,n,c$的情况下，允许你和服务器交互，发送你自己的密文$c’$，然后告诉你有关$c’$解密后的明文的一些高位比特信息。在这种时候，我们就需要用到RSA乘法具有同态性的这一特殊">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RSA Notes 2">
 <meta property="og:url" content="http://example.com/2020/11/28/RSA-Notes2/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087学习RSA的笔记(2)O-About一个密码学废物的学习笔记2，很菜，别看。以后会不定时地补充。 约定：此博客中如果出现除法，未特殊说明的，均为向下取整的整除！ I-RSA的乘法的同态性0x01 简介和 得到$m$的二进制位数​    CTF中有些题目会在给出$e,n,c$的情况下，允许你和服务器交互，发送你自己的密文$c’$，然后告诉你有关$c’$解密后的明文的一些高位比">
+<meta property="og:description" content="huangx607087学习RSA的笔记(2)O-情况说明约定：此博客中如果出现除法，未特殊说明的，均为向下取整的整除！ I-RSA的乘法的同态性0x01 简介和 得到$m$的二进制位数​    CTF中有些题目会在给出$e,n,c$的情况下，允许你和服务器交互，发送你自己的密文$c’$，然后告诉你有关$c’$解密后的明文的一些高位比特信息。在这种时候，我们就需要用到RSA乘法具有同态性的这一特殊">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2020/11/28/RSA-Notes2/1-01.png">
 <meta property="og:image" content="http://example.com/2020/11/28/RSA-Notes2/1-02.png">
 <meta property="article:published_time" content="2020-11-28T00:45:34.000Z">
-<meta property="article:modified_time" content="2021-05-05T13:59:45.669Z">
+<meta property="article:modified_time" content="2024-11-27T15:19:28.045Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="Notes">
 <meta name="twitter:card" content="summary_large_image">
@@ -314,8 +314,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="huangx607087学习RSA的笔记-2"><a href="#huangx607087学习RSA的笔记-2" class="headerlink" title="huangx607087学习RSA的笔记(2)"></a>huangx607087学习RSA的笔记(2)</h1><h2 id="O-About"><a href="#O-About" class="headerlink" title="O-About"></a>O-About</h2><p><del>一个密码学废物的学习笔记2，很菜，别看。以后会不定时地补充。</del></p>
-<p><strong>约定：此博客中如果出现除法，未特殊说明的，均为向下取整的整除！</strong></p>
+                <h1 id="huangx607087学习RSA的笔记-2"><a href="#huangx607087学习RSA的笔记-2" class="headerlink" title="huangx607087学习RSA的笔记(2)"></a>huangx607087学习RSA的笔记(2)</h1><h2 id="O-情况说明"><a href="#O-情况说明" class="headerlink" title="O-情况说明"></a>O-情况说明</h2><p><strong>约定：此博客中如果出现除法，未特殊说明的，均为向下取整的整除！</strong></p>
 <h2 id="I-RSA的乘法的同态性"><a href="#I-RSA的乘法的同态性" class="headerlink" title="I-RSA的乘法的同态性"></a>I-RSA的乘法的同态性</h2><h3 id="0x01-简介和-得到-m-的二进制位数"><a href="#0x01-简介和-得到-m-的二进制位数" class="headerlink" title="0x01 简介和 得到$m$的二进制位数"></a>0x01 简介和 得到$m$的二进制位数</h3><p>​    CTF中有些题目会在给出$e,n,c$的情况下，允许你和服务器交互，发送你自己的密文$c’$，然后告诉你有关$c’$解密后的明文的一些高位比特信息。在这种时候，我们就需要用到RSA乘法具有同态性的这一特殊性质，那么什么是RSA的同态性呢？</p>
 <p>​    我们已经知道，RSA加密函数$c=E(m) \equiv m^e \mod n$。其中$(e,n,c)$作为公钥，都是已知的。不过我们可以推导一下这样的公式：$E(2m)\equiv 2^em^e\equiv 2^e c\mod n$。所以如果在获得对个人密文的解密权的时候，我们就可以通过向服务器发送$2^e c$，这一就可以获得$2m$的值。同理，我们可以发送$2^{ke}c$，得到的解密结果就是$2^{k}m$。所以运行以下代码，我们得到的结果是$(12,24,48,96)$。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br>m=<span class="hljs-number">12</span><br>p=getPrime(<span class="hljs-number">512</span>)<br>q=getPrime(<span class="hljs-number">512</span>)<br>n=p*q<br>e=<span class="hljs-number">65537</span><br>d=inverse(e,(p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>))<br>c=<span class="hljs-built_in">pow</span>(m,e,n)<br><span class="hljs-built_in">print</span>(c)<br>c2,c3,c4=c*<span class="hljs-built_in">pow</span>(<span class="hljs-number">2</span>,e,n)%n,c*<span class="hljs-built_in">pow</span>(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>*e,n)%n,c*<span class="hljs-built_in">pow</span>(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>*e,n)%n<br><span class="hljs-built_in">print</span>(c2)<br>m1,m2,m3,m4=<span class="hljs-built_in">pow</span>(c,d,n),<span class="hljs-built_in">pow</span>(c2,d,n),<span class="hljs-built_in">pow</span>(c3,d,n),<span class="hljs-built_in">pow</span>(c4,d,n)<br><span class="hljs-built_in">print</span>(m1,m2,m3,m4)<br></code></pre></td></tr></table></figure>
@@ -837,6 +836,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

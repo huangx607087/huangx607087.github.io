@@ -19,15 +19,15 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087学习格密码的笔记8:平衡常数的考虑0.Introduction">
+    <meta name="description" content="huangx607087学习格密码的笔记8:平衡常数的考虑0.Introduction最近看到几个题目构造矩阵然后LLL的，发现自己以前的一些做法存在一些问题，因此在这边记录一下新学到的一些内容。 和前面的笔记不一样，这篇笔记中，很多题目都是以前出现过一次的，因此在这里对部分题目再进行一个复盘。 1. 回顾几个定理高斯启发式：在笔记2中，我们提到了高斯启发式，也就是对于一个格矩阵 $L$ ，若想在">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LatticeNotes8">
 <meta property="og:url" content="http://example.com/2024/12/10/LatticeNotes8/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087学习格密码的笔记8:平衡常数的考虑0.Introduction">
+<meta property="og:description" content="huangx607087学习格密码的笔记8:平衡常数的考虑0.Introduction最近看到几个题目构造矩阵然后LLL的，发现自己以前的一些做法存在一些问题，因此在这边记录一下新学到的一些内容。 和前面的笔记不一样，这篇笔记中，很多题目都是以前出现过一次的，因此在这里对部分题目再进行一个复盘。 1. 回顾几个定理高斯启发式：在笔记2中，我们提到了高斯启发式，也就是对于一个格矩阵 $L$ ，若想在">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-10T02:10:10.000Z">
-<meta property="article:modified_time" content="2024-11-27T01:45:39.679Z">
+<meta property="article:modified_time" content="2024-11-27T15:16:17.032Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="Notes">
 <meta name="twitter:card" content="summary_large_image">
@@ -249,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          18 字
+          207 字
         
       </span>
     
@@ -260,7 +260,7 @@
         
         
         
-          1 分钟
+          2 分钟
         
       </span>
     
@@ -311,7 +311,10 @@
             
               <div class="markdown-body">
                 
-                <h1 id="huangx607087学习格密码的笔记8-平衡常数的考虑"><a href="#huangx607087学习格密码的笔记8-平衡常数的考虑" class="headerlink" title="huangx607087学习格密码的笔记8:平衡常数的考虑"></a>huangx607087学习格密码的笔记8:平衡常数的考虑</h1><h2 id="0-Introduction"><a href="#0-Introduction" class="headerlink" title="0.Introduction"></a>0.Introduction</h2>
+                <h1 id="huangx607087学习格密码的笔记8-平衡常数的考虑"><a href="#huangx607087学习格密码的笔记8-平衡常数的考虑" class="headerlink" title="huangx607087学习格密码的笔记8:平衡常数的考虑"></a>huangx607087学习格密码的笔记8:平衡常数的考虑</h1><h2 id="0-Introduction"><a href="#0-Introduction" class="headerlink" title="0.Introduction"></a>0.Introduction</h2><p>最近看到几个题目构造矩阵然后LLL的，发现自己以前的一些做法存在一些问题，因此在这边记录一下新学到的一些内容。</p>
+<p>和前面的笔记不一样，这篇笔记中，很多题目都是以前出现过一次的，因此在这里对部分题目再进行一个复盘。</p>
+<h2 id="1-回顾几个定理"><a href="#1-回顾几个定理" class="headerlink" title="1. 回顾几个定理"></a>1. 回顾几个定理</h2><p><strong>高斯启发式：</strong>在笔记2中，我们提到了高斯启发式，也就是对于一个格矩阵 $L$ ，若想在原点构造一个半径为 $r$ 的（高维）球，使得这个球中至少有一个格点向量 $\vec v$，那么对应的半径的最小值 $r$ 为<br>$$<br>r≈\sqrt{\dfrac{n}{2\pi e}}·\sqrt[n]{\det L}=\sigma (L)<br>$$</p>
+
                 
               </div>
             
@@ -748,6 +751,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -19,12 +19,12 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087学习分组密码的笔记30.About一个密码学fw的学习笔记，很菜。 最近自己不知为何总想着摸鱼，算了，还是要以学习为重。 本篇博客接着前一篇的内容，在讲过DES AES后，对其加密模式进行分析。 3.DES,AES的加密模式在DES 和AES的各种加密模式中， 有五种操作模式最为常用，下面将逐一介绍下面的各种加密模式。 0o01 电子密码本模式 ECBECB模式是最简单的一">
+    <meta name="description" content="huangx607087学习分组密码的笔记30.About本篇博客接着前一篇的内容，在讲过DES AES后，对其加密模式进行分析。 3.DES,AES的加密模式在DES 和AES的各种加密模式中， 有五种操作模式最为常用，下面将逐一介绍下面的各种加密模式。 0o01 电子密码本模式 ECBECB模式是最简单的一种模式，实际上就是直接加密和直接解密，不需要其他的任何成分，仅需要明文$x$和密钥$k$">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BlockCipher3">
 <meta property="og:url" content="http://example.com/2021/09/04/BlockCipher3/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087学习分组密码的笔记30.About一个密码学fw的学习笔记，很菜。 最近自己不知为何总想着摸鱼，算了，还是要以学习为重。 本篇博客接着前一篇的内容，在讲过DES AES后，对其加密模式进行分析。 3.DES,AES的加密模式在DES 和AES的各种加密模式中， 有五种操作模式最为常用，下面将逐一介绍下面的各种加密模式。 0o01 电子密码本模式 ECBECB模式是最简单的一">
+<meta property="og:description" content="huangx607087学习分组密码的笔记30.About本篇博客接着前一篇的内容，在讲过DES AES后，对其加密模式进行分析。 3.DES,AES的加密模式在DES 和AES的各种加密模式中， 有五种操作模式最为常用，下面将逐一介绍下面的各种加密模式。 0o01 电子密码本模式 ECBECB模式是最简单的一种模式，实际上就是直接加密和直接解密，不需要其他的任何成分，仅需要明文$x$和密钥$k$">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/09/04/BlockCipher3/1.png">
 <meta property="og:image" content="http://example.com/2021/09/04/BlockCipher3/2.png">
@@ -36,7 +36,7 @@
 <meta property="og:image" content="http://example.com/2021/09/04/BlockCipher3/8.png">
 <meta property="og:image" content="http://example.com/2021/09/04/BlockCipher3/9.png">
 <meta property="article:published_time" content="2021-09-04T00:47:03.000Z">
-<meta property="article:modified_time" content="2024-11-05T07:27:30.371Z">
+<meta property="article:modified_time" content="2024-11-27T15:28:51.625Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="Notes">
 <meta name="twitter:card" content="summary_large_image">
@@ -321,9 +321,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="huangx607087学习分组密码的笔记3"><a href="#huangx607087学习分组密码的笔记3" class="headerlink" title="huangx607087学习分组密码的笔记3"></a>huangx607087学习分组密码的笔记3</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>一个密码学fw的学习笔记，很菜。</p>
-<p>最近自己不知为何总想着摸鱼，算了，还是要以学习为重。</p>
-<p>本篇博客接着前一篇的内容，在讲过DES AES后，对其加密模式进行分析。</p>
+                <h1 id="huangx607087学习分组密码的笔记3"><a href="#huangx607087学习分组密码的笔记3" class="headerlink" title="huangx607087学习分组密码的笔记3"></a>huangx607087学习分组密码的笔记3</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>本篇博客接着前一篇的内容，在讲过DES AES后，对其加密模式进行分析。</p>
 <h2 id="3-DES-AES的加密模式"><a href="#3-DES-AES的加密模式" class="headerlink" title="3.DES,AES的加密模式"></a>3.DES,AES的加密模式</h2><p>在DES 和AES的各种加密模式中， 有五种操作模式最为常用，下面将逐一介绍下面的各种加密模式。</p>
 <h3 id="0o01-电子密码本模式-ECB"><a href="#0o01-电子密码本模式-ECB" class="headerlink" title="0o01 电子密码本模式 ECB"></a>0o01 电子密码本模式 ECB</h3><p>ECB模式是最简单的一种模式，实际上就是直接加密和直接解密，不需要其他的任何成分，仅需要明文$x$和密钥$k$，就可以获得密文$y$，当然，用$y$和$k$也可以通过解密得到$x$。</p>
 <p><img src="/2021/09/04/BlockCipher3/1.png" srcset="/img/loading.gif" lazyload alt="1"></p>
@@ -796,6 +794,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -19,19 +19,19 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087学习格密码的笔记60. About一个密码学fw的学习笔记，别看，很菜。 这个笔记并没有接着之前发布的笔记5，并且文章的tag标为Explog而不是Notes，主要讲的是LLL算法在RSA中的使用。 100天的时间，自己终于把NCTF那道题研究了出来，wtcl 1. RSA WienerAttack我们先来回顾一下Wienerattack，Wienerattack主要是基于">
+    <meta name="description" content="huangx607087学习格密码的笔记60. About这个笔记并没有接着之前发布的笔记5，并且文章的tag标为Explog而不是Notes，主要讲的是LLL算法在RSA中的使用。 100天的时间，自己终于把NCTF那道题研究了出来，wtcl 1. RSA WienerAttack我们先来回顾一下Wienerattack，Wienerattack主要是基于连分数展开，在自己的刷题记录**21Fe">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LatticeNotes6">
 <meta property="og:url" content="http://example.com/2021/03/01/LatticeNotes6/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087学习格密码的笔记60. About一个密码学fw的学习笔记，别看，很菜。 这个笔记并没有接着之前发布的笔记5，并且文章的tag标为Explog而不是Notes，主要讲的是LLL算法在RSA中的使用。 100天的时间，自己终于把NCTF那道题研究了出来，wtcl 1. RSA WienerAttack我们先来回顾一下Wienerattack，Wienerattack主要是基于">
+<meta property="og:description" content="huangx607087学习格密码的笔记60. About这个笔记并没有接着之前发布的笔记5，并且文章的tag标为Explog而不是Notes，主要讲的是LLL算法在RSA中的使用。 100天的时间，自己终于把NCTF那道题研究了出来，wtcl 1. RSA WienerAttack我们先来回顾一下Wienerattack，Wienerattack主要是基于连分数展开，在自己的刷题记录**21Fe">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/03/01/LatticeNotes6/1.png">
 <meta property="og:image" content="http://example.com/2021/03/01/LatticeNotes6/2.png">
 <meta property="og:image" content="http://example.com/2021/03/01/LatticeNotes6/3.png">
 <meta property="og:image" content="http://example.com/2021/03/01/LatticeNotes6/4.png">
 <meta property="article:published_time" content="2021-03-01T06:07:40.000Z">
-<meta property="article:modified_time" content="2021-05-05T13:58:25.010Z">
+<meta property="article:modified_time" content="2024-11-27T15:14:07.078Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="ExpLog">
 <meta name="twitter:card" content="summary_large_image">
@@ -316,8 +316,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="huangx607087学习格密码的笔记6"><a href="#huangx607087学习格密码的笔记6" class="headerlink" title="huangx607087学习格密码的笔记6"></a>huangx607087学习格密码的笔记6</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0. About"></a>0. About</h2><p>一个密码学fw的学习笔记，别看，很菜。</p>
-<p>这个笔记<strong>并没有</strong>接着之前发布的笔记5，并且文章的tag标为Explog而不是Notes，主要讲的是LLL算法在RSA中的使用。</p>
+                <h1 id="huangx607087学习格密码的笔记6"><a href="#huangx607087学习格密码的笔记6" class="headerlink" title="huangx607087学习格密码的笔记6"></a>huangx607087学习格密码的笔记6</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0. About"></a>0. About</h2><p>这个笔记<strong>并没有</strong>接着之前发布的笔记5，并且文章的tag标为Explog而不是Notes，主要讲的是LLL算法在RSA中的使用。</p>
 <p>100天的时间，自己终于把NCTF那道题研究了出来，wtcl</p>
 <h2 id="1-RSA-WienerAttack"><a href="#1-RSA-WienerAttack" class="headerlink" title="1. RSA WienerAttack"></a>1. RSA WienerAttack</h2><p>我们先来回顾一下Wienerattack，Wienerattack主要是基于连分数展开，在自己的刷题记录**21Feb2[2021.2.16]**中我们提到过连分数展开的一些注意事项并进行了简单的证明以及连分数展开中精确覆盖的条件 。下面我们再来回顾一下相关的知识点：</p>
 <p><strong>勒让德定理</strong>：若$a \in Q, c,d\in Z,\gcd (c,d)=1$，如果有<br>$$<br>|a-\dfrac c d| &lt; \dfrac 1 {2d^2}<br>$$<br>那么在对$a$进行连分数展开的时候，可以精确覆盖到$\dfrac c d$的值。下面我们简单证明一下WienerAttack的有效性。</p>
@@ -926,6 +925,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

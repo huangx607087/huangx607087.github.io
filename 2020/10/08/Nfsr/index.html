@@ -19,15 +19,15 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="关于NFSR学习的一些笔记0x01解题背景10月6日刚把0xCTF上的所有密码学题目AK，这道题卡了我一周，得到了学长的帮助，查了CTFWIKI和学长的博客才勉强做出来，我果然是个密码学废物 0x02简介NFSR，又称非线性移位寄存器，在模$2$的意义下，异或可以视作加法，按位与可以视作乘法。所以LFSR一般都是只有异或，而NFSR有与运算。并且与运算的性质可以知道，这是一个不可逆的运算 。 一般">
+    <meta name="description" content="关于NFSR学习的一些笔记0x01解题背景10月6日刚把0xCTF上的所有密码学题目AK，这道题卡了我一周，得到了学长的帮助，查了CTFWIKI和学长的博客才勉强做出来，太难了 0x02简介NFSR，又称非线性移位寄存器，在模$2$的意义下，异或可以视作加法，按位与可以视作乘法。所以LFSR一般都是只有异或，而NFSR有与运算。并且与运算的性质可以知道，这是一个不可逆的运算 。 一般情况下，NFS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nfsr">
 <meta property="og:url" content="http://example.com/2020/10/08/Nfsr/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="关于NFSR学习的一些笔记0x01解题背景10月6日刚把0xCTF上的所有密码学题目AK，这道题卡了我一周，得到了学长的帮助，查了CTFWIKI和学长的博客才勉强做出来，我果然是个密码学废物 0x02简介NFSR，又称非线性移位寄存器，在模$2$的意义下，异或可以视作加法，按位与可以视作乘法。所以LFSR一般都是只有异或，而NFSR有与运算。并且与运算的性质可以知道，这是一个不可逆的运算 。 一般">
+<meta property="og:description" content="关于NFSR学习的一些笔记0x01解题背景10月6日刚把0xCTF上的所有密码学题目AK，这道题卡了我一周，得到了学长的帮助，查了CTFWIKI和学长的博客才勉强做出来，太难了 0x02简介NFSR，又称非线性移位寄存器，在模$2$的意义下，异或可以视作加法，按位与可以视作乘法。所以LFSR一般都是只有异或，而NFSR有与运算。并且与运算的性质可以知道，这是一个不可逆的运算 。 一般情况下，NFS">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-10-08T14:50:33.000Z">
-<meta property="article:modified_time" content="2021-05-05T13:58:50.979Z">
+<meta property="article:modified_time" content="2024-11-27T15:17:08.469Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="Notes">
 <meta name="twitter:card" content="summary_large_image">
@@ -249,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          764 字
+          757 字
         
       </span>
     
@@ -311,7 +311,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="关于NFSR学习的一些笔记"><a href="#关于NFSR学习的一些笔记" class="headerlink" title="关于NFSR学习的一些笔记"></a>关于NFSR学习的一些笔记</h1><h2 id="0x01解题背景"><a href="#0x01解题背景" class="headerlink" title="0x01解题背景"></a>0x01解题背景</h2><p><del>10月6日刚把0xCTF上的所有密码学题目AK，这道题卡了我一周，得到了学长的帮助，查了CTFWIKI和学长的博客才勉强做出来，我果然是个密码学废物</del></p>
+                <h1 id="关于NFSR学习的一些笔记"><a href="#关于NFSR学习的一些笔记" class="headerlink" title="关于NFSR学习的一些笔记"></a>关于NFSR学习的一些笔记</h1><h2 id="0x01解题背景"><a href="#0x01解题背景" class="headerlink" title="0x01解题背景"></a>0x01解题背景</h2><p>10月6日刚把0xCTF上的所有密码学题目AK，这道题卡了我一周，得到了学长的帮助，查了CTFWIKI和学长的博客才勉强做出来，太难了</p>
 <h2 id="0x02简介"><a href="#0x02简介" class="headerlink" title="0x02简介"></a>0x02简介</h2><p>NFSR，又称非线性移位寄存器，在模$2$的意义下，异或可以视作加法，按位与可以视作乘法。所以LFSR一般都是只有异或，而NFSR有与运算。并且与运算的性质可以知道，这是一个不可逆的运算 。</p>
 <p>一般情况下，NFSR是多个LFSR通过一个函数$F(r_1,r_2,…,r_n)$，其中$F$函数中与运算和异或运算均存在，根据与运算的不可逆性，可知$F$函数的不可逆性，所以显然，我们写不出$F$函数的逆函数$F^{-1}$。</p>
 <h2 id="0x03-解题方法"><a href="#0x03-解题方法" class="headerlink" title="0x03 解题方法"></a>0x03 解题方法</h2><p>我们可以一开始枚举每一个lfsr及其输出结果，看看$F(r_1,r_2,…,r_n)=r_i,i∈${$1,2,3,…,n$}的概率$P_i$。找出所有不为概率不为$0.5$的$P_i$，然后用以下的C++脚本暴力枚举$r_i$的初始值。</p>
@@ -766,6 +766,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -19,18 +19,18 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087学习格密码的笔记20. About一个密码学fw的学习笔记，别看，很菜的。 这个笔记接着之前发布的笔记1，继续往后面扩展新的内容。 3. 预备知识2：向量空间1.定义：向量空间是一组向量的集合，这些向量满足加法与数乘的封闭性。也就是对于任意的向量$\vec a ,\vec b \in V$，都有$\vec a+\vec b \in V$，$\lambda\vec a \in">
+    <meta name="description" content="huangx607087学习格密码的笔记20. About这个笔记接着之前发布的笔记1，继续往后面扩展新的内容。 3. 预备知识2：向量空间1.定义：向量空间是一组向量的集合，这些向量满足加法与数乘的封闭性。也就是对于任意的向量$\vec a ,\vec b \in V$，都有$\vec a+\vec b \in V$，$\lambda\vec a \in V(\lambda \in R)$。 2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LatticeNotes2">
 <meta property="og:url" content="http://example.com/2021/02/03/LatticeNotes2/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087学习格密码的笔记20. About一个密码学fw的学习笔记，别看，很菜的。 这个笔记接着之前发布的笔记1，继续往后面扩展新的内容。 3. 预备知识2：向量空间1.定义：向量空间是一组向量的集合，这些向量满足加法与数乘的封闭性。也就是对于任意的向量$\vec a ,\vec b \in V$，都有$\vec a+\vec b \in V$，$\lambda\vec a \in">
+<meta property="og:description" content="huangx607087学习格密码的笔记20. About这个笔记接着之前发布的笔记1，继续往后面扩展新的内容。 3. 预备知识2：向量空间1.定义：向量空间是一组向量的集合，这些向量满足加法与数乘的封闭性。也就是对于任意的向量$\vec a ,\vec b \in V$，都有$\vec a+\vec b \in V$，$\lambda\vec a \in V(\lambda \in R)$。 2">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/02/03/LatticeNotes2/1.png">
 <meta property="og:image" content="http://example.com/2021/02/03/LatticeNotes2/2.png">
 <meta property="og:image" content="http://example.com/2021/02/03/LatticeNotes2/3.png">
 <meta property="article:published_time" content="2021-02-03T00:36:07.000Z">
-<meta property="article:modified_time" content="2021-07-29T01:00:52.922Z">
+<meta property="article:modified_time" content="2024-11-27T15:13:30.353Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="Notes">
 <meta name="twitter:card" content="summary_large_image">
@@ -315,8 +315,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="huangx607087学习格密码的笔记2"><a href="#huangx607087学习格密码的笔记2" class="headerlink" title="huangx607087学习格密码的笔记2"></a>huangx607087学习格密码的笔记2</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0. About"></a>0. About</h2><p>一个密码学fw的学习笔记，别看，很菜的。</p>
-<p>这个笔记接着之前发布的笔记1，继续往后面扩展新的内容。</p>
+                <h1 id="huangx607087学习格密码的笔记2"><a href="#huangx607087学习格密码的笔记2" class="headerlink" title="huangx607087学习格密码的笔记2"></a>huangx607087学习格密码的笔记2</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0. About"></a>0. About</h2><p>这个笔记接着之前发布的笔记1，继续往后面扩展新的内容。</p>
 <h2 id="3-预备知识2：向量空间"><a href="#3-预备知识2：向量空间" class="headerlink" title="3. 预备知识2：向量空间"></a>3. 预备知识2：向量空间</h2><p>1.定义：向量空间是一组向量的集合，这些向量满足加法与数乘的封闭性。也就是对于任意的向量$\vec a ,\vec b \in V$，都有$\vec a+\vec b \in V$，$\lambda\vec a \in V(\lambda \in R)$。</p>
 <p>2.线性无关：有$n$个向量，满足$a_1\vec v_1+a_2 \vec v_2+…+ a_n \vec v_n= \vec 0$。若可以找到一组不全为$0$的实数使这个等式成立，那么我们就说$v_1,v_2,…,v_n$线性相关。否则$v_1,v_2,…,v_n$线性无关。</p>
 <p>3.基底若$V$中有一组线性无关的向量$v_1,v_2,…,v_r$，那么当这$r$个向量是$V$中的一组基底时，任何一个向量$w \in V$都可以用$v_1$到$v_r$线性表示且表示方法唯一。而基底也一般可以被认为是一个极大线性无关组。</p>
@@ -826,6 +825,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

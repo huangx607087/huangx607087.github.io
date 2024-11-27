@@ -19,12 +19,12 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087学习分组密码的笔记 10.About一个密码学fw的学习笔记，别看，很菜 最近这种题型在CTF中出现得越来越多，看来还是有必要关注一下的，在这里写几篇笔记。 1. DES1o01 什么是DESDES是一种使用$56$位密钥对$64$位长分组进行加密的密码，这也是一种对称密码，也就是其加密和解密使用相同的密钥，因此DES也是一种迭代算法。DES对铭文中每个分组的加密过程都包含">
+    <meta name="description" content="huangx607087学习分组密码的笔记 10.About最近这种题型在CTF中出现得越来越多，看来还是有必要关注一下的，在这里写几篇笔记。 1. DES1o01 什么是DESDES是一种使用$56$位密钥对$64$位长分组进行加密的密码，这也是一种对称密码，也就是其加密和解密使用相同的密钥，因此DES也是一种迭代算法。DES对铭文中每个分组的加密过程都包含16轮，且每一轮的操作完全相同，每一轮">
 <meta property="og:type" content="article">
 <meta property="og:title" content="BlockCipher1">
 <meta property="og:url" content="http://example.com/2021/08/30/BlockCipher1/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087学习分组密码的笔记 10.About一个密码学fw的学习笔记，别看，很菜 最近这种题型在CTF中出现得越来越多，看来还是有必要关注一下的，在这里写几篇笔记。 1. DES1o01 什么是DESDES是一种使用$56$位密钥对$64$位长分组进行加密的密码，这也是一种对称密码，也就是其加密和解密使用相同的密钥，因此DES也是一种迭代算法。DES对铭文中每个分组的加密过程都包含">
+<meta property="og:description" content="huangx607087学习分组密码的笔记 10.About最近这种题型在CTF中出现得越来越多，看来还是有必要关注一下的，在这里写几篇笔记。 1. DES1o01 什么是DESDES是一种使用$56$位密钥对$64$位长分组进行加密的密码，这也是一种对称密码，也就是其加密和解密使用相同的密钥，因此DES也是一种迭代算法。DES对铭文中每个分组的加密过程都包含16轮，且每一轮的操作完全相同，每一轮">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/08/30/BlockCipher1/1.png">
 <meta property="og:image" content="http://example.com/2021/08/30/BlockCipher1/2.png">
@@ -39,7 +39,7 @@
 <meta property="og:image" content="http://example.com/2021/08/30/BlockCipher1/S1.png">
 <meta property="og:image" content="http://example.com/2021/08/30/BlockCipher1/11.png">
 <meta property="article:published_time" content="2021-08-30T02:32:44.000Z">
-<meta property="article:modified_time" content="2021-08-30T14:11:12.204Z">
+<meta property="article:modified_time" content="2024-11-27T15:28:20.340Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="Notes">
 <meta name="twitter:card" content="summary_large_image">
@@ -262,7 +262,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.7k 字
+          1.6k 字
         
       </span>
     
@@ -324,8 +324,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="huangx607087学习分组密码的笔记-1"><a href="#huangx607087学习分组密码的笔记-1" class="headerlink" title="huangx607087学习分组密码的笔记 1"></a>huangx607087学习分组密码的笔记 1</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>一个密码学fw的学习笔记，别看，很菜</p>
-<p>最近这种题型在CTF中出现得越来越多，看来还是有必要关注一下的，在这里写几篇笔记。</p>
+                <h1 id="huangx607087学习分组密码的笔记-1"><a href="#huangx607087学习分组密码的笔记-1" class="headerlink" title="huangx607087学习分组密码的笔记 1"></a>huangx607087学习分组密码的笔记 1</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>最近这种题型在CTF中出现得越来越多，看来还是有必要关注一下的，在这里写几篇笔记。</p>
 <h2 id="1-DES"><a href="#1-DES" class="headerlink" title="1. DES"></a>1. DES</h2><h3 id="1o01-什么是DES"><a href="#1o01-什么是DES" class="headerlink" title="1o01 什么是DES"></a>1o01 什么是DES</h3><p>DES是一种使用$56$位密钥对$64$位长分组进行加密的密码，这也是一种对称密码，也就是其加密和解密使用相同的密钥，因此DES也是一种迭代算法。DES对铭文中每个分组的加密过程都包含16轮，且每一轮的操作完全相同，每一轮的密钥都不同，但每一轮的密钥都是由上一轮的密钥中推导出来的。</p>
 <p>DES加密中，主要思想还是混淆与扩散：混淆是将密钥与密文之间的关系尽可能模糊——因此多数情况下的混淆就是元素替换。而扩散是为了隐藏明文的统计属性，从而将一个明文符号扩散道多个密文符号进行加密，其中最简单的一个方法就是某几位上进行置换。</p>
 <p>下面是DES的流程图，可以看出一次DES 加密共使用了$16$次迭代，下面对图中的各部分进行分析。<strong>该图也被称为Feistel网络</strong></p>
@@ -802,6 +801,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

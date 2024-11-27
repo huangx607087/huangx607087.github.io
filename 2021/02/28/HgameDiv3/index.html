@@ -19,16 +19,16 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Hgame Div 3,4题解0.About终于在接触CTF差不多大约6个月后，尝试打了一下杭州电子科大的CTF招新题（总体感觉只有4个字：我太菜了 只做了密码学，其他的题目不看，因为不是我研究的内容（ 第3，4两周的题目确实难度变大了很多 #define huangx607087 feiwu 1. LikiPrime12345678910111213141516171819#!&#x2F;usr&#x2F;bin&#x2F;">
+    <meta name="description" content="Hgame Div 3,4题解0.About终于在接触CTF差不多大约6个月后，尝试打了一下杭州电子科大的CTF招新题（总体感觉只有4个字：我太菜了 只做了密码学，其他的题目不看，因为不是我研究的内容（ 第3，4两周的题目确实难度变大了很多 1. LikiPrime12345678910111213141516171819#!&#x2F;usr&#x2F;bin&#x2F;env python3import randomfro">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HgameDiv3,4">
 <meta property="og:url" content="http://example.com/2021/02/28/HgameDiv3/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="Hgame Div 3,4题解0.About终于在接触CTF差不多大约6个月后，尝试打了一下杭州电子科大的CTF招新题（总体感觉只有4个字：我太菜了 只做了密码学，其他的题目不看，因为不是我研究的内容（ 第3，4两周的题目确实难度变大了很多 #define huangx607087 feiwu 1. LikiPrime12345678910111213141516171819#!&#x2F;usr&#x2F;bin&#x2F;">
+<meta property="og:description" content="Hgame Div 3,4题解0.About终于在接触CTF差不多大约6个月后，尝试打了一下杭州电子科大的CTF招新题（总体感觉只有4个字：我太菜了 只做了密码学，其他的题目不看，因为不是我研究的内容（ 第3，4两周的题目确实难度变大了很多 1. LikiPrime12345678910111213141516171819#!&#x2F;usr&#x2F;bin&#x2F;env python3import randomfro">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/02/28/HgameDiv3/1.jpg">
 <meta property="article:published_time" content="2021-02-28T02:08:10.000Z">
-<meta property="article:modified_time" content="2022-01-26T03:59:56.247Z">
+<meta property="article:modified_time" content="2024-11-27T15:24:38.908Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="WriteUp">
 <meta name="twitter:card" content="summary_large_image">
@@ -316,7 +316,6 @@
                 <h1 id="Hgame-Div-3-4题解"><a href="#Hgame-Div-3-4题解" class="headerlink" title="Hgame Div 3,4题解"></a>Hgame Div 3,4题解</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>终于在接触CTF差不多大约6个月后，尝试打了一下杭州电子科大的CTF招新题（<del>总体感觉只有4个字：我太菜了</del></p>
 <p>只做了密码学，其他的题目不看，<del>因为不是我研究的内容（</del></p>
 <p>第3，4两周的题目确实难度变大了很多</p>
-<p><del><code>#define huangx607087 feiwu</code></del></p>
 <h2 id="1-LikiPrime"><a href="#1-LikiPrime" class="headerlink" title="1. LikiPrime"></a>1. LikiPrime</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python3</span><br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">from</span> libnum <span class="hljs-keyword">import</span> s2n<br><span class="hljs-keyword">from</span> secret <span class="hljs-keyword">import</span> secrets, flag<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">get_prime</span>(<span class="hljs-params">secret</span>):<br>    prime = <span class="hljs-number">1</span><br>    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(secret):<br>        prime = prime &lt;&lt; <span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> prime - <span class="hljs-number">1</span><br>random.shuffle(secrets)<br>m = s2n(flag)<br>p = get_prime(secrets[<span class="hljs-number">0</span>])<br>q = get_prime(secrets[<span class="hljs-number">1</span>])<br>n = p * q<br>e = <span class="hljs-number">0x10001</span><br>c = <span class="hljs-built_in">pow</span>(m, e, n)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;n = &#123;&#125;.format(n)&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;e = &#123;&#125;.format(e)&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;c = &#123;&#125;.format(c)&quot;</span>)<br></code></pre></td></tr></table></figure>
 
 <p>题目最后给出的是$n,e,c$的值。</p>
@@ -826,6 +825,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -19,18 +19,18 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087学习格密码的笔记30. About一个密码学fw的学习笔记，别看，很菜的。 这个笔记接着之前发布的笔记2，继续往后面扩展新的内容。 6.Babai算法和寻找好的基底解决apprCVP问题如果 一个格的基底中的向量两两正交，也就是对于任意的$i \not &#x3D; j$，均有$ \vec v_i·\vec v_j &#x3D;0 $。那么在这个格里面解决SVP和CVP问题就会是很简单的。可以">
+    <meta name="description" content="huangx607087学习格密码的笔记30. About这个笔记接着之前发布的笔记2，继续往后面扩展新的内容。 6.Babai算法和寻找好的基底解决apprCVP问题如果 一个格的基底中的向量两两正交，也就是对于任意的$i \not &#x3D; j$，均有$ \vec v_i·\vec v_j &#x3D;0 $。那么在这个格里面解决SVP和CVP问题就会是很简单的。可以证明，这个格中的最段向量就是$\vec v">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LatticeNotes3">
 <meta property="og:url" content="http://example.com/2021/02/04/LatticeNotes3/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087学习格密码的笔记30. About一个密码学fw的学习笔记，别看，很菜的。 这个笔记接着之前发布的笔记2，继续往后面扩展新的内容。 6.Babai算法和寻找好的基底解决apprCVP问题如果 一个格的基底中的向量两两正交，也就是对于任意的$i \not &#x3D; j$，均有$ \vec v_i·\vec v_j &#x3D;0 $。那么在这个格里面解决SVP和CVP问题就会是很简单的。可以">
+<meta property="og:description" content="huangx607087学习格密码的笔记30. About这个笔记接着之前发布的笔记2，继续往后面扩展新的内容。 6.Babai算法和寻找好的基底解决apprCVP问题如果 一个格的基底中的向量两两正交，也就是对于任意的$i \not &#x3D; j$，均有$ \vec v_i·\vec v_j &#x3D;0 $。那么在这个格里面解决SVP和CVP问题就会是很简单的。可以证明，这个格中的最段向量就是$\vec v">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/02/04/LatticeNotes3/1.png">
 <meta property="og:image" content="http://example.com/2021/02/04/LatticeNotes3/2.png">
 <meta property="og:image" content="http://example.com/2021/02/04/LatticeNotes3/3.png">
 <meta property="article:published_time" content="2021-02-04T02:25:21.000Z">
-<meta property="article:modified_time" content="2023-12-11T13:30:14.526Z">
+<meta property="article:modified_time" content="2024-11-27T15:13:41.216Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="Notes">
 <meta name="twitter:card" content="summary_large_image">
@@ -315,8 +315,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="huangx607087学习格密码的笔记3"><a href="#huangx607087学习格密码的笔记3" class="headerlink" title="huangx607087学习格密码的笔记3"></a>huangx607087学习格密码的笔记3</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0. About"></a>0. About</h2><p>一个密码学fw的学习笔记，别看，很菜的。</p>
-<p>这个笔记接着之前发布的笔记2，继续往后面扩展新的内容。</p>
+                <h1 id="huangx607087学习格密码的笔记3"><a href="#huangx607087学习格密码的笔记3" class="headerlink" title="huangx607087学习格密码的笔记3"></a>huangx607087学习格密码的笔记3</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0. About"></a>0. About</h2><p>这个笔记接着之前发布的笔记2，继续往后面扩展新的内容。</p>
 <h2 id="6-Babai算法和寻找好的基底解决apprCVP问题"><a href="#6-Babai算法和寻找好的基底解决apprCVP问题" class="headerlink" title="6.Babai算法和寻找好的基底解决apprCVP问题"></a>6.Babai算法和寻找好的基底解决apprCVP问题</h2><p>如果 一个格的基底中的向量两两正交，也就是对于任意的$i \not = j$，均有$ \vec v_i·\vec v_j =0 $。那么在这个格里面解决SVP和CVP问题就会是很简单的。可以证明，这个格中的最段向量就是$\vec v_1$到$\vec v_n$中的最短向量。因为向量的长度的平方为$(\sum_{i=1}^n a_i\vec v_i)^2=\sum _{i=1}^n a_i^2\vec v_i^2$。又因为$a$是不全为$0$的整数，因此给基底中最短的那个向量前的系数赋值为$±1$，其他向量前的系数赋值为$0$即为我们所求的解。</p>
 <p>而在正交基底的格中解决CVP问题，根据线性代数原理，对任意向量$\vec w$正交分解，可以分解成以下的式子：<br>$$<br>\vec w=\sum_{i=1}^n b_i\vec v_i,b_i \in R<br>$$<br>所以我们只需要找到一组$a$，使得$a_i$是$b_i$最近的那个整数就可以求出与$ \vec w $最接近的格中的向量。</p>
 <p>然而，如果一个格中的基底向量是高度非正交的，也就是我们在<strong>笔记2</strong>中的<strong>52o01</strong>节提到的Hadamard比率$H(B)$接近于$0$时，CVP问题就没有那么好解决了。</p>
@@ -809,6 +808,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

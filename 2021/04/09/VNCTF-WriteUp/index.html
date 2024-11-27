@@ -19,19 +19,19 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="VNCTF WriteUp By huangx6070870.Introduction3月14日的VNCTF，自己一道题也不会，只能靠赛后复现了。这可以充分印证以下这个事实$$\mathrm{huangx607087 &#x3D;&#x3D; feiwu}$$ 1.WhiteGive1234567891011121314151617181920212223from Crypto.Util.number import">
+    <meta name="description" content="VNCTF WriteUp By huangx6070870.Introduction3月14日的VNCTF，自己一道题也不会，只能靠赛后复现了。 1.WhiteGive1234567891011121314151617181920212223from Crypto.Util.number import *from secret import urlfrom gmpy2 import *m &#x3D; b">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VNCTF WriteUp">
 <meta property="og:url" content="http://example.com/2021/04/09/VNCTF-WriteUp/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="VNCTF WriteUp By huangx6070870.Introduction3月14日的VNCTF，自己一道题也不会，只能靠赛后复现了。这可以充分印证以下这个事实$$\mathrm{huangx607087 &#x3D;&#x3D; feiwu}$$ 1.WhiteGive1234567891011121314151617181920212223from Crypto.Util.number import">
+<meta property="og:description" content="VNCTF WriteUp By huangx6070870.Introduction3月14日的VNCTF，自己一道题也不会，只能靠赛后复现了。 1.WhiteGive1234567891011121314151617181920212223from Crypto.Util.number import *from secret import urlfrom gmpy2 import *m &#x3D; b">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/04/09/VNCTF-WriteUp/Q1.png">
 <meta property="og:image" content="http://example.com/2021/04/09/VNCTF-WriteUp/1.png">
 <meta property="og:image" content="http://example.com/2021/04/09/VNCTF-WriteUp/2.png">
 <meta property="og:image" content="http://example.com/2021/04/09/VNCTF-WriteUp/F7.jpg">
 <meta property="article:published_time" content="2021-04-09T12:13:18.000Z">
-<meta property="article:modified_time" content="2021-05-05T14:00:16.268Z">
+<meta property="article:modified_time" content="2024-11-27T15:25:50.638Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="WriteUp">
 <meta name="twitter:card" content="summary_large_image">
@@ -316,7 +316,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="VNCTF-WriteUp-By-huangx607087"><a href="#VNCTF-WriteUp-By-huangx607087" class="headerlink" title="VNCTF WriteUp By huangx607087"></a>VNCTF WriteUp By huangx607087</h1><h2 id="0-Introduction"><a href="#0-Introduction" class="headerlink" title="0.Introduction"></a>0.Introduction</h2><p>3月14日的VNCTF，自己一道题也不会，只能靠赛后复现了。这可以充分印证以下这个事实<br>$$<br>\mathrm{huangx607087 == feiwu}<br>$$</p>
+                <h1 id="VNCTF-WriteUp-By-huangx607087"><a href="#VNCTF-WriteUp-By-huangx607087" class="headerlink" title="VNCTF WriteUp By huangx607087"></a>VNCTF WriteUp By huangx607087</h1><h2 id="0-Introduction"><a href="#0-Introduction" class="headerlink" title="0.Introduction"></a>0.Introduction</h2><p>3月14日的VNCTF，自己一道题也不会，只能靠赛后复现了。</p>
 <h2 id="1-WhiteGive"><a href="#1-WhiteGive" class="headerlink" title="1.WhiteGive"></a>1.WhiteGive</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> secret <span class="hljs-keyword">import</span> url<br><span class="hljs-keyword">from</span> gmpy2 <span class="hljs-keyword">import</span> *<br>m = bytes_to_long(url)<br>p = getPrime(<span class="hljs-number">512</span>)<br>q = getPrime(<span class="hljs-number">512</span>)<br>n = p * q<br>d = getPrime(<span class="hljs-number">256</span>)<br>e = inverse(d,(p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>))<br>c = <span class="hljs-built_in">pow</span>(m,e,n)<br><span class="hljs-built_in">print</span>(n)<br><span class="hljs-built_in">print</span>(c)<br>m = e<br>p = getPrime(<span class="hljs-number">512</span>)<br>q = getPrime(<span class="hljs-number">512</span>)<br>n = p * p * q<br>e = <span class="hljs-number">0x10001</span><br>d = inverse(e,lcm(p,lcm(p-<span class="hljs-number">1</span>,q-<span class="hljs-number">1</span>)))<br>c = <span class="hljs-built_in">pow</span>(m,e,n)<br>hint = <span class="hljs-built_in">pow</span>(d,e,n)<br><span class="hljs-built_in">print</span>(n)<br><span class="hljs-built_in">print</span>(c)p<br><span class="hljs-built_in">print</span>(hint)<br></code></pre></td></tr></table></figure>
 
 <p>这道题给出了第一步加密的$n,c$的值，并对第一次的$e$进行了另一轮加密操作。其中$d$是$e=65537$模$\dfrac{p(p-1)(q-1)}{\gcd(p-1,q-1)}$的逆元。因此我们要求出第一轮$e$的值。而给出了$h\equiv d^e \pmod n$</p>
@@ -822,6 +822,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

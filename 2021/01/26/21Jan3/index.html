@@ -19,18 +19,18 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087寒假的切题30.简介一个密码学废物的寒假切题笔记，别看，贼菜 近期BUU已经上了1500分，但作为一个yydfw，仍然是会被别人吊着打的那种，而szx在yydsfmyy的指导下，进步非常快，已经成为了pwn神。而jiangjiang作为一个G1DALAO也在RE有了很多进展，哎，自己进步太慢的根本原因就是太菜了 1.[NCTF2020] RDH一道题目，别人做2天，我做了2">
+    <meta name="description" content="huangx607087寒假的切题30.简介近期BUU已经上了1500分，而szx在yydsfmyy的指导下，进步非常快，已经成为了pwn神。而jiangjiang作为一个G1DALAO也在RE有了很多进展。。。。 1.[NCTF2020] RDH一个题目，别人做了两天，我做了两个月。 首先来看一下题目脚本代码，查了一下，这貌似是个Paillier加密算法，加密的部分方法与RSA类似： 加密方法很">
 <meta property="og:type" content="article">
 <meta property="og:title" content="21Jan3">
 <meta property="og:url" content="http://example.com/2021/01/26/21Jan3/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087寒假的切题30.简介一个密码学废物的寒假切题笔记，别看，贼菜 近期BUU已经上了1500分，但作为一个yydfw，仍然是会被别人吊着打的那种，而szx在yydsfmyy的指导下，进步非常快，已经成为了pwn神。而jiangjiang作为一个G1DALAO也在RE有了很多进展，哎，自己进步太慢的根本原因就是太菜了 1.[NCTF2020] RDH一道题目，别人做2天，我做了2">
+<meta property="og:description" content="huangx607087寒假的切题30.简介近期BUU已经上了1500分，而szx在yydsfmyy的指导下，进步非常快，已经成为了pwn神。而jiangjiang作为一个G1DALAO也在RE有了很多进展。。。。 1.[NCTF2020] RDH一个题目，别人做了两天，我做了两个月。 首先来看一下题目脚本代码，查了一下，这貌似是个Paillier加密算法，加密的部分方法与RSA类似： 加密方法很">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/01/26/21Jan3/1.jpg">
 <meta property="og:image" content="http://example.com/2021/01/26/21Jan3/2.png">
 <meta property="og:image" content="http://example.com/2021/01/26/21Jan3/4.jpg">
 <meta property="article:published_time" content="2021-01-26T11:52:37.000Z">
-<meta property="article:modified_time" content="2021-05-05T13:55:35.089Z">
+<meta property="article:modified_time" content="2024-11-27T15:23:08.126Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="ExpLog">
 <meta name="twitter:card" content="summary_large_image">
@@ -253,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          1.8k 字
         
       </span>
     
@@ -315,9 +315,8 @@
             
               <div class="markdown-body">
                 
-                <h1 id="huangx607087寒假的切题3"><a href="#huangx607087寒假的切题3" class="headerlink" title="huangx607087寒假的切题3"></a>huangx607087寒假的切题3</h1><h2 id="0-简介"><a href="#0-简介" class="headerlink" title="0.简介"></a>0.简介</h2><p><del>一个密码学废物的寒假切题笔记，别看，贼菜</del></p>
-<p>近期BUU已经上了1500分，<del>但作为一个yydfw，仍然是会被别人吊着打的那种</del>，而szx在yydsfmyy的指导下，进步非常快，已经成为了pwn神。而jiangjiang作为一个G1DALAO也在RE有了很多进展，哎，自己进步太慢的根本原因就是太菜了</p>
-<h2 id="1-NCTF2020-RDH"><a href="#1-NCTF2020-RDH" class="headerlink" title="1.[NCTF2020] RDH"></a>1.[NCTF2020] RDH</h2><p><del>一道题目，别人做2天，我做了2个月，wtcl，wsfw</del></p>
+                <h1 id="huangx607087寒假的切题3"><a href="#huangx607087寒假的切题3" class="headerlink" title="huangx607087寒假的切题3"></a>huangx607087寒假的切题3</h1><h2 id="0-简介"><a href="#0-简介" class="headerlink" title="0.简介"></a>0.简介</h2><p>近期BUU已经上了1500分，而szx在yydsfmyy的指导下，进步非常快，已经成为了pwn神。而jiangjiang作为一个G1DALAO也在RE有了很多进展。。。。</p>
+<h2 id="1-NCTF2020-RDH"><a href="#1-NCTF2020-RDH" class="headerlink" title="1.[NCTF2020] RDH"></a>1.[NCTF2020] RDH</h2><p>一个题目，别人做了两天，我做了两个月。</p>
 <p>首先来看一下题目脚本代码，查了一下，这貌似是个Paillier加密算法，加密的部分方法与RSA类似：</p>
 <p>加密方法很简单，首先与RSA一样，选择两个大素数$p,q$，计算$n=pq$，其中$\gcd(n,(p-1)(q-1))=1$。然后计算$\lambda=\text{lcm}(p-1,q-1)$。</p>
 <p>然后选择随机整数$g$。计算密文$E(m,r)c\equiv g^mr^n\pmod {n^2}$，其中$r$是随机整数</p>
@@ -804,6 +803,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

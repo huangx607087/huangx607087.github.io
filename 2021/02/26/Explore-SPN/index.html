@@ -19,16 +19,16 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087学习SPN加密的笔记0.简介一个密码学fw的学习笔记，很菜 BUUCTF上做了一道SPN的题目，挺复杂的，得认真做亿点点笔记，wp上讲的非常简单，自己摸了半天才做出来。 1.什么是SPNSPN加密是分组密码的一种，其中包括一个$S$盒和一个$P$盒，$S$盒的作用是将某个数对应地变成另一个数，而$P$盒的作用是置换比特位。其英文全称叫Substitution-Permuta">
+    <meta name="description" content="huangx607087学习SPN加密的笔记0.简介BUUCTF上做了一道SPN的题目，挺复杂的，得认真做亿点点笔记，wp上讲的非常简单，自己摸了半天才做出来。 1.什么是SPNSPN加密是分组密码的一种，其中包括一个$S$盒和一个$P$盒，$S$盒的作用是将某个数对应地变成另一个数，而$P$盒的作用是置换比特位。其英文全称叫Substitution-Permutation Network，翻译成">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Explore SPN">
 <meta property="og:url" content="http://example.com/2021/02/26/Explore-SPN/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087学习SPN加密的笔记0.简介一个密码学fw的学习笔记，很菜 BUUCTF上做了一道SPN的题目，挺复杂的，得认真做亿点点笔记，wp上讲的非常简单，自己摸了半天才做出来。 1.什么是SPNSPN加密是分组密码的一种，其中包括一个$S$盒和一个$P$盒，$S$盒的作用是将某个数对应地变成另一个数，而$P$盒的作用是置换比特位。其英文全称叫Substitution-Permuta">
+<meta property="og:description" content="huangx607087学习SPN加密的笔记0.简介BUUCTF上做了一道SPN的题目，挺复杂的，得认真做亿点点笔记，wp上讲的非常简单，自己摸了半天才做出来。 1.什么是SPNSPN加密是分组密码的一种，其中包括一个$S$盒和一个$P$盒，$S$盒的作用是将某个数对应地变成另一个数，而$P$盒的作用是置换比特位。其英文全称叫Substitution-Permutation Network，翻译成">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/02/26/Explore-SPN/1.png">
 <meta property="article:published_time" content="2021-02-26T00:54:59.000Z">
-<meta property="article:modified_time" content="2021-05-05T13:57:32.498Z">
+<meta property="article:modified_time" content="2024-11-27T15:25:29.771Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="Notes">
 <meta name="twitter:card" content="summary_large_image">
@@ -313,8 +313,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="huangx607087学习SPN加密的笔记"><a href="#huangx607087学习SPN加密的笔记" class="headerlink" title="huangx607087学习SPN加密的笔记"></a>huangx607087学习SPN加密的笔记</h1><h2 id="0-简介"><a href="#0-简介" class="headerlink" title="0.简介"></a>0.简介</h2><p><del>一个密码学fw的学习笔记，很菜</del></p>
-<p>BUUCTF上做了一道SPN的题目，<del>挺复杂的，得认真做亿点点笔记</del>，wp上讲的非常简单，自己摸了半天才做出来。</p>
+                <h1 id="huangx607087学习SPN加密的笔记"><a href="#huangx607087学习SPN加密的笔记" class="headerlink" title="huangx607087学习SPN加密的笔记"></a>huangx607087学习SPN加密的笔记</h1><h2 id="0-简介"><a href="#0-简介" class="headerlink" title="0.简介"></a>0.简介</h2><p>BUUCTF上做了一道SPN的题目，<del>挺复杂的，得认真做亿点点笔记</del>，wp上讲的非常简单，自己摸了半天才做出来。</p>
 <h2 id="1-什么是SPN"><a href="#1-什么是SPN" class="headerlink" title="1.什么是SPN"></a>1.什么是SPN</h2><p>SPN加密是分组密码的一种，其中包括一个$S$盒和一个$P$盒，$S$盒的作用是将某个数对应地变成另一个数，而$P$盒的作用是置换比特位。其英文全称叫Substitution-Permutation Network，翻译成中文就是代换-置换网络。</p>
 <p>SPN加密网络中大概分为这三个过程。</p>
 <p>第一步，准备这一次加密的密钥$k$，将输入的明文与$k$异或。</p>
@@ -882,6 +881,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

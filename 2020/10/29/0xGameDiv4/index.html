@@ -19,15 +19,15 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="0xGame Div 4 题解About4周过去，7172分。还没第一周的某些人高，我果然是个fw。不过自己的CTF学习进入了第二阶段，很快就要进入数论了。 然而最近又在参加学校ACM菜鸟赛（（作为一个当年距离1&#x3D;只差15分的2&#x3D;蒟蒻，我该怎么办） Crypto1.  littleTrick一道并不算很难得题目，但我这个fw还是用了4个小时才做出来，wtcl 首先先看一下题目的主要代码： 1234">
+    <meta name="description" content="0xGame Div 4 题解About4周过去，7172分，不过自己的CTF学习进入了第二阶段，很快就要进入数论了。 然而最近又在参加学校ACM菜鸟赛（（作为一个当年距离1&#x3D;只差15分的2&#x3D;蒟蒻，我该怎么办） Crypto1.  littleTrick一道并不算很难得题目，但我这个fw还是用了4个小时才做出来，wtcl 首先先看一下题目的主要代码： 12345678910111213141516">
 <meta property="og:type" content="article">
 <meta property="og:title" content="0xGameDiv4">
 <meta property="og:url" content="http://example.com/2020/10/29/0xGameDiv4/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="0xGame Div 4 题解About4周过去，7172分。还没第一周的某些人高，我果然是个fw。不过自己的CTF学习进入了第二阶段，很快就要进入数论了。 然而最近又在参加学校ACM菜鸟赛（（作为一个当年距离1&#x3D;只差15分的2&#x3D;蒟蒻，我该怎么办） Crypto1.  littleTrick一道并不算很难得题目，但我这个fw还是用了4个小时才做出来，wtcl 首先先看一下题目的主要代码： 1234">
+<meta property="og:description" content="0xGame Div 4 题解About4周过去，7172分，不过自己的CTF学习进入了第二阶段，很快就要进入数论了。 然而最近又在参加学校ACM菜鸟赛（（作为一个当年距离1&#x3D;只差15分的2&#x3D;蒟蒻，我该怎么办） Crypto1.  littleTrick一道并不算很难得题目，但我这个fw还是用了4个小时才做出来，wtcl 首先先看一下题目的主要代码： 12345678910111213141516">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-10-29T03:48:26.000Z">
-<meta property="article:modified_time" content="2021-05-05T13:55:02.462Z">
+<meta property="article:modified_time" content="2024-11-27T15:17:55.534Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="WriteUp">
 <meta name="twitter:card" content="summary_large_image">
@@ -311,7 +311,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="0xGame-Div-4-题解"><a href="#0xGame-Div-4-题解" class="headerlink" title="0xGame Div 4 题解"></a>0xGame Div 4 题解</h1><h2 id="About"><a href="#About" class="headerlink" title="About"></a>About</h2><p>4周过去，7172分。还没第一周的某些人高，我果然是个<del>fw</del>。<del>不过自己的CTF学习进入了第二阶段，很快就要进入数论了。</del> 然而最近又在参加学校ACM菜鸟赛（<del>（作为一个当年距离1=只差15分的2=蒟蒻，我该怎么办）</del></p>
+                <h1 id="0xGame-Div-4-题解"><a href="#0xGame-Div-4-题解" class="headerlink" title="0xGame Div 4 题解"></a>0xGame Div 4 题解</h1><h2 id="About"><a href="#About" class="headerlink" title="About"></a>About</h2><p>4周过去，7172分，不过自己的CTF学习进入了第二阶段，很快就要进入数论了。 然而最近又在参加学校ACM菜鸟赛（<del>（作为一个当年距离1=只差15分的2=蒟蒻，我该怎么办）</del></p>
 <h2 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h2><h3 id="1-littleTrick"><a href="#1-littleTrick" class="headerlink" title="1.  littleTrick"></a>1.  littleTrick</h3><p>一道并不算很难得题目，<del>但我这个fw还是用了4个小时才做出来，wtcl</del></p>
 <p>首先先看一下题目的主要代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">handle</span>(<span class="hljs-params">self</span>):<br>       <span class="hljs-variable language_">self</span>.send(BANNER)<br>       <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-variable language_">self</span>.proof_of_work():<br>           <span class="hljs-keyword">return</span><br>       <span class="hljs-keyword">assert</span> <span class="hljs-built_in">len</span>(flag) == <span class="hljs-number">44</span><br>       p, q = getPrime(<span class="hljs-number">1024</span>), getPrime(<span class="hljs-number">1024</span>)<br>       <span class="hljs-variable language_">self</span>.m = flag.encode()<br>       <span class="hljs-variable language_">self</span>.n = p*q<br>       <span class="hljs-variable language_">self</span>.e = <span class="hljs-number">65537</span><br>       <span class="hljs-variable language_">self</span>.d = inverse(<span class="hljs-variable language_">self</span>.e,(p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>))<br><br>       <span class="hljs-variable language_">self</span>.send(<span class="hljs-string">b&quot;n : &quot;</span> + <span class="hljs-built_in">hex</span>(<span class="hljs-variable language_">self</span>.n)[<span class="hljs-number">2</span>:].encode())<br>       <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>           <span class="hljs-variable language_">self</span>.send(MENU, newline=<span class="hljs-literal">False</span>)<br>           choice = <span class="hljs-variable language_">self</span>.recv()<br>           <span class="hljs-keyword">if</span> choice == <span class="hljs-string">b&quot;1&quot;</span>:<br>               mask = <span class="hljs-variable language_">self</span>.recvhex(prompt=<span class="hljs-string">b&quot;Your mask (in hex): &quot;</span>)<br>               mask = long_to_bytes(<span class="hljs-built_in">pow</span>(mask,<span class="hljs-variable language_">self</span>.d,<span class="hljs-variable language_">self</span>.n))<br>               <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(mask) &gt;= <span class="hljs-number">44</span>:<br>                   <span class="hljs-keyword">break</span><br>               gift = <span class="hljs-variable language_">self</span>.m[:-<span class="hljs-built_in">len</span>(mask)] + mask<br>               gift = <span class="hljs-built_in">pow</span>(bytes_to_long(gift),<span class="hljs-variable language_">self</span>.e,<span class="hljs-variable language_">self</span>.n)<br>               <span class="hljs-variable language_">self</span>.send(<span class="hljs-built_in">hex</span>(gift)[<span class="hljs-number">2</span>:].encode())<br>               <span class="hljs-keyword">continue</span><br>           <span class="hljs-variable language_">self</span>.request.close()<br>           <span class="hljs-keyword">break</span><br></code></pre></td></tr></table></figure>
@@ -833,6 +833,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -19,16 +19,16 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087寒假的切题10x00 简介一个密码学废物的寒假切题记录的exp，别看，贼菜 近期BUUCTF的分数上到了500分，不过目前的形式依然很严峻，与我同级的一个人比我强很多，而我却在这里补基础，感觉校队里同一级除web方向的人不可同时存在2个及以上，压力还是非常大的 #define huangx607087 yongyuandefeiwu 0x01 ECC &amp; RSA这是">
+    <meta name="description" content="huangx607087寒假的切题10x00 简介近期BUUCTF的分数上到了500分，不过目前的形式依然很严峻，与我同级的一个人比我强很多，而我却在这里补基础，感觉校队里同一级除web方向的人不可同时存在2个及以上，压力还是非常大的 0x01 ECC &amp; RSA这是一道结合了离散对数和椭圆曲线的密码体系，我们可以先看一下加密代码和题目所给出的的各种数据。 1234567891011121">
 <meta property="og:type" content="article">
 <meta property="og:title" content="21Jan1">
 <meta property="og:url" content="http://example.com/2021/01/18/21Jan1/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087寒假的切题10x00 简介一个密码学废物的寒假切题记录的exp，别看，贼菜 近期BUUCTF的分数上到了500分，不过目前的形式依然很严峻，与我同级的一个人比我强很多，而我却在这里补基础，感觉校队里同一级除web方向的人不可同时存在2个及以上，压力还是非常大的 #define huangx607087 yongyuandefeiwu 0x01 ECC &amp; RSA这是">
+<meta property="og:description" content="huangx607087寒假的切题10x00 简介近期BUUCTF的分数上到了500分，不过目前的形式依然很严峻，与我同级的一个人比我强很多，而我却在这里补基础，感觉校队里同一级除web方向的人不可同时存在2个及以上，压力还是非常大的 0x01 ECC &amp; RSA这是一道结合了离散对数和椭圆曲线的密码体系，我们可以先看一下加密代码和题目所给出的的各种数据。 1234567891011121">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/01/18/21Jan1/1-1.png">
 <meta property="article:published_time" content="2021-01-18T14:26:16.000Z">
-<meta property="article:modified_time" content="2021-07-20T07:58:24.364Z">
+<meta property="article:modified_time" content="2024-11-27T15:21:22.831Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="ExpLog">
 <meta name="twitter:card" content="summary_large_image">
@@ -251,7 +251,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.9k 字
+          2.8k 字
         
       </span>
     
@@ -313,9 +313,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="huangx607087寒假的切题1"><a href="#huangx607087寒假的切题1" class="headerlink" title="huangx607087寒假的切题1"></a>huangx607087寒假的切题1</h1><h2 id="0x00-简介"><a href="#0x00-简介" class="headerlink" title="0x00 简介"></a>0x00 简介</h2><p><del>一个密码学废物的寒假切题记录的exp，别看，贼菜</del></p>
-<p>近期BUUCTF的分数上到了500分，不过<del>目前的形式依然很严峻，与我同级的一个人比我强很多，而我却在这里补基础，感觉校队里同一级除web方向的人不可同时存在2个及以上，压力还是非常大的</del></p>
-<p><del><code>#define huangx607087 yongyuandefeiwu</code></del></p>
+                <h1 id="huangx607087寒假的切题1"><a href="#huangx607087寒假的切题1" class="headerlink" title="huangx607087寒假的切题1"></a>huangx607087寒假的切题1</h1><h2 id="0x00-简介"><a href="#0x00-简介" class="headerlink" title="0x00 简介"></a>0x00 简介</h2><p>近期BUUCTF的分数上到了500分，不过<del>目前的形式依然很严峻，与我同级的一个人比我强很多，而我却在这里补基础，感觉校队里同一级除web方向的人不可同时存在2个及以上，压力还是非常大的</del></p>
 <h2 id="0x01-ECC-amp-RSA"><a href="#0x01-ECC-amp-RSA" class="headerlink" title="0x01 ECC &amp; RSA"></a>0x01 ECC &amp; RSA</h2><p>这是一道结合了离散对数和椭圆曲线的密码体系，我们可以先看一下加密代码和题目所给出的的各种数据。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> fastecdsa.curve <span class="hljs-keyword">import</span> P521 <span class="hljs-keyword">as</span> Curve<br><span class="hljs-keyword">from</span> fastecdsa.point <span class="hljs-keyword">import</span> Point<br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> bytes_to_long, isPrime<br><span class="hljs-keyword">from</span> os <span class="hljs-keyword">import</span> urandom<br><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> getrandbits<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">gen_rsa_primes</span>(<span class="hljs-params">G</span>):<br>	urand = bytes_to_long(urandom(<span class="hljs-number">521</span>//<span class="hljs-number">8</span>))<br>	<span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>		s = getrandbits(<span class="hljs-number">521</span>) ^ urand<br>		Q = s*G<br>		<span class="hljs-keyword">if</span> isPrime(Q.x) <span class="hljs-keyword">and</span> isPrime(Q.y):<br>			<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;ECC Private key:&quot;</span>, <span class="hljs-built_in">hex</span>(s))<br>			<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;RSA primes:&quot;</span>, <span class="hljs-built_in">hex</span>(Q.x), <span class="hljs-built_in">hex</span>(Q.y))<br>			<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Modulo:&quot;</span>, <span class="hljs-built_in">hex</span>(Q.x * Q.y))<br>			<span class="hljs-keyword">return</span> (Q.x, Q.y)<br>flag = <span class="hljs-built_in">int</span>.from_bytes(<span class="hljs-built_in">input</span>(), byteorder=<span class="hljs-string">&quot;big&quot;</span>)<br>ecc_p = Curve.p<br>a = Curve.a<br>b = Curve.b<br>Gx = Curve.gx<br>Gy = Curve.gy<br>G = Point(Gx, Gy, curve=Curve)<br>e = <span class="hljs-number">0x10001</span><br>p, q = gen_rsa_primes(G)<br>n = p*q<br>file_out = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;downloads/ecc-rsa.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>)<br>file_out.write(<span class="hljs-string">&quot;ECC Curve Prime: &quot;</span> + <span class="hljs-built_in">hex</span>(ecc_p) + <span class="hljs-string">&quot;\n&quot;</span>)<br>file_out.write(<span class="hljs-string">&quot;Curve a: &quot;</span> + <span class="hljs-built_in">hex</span>(a) + <span class="hljs-string">&quot;\n&quot;</span>)<br>file_out.write(<span class="hljs-string">&quot;Curve b: &quot;</span> + <span class="hljs-built_in">hex</span>(b) + <span class="hljs-string">&quot;\n&quot;</span>)<br>file_out.write(<span class="hljs-string">&quot;Gx: &quot;</span> + <span class="hljs-built_in">hex</span>(Gx) + <span class="hljs-string">&quot;\n&quot;</span>)<br>file_out.write(<span class="hljs-string">&quot;Gy: &quot;</span> + <span class="hljs-built_in">hex</span>(Gy) + <span class="hljs-string">&quot;\n&quot;</span>)<br>file_out.write(<span class="hljs-string">&quot;e: &quot;</span> + <span class="hljs-built_in">hex</span>(e) + <span class="hljs-string">&quot;\n&quot;</span>)<br>file_out.write(<span class="hljs-string">&quot;p * q: &quot;</span> + <span class="hljs-built_in">hex</span>(n) + <span class="hljs-string">&quot;\n&quot;</span>)<br>c = <span class="hljs-built_in">pow</span>(flag, e, n)<br>file_out.write(<span class="hljs-string">&quot;ciphertext: &quot;</span> + <span class="hljs-built_in">hex</span>(c) + <span class="hljs-string">&quot;\n&quot;</span>)<br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">ECC Curve Prime: 0x1ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff</span><br><span class="hljs-string">Curve a: -0x3</span><br><span class="hljs-string">Curve b: 0x51953eb9618e1c9a1f929a21a0b68540eea2da725b99b315f3b8b489918ef109e156193951ec7e937b1652c0bd3bb1bf073573df883d2c34f1ef451fd46b503f00</span><br><span class="hljs-string">Gx: 0xc6858e06b70404e9cd9e3ecb662395b4429c648139053fb521f828af606b4d3dbaa14b5e77efe75928fe1dc127a2ffa8de3348b3c1856a429bf97e7e31c2e5bd66</span><br><span class="hljs-string">Gy: 0x11839296a789a3bc0045c8a5fb42c7d1bd998f54449579b446817afbd17273e662c97ee72995ef42640c550b9013fad0761353c7086a272c24088be94769fd16650</span><br><span class="hljs-string">e: 0x10001</span><br><span class="hljs-string">p * q: 0x118aaa1add80bdd0a1788b375e6b04426c50bb3f9cae0b173b382e3723fc858ce7932fb499cd92f5f675d4a2b05d2c575fc685f6cf08a490d6c6a8a6741e8be4572adfcba233da791ccc0aee033677b72788d57004a776909f6d699a0164af514728431b5aed704b289719f09d591f5c1f9d2ed36a58448a9d57567bd232702e9b28f</span><br><span class="hljs-string">ciphertext: 0x3862c872480bdd067c0c68cfee4527a063166620c97cca4c99baff6eb0cf5d42421b8f8d8300df5f8c7663adb5d21b47c8cb4ca5aab892006d7d44a1c5b5f5242d88c6e325064adf9b969c7dfc52a034495fe67b5424e1678ca4332d59225855b7a9cb42db2b1db95a90ab6834395397e305078c5baff78c4b7252d7966365afed9e</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
 
@@ -352,8 +350,7 @@
 
 <p>题目的意思很简单，服务器会保留一个随机的$64$位整数，并记录下所有的$0$位。你每次向服务器发送一个数字，然后服务器会任意选取已有密钥中$2$个$0$比特位，并将这$2$个$0$比特位之间的所有比特位依次循环异或你所发送数字的各个比特位。连续$3$次猜中密钥即可获得答案</p>
 <p>一开始<code>print(flag)</code>是给出的，这次只需要发送三次$0$，这样密钥就保持不变，然后每次猜就猜他给出来的那个数，然后就可以获取flag</p>
-<p>不过后面升级了,<code>print(flag)</code>这句话被删除了，这个时候就要想办法了<del>我这个fw还问了学长，所以我自己果然是个fw</del>。这个时候，我们只需要每次发送$1$，这样任意两个$0$之间的所有比特位都有可能被异或。不过我们多次本地实验后会发现：随着发送$1$的次数不断增多，密钥末尾的固定$1$比特位的长度越来越长，所以只需要不到$200$次的发送$1$，最后$64$个比特位就会全是$1$。所以我们每次猜密钥都猜$18446744073709551615$，也就是$2^{64}-1$，到最后就会连续$3$次猜中，最终我们就肯伊拿到flag</p>
-<p><strong>（这两道脑洞题个人认为质量还是挺高的，<del>谁叫自己是个fw呢）</del></strong></p>
+<p>不过后面升级了,<code>print(flag)</code>这句话被删除了，这个时候就要想办法了（比如我问了一下学长，呃）。这个时候，我们只需要每次发送$1$，这样任意两个$0$之间的所有比特位都有可能被异或。不过我们多次本地实验后会发现：随着发送$1$的次数不断增多，密钥末尾的固定$1$比特位的长度越来越长，所以只需要不到$200$次的发送$1$，最后$64$个比特位就会全是$1$。所以我们每次猜密钥都猜$18446744073709551615$，也就是$2^{64}-1$，到最后就会连续$3$次猜中，最终我们就能拿到flag</p>
 
                 
               </div>
@@ -797,6 +794,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
