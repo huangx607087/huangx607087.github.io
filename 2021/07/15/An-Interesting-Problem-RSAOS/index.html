@@ -19,12 +19,12 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="An Interesting Problem - RSAOS0.About最近自己在BUU上面刷题的时候发现了一个很好玩的题目——RSAOS，虽然做题过程中还是瞄了几眼wp（因为自己太菜了），但还是决定跟大家分享一下——因为确实非常的好玩 7月14日，BUUCTF上了5000分，以后还要继续努力。 Part 1 Beginning  题目什么附件都没有给，就是一个普普通通的远程题目，直接打开虚拟机">
+    <meta name="description" content="An Interesting Problem - RSAOS0.About最近自己在BUU上面刷题的时候发现了一个很好玩的题目——RSAOS，虽然做题过程中还是瞄了几眼wp（因为自己太菜了），但还是决定跟大家分享一下——因为确实非常的好玩 7月14日，BUUCTF上了5000分，以后还要继续努力。 Part 1 Beginning 题目什么附件都没有给，就是一个普普通通的远程题目，直接打开虚拟机远">
 <meta property="og:type" content="article">
 <meta property="og:title" content="An Interesting Problem-RSAOS">
 <meta property="og:url" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="An Interesting Problem - RSAOS0.About最近自己在BUU上面刷题的时候发现了一个很好玩的题目——RSAOS，虽然做题过程中还是瞄了几眼wp（因为自己太菜了），但还是决定跟大家分享一下——因为确实非常的好玩 7月14日，BUUCTF上了5000分，以后还要继续努力。 Part 1 Beginning  题目什么附件都没有给，就是一个普普通通的远程题目，直接打开虚拟机">
+<meta property="og:description" content="An Interesting Problem - RSAOS0.About最近自己在BUU上面刷题的时候发现了一个很好玩的题目——RSAOS，虽然做题过程中还是瞄了几眼wp（因为自己太菜了），但还是决定跟大家分享一下——因为确实非常的好玩 7月14日，BUUCTF上了5000分，以后还要继续努力。 Part 1 Beginning 题目什么附件都没有给，就是一个普普通通的远程题目，直接打开虚拟机远">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/1.png">
 <meta property="og:image" content="http://example.com/2021/07/15/An-Interesting-Problem-RSAOS/2.png">
@@ -332,100 +332,79 @@
                 
                 <h1 id="An-Interesting-Problem-RSAOS"><a href="#An-Interesting-Problem-RSAOS" class="headerlink" title="An Interesting Problem - RSAOS"></a>An Interesting Problem - RSAOS</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>最近自己在BUU上面刷题的时候发现了一个很好玩的题目——RSAOS，虽然做题过程中还是瞄了几眼wp（因为自己太菜了），但还是决定跟大家分享一下——因为确实非常的好玩</p>
 <p>7月14日，BUUCTF上了5000分，以后还要继续努力。</p>
-<h2 id="Part-1-Beginning"><a href="#Part-1-Beginning" class="headerlink" title="Part 1 Beginning"></a>Part 1 Beginning</h2><img src="/2021/07/15/An-Interesting-Problem-RSAOS/1.png" srcset="/img/loading.gif" lazyload alt="1" style="zoom:80%;">
-
+<h2 id="Part-1-Beginning"><a href="#Part-1-Beginning" class="headerlink" title="Part 1 Beginning"></a>Part 1 Beginning</h2><p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/1.png" srcset="/img/loading.gif" lazyload alt="1" style="zoom:80%;"></p>
 <p>题目什么附件都没有给，就是一个普普通通的远程题目，直接打开虚拟机远程连接上去（</p>
 <p>然后远程连接上去之后，似乎什么东西都没有（，并没有让你输出什么<code>sha256</code>验证的，也没有输出什么RSA必要的$c,e,n$的必要解密条件。随便输入一个<code>e</code>，<code>n</code>，<code>ls</code>之类的东西都显示”Commond Not Found”。。。。。。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/2.png" srcset="/img/loading.gif" lazyload alt="2" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/2.png" srcset="/img/loading.gif" lazyload alt="2" style="zoom:80%;"></p>
 <p>这就是一个很奇怪的玩意了——不仅没有源码，还没给什么其他的东西（</p>
-<p><del>于是本fw毫不要脸地去瞄了一眼这道题的wp</del>，原来第一步要先输入help获取菜单——行吧，怪我自己没有开发经验，谁叫自己是一个连机器人都配不好的fw呢?下亿次我拿到一个未知的系统一定要先输一下<code>help</code>或者<code>menu</code>等功能性命令，<del>（拿小本本记下来</del></p>
+<p><del>于是本fw毫不要脸地去瞄了一眼这道题的wp</del>，原来第一步要先输入help获取菜单——行吧，怪我自己没有开发经验，谁叫自己是一个连机器人都配不好的fw呢?下亿次我拿到一个未知的系统一定要先输一下<code>help</code>或者<code>menu</code>等功能性命令，~（拿小本本记下来~</p>
 <p>输入了help之后，似乎很多事情就好起来了（，得到了一连串的命令——</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/3.png" srcset="/img/loading.gif" lazyload alt="3" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/3.png" srcset="/img/loading.gif" lazyload alt="3" style="zoom:80%;"></p>
 <h2 id="Part-2-Attempt-1"><a href="#Part-2-Attempt-1" class="headerlink" title="Part 2 Attempt 1"></a>Part 2 Attempt 1</h2><p><del>乱搞阶段</del></p>
 <p>很显然，要输入<code>get-flag</code>或者<code>get-privatekey</code>，我们才能获得最终答案。因此先输一下get-flag来看看需要什么条件（</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/4.png" srcset="/img/loading.gif" lazyload alt="4" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/4.png" srcset="/img/loading.gif" lazyload alt="4" style="zoom:80%;"></p>
 <p>然后它给我冒出来了一个什么foldhash的东西（看来这玩意还是有点东西的。可能权限命令需要某个密码才能完成吧——要记住这是Crypto题目不是Pwn/Re题目，估计其他的内容不会很难</p>
 <p>输入<code>get-publickey</code>，服务器返回了这样一个东西：<del>貌似重连几遍内容一直不变</del></p>
 <figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs vbnet"><span class="hljs-keyword">Public</span> <span class="hljs-keyword">key</span> parameters:<br><span class="hljs-symbol">N:</span> <span class="hljs-number">0</span>xd888075370effdb016d85de8c894ee7ac2764527210d8ce1d8bd14a06c67de148b4680781366002f9649e3885e18ab950120c660970ab9a499ea74ea7aa38fe732940b5204300ef7b96a608efec1a74007a4b1d592cf9eb23890d8fa416202857d0e0f9ebad79324d03d09db0502ff4bae0b2dfc0b150ddea806a5ff24e2d32f<br><span class="hljs-symbol">E:</span> <span class="hljs-number">0</span>x10001<br></code></pre></td></tr></table></figure>
-
 <p><code>duck</code>不必管那么多，或许其他的东西应该试试看（，比如没试过的命令都尝试日一遍看看（，尤其是这个debug，我看你很不对劲[严肃]</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/5.png" srcset="/img/loading.gif" lazyload alt="5" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/5.png" srcset="/img/loading.gif" lazyload alt="5" style="zoom:80%;"></p>
 <p>果然debug这边确实有什么玄机在里面！或许我们应当enable一下这个debug才对</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/6.png" srcset="/img/loading.gif" lazyload alt="6" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/6.png" srcset="/img/loading.gif" lazyload alt="6" style="zoom:80%;"></p>
 <p>果然在<code>debug enable</code>之后，似乎每次输出命令都会给你一个什么<code>DBG-CRC32() SIG()</code>的模式。不过这个究竟是什么东西啊（</p>
 <p>百度了一下，原来<code>CRC32()</code>是一个$32$个比特位的哈希值，而<code>SIG</code>是签名结果。</p>
 <p>不过这个时候自己的发展又陷入僵局。。。。<del>（于是再一次瞄了眼别人的wp）</del></p>
 <p>结果发现这是个脑洞题——原来help后面还可以跟上命令名称来告诉你这个命令究竟是干什么用的</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/7.png" srcset="/img/loading.gif" lazyload alt="7" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/7.png" srcset="/img/loading.gif" lazyload alt="7" style="zoom:80%;"></p>
 <p>在<code>help security</code>这边，我们发现了比较有价值的信息：</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/8.png" srcset="/img/loading.gif" lazyload alt="8" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/8.png" srcset="/img/loading.gif" lazyload alt="8" style="zoom:80%;"></p>
 <p>简单翻译一下并概括，差不多是这两条内容：</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>.非特权命令的签名内容是对你输入内容的CRC32进行签名，而特权命令的签名内容是其FoldHash进行签名的内容<br><span class="hljs-attribute">2</span>.FoldHash是通过输入内容sha1获得的<span class="hljs-number">160</span>个比特位的前<span class="hljs-number">80</span>个和后<span class="hljs-number">80</span>比特位异或后得到的结果<br><span class="hljs-attribute">3</span>.每次给出的签名和CRC32的值是一整行的内容，如果命令中有空格，那么最后实际执行的内容仅仅是第一个命令(argument)<br></code></pre></td></tr></table></figure>
-
 <p>经过查询，CRC32是一种hash方法，其hash后取值范围是$0$到$2^{32}-1$，该方法哈希冲突率比较高。</p>
 <h2 id="Part-3-Analyzation"><a href="#Part-3-Analyzation" class="headerlink" title="Part 3 Analyzation"></a>Part 3 Analyzation</h2><p>于是乱搞到这里差不多可以结束了（，得正式地做题了（</p>
 <p>首先先来回顾一下一下RSA的数字签名</p>
-<p>签名方式：<br>$$<br>\mathrm{SIG}(x)\equiv x^d \pmod n<br>$$<br>验证方式：<br>$$<br>\mathrm{Verify}(x)\equiv \mathrm{SIG}^e(x)\pmod n<br>$$<br>很显然，用于验证的内容时私钥。因此我们需要尝试伪造一个签名才可以完成。</p>
+<p>签名方式：</p>
+<script type="math/tex; mode=display">
+\mathrm{SIG}(x)\equiv x^d \pmod n</script><p>验证方式：</p>
+<script type="math/tex; mode=display">
+\mathrm{Verify}(x)\equiv \mathrm{SIG}^e(x)\pmod n</script><p>很显然，用于验证的内容时私钥。因此我们需要尝试伪造一个签名才可以完成。</p>
 <p>根据题目提示，不难分析出其<code>foldhash</code>的原理。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#Sagemath</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">foldhash</span>(<span class="hljs-params">s</span>):<br>    s=sha1(s.encode()).digest()<br>    a,b=bytes_to_long(s[:<span class="hljs-number">10</span>]),bytes_to_long(s[<span class="hljs-number">10</span>:])<br>    <span class="hljs-keyword">return</span> a^^b<br><span class="hljs-comment"># Different from Python: in Sagemath, ^^ means xor and ^ means power</span><br></code></pre></td></tr></table></figure>
-
 <p>关注到foldhash实际上是一个数字，CRC32也是一个数字，只不过foldhash的比特位是$80$，而CRC32的结果是$32$位。如果使用特权命令，那么你需要搞出你输入的<strong>那一行内容</strong>的数字签名。</p>
 <p><strong>注意到上面分析的第三条</strong>，暗示着我们可以在特权命令后面加一下东西，我们就可以获取到必要的特权命令foldhash的签名了，也就是特权命令的$\mathrm{foldhash}(x)\equiv x^d \pmod n$的值。</p>
 <p>不过我们这边有个问题来了：$x$是$80$位的内容，但CRC32最后是$32$位内容，因此我们需要构造一个字符串，其格式为<code>&quot;get-flag &quot;+padding</code>，使得该字符串的foldhash值满足$\mathrm{FFFFFFFFH}$光滑，最后根据<strong>RSA的同态性</strong>将所有SIG值相乘后就是我们需要的内容了</p>
-<p>果然，<del>瞄了一眼WP</del>，WP也是这么写的，不过他直接用的<code>get-flag 0</code>，该命令的foldhash的值为$637185588446528046742504$。其分解质因数结果为：<br>$$<br>637185588446528046742504=2^3×250091×244079963×1304805461<br>$$<br>不过直接抄wp肯定是没意思的，但问题是这个<code>get-flag 0</code>真的这么好构造出来吗？于是我在Sagemath中测试了以下代码，随机在字符串<code>get flag </code>后面填充$8$位十六进制数。</p>
+<p>果然，<del>瞄了一眼WP</del>，WP也是这么写的，不过他直接用的<code>get-flag 0</code>，该命令的foldhash的值为$637185588446528046742504$。其分解质因数结果为：</p>
+<script type="math/tex; mode=display">
+637185588446528046742504=2^3×250091×244079963×1304805461</script><p>不过直接抄wp肯定是没意思的，但问题是这个<code>get-flag 0</code>真的这么好构造出来吗？于是我在Sagemath中测试了以下代码，随机在字符串<code>get flag</code>后面填充$8$位十六进制数。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#Sagemath</span><br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> hashlib <span class="hljs-keyword">import</span> sha1<br><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">foldhash</span>(<span class="hljs-params">s</span>):<br>    s=sha1(s.encode()).digest()<br>    a,b=bytes_to_long(s[:<span class="hljs-number">10</span>]),bytes_to_long(s[<span class="hljs-number">10</span>:])<br>    <span class="hljs-keyword">return</span> a^^b<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">padding</span>(<span class="hljs-params">s,n</span>):<br>    TABLE=<span class="hljs-string">&quot;abcdef0123456789&quot;</span><br>    t=<span class="hljs-string">&quot; &quot;</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n):<br>        t+=choice(TABLE)<br>    <span class="hljs-keyword">return</span> s+t<br>NUMBERS=<span class="hljs-number">0</span><br><span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>    NUMBERS+=<span class="hljs-number">1</span><br>    s=padding(<span class="hljs-string">&quot;get-flag&quot;</span>,<span class="hljs-number">8</span>)<br>    q=foldhash(s)<br>    li=<span class="hljs-built_in">list</span>(factor(q))<br>    <span class="hljs-keyword">if</span>(li[-<span class="hljs-number">1</span>][<span class="hljs-number">0</span>]&lt;=<span class="hljs-number">0xffffffff</span>):<br>        <span class="hljs-built_in">print</span>(s)<br>        <span class="hljs-built_in">print</span>(q)<br>        <span class="hljs-built_in">print</span>(li)<br>        <span class="hljs-built_in">print</span>(NUMBERS)<br>        <span class="hljs-keyword">break</span><br></code></pre></td></tr></table></figure>
-
 <p>下图是一次运行结果。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/9.png" srcset="/img/loading.gif" lazyload alt="9" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/9.png" srcset="/img/loading.gif" lazyload alt="9" style="zoom:80%;"></p>
 <p>于是我构造了一个不同并且更简单的字符串：<code>get-flag 8c5fdf74</code>，其foldhash值为$123923881117703856573281$，质因数分解结果为$2719×574657×931169×85174303$，随机生成了$5$次后得到了这个结果。</p>
 <p>然后我又重复运行了这个代码数次，发现最多的一次为$21$次尝试获得符合条件的字符串，最少一次可以一发命中符合条件的字符串，平均大概$6$到$7$次左右的尝试即可产生符合条件的字符串——说明符合条件的字符串并不难找。</p>
 <p>于是找字符串这个问题就这样解决了。下面就是寻找$4$个符合条件的字符串$s_1,s_2,s_3,s_4$，让其CRC32值分别为$2719,574657,931169,85174303$——看来这似乎是一个有难度的事情。</p>
-<p>实际上枚举$6$位内容的可见字符串在原则上是可行的。不过github上还是能找到一个包（[戳这里](<a target="_blank" rel="noopener" href="https://github.com/theonlypwner/crc32">theonlypwner/crc32: CRC32 tools: reverse, undo/rewind, and calculate hashes (github.com)</a>)），直接下载即可。</p>
+<p>实际上枚举$6$位内容的可见字符串在原则上是可行的。不过github上还是能找到一个包（<a href="[theonlypwner/crc32: CRC32 tools: reverse, undo/rewind, and calculate hashes (github.com">戳这里</a>](<a target="_blank" rel="noopener" href="https://github.com/theonlypwner/crc32))），直接下载即可。">https://github.com/theonlypwner/crc32))），直接下载即可。</a></p>
 <h2 id="Part-4-Attempt-2"><a href="#Part-4-Attempt-2" class="headerlink" title="Part 4 Attempt 2"></a>Part 4 Attempt 2</h2><p><del>真正的尝试阶段</del></p>
 <p>阅读过这个包的内容后，开始了尝试。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/10.png" srcset="/img/loading.gif" lazyload alt="10" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/10.png" srcset="/img/loading.gif" lazyload alt="10" style="zoom:80%;"></p>
 <p>然后我连续发送了三个过去，结果发现不对（，那边的验证结果是<code>0xe0db37ee</code>。这两个内容之间是不是有什么联系在里面啊（</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/11.png" srcset="/img/loading.gif" lazyload alt="11" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/11.png" srcset="/img/loading.gif" lazyload alt="11" style="zoom:80%;"></p>
 <p>那我找个<code>0xe0db37ee</code>的值发过去试试看呢？</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/12.png" srcset="/img/loading.gif" lazyload alt="12" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/12.png" srcset="/img/loading.gif" lazyload alt="12" style="zoom:80%;"></p>
 <p>果然，最后的结果是正确的，此时记录下签名结果</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/13.png" srcset="/img/loading.gif" lazyload alt="13" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/13.png" srcset="/img/loading.gif" lazyload alt="13" style="zoom:80%;"></p>
 <p>于是重复上面的步骤，我们就可以获得另外三个的内容了（</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/14.png" srcset="/img/loading.gif" lazyload alt="14" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/14.png" srcset="/img/loading.gif" lazyload alt="14" style="zoom:80%;"></p>
 <p>将得到的$4$个SIG乘起来模$n$，获得最终的结果。发送过去得到flag。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/15.png" srcset="/img/loading.gif" lazyload alt="15" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/15.png" srcset="/img/loading.gif" lazyload alt="15" style="zoom:80%;"></p>
 <h2 id="5-More-Exploration"><a href="#5-More-Exploration" class="headerlink" title="5.More Exploration"></a>5.More Exploration</h2><p>搞出来flag之后，本fw很形象再去看看另外两个命令是干什么的，于是决定如法炮制伪造字符串</p>
 <p>我们可以使用的字符串如下：</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/16.png" srcset="/img/loading.gif" lazyload alt="16" style="zoom:80%;">
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/16.png" srcset="/img/loading.gif" lazyload alt="16" style="zoom:80%;"></p>
 <p>根据上面的内容可以获得其私钥：</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">N</span>: <span class="hljs-number">0</span>xd888075370effdb016d85de8c894ee7ac2764527210d8ce1d8bd14a06c67de148b4680781366002f9649e3885e18ab950120c660970ab9a499ea74ea7aa38fe732940b5204300ef7b96a608efec1a74007a4b1d592cf9eb23890d8fa416202857d0e0f9ebad79324d03d09db0502ff4bae0b2dfc0b150ddea806a5ff24e2d32f<br><span class="hljs-attribute">E</span>: <span class="hljs-number">0</span>x10001<br><span class="hljs-attribute">P</span>: <span class="hljs-number">0</span>xf0d4aa4868305cdbabba679014f940c0233ca0b10c9db62e3d829dd289103b21143da614b361c6043711956ff2ffd3bf7dcea0418a1e0bbf74784512f99733cd<br><span class="hljs-attribute">Q</span>: <span class="hljs-number">0</span>xe62b8ad7f10d9921a3be7b0c74a81107b5fa704900f94028c6a6e401a00729f6ed961dabbc65878ba5b7f34ca406c7b27577fe5153909d036ecf7e028b555eeb<br><span class="hljs-attribute">D</span>: <span class="hljs-number">0</span>x77de15f0233d37fb1b2a7c1239b7f8ad0ca9dc6e64e5d36fd34418ff160409f4e58509e96f13b056a7a40fc9960da22ec2891a48ae54c9a04d747574b89f83313d1902224cb7e90bf74a30a6e0201e3081c33ea14786adec8f7e05c898f9f55c7e332f7cc7a12263eac1ae60e2122e548207fe3c035e03eaf36798c62c3f6e41<br></code></pre></td></tr></table></figure>
-
 <p>而security命令的输出与help-security的输出一模一样。。。</p>
 <h2 id="6-Review"><a href="#6-Review" class="headerlink" title="6.Review"></a>6.Review</h2><p>一道很好玩的题目还是值得把玩以下的，感觉收获很大。</p>
 <p>最后附一下网上给的CRC32加密原理，以后研究。</p>
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/17.png" srcset="/img/loading.gif" lazyload alt="17" style="zoom:100%;">
-
-<img src="/2021/07/15/An-Interesting-Problem-RSAOS/18.png" srcset="/img/loading.gif" lazyload alt="18" style="zoom:100%;">
-
-
-
-
-
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/17.png" srcset="/img/loading.gif" lazyload alt="17" style="zoom:100%;"></p>
+<p><img src="/2021/07/15/An-Interesting-Problem-RSAOS/18.png" srcset="/img/loading.gif" lazyload alt="18" style="zoom:100%;"></p>
 
                 
               </div>
@@ -869,21 +848,6 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -328,13 +328,18 @@
 <p><strong>注：若数字无后缀，默认认为是十进制。十六进制后缀会加$\text H$，例如$\text{60H}=96$</strong></p>
 <h2 id="2-AES"><a href="#2-AES" class="headerlink" title="2.AES"></a>2.AES</h2><h3 id="0o01-对DES的补充内容"><a href="#0o01-对DES的补充内容" class="headerlink" title="0o01 对DES的补充内容"></a>0o01 对DES的补充内容</h3><p>在正式进入AES之前，我们先对上一篇笔记中的DES进行一些补充。</p>
 <p>由于DES的安全性在目前来看已经不是很高了，1999年1月，有一个蛮力破解DES挑战赛，有人解和Deep Track Internet 上的分布攻击，耗时22小时就破解了DES的密钥。而在2006年的4月，德国有两所大学基于低廉的FPGA，仅仅耗费了不到70000人民币的价格，构建了密钥搜索机器，平均搜索时间仅仅7天。</p>
-<p>因此，出现了一些DES的替换算法，其中最典型的就是3DES，有的3DES使用三个不同的密钥，对明文连续加密三次。当然也有使用两个密钥的3DES，使用函数如下<br>$$<br>c=E_1(D_2(E_1(m)))<br>$$<br>也就是先用密钥$k_1$对明文进行加密，然后用密钥$k_2$对加密后内容进行解密，最后再用密钥$k_1$对内容进行加密，输出最终的密文。</p>
-<p>当然，这种加密方法也仅仅是在DES上加了个变体，解密函数也是三次<br>$$<br>m=D_1(E_2(D_1(c)))<br>$$<br>但这边有个问题就是3DES耗时增加至原来的$3$倍，比较影响效率</p>
+<p>因此，出现了一些DES的替换算法，其中最典型的就是3DES，有的3DES使用三个不同的密钥，对明文连续加密三次。当然也有使用两个密钥的3DES，使用函数如下</p>
+<script type="math/tex; mode=display">
+c=E_1(D_2(E_1(m)))</script><p>也就是先用密钥$k_1$对明文进行加密，然后用密钥$k_2$对加密后内容进行解密，最后再用密钥$k_1$对内容进行加密，输出最终的密文。</p>
+<p>当然，这种加密方法也仅仅是在DES上加了个变体，解密函数也是三次</p>
+<script type="math/tex; mode=display">
+m=D_1(E_2(D_1(c)))</script><p>但这边有个问题就是3DES耗时增加至原来的$3$倍，比较影响效率</p>
 <p>DES加密算法有几个弱密钥，这些密钥有个特点，就是在分组后，会使得$C$和$D$无论怎么左移，均为全$0$或者全$1$的128位序列。</p>
 <p>DES的弱密钥在不考虑第八位校验位的情况下，一共有八个弱密钥：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-number">0x0101010101010101</span><br><span class="hljs-number">0xFEFEFEFEFEFEFEFE</span><br><span class="hljs-number">0xE0E0E0E0F1F1F1F1</span><br><span class="hljs-number">0x1F1F1F1F0E0E0E0E</span><br><span class="hljs-number">0x0000000000000000</span><br><span class="hljs-number">0xFFFFFFFFFFFFFFFF</span><br><span class="hljs-number">0xE1E1E1E1F0F0F0F0</span><br><span class="hljs-number">0x1E1E1E1E0F0F0F0F</span><br></code></pre></td></tr></table></figure>
-
-<p>如果用这$8$个弱密钥加密明文$m$，会出现一个很好玩的现象：<br>$$<br>m=E(c)=E(E(m))<br>$$<br>也就是说，对明文两次加密，就可以得到原来的明文。</p>
+<p>如果用这$8$个弱密钥加密明文$m$，会出现一个很好玩的现象：</p>
+<script type="math/tex; mode=display">
+m=E(c)=E(E(m))</script><p>也就是说，对明文两次加密，就可以得到原来的明文。</p>
 <h3 id="0o02-AES简介"><a href="#0o02-AES简介" class="headerlink" title="0o02 AES简介:"></a>0o02 AES简介:</h3><p>AES与DES一样，也是一种对称分组密码。其分组大小比DES要大，有$128,192,256$位三种长度的密钥，但AES中每个分组一般均为$128$位，其主要操作简图如下：</p>
 <p><img src="/2021/09/01/BlockCipher2/1.png" srcset="/img/loading.gif" lazyload alt="1"></p>
 <p>而加密轮数一般也有固定规则——在$128$位密钥下加密$10$次，$192$位密钥下加密$12$次，$256$位密钥下加密$14$次。而加密轮数较少的一个主要原因就是AES与DES不一样，每次直接对所有的$128$位进行了处理。</p>
@@ -815,21 +820,6 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

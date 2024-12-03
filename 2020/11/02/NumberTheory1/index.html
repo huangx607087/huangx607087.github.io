@@ -315,19 +315,16 @@
 <p><strong>本源勾股数组：</strong>满足$\gcd(a,b,c)=1$</p>
 <p><strong>生成本源勾股数组：</strong> $a=st,b=\frac{s^2-t^2}{2},c=\frac{s^2+t^2}{2}$。其中$s&gt;t≥1$且$s,t$均为奇数且$\gcd(s,t)=1$</p>
 <p><strong>本源勾股数组的性质：</strong> $a,b$一定是一个奇数一个偶数，$a,b$中一定有一个是$3$的倍数，$a,b,c$中一定有一个是$5$的倍数</p>
-<p><strong>费马大定理</strong>：**$n≥3$时，方程$a^n+b^n=c^n$无正整数解。**</p>
+<p><strong>费马大定理</strong>：<strong>$n≥3$时，方程$a^n+b^n=c^n$无正整数解。</strong></p>
 <h2 id="2-最大公约数-gcd-的相关性质-数论概论-5-6-章"><a href="#2-最大公约数-gcd-的相关性质-数论概论-5-6-章" class="headerlink" title="2.最大公约数$\gcd$的相关性质(数论概论$5,6$章)"></a>2.最大公约数$\gcd$的相关性质(数论概论$5,6$章)</h2><p><strong>互质:</strong>$\gcd(a,b)=1$</p>
 <p><strong>求 $\gcd$ 的方法：欧几里得辗转相除</strong>，时间复杂度：$O(\ln b)$</p>
 <p><strong>C++代码</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">gcd</span><span class="hljs-params">(<span class="hljs-type">int</span> x,<span class="hljs-type">int</span> y)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">if</span>(y==<span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> x;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> <span class="hljs-built_in">gcd</span>(y,x%y);<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p><strong>线性方程：</strong> $ax+by=\gcd(a,b)$</p>
 <p>求解$x,y$的C++代码</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">long</span> <span class="hljs-type">long</span> <span class="hljs-title">exgcd</span><span class="hljs-params">(<span class="hljs-type">long</span> <span class="hljs-type">long</span> a,<span class="hljs-type">long</span> <span class="hljs-type">long</span> b,<span class="hljs-type">long</span> <span class="hljs-type">long</span> &amp;x,<span class="hljs-type">long</span> <span class="hljs-type">long</span> &amp;y)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">if</span>(!b)<br>	&#123;<br>		x=<span class="hljs-number">1</span>;<br>		y=<span class="hljs-number">0</span>;<br>		<span class="hljs-keyword">return</span> a;<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		<span class="hljs-type">long</span> <span class="hljs-type">long</span> R=<span class="hljs-built_in">exgcd</span>(b,a%b,y,x);<br>		y-=x*(a/b);<br>		<span class="hljs-keyword">return</span> R;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <p><strong>逆元代码：</strong>(Python直接用命令<code>inverse(a,p)</code>)</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">long</span> <span class="hljs-type">long</span> <span class="hljs-title">modinverse</span><span class="hljs-params">(<span class="hljs-type">long</span> <span class="hljs-type">long</span> a,<span class="hljs-type">long</span> <span class="hljs-type">long</span> p)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">long</span> <span class="hljs-type">long</span> x0,y0;<br>	<span class="hljs-built_in">exgcd</span>(a,p,x0,y0);<br>	<span class="hljs-type">long</span> <span class="hljs-type">long</span> A=(x0<span class="hljs-number">+750</span>*p)%p;<br>	<span class="hljs-keyword">return</span> A;<br>&#125;<br></code></pre></td></tr></table></figure>
-
 <h2 id="3-余数与整除-数论概论-7-8-9-10-11-章"><a href="#3-余数与整除-数论概论-7-8-9-10-11-章" class="headerlink" title="3.余数与整除(数论概论$7,8,9,10,11$章)"></a>3.余数与整除(数论概论$7,8,9,10,11$章)</h2><p>1.表示方法：如果$m$ 整除$a-b$，可以记作：$a \equiv b \mod m$。例如：$7+6 \equiv 3 \mod 10$ </p>
 <p><strong>性质1.若$a\equiv A \mod m,b\equiv B\mod  m$：有：$a+b \equiv A+B \mod m,ab \equiv AB \mod m$.</strong></p>
 <p>设关于$x$的同余方程：$ax \equiv c \mod m$，求$x$?</p>
@@ -784,21 +781,6 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
