@@ -33,7 +33,7 @@
 <meta property="og:image" content="http://example.com/2024/12/10/LatticeNotes8/6.png">
 <meta property="og:image" content="http://example.com/2024/12/10/LatticeNotes8/7.png">
 <meta property="article:published_time" content="2024-12-10T02:10:10.000Z">
-<meta property="article:modified_time" content="2024-12-02T15:35:18.187Z">
+<meta property="article:modified_time" content="2024-12-04T10:50:57.211Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="Notes">
 <meta name="twitter:card" content="summary_large_image">
@@ -256,7 +256,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.2k 字
+          3.6k 字
         
       </span>
     
@@ -267,7 +267,7 @@
         
         
         
-          27 分钟
+          31 分钟
         
       </span>
     
@@ -392,7 +392,14 @@
 <blockquote>
 <p>已知两个向量 $\log_2\vec v_1&#x3D;(500,600,700)$ 和 $\log_2 \vec v_2&#x3D;(600,600,600)$，很显然，$\vec v_1$ 的长度远远长于 $\vec v_2$，因为向量长度是所有分量的平方和开根号。越大的数字平方后，会变得更大，而此时小数字相对于大数字就可以被忽略了！</p>
 </blockquote>
-<p>请注意，这两个向量前面加了 $\log_2$ 符号，$(500,600,700)$ 和 $(600,600,600)$ 都是取对数后的结果，这里 $700$ 代表的数字比 $600$ 代表的数字大 $2^{100}$ 倍！那么最后算长度，$\vec v_1$ 的长度就是 $700$ 位，而 $\vec v_2$ 的长度大概是 $601$ 位，这样明确的感觉就来了！换句话说，LLL格基归约时，如果<strong>遇到某个分量较大时</strong>，会通过线性计算，扩大较小的分量，来降低较大的分量的大小，<strong>因为LLL是要求最短向量，且LLL</strong></p>
+<p>请注意，这两个向量前面加了 $\log_2$ 符号，$(500,600,700)$ 和 $(600,600,600)$ 都是取对数后的结果，这里 $700$ 代表的数字比 $600$ 代表的数字大 $2^{100}$ 倍！那么最后算长度，$\vec v_1$ 的长度就是 $700$ 位，而 $\vec v_2$ 的长度大概是 $601$ 位，这样明确的感觉就来了！换句话说，LLL格基归约时，如果<strong>遇到某个分量较大时</strong>，会通过线性计算，扩大较小的分量，来降低较大的分量的大小，<strong>因为LLL是要求最短向量，也就是每个向量的平方和尽量短，因此，最后得到的向量，每个分量的结果就会趋近于平均</strong>。</p>
+<p>而Example 5中出现的问题，就是 $x$ 为 $333$ 位，$y$ 为 $633$ 位。 两个数字之间不平衡所导致的，因此我们可以通过乘入一个系数的方法，将该向量中的每一个分量凑平衡。</p>
+<p>由于我们的目标向量为 $(x_1,x_2,x_3,1,y_1,y_2,y_3)$，每个数字比特数分别为 $(333,333,333,1,633,633,633)$，因此可以对构造的原矩阵的前 $3$ 列乘入一个 $2^{300}$，第四列乘一个 $2^{633}$，最后得到的目标向量就变成了：<br>$$<br>(2^{300}x_1,2^{300}x_2,2^{300}x_3,2^{633},y_1,y_2,y_3)<br>$$<br>这个向量每个分量均为 $633$ 位，原矩阵为 $7$ 阶方阵，此时乘入这个平衡系数后，矩阵的行列式满足：<br>$$<br>\log_2 \det M&#x3D;300\times3+633+1024\times3&#x3D;4605<br>$$<br>因此，最短向量的长度大概为：<br>$$<br>\log_2 |\vec v_1|&lt;\frac{4605}{7}&#x3D;657.85<br>$$<br>而我们所求的向量，每个分量均为 $633$ 位，因此其长度大概为 $2^{633}\sqrt7$，对应位数为 $635$ 位不到，比 $657.85$ 小，因此可能为最短向量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#exp5</span><br>A=[a[i]*inverse(b[i],p)%p <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>Z=[z[i]*inverse(b[i],p)%p <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>M=block_matrix(ZZ,<br>    [<br>        [identity_matrix(<span class="hljs-number">3</span>),zero_matrix(<span class="hljs-number">3</span>,<span class="hljs-number">1</span>),-diagonal_matrix(A)],<br>        [zero_matrix(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>),matrix([<span class="hljs-number">1</span>]),matrix(Z)],<br>        [zero_matrix(<span class="hljs-number">3</span>),zero_matrix(<span class="hljs-number">3</span>,<span class="hljs-number">1</span>),p*identity_matrix(<span class="hljs-number">3</span>)]<br>    ]<br>)<br>M=M*diagonal_matrix(ZZ,[<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">300</span>]*<span class="hljs-number">3</span>+[<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">633</span>]+[<span class="hljs-number">1</span>]*<span class="hljs-number">3</span>)<br>M3L=M.LLL()<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M3L.nrows()):<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M3L.ncols()):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">abs</span>(M3L[i][j]).nbits(),end=<span class="hljs-string">&#x27; &#x27;</span>)<br>    <span class="hljs-built_in">print</span>()<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">633 633 633 634 633 633 633 </span><br><span class="hljs-string">657 661 657 658 657 660 658 </span><br><span class="hljs-string">660 659 658 659 661 658 659 </span><br><span class="hljs-string">658 658 662 658 658 657 660 </span><br><span class="hljs-string">656 661 659 661 660 660 662 </span><br><span class="hljs-string">659 660 660 662 661 662 661 </span><br><span class="hljs-string">662 659 658 659 662 658 659 </span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>第一行很明显是答案（呃，因为 $2^{633}$ 比特数为 $634$），当然我们可以验证一下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">vans=<span class="hljs-built_in">list</span>(M3L[<span class="hljs-number">0</span>])<br><span class="hljs-keyword">assert</span> <span class="hljs-built_in">abs</span>(vans[<span class="hljs-number">3</span>])==(<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">633</span>)<br>xguess=vans[:<span class="hljs-number">3</span>]<br>yguess=vans[<span class="hljs-number">4</span>:]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):<br>    xguess[i]=<span class="hljs-built_in">abs</span>(xguess[i])&gt;&gt;<span class="hljs-number">300</span><br>    yguess[i]=<span class="hljs-built_in">abs</span>(yguess[i])<br><span class="hljs-built_in">print</span>(xguess==x,yguess==y)<br><span class="hljs-comment">#True True</span><br></code></pre></td></tr></table></figure>
+
 
                 
               </div>
