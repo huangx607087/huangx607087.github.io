@@ -22,19 +22,19 @@
     <meta name="description" content="huangx607087 11月的切题4[Unfinished]0.Introduction1.[强网拟态2024]brokenoracle11月25日，向外校的师傅要了一个强网拟态的题目，感觉不是很难，但因为自己想简单了，所以本地搞还是用了 3 小时。 先看一眼题目代码： 12345678910111213141516171819202122232425262728293031323334353">
 <meta property="og:type" content="article">
 <meta property="og:title" content="24Nov4">
-<meta property="og:url" content="http://example.com/2024/11/30/24Nov4/index.html">
+<meta property="og:url" content="http://example.com/2024/12/13/24Nov4/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
 <meta property="og:description" content="huangx607087 11月的切题4[Unfinished]0.Introduction1.[强网拟态2024]brokenoracle11月25日，向外校的师傅要了一个强网拟态的题目，感觉不是很难，但因为自己想简单了，所以本地搞还是用了 3 小时。 先看一眼题目代码： 12345678910111213141516171819202122232425262728293031323334353">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2024/11/30/24Nov4/1.png">
-<meta property="og:image" content="http://example.com/2024/11/30/24Nov4/2.png">
-<meta property="og:image" content="http://example.com/2024/11/30/24Nov4/3.png">
-<meta property="article:published_time" content="2024-11-30T08:47:34.000Z">
-<meta property="article:modified_time" content="2024-12-02T15:31:07.415Z">
+<meta property="og:image" content="http://example.com/2024/12/13/24Nov4/1.png">
+<meta property="og:image" content="http://example.com/2024/12/13/24Nov4/2.png">
+<meta property="og:image" content="http://example.com/2024/12/13/24Nov4/3.png">
+<meta property="article:published_time" content="2024-12-13T05:47:34.000Z">
+<meta property="article:modified_time" content="2024-12-05T08:52:32.443Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="ExpLog">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2024/11/30/24Nov4/1.png">
+<meta name="twitter:image" content="http://example.com/2024/12/13/24Nov4/1.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -241,8 +241,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-30 16:47" pubdate>
-          2024/11/30 16:47:34 
+        <time datetime="2024-12-13 13:47" pubdate>
+          2024/12/13 13:47:34 
         </time>
       </span>
     
@@ -325,10 +325,10 @@
 
 <p>观察前6个数据，结果分别为：$\mathtt{D887DFB86EH,887DF86E2H,87DFB86E2FH,7DFB86E2F7H,DFB86E2F73H,FB86E2F731H}$。有很明显的移位特征，因为你对密文乘了个 $16^e$ 的系数，解密后明文也乘 $16$，对应到十六进制输出就是明显的移位特征。</p>
 <p>由于 $t$ 是 $1000$ 位，$n$ 是 $1024$ 位，因此从第 $7$ 个数据开始，本应是 $\mathtt{B86E2F731XH}$，却变成了 $\mathtt{FD147B8278H}$，很明显，这应该是取模过的结果，也就是 $16^{6}t&#x3D;xn+y$。这里把 $16^6t$ 写成了 $n$ 进制的格式，$x,y&lt;n$。由于是乘了 $16$ 之后，才超过了 $n$，因此 $x$ 一定不超过 $15$。看看能不能搞出 $x$？</p>
-<p><img src="/2024/11/30/24Nov4/1.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p><img src="/2024/12/13/24Nov4/1.png" srcset="/img/loading.gif" lazyload alt="1"></p>
 <p>可以发现，这里 $x&#x3D;1$，也就是这一次在取模前，数值为 $x$ 的一倍多，也就是 $\left \lfloor\dfrac{16^6t}{n} \right \rfloor&#x3D;1$。</p>
 <p>再测两组可以发现：$\mathtt{FD147B8278H}$ 变为 $\mathtt{15EE0436E8H}$ 对应的 $x$ 也是 $1$ ，和 $\mathtt{15EE0436F4H}$ 有很小的误差。同理，$\mathtt{15EE0436F4H}$ 变为 $\mathtt{B61FBFC52H}$ 对应的 $x $ 为 $5$ （实际计算为 $\mathtt{B61FBFC49H}$），也就是当 $t$ 再乘 $16$ 之后，$t$ 达到了 $n$ 的 $5$ 倍。</p>
-<p><img src="/2024/11/30/24Nov4/2.png" srcset="/img/loading.gif" lazyload alt="2"></p>
+<p><img src="/2024/12/13/24Nov4/2.png" srcset="/img/loading.gif" lazyload alt="2"></p>
 <p>结合三个 $x$，大概可以知道：<br>$$<br>\left \lfloor\dfrac{16^8t}{n} \right \rfloor&#x3D;277<br>$$<br>（其中 $277&#x3D;\mathtt{115H}$）</p>
 <p>因此，我们可以利用这个方法，求出 $\left \lfloor\dfrac{16^{k}t}{n}\right\rfloor$ 对应的值。这里会带有误差，但可以认为误差不超过 $16$ 就是正确的。不过问题是，如果想要获得一个非常精准的值，最后的值应该超过 $n$。并且你只有 $100$ 次机会，$16^{100}&#x3D;2^{400}$，看来不太可行。</p>
 <p>但可以利用这个方法，一次爆破三位十六进制数，即将上面所有的 $16$ 换成 $4096$，然后我们开一个数组 $M$，记录上个解密的有效状态，再开一个数组 $T$，代表  $\left \lfloor\dfrac{4096^{k}t}{n}\right\rfloor$ 结果的 $4096$ 进制表示。</p>
@@ -336,7 +336,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> tqdm <span class="hljs-keyword">import</span> *<br>sh=remote(<span class="hljs-string">&#x27;127.0.0.1&#x27;</span>,<span class="hljs-number">60712</span>)<br>sh.recvuntil(<span class="hljs-string">b&#x27;n=&#x27;</span>)<br>n=sh.recvline(keepends=<span class="hljs-literal">False</span>)<br>n=sh.recvline(keepends=<span class="hljs-literal">False</span>)<br>n=<span class="hljs-built_in">eval</span>(n)<br>t=sh.recvline(keepends=<span class="hljs-literal">False</span>)<br>t=sh.recvline(keepends=<span class="hljs-literal">False</span>)<br>t=<span class="hljs-built_in">eval</span>(t)<br><span class="hljs-built_in">print</span>(n,t)<br><br>M=[]<br>T=[]<br>mask=(<span class="hljs-number">2</span>**<span class="hljs-number">40</span>-<span class="hljs-number">1</span>)&lt;&lt;<span class="hljs-number">492</span><br>RATE2N=<span class="hljs-number">4096</span><br>POW2NE=<span class="hljs-built_in">pow</span>(RATE2N,<span class="hljs-number">65537</span>,n)%n<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> trange(<span class="hljs-number">99</span>+<span class="hljs-number">1</span>):<br>	<span class="hljs-comment">#print(len(M),len(T))</span><br>	sh.recvuntil(<span class="hljs-string">b&#x27;&gt;&#x27;</span>)<br>	sh.send(<span class="hljs-built_in">hex</span>(t)[<span class="hljs-number">2</span>:].encode())<br>	msg=sh.recvline(keepends=<span class="hljs-literal">False</span>)<br>	middval=<span class="hljs-built_in">eval</span>(msg)&gt;&gt;<span class="hljs-number">492</span><br>	M.append(middval)<br>	<span class="hljs-keyword">if</span>(i==<span class="hljs-number">0</span>):<br>		t=t*POW2NE%n<br>		<span class="hljs-keyword">continue</span><br>	prevmid=(M[-<span class="hljs-number">2</span>]&amp;<span class="hljs-number">0x000fffffffffffffffff</span>)*RATE2N<br>	prevmid&lt;&lt;=<span class="hljs-number">492</span><br>	<span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(RATE2N):<br>		y=prevmid-(j*n)<br>		y=y&amp;mask<br>		y=y&gt;&gt;<span class="hljs-number">492</span><br>		<span class="hljs-keyword">if</span>(<span class="hljs-built_in">abs</span>(y-middval)&lt;RATE2N):<br>			T.append(j)<br>			<span class="hljs-keyword">break</span><br>	t=t*POW2NE%n<br><span class="hljs-built_in">print</span>(M)<br><span class="hljs-built_in">print</span>(T)<br>RR2=<span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(T)):<br>	RR2*=<span class="hljs-number">4096</span><br>	RR2+=T[i]<br>C=(RR2*n)&gt;&gt;(<span class="hljs-number">12</span>*<span class="hljs-number">99</span>)<br><br><span class="hljs-built_in">print</span>(C.bit_length())<br><br>ansstr=<span class="hljs-string">&#x27;&#123;:0250x&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(C+<span class="hljs-number">1</span>)<br><br><span class="hljs-built_in">print</span>(ansstr)<br>sh.sendline(ansstr.encode())<br>sh.interactive()<br><br></code></pre></td></tr></table></figure>
 
 <p>测试结果图中，<code>[0,1,1166,...,3942]</code> 的数组表就表示的相除向下取整得到结果的从高位到低位的 $4096$ 进制的表示。不过最后解出来 $t$ 之后，经过测试，再加1才是正确答案。</p>
-<p><img src="/2024/11/30/24Nov4/3.png" srcset="/img/loading.gif" lazyload alt="3"></p>
+<p><img src="/2024/12/13/24Nov4/3.png" srcset="/img/loading.gif" lazyload alt="3"></p>
 
                 
               </div>
@@ -383,7 +383,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>24Nov4</div>
-      <div>http://example.com/2024/11/30/24Nov4/</div>
+      <div>http://example.com/2024/12/13/24Nov4/</div>
     </div>
     <div class="license-meta">
       
@@ -395,7 +395,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年11月30日</div>
+          <div>2024年12月13日</div>
         </div>
       
       
@@ -427,18 +427,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/12/10/LatticeNotes8/" title="LatticeNotes8">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">LatticeNotes8</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/11/20/24Nov3/" title="24Nov3">
-                        <span class="hidden-mobile">24Nov3</span>
+                      <a href="/2024/12/05/LatticeNotes8/" title="LatticeNotes8">
+                        <span class="hidden-mobile">LatticeNotes8</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

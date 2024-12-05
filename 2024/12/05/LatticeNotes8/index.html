@@ -22,22 +22,24 @@
     <meta name="description" content="huangx607087构造格LLL的笔记 80.Introduction最近看到几个题目构造矩阵然后LLL的，发现自己以前的一些做法存在一些问题，因此在这边记录一下新学到的一些内容。 和前面的笔记不一样，这篇笔记中，很多题目都是以前出现过的，因此在这里对部分题目再进行一个复盘。 最近发现很多师傅都看过我博客？并且这里有些师傅还是在我退役后入坑的。（其实，我自己都不知道，自己在2021年写了写啥了">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LatticeNotes8">
-<meta property="og:url" content="http://example.com/2024/12/10/LatticeNotes8/index.html">
+<meta property="og:url" content="http://example.com/2024/12/05/LatticeNotes8/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
 <meta property="og:description" content="huangx607087构造格LLL的笔记 80.Introduction最近看到几个题目构造矩阵然后LLL的，发现自己以前的一些做法存在一些问题，因此在这边记录一下新学到的一些内容。 和前面的笔记不一样，这篇笔记中，很多题目都是以前出现过的，因此在这里对部分题目再进行一个复盘。 最近发现很多师傅都看过我博客？并且这里有些师傅还是在我退役后入坑的。（其实，我自己都不知道，自己在2021年写了写啥了">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2024/12/10/LatticeNotes8/1.png">
-<meta property="og:image" content="http://example.com/2024/12/10/LatticeNotes8/2.png">
-<meta property="og:image" content="http://example.com/2024/12/10/LatticeNotes8/3.png">
-<meta property="og:image" content="http://example.com/2024/12/10/LatticeNotes8/4.png">
-<meta property="og:image" content="http://example.com/2024/12/10/LatticeNotes8/6.png">
-<meta property="og:image" content="http://example.com/2024/12/10/LatticeNotes8/7.png">
-<meta property="article:published_time" content="2024-12-10T02:10:10.000Z">
-<meta property="article:modified_time" content="2024-12-04T10:50:57.211Z">
+<meta property="og:image" content="http://example.com/2024/12/05/LatticeNotes8/1.png">
+<meta property="og:image" content="http://example.com/2024/12/05/LatticeNotes8/2.png">
+<meta property="og:image" content="http://example.com/2024/12/05/LatticeNotes8/3.png">
+<meta property="og:image" content="http://example.com/2024/12/05/LatticeNotes8/4.png">
+<meta property="og:image" content="http://example.com/2024/12/05/LatticeNotes8/6.png">
+<meta property="og:image" content="http://example.com/2024/12/05/LatticeNotes8/7.png">
+<meta property="og:image" content="http://example.com/2024/12/05/LatticeNotes8/8.png">
+<meta property="og:image" content="http://example.com/2024/12/05/LatticeNotes8/9.png">
+<meta property="article:published_time" content="2024-12-05T08:30:39.000Z">
+<meta property="article:modified_time" content="2024-12-05T08:51:41.901Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="Notes">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2024/12/10/LatticeNotes8/1.png">
+<meta name="twitter:image" content="http://example.com/2024/12/05/LatticeNotes8/1.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -244,8 +246,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-12-10 10:10" pubdate>
-          2024/12/10 10:10:10 
+        <time datetime="2024-12-05 16:30" pubdate>
+          2024/12/05 16:30:39 
         </time>
       </span>
     
@@ -256,7 +258,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.6k 字
+          6.4k 字
         
       </span>
     
@@ -267,7 +269,7 @@
         
         
         
-          31 分钟
+          53 分钟
         
       </span>
     
@@ -331,9 +333,9 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#T1</span><br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> *<br>x=[(<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">95</span>)|getrandbits(<span class="hljs-number">96</span>) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>a=[getrandbits(<span class="hljs-number">1024</span>) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>p=getPrime(<span class="hljs-number">1024</span>)<br>veca=vector(GF(p),a)<br>vecx=vector(GF(p),x)<br>y=veca*vecx<br><span class="hljs-built_in">print</span>(y)<br><span class="hljs-built_in">print</span>(veca)<br></code></pre></td></tr></table></figure>
 
 <p>可以看出，这里每个 $x$ 的值为 $96$ 位，然后 $a,y,p$ 均为 $1024$ 位，且这个线性关系给得非常明显：<br>$$<br>a_1x_1+a_2x_2+a_3x_3\equiv y \pmod p<br>$$<br>去同余，可以有<br>$$<br>a_1x_1+a_2x_2+a_3x_3-y-kp&#x3D;0<br>$$<br>因为我们要求的内容是 $x$，因此我们可以暂时把 $x$ 放在前 $3$ 个。因为上面的线性关系一共是五项，因此可以有 $1\times -y$ 和 $-k\times p$ 项。因此，矩阵的最后一列可以放入 $(a_1,a_2,a_3,-y,p)$。而第四列的 $1$，是为了第五列第四行的 $y$ 匹配。这个 $1$ 也可以作为一个标志使用。因为我们结出来的向量 <strong>可能不是</strong> 最短向量，这个 $1$ 和最后的 $0$ 可以当成一个哨兵，如果我们最后LLL的后矩阵中，我们只需要筛选出倒数第二个分量为 $1$，最后一个分量为 $0$ 的向量，那么这个向量的前三个分量就 <strong>可能是</strong> $x_1,x_2,x_3$。</p>
-<p><img src="/2024/12/10/LatticeNotes8/1.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<p><img src="/2024/12/05/LatticeNotes8/1.png" srcset="/img/loading.gif" lazyload alt="1"></p>
 <p>然后我们可以写个代码测试一下：</p>
-<p><img src="/2024/12/10/LatticeNotes8/2.png" srcset="/img/loading.gif" lazyload alt="2"></p>
+<p><img src="/2024/12/05/LatticeNotes8/2.png" srcset="/img/loading.gif" lazyload alt="2"></p>
 <p>可以看出，最后求出的第一个向量，恰好就是三个未知的 $x$ 值。</p>
 <h4 id="Example-2-多个线性关系式"><a href="#Example-2-多个线性关系式" class="headerlink" title="Example 2 多个线性关系式"></a>Example 2 多个线性关系式</h4><p>当然，其实也不一定要构造对角线全 $1$，因为这样的话，会严重拉低矩阵的行列式的值，这样就会导致求出来的向量不在最短的 $n$ 个向量中。如果有未知量和未知量之间的关系，也可以从未知量到未知量构造线性关系，比如下面这个题：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#T2</span><br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> *<br>p=getPrime(<span class="hljs-number">1024</span>)<br>x=[getPrime(<span class="hljs-number">160</span>) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>y=[getPrime(<span class="hljs-number">160</span>) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>a=[getrandbits(<span class="hljs-number">1024</span>) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>b=[getrandbits(<span class="hljs-number">1024</span>) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>z=[(a[i]*x[i]+b[i]*y[i])%p <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br><span class="hljs-built_in">print</span>(a)<br><span class="hljs-built_in">print</span>(b)<br><span class="hljs-built_in">print</span>(z)<br><span class="hljs-built_in">print</span>(p)<br></code></pre></td></tr></table></figure>
@@ -341,12 +343,12 @@
 <p>这个题的方法是 $a_ix_i+b_iy_i\equiv z_i \pmod p$ ，有两个未知量 $x,y$，并且数字都很小。如果像刚才那样构造矩阵，会导致矩阵中对角线上的 $1$ 过多，扩大了矩阵的维数，导致矩阵中的最短向量变得很短（甚至LLL后得到的是一个单位矩阵的行置换）。</p>
 <p>由于 $x$ 和 $y$ 都很小，因此我们可以考虑从 $x$ 到 $y$ 的一个表达式，由于<br>$$<br>a_ix_i+b_iy_i\equiv z_i\pmod p<br>$$<br>因此：<br>$$<br>y_i\equiv \frac{z_i-a_ix_i}{b_i}\pmod p<br>$$<br>也就是：<br>$$<br>y_i\equiv Z_i-A_ix_i\pmod p<br>$$<br>其中：<br>$$<br>Z_i\equiv \frac{z_i}{b_i}\pmod p,A_i\equiv \frac{a_i}{b_i} \pmod p<br>$$<br>对上面的式子去同余，可以得到：<br>$$<br>y_i&#x3D;Z_i-A_ix_i-k_ip<br>$$</p>
 <p>因此，可以构造下面的线性关系：</p>
-<p><img src="/2024/12/10/LatticeNotes8/3.png" srcset="/img/loading.gif" lazyload alt="3"></p>
+<p><img src="/2024/12/05/LatticeNotes8/3.png" srcset="/img/loading.gif" lazyload alt="3"></p>
 <p>当然，这么看着好像有点不太顺眼，实际上，这么解出来也得不到任何有价值的信息，因为这个矩阵形状有点怪异：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#exp2-1</span><br>A=[a[i]*inverse(b[i],p)%p <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>Z=[z[i]*inverse(b[i],p)%p <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>M=block_matrix(ZZ,<br>    [<br>        [-diagonal_matrix(A)],<br>        [matrix(Z)],<br>        [p*identity_matrix(<span class="hljs-number">3</span>)]<br>    ]<br>)<br>M3L=M.LLL()<br><span class="hljs-built_in">print</span>(M3L)<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">Output:</span><br><span class="hljs-string">[ 0  0  0]</span><br><span class="hljs-string">[ 0  0  0]</span><br><span class="hljs-string">[ 0  0  0]</span><br><span class="hljs-string">[ 0  0  0]</span><br><span class="hljs-string">[-1  0  0]</span><br><span class="hljs-string">[ 0  1  0]</span><br><span class="hljs-string">[ 0  0  1]</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
 
 <p>不过，我们可以在这个矩阵的左上角塞一个单位矩阵，这样就是 $7\times6$，效果好多了：</p>
-<p><img src="/2024/12/10/LatticeNotes8/4.png" srcset="/img/loading.gif" lazyload alt="4"></p>
+<p><img src="/2024/12/05/LatticeNotes8/4.png" srcset="/img/loading.gif" lazyload alt="4"></p>
 <p>然后运行一下这个代码看看：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#exp2-2</span><br>A=[a[i]*inverse(b[i],p)%p <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>Z=[z[i]*inverse(b[i],p)%p <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>M=block_matrix(ZZ,<br>    [<br>        [identity_matrix(<span class="hljs-number">3</span>),-diagonal_matrix(A)],<br>        [zero_matrix(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>),matrix(Z)],<br>        [zero_matrix(<span class="hljs-number">3</span>),p*identity_matrix(<span class="hljs-number">3</span>)]<br>    ]<br>)<br>M3L=M.LLL()<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M3L.nrows()):<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M3L.ncols()):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">abs</span>(M3L[i][j]).nbits(),end=<span class="hljs-string">&#x27; &#x27;</span>)<br>    <span class="hljs-built_in">print</span>()<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">Output:</span><br><span class="hljs-string">0 0 0 0 0 0 </span><br><span class="hljs-string">160 160 160 160 160 160 </span><br><span class="hljs-string">377 376 376 376 376 376 </span><br><span class="hljs-string">373 376 376 373 377 376 </span><br><span class="hljs-string">377 377 374 375 373 373 </span><br><span class="hljs-string">375 374 377 378 377 375 </span><br><span class="hljs-string">375 375 375 374 377 378 </span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
 
@@ -354,7 +356,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#exptest2</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;x=&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;x1=<span class="hljs-subst">&#123;M3L[<span class="hljs-number">1</span>][:<span class="hljs-number">3</span>]&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;y=&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;y1=<span class="hljs-subst">&#123;M3L[<span class="hljs-number">1</span>][<span class="hljs-number">3</span>:]&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(vector(x)==M3L[<span class="hljs-number">1</span>][:<span class="hljs-number">3</span>] <span class="hljs-keyword">or</span> -vector(x)==M3L[<span class="hljs-number">1</span>][:<span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(vector(y)==M3L[<span class="hljs-number">1</span>][<span class="hljs-number">3</span>:] <span class="hljs-keyword">or</span> -vector(y)==M3L[<span class="hljs-number">1</span>][<span class="hljs-number">3</span>:])<br><span class="hljs-comment">#x=[1059875609154052394049446554149851904167774738381, 898532734274997387994126363047576903953022594169, 1461113197585095174694740018880741222582006584223]</span><br><span class="hljs-comment">#x1=(1059875609154052394049446554149851904167774738381, 898532734274997387994126363047576903953022594169, 1461113197585095174694740018880741222582006584223)</span><br><span class="hljs-comment">#y=[1325343819676712371092085429082944496756103571807, 745378211847616885781181840559736682949015771531, 800128726102435929010952852039360480436507220627]</span><br><span class="hljs-comment">#y1=(1325343819676712371092085429082944496756103571807, 745378211847616885781181840559736682949015771531, 800128726102435929010952852039360480436507220627)</span><br><span class="hljs-comment">#True</span><br><span class="hljs-comment">#True</span><br></code></pre></td></tr></table></figure>
 
 <p>当然，如果你有强迫症，想要构造方阵，让最短向量成为答案，当然没有问题，可以构造矩阵</p>
-<p><img src="/2024/12/10/LatticeNotes8/6.png" srcset="/img/loading.gif" lazyload alt="6"></p>
+<p><img src="/2024/12/05/LatticeNotes8/6.png" srcset="/img/loading.gif" lazyload alt="6"></p>
 <p>这边只输出了每个分量的比特数，经过测试，可以发现，第一个分量就是 $(x_1,x_2,x_3,1,y_1,y_2,y_3)$，符合条件！</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#exp2-3</span><br>M=block_matrix(ZZ,<br>    [<br>        [identity_matrix(<span class="hljs-number">3</span>),zero_matrix(<span class="hljs-number">3</span>,<span class="hljs-number">1</span>),-diagonal_matrix(A)],<br>        [zero_matrix(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>),matrix([<span class="hljs-number">1</span>]),matrix(Z)],<br>        [zero_matrix(<span class="hljs-number">3</span>),zero_matrix(<span class="hljs-number">3</span>,<span class="hljs-number">1</span>),p*identity_matrix(<span class="hljs-number">3</span>)]<br>    ]<br>)<br>M3L=M.LLL()<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M3L.nrows()):<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M3L.ncols()):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">abs</span>(M3L[i][j]).nbits(),end=<span class="hljs-string">&#x27; &#x27;</span>)<br>    <span class="hljs-built_in">print</span>()<br><span class="hljs-built_in">print</span>(vector(x)==M3L[<span class="hljs-number">0</span>][:<span class="hljs-number">3</span>] <span class="hljs-keyword">or</span> -vector(x)==M3L[<span class="hljs-number">0</span>][:<span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(vector(y)==M3L[<span class="hljs-number">0</span>][-<span class="hljs-number">3</span>:] <span class="hljs-keyword">or</span> -vector(y)==M3L[<span class="hljs-number">0</span>][-<span class="hljs-number">3</span>:])<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">160 160 160 1 160 160 160 </span><br><span class="hljs-string">484 484 483 482 481 484 478 </span><br><span class="hljs-string">481 483 484 483 484 484 483 </span><br><span class="hljs-string">484 483 483 485 484 483 481 </span><br><span class="hljs-string">485 484 484 485 480 481 484 </span><br><span class="hljs-string">484 484 484 484 483 484 485 </span><br><span class="hljs-string">485 483 485 484 484 485 485 </span><br><span class="hljs-string">True</span><br><span class="hljs-string">True</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
 
@@ -376,7 +378,7 @@
 
 <p>可以看到，因为矩阵大小为 $7\times7$，行列式值为 $p^3$，因此最短向量长度为 $p^{3&#x2F;7}$，对应长度也就是 $438$ 比特左右，可以看出，最后得到的$7$ 个向量长度都是 $438$ 比特左右。</p>
 <p>然后以前我做到这边，直接大力出奇迹，还真别说，最后解出来，最后一个向量还真是答案。。。</p>
-<p><img src="/2024/12/10/LatticeNotes8/7.png" srcset="/img/loading.gif" lazyload alt="7"></p>
+<p><img src="/2024/12/05/LatticeNotes8/7.png" srcset="/img/loading.gif" lazyload alt="7"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#exp4</span><br>A=[a[i]*inverse(b[i],p)%p <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>Z=[z[i]*inverse(b[i],p)%p <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>M=block_matrix(ZZ,<br>    [<br>        [identity_matrix(<span class="hljs-number">3</span>),zero_matrix(<span class="hljs-number">3</span>,<span class="hljs-number">1</span>),-diagonal_matrix(A)],<br>        [zero_matrix(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>),matrix([<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">20000</span>]),matrix(Z)],<br>        [zero_matrix(<span class="hljs-number">3</span>),zero_matrix(<span class="hljs-number">3</span>,<span class="hljs-number">1</span>),p*identity_matrix(<span class="hljs-number">3</span>)]<br>    ]<br>)<br>M3L=M.LLL()<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M3L.nrows()):<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M3L.ncols()):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">abs</span>(M3L[i][j]).nbits(),end=<span class="hljs-string">&#x27; &#x27;</span>)<br>    <span class="hljs-built_in">print</span>()<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">0 0 511 0 0 0 510 </span><br><span class="hljs-string">508 0 0 0 512 0 0 </span><br><span class="hljs-string">0 512 0 0 0 512 0 </span><br><span class="hljs-string">0 512 0 0 0 512 0 </span><br><span class="hljs-string">513 0 0 0 509 0 0 </span><br><span class="hljs-string">0 0 512 0 0 0 513 </span><br><span class="hljs-string">450 450 450 20001 450 450 450 </span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
 
 <p>然后，好像就没啥然后了，似乎这么做还挺对的，直到我遇到。。。</p>
@@ -400,6 +402,230 @@
 <p>第一行很明显是答案（呃，因为 $2^{633}$ 比特数为 $634$），当然我们可以验证一下。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">vans=<span class="hljs-built_in">list</span>(M3L[<span class="hljs-number">0</span>])<br><span class="hljs-keyword">assert</span> <span class="hljs-built_in">abs</span>(vans[<span class="hljs-number">3</span>])==(<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">633</span>)<br>xguess=vans[:<span class="hljs-number">3</span>]<br>yguess=vans[<span class="hljs-number">4</span>:]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):<br>    xguess[i]=<span class="hljs-built_in">abs</span>(xguess[i])&gt;&gt;<span class="hljs-number">300</span><br>    yguess[i]=<span class="hljs-built_in">abs</span>(yguess[i])<br><span class="hljs-built_in">print</span>(xguess==x,yguess==y)<br><span class="hljs-comment">#True True</span><br></code></pre></td></tr></table></figure>
 
+<h2 id="3-网鼎杯2024半决赛-RSA加密分析"><a href="#3-网鼎杯2024半决赛-RSA加密分析" class="headerlink" title="3. [网鼎杯2024半决赛] RSA加密分析"></a>3. [网鼎杯2024半决赛] RSA加密分析</h2><p>之所以写这篇博客，是因为当时wdb半决赛的时候，自己没考虑平衡常数，结果构造的矩阵左上角为 $1$，怎么解也解不出东西来。。。</p>
+<p>还好，这个题只有 $1$ 解，本质还是一个套娃题。但CTF只有4h，最后做起来还挺繁琐的。</p>
+<h3 id="3x01-题目大意"><a href="#3x01-题目大意" class="headerlink" title="3x01 题目大意"></a>3x01 题目大意</h3><p>先看看题</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># sagemath</span><br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><br>flag = <span class="hljs-string">b&#x27;&#x27;</span><br><br>k = <span class="hljs-number">3</span><br>d = k/(<span class="hljs-number">2</span>*(k+<span class="hljs-number">1</span>))<br>ns = []<br>pqs = []<br>es = []<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):<br>    p = getPrime(<span class="hljs-number">512</span>)<br>    q = getPrime(<span class="hljs-number">512</span>)<br>    <span class="hljs-keyword">if</span> p &lt; q:<br>        tmp = p<br>        p = q<br>        q = tmp<br>    n = p*q<br>    ns.append(n)<br>    pqs.append((p,q))<br><br>n = <span class="hljs-built_in">min</span>(ns)<br>x = random.randint(<span class="hljs-number">0</span>,<span class="hljs-built_in">int</span>(n^(d/<span class="hljs-number">2</span>)))<br>x = next_prime(x)<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):<br>    p,q = pqs[i][<span class="hljs-number">0</span>],pqs[i][<span class="hljs-number">1</span>]<br>    bound1 = <span class="hljs-built_in">int</span>((p-q)/(<span class="hljs-number">3</span>*(p+q)) * x * n ^ <span class="hljs-number">0.25</span>)<br>    bound2 = <span class="hljs-built_in">int</span>((p-q)/(<span class="hljs-number">3</span>*(p+q)) * x^<span class="hljs-number">2</span> * n ^ <span class="hljs-number">0.25</span>)<br>    z = random.randint(bound1,bound2)<br>    f = (p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>)<br>    e = inverse(x^<span class="hljs-number">2</span>,f) * z % f<br>    es.append(e)<br><br>e = <span class="hljs-number">8462913</span><br>c = <span class="hljs-built_in">pow</span>(bytes_to_long(flag),e,ns[<span class="hljs-number">0</span>])<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;ns=<span class="hljs-subst">&#123;ns&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;es=<span class="hljs-subst">&#123;es&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;c=<span class="hljs-subst">&#123;c&#125;</span>&#x27;</span>)<br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">ns=[58456238154727772714762362790039415372652580738847549549926175214592421074440425380491278175531057453959583518365006871715668115289674464868754600641087664868445977308497244134179400977293896807231964047365956545629327100737851868274388108150918741474301542596310528990700043925342513137054619092876834352167, 77621328849675766747673031143217563980503830449890233197117569566535170499356584333526498228802079135043121885950830320777642529199704224484173792215691924850086027618183393165197503325417741686635820334799489140360184827244176669486536901652827052817389390205607840551799799037689580359943641014734459153393, 112244920700186260026594736958318991062998987080230137582151100770199379608284829383065111800934933346946496041561749555085922429662611986339400029890877247514987095240380019377389184545006798594193383230298132838994539491402564579629017309643629910561998268286162916487705908044261914142200286678017692930877]</span><br><span class="hljs-string">es=[46762963588977775648213636278524171408894671002158172701955774077187382885695296449518850546775920334764033057745226744111631183010556541467024035131602309988991836959736948179491431343087734419406823467043032520956443072556932946767546576469286010676651317873358203560021064830688914958086524112915123700678, 49605058941818136068558533413619424099600243928109466352604646203354430655695939177245076016870792265350960174089601299549033530643078866868937787258274475767441534991912769995268058506952466739575911255510940326565376471493045685544056383561868628029099619187607579109612157304977780126730283103824111801708, 35433601810279274137096137736120773703247868305827931187532982974242279082633517463016086358856291932337981126992048059591164336008738979183437333221010305682689432537562502148059203087673302900990705589870381203411821061168753251557946997898741497047442934600089950257888693394999451561437497637827070063398]</span><br><span class="hljs-string">c=45042826649205831967869785980034342377048541926664036544108272069702081866501394370318117629151408517708467341069558466115205805860156690204194355692872459196902123082567148537856941845388225814307822482217762135547080677443326657146552580523747535577686386312386011950929734955156100305548239483424574706729</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>根据题目数据的规模，大致可以得到： $x$ 是 $192$ 位，因此 $x^2$ 是 $384$ 位。<code>bound1</code> 是 $192+256&#x3D;448$ 位， <code>bound2</code> 是$384+512&#x3D;640$ 位，因此 <code>bound1</code> 相对于 <code>bound2</code> 可以忽略不计。那么，随机数 $z$ 就是 $896$ 位。因此第一步就是求 $x$。</p>
+<h3 id="3x02-求解-x"><a href="#3x02-求解-x" class="headerlink" title="3x02 求解 $x$"></a>3x02 求解 $x$</h3><p> 题目给出的关系式为：<br>$$<br>e_i\equiv \frac{z_i}{x^2} \pmod {f_i}<br>$$<br>其中，$f_i&#x3D;(p_i-1)(q_i-1)$。</p>
+<p>因此，对上面式子，去同余化简，得<br>$$<br>e_ix^2-z_i-kf_i&#x3D;0<br>$$<br>由于 $f_i$ 与 $n_i$ 之间的关系为 $f_i&#x3D;n_i-(p_i+q_i)+1$，设 $y_i&#x3D;p_i+q_i$，那么 $y_i$ 的比特数为 $513$。上面的式子可以化成<br>$$<br>e_ix^2-z_i-kn_i+ky_i-1&#x3D;0<br>$$<br>由于 $e_ix^2-z_i&#x3D;kf_i$ ，$e_i,x^2$ 分别为 $1024$ 和 $384$ 位，因此 $e_ix^2$ 的值（不取模）是 $1408$ 位，$z_i$ 是 $635$ 位，相对于 $1408$ 位可以忽略不计。因此，$kf_i$ 也应当是 $1408$ 位，由于 $f$ 是 $1408$ 位，因此 $k$ 和 $x^2$ 同阶，也是 $384$ 位。且 $k$ 在知道 $x$ 后是可求的，其值为：<br>$$<br>k_i&#x3D;\frac{e_ix^2-z_i}{f_i}&#x3D;1+ \left \lfloor\frac{e_ix^2}{n_i} \right\rfloor<br>$$<br>同时，我们知道了 $y_i$ 是 $513$ 位，因此 $ky_i$ 为 $513+384&#x3D;899$ 位。相对于格中 $1024$ 的量，还是比较小的。所以最终的等式为：<br>$$<br>e_ix^2-k(n_i+1)&#x3D;z_i-k_iy_i<br>$$<br>$z_i-ky_i$ 的位数为 $899$ 位，符合预期。所以：</p>
+<p><img src="/2024/12/05/LatticeNotes8/8.png" srcset="/img/loading.gif" lazyload alt="8"></p>
+<p>然后就GG了，卡了我4h。</p>
+<p>正确做法：因为 $x$ 是 $384$ 位，带 $z_i-ky_i$ 的量是 $899$ 位，中间差了 $515$ 位，因此得带个平衡系数 $2^{515}$。</p>
+<p><img src="/2024/12/05/LatticeNotes8/9.png" srcset="/img/loading.gif" lazyload alt="9"></p>
+<p>然后就出了。。。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#sage</span><br>M=[<br>    [<span class="hljs-number">2</span>**<span class="hljs-number">515</span>,es[<span class="hljs-number">0</span>],es[<span class="hljs-number">1</span>],es[<span class="hljs-number">2</span>]],<br>    [<span class="hljs-number">0</span>,ns[<span class="hljs-number">0</span>],<span class="hljs-number">0</span>,<span class="hljs-number">0</span>],<br>    [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,ns[<span class="hljs-number">1</span>],<span class="hljs-number">0</span>],<br>    [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,ns[<span class="hljs-number">2</span>]]<br>]<br>M=Matrix(ZZ,M)<br>M3L=M.LLL()<br>x2=(<span class="hljs-built_in">abs</span>(M3L[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>])&gt;&gt;(<span class="hljs-number">515</span>))<br><span class="hljs-keyword">assert</span> x2.is_square()<br>x=x2.nth_root(<span class="hljs-number">2</span>)<br><span class="hljs-keyword">assert</span> isPrime(x)<br><span class="hljs-built_in">print</span>(x)<br><span class="hljs-comment">#1696237025993008832375257492068228509280454088630659960513</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3x03-求-y-的值"><a href="#3x03-求-y-的值" class="headerlink" title="3x03 求 $y$ 的值"></a>3x03 求 $y$ 的值</h3><p>有了 $x$ 之后，就可以把三个 $k$ 也给求出来，但我们实际上只需要第一组数据就行。</p>
+<p>目前我们已知的内容为 $x,k_1,z_1-k_1y_1$，目标是求 $y_1$。</p>
+<p>根据前面已知的等式：<br>$$<br>e_1x^2-z_1-k_1n_1+k_1y_1-1&#x3D;0<br>$$<br>变形一下，可以有<br>$$<br>e_1x^2-k_1(n_1+1)-z_1-k_1y_1&#x3D;0<br>$$<br>这个式子中，只有 $y_1,z_1$ 为未知量，其中 $z_1$ 为 $640$ 位， $y_1$ 为 $513$ 位，差值为 $127$。并且还要考虑 已知项 $e_1x^2-k_1(n_1+1)$，对应向量分类中的常数项 $1$。</p>
+<p>因此继续构造：<br>$$<br>(y_1,z_1,1)\begin{bmatrix}<br>\color{red}2^{127}&amp;&amp;&amp;-k_1\<br>&amp;1&amp;&amp;-1\<br>&amp;&amp;\color{red}2^{640}&amp;e_1x^2-k_1(n_1+1)<br>\end{bmatrix}&#x3D;(2^{127}y_1,z_1,2^{640},0)<br>$$<br>简单瞄一下：对角线元素约为 $127+640&#x3D;767$ ，这个不是方阵。感觉有点不太够的样子。</p>
+<p>在这里，哨兵元素为 $2^{640}$ 和 $0$，因此我们LLL之后，找第三分量为 $2^{640}$，第四分量为 $0$ 的元素。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python">k=<span class="hljs-number">1</span>+(((es[<span class="hljs-number">0</span>])*x)//ns[<span class="hljs-number">0</span>])<br>zky=M3L[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>]<br>G=[<br>    [<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">127</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,-k],<br>    [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,-<span class="hljs-number">1</span>],<br>    [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">640</span>,es[<span class="hljs-number">0</span>]*x**<span class="hljs-number">2</span>-k*(ns[<span class="hljs-number">0</span>]+<span class="hljs-number">1</span>)]<br>]<br>G=matrix(ZZ,G)<br>G=G<span class="hljs-comment">#*diagonal_matrix(ZZ,[1,1,1,2**2000])</span><br>G3L=G.LLL()<br>vans=<span class="hljs-literal">None</span><br><span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> G3L:<br>    <span class="hljs-keyword">if</span>(v[<span class="hljs-number">2</span>]==<span class="hljs-number">2</span>**<span class="hljs-number">640</span> <span class="hljs-keyword">and</span> v[<span class="hljs-number">3</span>]==<span class="hljs-number">0</span>):<br>        vans=v<br>        <span class="hljs-keyword">break</span><br><span class="hljs-built_in">print</span>(vans)<br></code></pre></td></tr></table></figure>
+
+<p>结果没找到，然后输出 <code>G3L</code> 的结果看一眼，发现一个向量满足第三分量是 $2^{640}$，另一个向量满足第四分量是 $0$。</p>
+<p>看来是界不太够了，那就再来一波大力出奇迹。<br>$$<br>(y_1,z_1,1)\begin{bmatrix}<br>\color{red}2^{127}&amp;&amp;&amp;-k_1\<br>&amp;1&amp;&amp;-1\<br>&amp;&amp;\color{red}2^{640}&amp;e_1x^2-k_1(n_1+1)<br>\end{bmatrix}\cdot\mathrm{diag}(1,1,1,2^{20000})&#x3D;(2^{127}y_1,z_1,2^{640},0)<br>$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python">k=<span class="hljs-number">1</span>+(((es[<span class="hljs-number">0</span>])*x*x)//ns[<span class="hljs-number">0</span>])<br>zky=M3L[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>]<br>G=[<br>    [<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">127</span>,<span class="hljs-number">20</span>,<span class="hljs-number">0</span>,-k],<br>    [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,-<span class="hljs-number">1</span>],<br>    [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>&lt;&lt;<span class="hljs-number">640</span>,es[<span class="hljs-number">0</span>]*(x**<span class="hljs-number">2</span>)-k*(ns[<span class="hljs-number">0</span>]+<span class="hljs-number">1</span>)]<br>]<br>G=matrix(ZZ,G)<br>G=G*diagonal_matrix(ZZ,[<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>**<span class="hljs-number">20000</span>])<br><span class="hljs-comment">#print(G)</span><br>G3L=G.LLL()<br>vans=<span class="hljs-literal">None</span><br><span class="hljs-keyword">for</span> v <span class="hljs-keyword">in</span> G3L:<br>    <span class="hljs-keyword">if</span>(v[<span class="hljs-number">2</span>]==<span class="hljs-number">2</span>**<span class="hljs-number">640</span> <span class="hljs-keyword">and</span> v[<span class="hljs-number">3</span>]==<span class="hljs-number">0</span>):<br>        vans=v<br>        <span class="hljs-keyword">break</span><br><span class="hljs-built_in">print</span>(vans)<br>y=<span class="hljs-built_in">abs</span>(vans[<span class="hljs-number">0</span>])&gt;&gt;<span class="hljs-number">127</span><br>z=vans[<span class="hljs-number">1</span>]<br><span class="hljs-built_in">print</span>(y.nbits(),z.nbits())<br><span class="hljs-comment">#(-2601742433829735205717510958984597054031885650700522469656590841975973352498358057919092577419846355269586088827959437508632269659680389249804349835135992919707882192966293703794747575323590656, -191810479825992932776976119516271570787555880246177445289447710773949638278444955289971892948555085597643726446747043, 4562440617622195218641171605700291324893228507248559930579192517899275167208677386505912811317371399778642309573594407310688704721375437998252661319722214188251994674360264950082874192246603776, 0)</span><br><span class="hljs-comment">#513 387</span><br></code></pre></td></tr></table></figure>
+
+<p>$y$ 对应的值是 $513$ 位，貌似是正确的，但 $z$ 不对。但我们并不需要那个 $z$。但输出 $y$ 看一下，发现 $y$ 是个奇数。。。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(y)<br><span class="hljs-comment">#15291667666307414493036951046107275741397940767822287922559621898054774057554431022160493431539991508171319851807097492122079767748903000613100351624105777</span><br></code></pre></td></tr></table></figure>
+
+<p>说明 $y$ 可能是 $p_1+q_1$ 的高位。由于后面只涉及第一组数据了，因此，下标 $1,2,3$ 将再下一小节被省略。</p>
+<h3 id="3x04-求-p-值"><a href="#3x04-求-p-值" class="headerlink" title="3x04 求 $p$ 值"></a>3x04 求 $p$ 值</h3><p>用题目代码生成其他几组数据测一下，$y$ 确实为 $p+q$ 高位，最低 $254$ 位有偏差，也就是我们知道了 $p+q$ 位数的一半。那么构建方程：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">n=<span class="hljs-number">58456238154727772714762362790039415372652580738847549549926175214592421074440425380491278175531057453959583518365006871715668115289674464868754600641087664868445977308497244134179400977293896807231964047365956545629327100737851868274388108150918741474301542596310528990700043925342513137054619092876834352167</span><br>y=<span class="hljs-number">15291667666307414493036951046107275741397940767822287922559621898054774057554431022160493431539991508171319851807097492122079767748903000613100351624105777</span><br>R.&lt;x&gt; = PolynomialRing(RealField(<span class="hljs-number">2048</span>))<br>f = x * ((y) - x) - n<br>res = f.roots()<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">longdouble2int</span>(<span class="hljs-params">x</span>):<br>    x=<span class="hljs-built_in">str</span>(x)<br>    x=x.split(<span class="hljs-string">&#x27;.&#x27;</span>)<br>    x[<span class="hljs-number">1</span>]=x[<span class="hljs-number">1</span>].split(<span class="hljs-string">&#x27;e&#x27;</span>)<br>    <span class="hljs-keyword">return</span> Integer(x[<span class="hljs-number">0</span>]+x[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>][:<span class="hljs-built_in">int</span>(x[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>])])<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> res:<br>    <span class="hljs-built_in">print</span>(longdouble2int(i[<span class="hljs-number">0</span>]))<br><span class="hljs-comment">#7595466686419558151205913432118661460574378336265188601308332178368424478703277500529523587366925897212947299535668041397861697290034233117986300118079322</span><br><span class="hljs-comment">#7696200979887856341831037613988614280823562431557099321251289719686349578851153521630969844173065610958372552271429450724218070458868767495114051506026454</span><br></code></pre></td></tr></table></figure>
+
+<p>得到了 $p$ 的高位和 $q$ 的高位，这个值大概有一半是精确的。尝试爆破 $12$ 位，应该能出解，大概耗时为一小时左右（刚好前几天搞了个58一年的2h2g的服务器）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs python">ph=<span class="hljs-number">7696200979887856341831037613988614280823562431557099321251289719686349578851153521630969844173065610958372552271429450724218070458868767495114051506026454</span><br>n=<span class="hljs-number">58456238154727772714762362790039415372652580738847549549926175214592421074440425380491278175531057453959583518365006871715668115289674464868754600641087664868445977308497244134179400977293896807231964047365956545629327100737851868274388108150918741474301542596310528990700043925342513137054619092876834352167</span><br><span class="hljs-keyword">from</span> multiprocessing <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> tqdm <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">solve</span>(<span class="hljs-params">p4</span>):<br>    pbits = <span class="hljs-number">512</span><br>    kbits = pbits - p4.nbits()<br>    p4 = p4 &lt;&lt; kbits<br>    PR.&lt;x&gt; = PolynomialRing(Zmod(n))<br>    f = x + p4<br>    roots = f.small_roots(X=<span class="hljs-number">2</span>**kbits, beta=<span class="hljs-number">0.42</span>,epsilon=<span class="hljs-number">0.012</span>)<br>    <span class="hljs-keyword">if</span> roots:        <br>        p = p4 + <span class="hljs-built_in">int</span>(roots[<span class="hljs-number">0</span>])<br>        q = n//p<br>        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;result&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>            f.write(<span class="hljs-string">f&#x27;p: <span class="hljs-subst">&#123;p&#125;</span>\n&#x27;</span>)<br>            f.write(<span class="hljs-string">f&#x27;q: <span class="hljs-subst">&#123;q&#125;</span>\n&#x27;</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br>ph=ph&gt;&gt;<span class="hljs-number">256</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">solve1</span>():<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> tqdm(<span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>**<span class="hljs-number">11</span>)):<br>        <span class="hljs-keyword">if</span>(solve((ph&lt;&lt;<span class="hljs-number">12</span>)|i)):<br>            <span class="hljs-keyword">return</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">solve2</span>():<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> tqdm(<span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>**<span class="hljs-number">11</span>,<span class="hljs-number">2</span>**<span class="hljs-number">12</span>)):<br>        <span class="hljs-keyword">if</span>(solve((ph&lt;&lt;<span class="hljs-number">12</span>)|i)):<br>            <span class="hljs-keyword">return</span><br><span class="hljs-keyword">from</span> multiprocessing <span class="hljs-keyword">import</span> Process, current_process<br>PROC=[]<br>PROC.append(Process(target=solve1))<br>PROC.append(Process(target=solve2))<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>):<br>    PROC[i].start()<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>):<br>    PROC[i].join()<br></code></pre></td></tr></table></figure>
+
+<p>然后跑了20分钟后，发现服务器负载突然降到了50%，看来是一个进程出了结果，打开result.txt查看结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">p: <span class="hljs-number">7696200979887856341831037613988614280823562431557099321251289719686349578851157595313091133333376255237947592610103860940743200558583228583143108125315529</span><br>q: <span class="hljs-number">7595466686419558151205913432118661460574378336265188601308332178368424478703273480167149453312906478797521330243646557948961908036589158891684701262055023</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3x05-求最终flag"><a href="#3x05-求最终flag" class="headerlink" title="3x05 求最终flag"></a>3x05 求最终flag</h3><p>发现 $e&#x3D;8462913$，不是默认的 $65537$ 或 <code>getPrime</code> 得到的数字，看来大事不妙，果然，有 $e&#x3D;3 \times 2820971$。然后发现：$p-1,q-1$ 都是 $3$ 的倍数，还得把 AMM算法调出来。</p>
+<p>得到：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">cbrtcp=&#123;<span class="hljs-number">5457734212209914607812625325490750749661326921613441346478932389873269831927640313433909213645212354490723810811111424420872595194416663018676652425769843</span>, <span class="hljs-number">2078396872589066084890946019870420517722364119774927920595224513472857788525543374144267568390931958280362619350258000147602830214465571608914879090611743</span>, <span class="hljs-number">160069895088875649127466268627443013439871390168730054177132816340221958397973907734914351297231942466861162448734436372267775149700993955551576608933943</span>&#125;<br>cbrtcq=&#123;<span class="hljs-number">2673359237708120727862398760587900169638391052868557052175750873601678618266229531730282702839716628363656139382035102683850049531165943543150164597396242</span>, <span class="hljs-number">4480948863344673380560358841432740594822756100315860318495558241131293070924509985646332250166426369654468055542550092440114644741178753450051611037785301</span>, <span class="hljs-number">441158585366764042783155830098020696113231183080771230637023063635452789512533962790534500306763480779397135319061362824997213764244461898482925626873480</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>结果发现，$p-1$ 竟然也是 $2820971$ 的倍数</p>
+<p>因为512比特对应64字节，因此可以尝试盲猜flag没有64字节。。。然后就出了 。。。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br>phi=(p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>)<br>n=p*q<br>e=<span class="hljs-number">2820971</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> cbrtcq:<br>    <span class="hljs-built_in">print</span>(long_to_bytes(<span class="hljs-built_in">pow</span>(i,inverse(e,q-<span class="hljs-number">1</span>),q)))<br><span class="hljs-comment">#flag&#123;N3w_Attacks_4_key_equat1ons&#125;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>那如果flag超过了64字节呢？</p>
+<p>用AMM算法，对 $p$ 再开根 $2820971$ 次根，得到一个特解 $x^*$。然后再求 $x^{2820971}\equiv 1\pmod p$ 的 $2820971$ 次根，能得到 $2820971$ 个满足条件的数据（这个很简单，用群论的知识就可以解决）。然后再CRT。耗时约为 $3^2\times2820971$，也就是 $2538$ 万次CRT。。。</p>
+</blockquote>
+<h2 id="4-关于small-roots-的调参"><a href="#4-关于small-roots-的调参" class="headerlink" title="4. 关于small_roots 的调参"></a>4. 关于small_roots 的调参</h2><p>自己测试了一下，实验环境为 Sagemath 10.4。</p>
+<p><code>f.small_roots</code> 有三个参数： <code>X,beta,epsilon</code>，分别代表结果的上界、模数因子的下界和求解步长。其中， $X$ 越大、 $\beta$ 越大、$\epsilon$ 越小，得到结果的概率越高，但耗时也越长。。。</p>
+<p>在2h2g的云服务器上跑的。得到的结果如下：</p>
+<h3 id="4o01-beta-0-4的实验结果"><a href="#4o01-beta-0-4的实验结果" class="headerlink" title="4o01 beta&#x3D;0.4的实验结果"></a>4o01 beta&#x3D;0.4的实验结果</h3><table>
+<thead>
+<tr>
+<th>unknownbit</th>
+<th>240</th>
+<th>241</th>
+<th>242</th>
+<th>243</th>
+<th>244</th>
+<th>245</th>
+<th>246</th>
+<th>247</th>
+<th>248</th>
+<th>249</th>
+<th align="left">250</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$\beta$</td>
+<td>0.4</td>
+<td>0.4</td>
+<td>0.4</td>
+<td>0.4</td>
+<td>0.4</td>
+<td>0.4</td>
+<td>0.4</td>
+<td>0.4</td>
+<td>0.4</td>
+<td>0.4</td>
+<td align="left">0.4</td>
+</tr>
+<tr>
+<td>$1000\epsilon$</td>
+<td>22</td>
+<td>20</td>
+<td>18</td>
+<td>17</td>
+<td>16</td>
+<td>14</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>8</td>
+<td align="left">7</td>
+</tr>
+<tr>
+<td>timecost(s)</td>
+<td>0.09</td>
+<td>0.15</td>
+<td>0.19</td>
+<td>0.23</td>
+<td>0.34</td>
+<td>0.53</td>
+<td>1.08</td>
+<td>1.53</td>
+<td>2.81</td>
+<td>9.6</td>
+<td align="left">13.6</td>
+</tr>
+</tbody></table>
+<h3 id="4o02-beta-0-495-的实验结果"><a href="#4o02-beta-0-495-的实验结果" class="headerlink" title="4o02 beta&#x3D;0.495 的实验结果"></a>4o02 beta&#x3D;0.495 的实验结果</h3><table>
+<thead>
+<tr>
+<th>unknownbit</th>
+<th>248</th>
+<th>249</th>
+<th>250</th>
+<th>251</th>
+<th>252</th>
+<th>253</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$\beta$</td>
+<td>0.495</td>
+<td>0.495</td>
+<td>0.495</td>
+<td>0.495</td>
+<td>0.495</td>
+<td>0.495</td>
+</tr>
+<tr>
+<td>$1000\epsilon$</td>
+<td>13</td>
+<td>12</td>
+<td>10</td>
+<td>$9\sim8$</td>
+<td>$7.5\sim6$</td>
+<td>$5.5\sim5$</td>
+</tr>
+<tr>
+<td>timecost(s)</td>
+<td>3.71</td>
+<td>6.42</td>
+<td>16.9</td>
+<td>$32\sim60$</td>
+<td>$76\sim308$</td>
+<td>$544\sim1400$</td>
+</tr>
+</tbody></table>
+<h3 id="4o03-beta-0-498-的实验结果"><a href="#4o03-beta-0-498-的实验结果" class="headerlink" title="4o03 beta&#x3D;0.498+ 的实验结果"></a>4o03 beta&#x3D;0.498+ 的实验结果</h3><table>
+<thead>
+<tr>
+<th>unknownbit</th>
+<th>252</th>
+<th>253</th>
+<th>254</th>
+<th>255</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$\beta$</td>
+<td>0.498</td>
+<td>0.498</td>
+<td>0.499</td>
+<td>0.499</td>
+</tr>
+<tr>
+<td>$1000\epsilon$</td>
+<td>$7.5\sim6.5$</td>
+<td>$5.5\sim4.5$</td>
+<td>$3.5\sim3$</td>
+<td>未测</td>
+</tr>
+<tr>
+<td>timecost(s)</td>
+<td>$92\sim238$</td>
+<td>$600\sim2200$</td>
+<td>$5200\sim20000^+$</td>
+<td>未测</td>
+</tr>
+</tbody></table>
+<p>前三个的测试代码（只修改for ub，for betak 和for epsk 中的内容）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">Sample</span>(<span class="hljs-params">ubits</span>):<br>    p=getPrime(<span class="hljs-number">512</span>)<br>    q=getPrime(<span class="hljs-number">512</span>)<br>    n=p*q<br>    <span class="hljs-keyword">return</span> n,p&gt;&gt;ubits<br><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">solve</span>(<span class="hljs-params">p4,n</span>):<br>    pbits = <span class="hljs-number">512</span><br>    kbits = pbits - p4.nbits()<br>    p4 = p4 &lt;&lt; kbits<br>    PR.&lt;x&gt; = PolynomialRing(Zmod(n))<br>    f = x + p4<br>    <span class="hljs-keyword">for</span> betak <span class="hljs-keyword">in</span> [<span class="hljs-number">0.499</span>]:<br>        <span class="hljs-keyword">for</span> epsk <span class="hljs-keyword">in</span>[<span class="hljs-number">0.0045</span>,<span class="hljs-number">0.004</span>,<span class="hljs-number">0.0035</span>,<span class="hljs-number">0.003</span>,<span class="hljs-number">0.0025</span>,<span class="hljs-number">0.002</span>,<span class="hljs-number">0.0015</span>]:<br>            <span class="hljs-built_in">print</span>(epsk)<br>            stime=datetime.now()<br>            roots = f.small_roots(X=<span class="hljs-number">2</span>**kbits, beta=betak,epsilon=epsk)<br>            <span class="hljs-keyword">if</span> roots:        <br>                p = p4 + <span class="hljs-built_in">int</span>(roots[<span class="hljs-number">0</span>])<br>                q = n//p<br>                <span class="hljs-keyword">assert</span> p!=n <span class="hljs-keyword">and</span> q!=n <span class="hljs-keyword">and</span> p!=<span class="hljs-number">1</span> <span class="hljs-keyword">and</span> q!=<span class="hljs-number">1</span><br>                ttime=datetime.now()<br>                <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;result0499-254255&#x27;</span>,<span class="hljs-string">&#x27;a&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>                    f.write(<span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;kbits&#125;</span>,&#x27;</span>+<span class="hljs-string">&#x27;&#123;:.4f&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(betak)+<span class="hljs-string">&#x27;,&#x27;</span>+<span class="hljs-string">&#x27;&#123;:.4f&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(epsk)+<span class="hljs-string">&#x27;,&#x27;</span>+<span class="hljs-built_in">str</span>((ttime-stime).total_seconds())+<span class="hljs-string">&#x27;\n&#x27;</span>)<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br><br><span class="hljs-keyword">for</span> ub <span class="hljs-keyword">in</span> [<span class="hljs-number">254</span>,<span class="hljs-number">255</span>]:<br>    <span class="hljs-built_in">print</span>(datetime.now())<br>    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>        n,ph=Sample(ub)<br>        n,ph=Integer(n),Integer(ph)<br>        <span class="hljs-built_in">print</span>(datetime.now())<br>        <span class="hljs-built_in">print</span>(solve(ph,n))<br></code></pre></td></tr></table></figure>
+
+<h3 id="4o04-flatter"><a href="#4o04-flatter" class="headerlink" title="4o04 flatter"></a>4o04 flatter</h3><p>根据<a target="_blank" rel="noopener" href="https://blog.csdn.net/qwerzbc66?type=blog">striving</a> ✌的提示，可以安装<a target="_blank" rel="noopener" href="https://github.com/keeganryan/flatter">flatter</a>后求解似乎更快。</p>
+<table>
+<thead>
+<tr>
+<th>unknownbit</th>
+<th>253</th>
+<th>254</th>
+<th>255</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$\beta$</td>
+<td>0.499</td>
+<td>0.499</td>
+<td>0.499</td>
+</tr>
+<tr>
+<td>$1000\epsilon$</td>
+<td>5</td>
+<td>$3.5\sim3$ （不保证）</td>
+<td>未测</td>
+</tr>
+<tr>
+<td>timecost(s)</td>
+<td>$75\sim120$</td>
+<td>$400\sim820$</td>
+<td>未测</td>
+</tr>
+</tbody></table>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> subprocess <span class="hljs-keyword">import</span> check_output<br><span class="hljs-keyword">from</span> re <span class="hljs-keyword">import</span> findall<br><span class="hljs-keyword">from</span> sage.<span class="hljs-built_in">all</span> <span class="hljs-keyword">import</span> *<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">flatter</span>(<span class="hljs-params">M</span>):  <span class="hljs-comment"># flatter</span><br>    z = <span class="hljs-string">&quot;[[&quot;</span> + <span class="hljs-string">&quot;]\n[&quot;</span>.join(<span class="hljs-string">&quot; &quot;</span>.join(<span class="hljs-built_in">map</span>(<span class="hljs-built_in">str</span>, row)) <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> M) + <span class="hljs-string">&quot;]]&quot;</span><br>    ret = check_output([<span class="hljs-string">&quot;flatter&quot;</span>], <span class="hljs-built_in">input</span>=z.encode())<br>    <span class="hljs-keyword">return</span> matrix(M.nrows(), M.ncols(), <span class="hljs-built_in">map</span>(<span class="hljs-built_in">int</span>, findall(<span class="hljs-string">b&quot;-?\\d+&quot;</span>, ret)))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">matrix_overview</span>(<span class="hljs-params">BB</span>):  <span class="hljs-comment"># see the shape of matrix</span><br>    <span class="hljs-keyword">for</span> ii <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(BB.dimensions()[<span class="hljs-number">0</span>]):<br>        a = (<span class="hljs-string">&#x27;%02d &#x27;</span> % ii)<br>        <span class="hljs-keyword">for</span> jj <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(BB.dimensions()[<span class="hljs-number">1</span>]):<br>            a += <span class="hljs-string">&#x27;0&#x27;</span> <span class="hljs-keyword">if</span> BB[ii, jj] == <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&#x27;X&#x27;</span><br>            <span class="hljs-keyword">if</span> BB.dimensions()[<span class="hljs-number">0</span>] &lt; <span class="hljs-number">60</span>:<br>                a += <span class="hljs-string">&#x27; &#x27;</span><br>        <span class="hljs-built_in">print</span>(a)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">Small_Roots_Univariate</span>(<span class="hljs-params">f, X=<span class="hljs-literal">None</span>, beta=<span class="hljs-number">1.0</span>, epsilon=<span class="hljs-literal">None</span></span>):  <span class="hljs-comment"># 多项式f,X,beta,epsilon</span><br><br>    delta = f.degree()  <span class="hljs-comment"># 度delta</span><br>    N = f.parent().characteristic()  <span class="hljs-comment"># 模数N</span><br>    PR = PolynomialRing(ZZ, <span class="hljs-string">&#x27;x&#x27;</span>)<br>    x = PR.gen()<br><br>    Zm = f.base_ring()  <span class="hljs-comment"># Zmod(N)</span><br>    f = f.change_ring(ZZ)  <span class="hljs-comment"># ZZ下f(x)</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> f.is_monic():  <span class="hljs-comment"># 首一</span><br>        f = f.monic()  <span class="hljs-comment"># f = f * f[delta].inverse_mod(N)</span><br><br>    m = ceil(<span class="hljs-built_in">max</span>(beta * beta / (delta * epsilon), <span class="hljs-number">7</span> * beta / delta))  <span class="hljs-comment"># m</span><br>    t = floor(delta * m * (<span class="hljs-number">1</span> / beta - <span class="hljs-number">1</span>))  <span class="hljs-comment"># t</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;m=&#123;&#125;, t=&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(m, t))<br><br>    f_ij = []<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(m):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(delta):<br>            f_ij.append(x ** j * N ** (m - i) * f ** i)  <span class="hljs-comment"># shift g_ij(x)</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(t):<br>        f_ij.append(x ** i * f ** m)  <span class="hljs-comment"># shift h_i(x)</span><br><br>    monomials = []<br>    <span class="hljs-keyword">for</span> g <span class="hljs-keyword">in</span> f_ij:<br>        monomials += g.monomials()  <span class="hljs-comment"># 统计所有出现的单项 x^i</span><br>    monomials = <span class="hljs-built_in">sorted</span>(<span class="hljs-built_in">set</span>(monomials))  <span class="hljs-comment"># 去重并排序</span><br><br>    M = Matrix(ZZ, <span class="hljs-built_in">len</span>(f_ij), <span class="hljs-built_in">len</span>(monomials))  <span class="hljs-comment"># 行数为多项式个数，列数为所有单项可能个数</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M.nrows()):<br>        <span class="hljs-keyword">for</span> j, monomial <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(monomials):<br>            M[i, j] = f_ij[i].monomial_coefficient(monomial) * monomial.subs(x=X)  <span class="hljs-comment"># g_ij(xX)和h_i(xX)</span><br>    matrix_overview(M)  <span class="hljs-comment"># see</span><br>    <span class="hljs-keyword">assert</span> M.nrows() == M.ncols()  <span class="hljs-comment"># 方阵 nrows()=ncols()</span><br>    B = flatter(M)  <span class="hljs-comment"># flater加速</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;end LLL&#x27;</span>)<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M.nrows()):  <span class="hljs-comment"># 得到f(xX)，构建f(x)，求根检验</span><br>        Cx = <span class="hljs-built_in">sum</span>(ZZ(B[j, i] // monomials[i](X)) * monomials[i] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M.ncols()))  <span class="hljs-comment"># construct polynomial,</span><br>        R = Cx.roots()  <span class="hljs-comment"># get roots</span><br>        roots = [Zm(r[<span class="hljs-number">0</span>]) <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> R <span class="hljs-keyword">if</span> <span class="hljs-built_in">abs</span>(r[<span class="hljs-number">0</span>]) &lt;= X]  <span class="hljs-comment"># check x0&lt;=X</span><br>        roots = [r <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> roots <span class="hljs-keyword">if</span> gcd(N, ZZ(f(r))) &gt;= ZZ(floor(N ** beta))]  <span class="hljs-comment"># check gcd(f(x_0),N)&gt;N^beta</span><br>        <span class="hljs-keyword">if</span> roots:<br>            <span class="hljs-keyword">return</span> roots  <span class="hljs-comment"># 返回root</span><br><br>N = <span class="hljs-number">135500646574582511239845764710311769260801998982429500680171919823431178899526463566215834234383331374445093363969218810906991784569340270510936759183504496584225937614940086329775325893307453919055830270986601152002191368431527285285313669979358099782497422114870417519470053198217401297960844455029559146309</span><br>h = <span class="hljs-number">918578024558168836638919636090777586135497638818209533615420650282292168631485</span><br>PR = PolynomialRing(Zmod(N), <span class="hljs-string">&#x27;x&#x27;</span>)<br>x = PR.gen()<br>f = (h &lt;&lt; <span class="hljs-number">253</span>) + x<br>roots = Small_Roots_Univariate(f, <span class="hljs-number">2</span> ** <span class="hljs-number">253</span>, <span class="hljs-number">0.499</span>, <span class="hljs-number">0.005</span>)<br><span class="hljs-built_in">print</span>(roots)<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h2><p>回顾了一下自己以前的构造LLL存在的问题，因为之前确实没考虑过LLL求解向量的原理，加上自己这次网鼎杯被卡住了。</p>
+<p>这次学到了平衡参数的构造。。。不过网鼎杯那个题确实挺难的，套了这么多层:(</p>
 
                 
               </div>
@@ -446,7 +672,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>LatticeNotes8</div>
-      <div>http://example.com/2024/12/10/LatticeNotes8/</div>
+      <div>http://example.com/2024/12/05/LatticeNotes8/</div>
     </div>
     <div class="license-meta">
       
@@ -458,7 +684,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年12月10日</div>
+          <div>2024年12月5日</div>
         </div>
       
       
@@ -490,12 +716,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2024/12/13/24Nov4/" title="24Nov4">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">24Nov4</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/11/30/24Nov4/" title="24Nov4">
-                        <span class="hidden-mobile">24Nov4</span>
+                      <a href="/2024/11/20/24Nov3/" title="24Nov3">
+                        <span class="hidden-mobile">24Nov3</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
