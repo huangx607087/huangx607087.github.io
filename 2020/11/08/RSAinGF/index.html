@@ -19,12 +19,12 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="GF域上的RSA学习笔记0x01 学习背景之前我们提到了RSA在整数运算中的加密和 解密方式，今天我们来讨论讨论RSA在$GF(2^m)$域中的计算方法和解题模式。与以前的$RSA$略有不同 0x02 GF域中多项式的运算0o01GF域的概念(个人总结的)设$p$为质数，那么当且仅当$m&#x3D;p^k$时，$GF(m)$才有意义。例如：$GF(11),GF(81),GF(256),GF(7^{20011">
+    <meta name="description" content="GF域上的RSA学习笔记0x01 学习背景之前我们提到了RSA在整数运算中的加密和 解密方式，今天我们来讨论讨论RSA在$GF(2^m)$域中的计算方法和解题模式。与以前的$RSA$略有不同 0x02 GF域中多项式的运算0o01GF域的概念(个人总结的)设$p$为质数，那么当且仅当$m&#x3D;p^k$时，$GF(m)$才有意义。例如：$GF(11),GF(81),GF(256),GF(7^{">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RSAinGF">
 <meta property="og:url" content="http://example.com/2020/11/08/RSAinGF/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="GF域上的RSA学习笔记0x01 学习背景之前我们提到了RSA在整数运算中的加密和 解密方式，今天我们来讨论讨论RSA在$GF(2^m)$域中的计算方法和解题模式。与以前的$RSA$略有不同 0x02 GF域中多项式的运算0o01GF域的概念(个人总结的)设$p$为质数，那么当且仅当$m&#x3D;p^k$时，$GF(m)$才有意义。例如：$GF(11),GF(81),GF(256),GF(7^{20011">
+<meta property="og:description" content="GF域上的RSA学习笔记0x01 学习背景之前我们提到了RSA在整数运算中的加密和 解密方式，今天我们来讨论讨论RSA在$GF(2^m)$域中的计算方法和解题模式。与以前的$RSA$略有不同 0x02 GF域中多项式的运算0o01GF域的概念(个人总结的)设$p$为质数，那么当且仅当$m&#x3D;p^k$时，$GF(m)$才有意义。例如：$GF(11),GF(81),GF(256),GF(7^{">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2020/11/08/RSAinGF/2.png">
 <meta property="og:image" content="http://example.com/2020/11/08/RSAinGF/3.png">
@@ -317,19 +317,19 @@
               <div class="markdown-body">
                 
                 <h1 id="GF域上的RSA学习笔记"><a href="#GF域上的RSA学习笔记" class="headerlink" title="GF域上的RSA学习笔记"></a>GF域上的RSA学习笔记</h1><h2 id="0x01-学习背景"><a href="#0x01-学习背景" class="headerlink" title="0x01 学习背景"></a>0x01 学习背景</h2><p>之前我们提到了RSA在整数运算中的加密和 解密方式，今天我们来讨论讨论RSA在$GF(2^m)$域中的计算方法和解题模式。与以前的$RSA$略有不同</p>
-<h2 id="0x02-GF域中多项式的运算"><a href="#0x02-GF域中多项式的运算" class="headerlink" title="0x02 GF域中多项式的运算"></a>0x02 GF域中多项式的运算</h2><h3 id="0o01GF域的概念-个人总结的"><a href="#0o01GF域的概念-个人总结的" class="headerlink" title="0o01GF域的概念(个人总结的)"></a>0o01GF域的概念(个人总结的)</h3><p>设$p$为质数，那么当且仅当$m=p^k$时，$GF(m)$才有意义。例如：$GF(11),GF(81),GF(256),GF(7^{20011230})$均为有意义的GF域。然而，$GF(12)$不是有意义的$GF$域，因为$12=2^2×3$，不能写成$p^k$的形式 。</p>
+<h2 id="0x02-GF域中多项式的运算"><a href="#0x02-GF域中多项式的运算" class="headerlink" title="0x02 GF域中多项式的运算"></a>0x02 GF域中多项式的运算</h2><h3 id="0o01GF域的概念-个人总结的"><a href="#0o01GF域的概念-个人总结的" class="headerlink" title="0o01GF域的概念(个人总结的)"></a>0o01GF域的概念(个人总结的)</h3><p>设$p$为质数，那么当且仅当$m&#x3D;p^k$时，$GF(m)$才有意义。例如：$GF(11),GF(81),GF(256),GF(7^{20011230})$均为有意义的GF域。然而，$GF(12)$不是有意义的$GF$域，因为$12&#x3D;2^2×3$，不能写成$p^k$的形式 。</p>
 <h3 id="0o02-多项式在-GF-p-k-域中的形式"><a href="#0o02-多项式在-GF-p-k-域中的形式" class="headerlink" title="0o02 多项式在$GF(p^k)$域中的形式"></a>0o02 多项式在$GF(p^k)$域中的形式</h3><p>设$f(x)$是关于$x$的一个多项式。那么在$GF(P^k)$中，$f(x)$的次数为$k$，并且$f(x)$的每一项系数均小于$p$，因为$f(x)$都是要对$p$取模的。</p>
 <p>对多项式取整数模的方法很简单：每一项系数对取那个整数取模，例如：$x^5+5x^4+10x^3+10x^2+5x+1 \equiv x^5+5x^4+x^3+x^2+5x+1 \mod 9$，$12x^3+15x^2-x+8\equiv 4x^3+7x^2+7x \mod 8$</p>
-<p>例如：在$GF(2^k)$域中。设$f(x)=x+1$，那么$f^2(x)=x^2+2x+1\equiv x^2+1 \mod 2$。 </p>
+<p>例如：在$GF(2^k)$域中。设$f(x)&#x3D;x+1$，那么$f^2(x)&#x3D;x^2+2x+1\equiv x^2+1 \mod 2$。 </p>
 <p>当然，在$GF(p^k)$域中，$Z_{p^k}$中的每一个整数都与对应的多项式一一对应。例如：在$GF(2^8)$中，$1$化为多项式为$1$，$2$化为多项式为$x$，$3$化为多项式为$x+1$，$13$化为多项式为$x^3+x^2+1$。也就是说，我们把对应的数化为$2$进制，然后从最低位为$0$次项一项一项地确定那一次的系数。</p>
-<p>所以，在$GF(2^k)$域中，有$3^2=5$也就不足为奇了，这也就说明：虽然多项式可以表示为整数，但是多项式的运算与整数运算是不一样的！</p>
+<p>所以，在$GF(2^k)$域中，有$3^2&#x3D;5$也就不足为奇了，这也就说明：虽然多项式可以表示为整数，但是多项式的运算与整数运算是不一样的！</p>
 <h3 id="0o03-什么叫做不可约多项式"><a href="#0o03-什么叫做不可约多项式" class="headerlink" title="0o03 什么叫做不可约多项式"></a>0o03 什么叫做不可约多项式</h3><p>不可约多项式可以理解为质数，也就是说：除了$1$和它本身，不可以被分解成几个因数之积的形式。例如：在$GF(2^8)$中，$x^8+x^4+x^3+x+1$就是一个不可约多项式（注意：最高项系数一定非$0$并且次数恰好为$p^k$中$k$的值。</p>
 <p>当然，在$GF(2^8)$中，$x^3+x^2+x+1$就不是一个不可约多项式，因为它可以分解因式为$(x+1)^3$</p>
 <h2 id="0x03-解题步骤"><a href="#0x03-解题步骤" class="headerlink" title="0x03 解题步骤"></a>0x03 解题步骤</h2><p>1.此类题目一般给出了$n(x),e$和$c$。不过我们得到$c$的值之后要将其化为$c(x)$的表达式。</p>
 <p>2.然后，我们尝试分解$n(x)$，这一步在<strong>Sagemath的Notebook</strong>下面很容易做到。</p>
 <p><img src="/2020/11/08/RSAinGF/2.png" srcset="/img/loading.gif" lazyload alt="2"></p>
 <p>值得注意的是，我们这里分解到的是两个不可约多项式$p(x)$和$q(x)$，显然，这是两个多项式而不是数字。我们该如何计算$\phi$值呢？</p>
-<p>以前当$p,q$均为质数的时候，$\phi(p)=(p-1),\phi(q)=(q-1) $。我们回归一下$\phi(A)$的定义：在$Z_A$与$A$互质的数字个数。所以，在$GF(2^k)$中，由于除了这个多项式自己之外，其他一共$2^{k}-1$个多项式都与这个不q可约多项式互质，所以在这里，由于$p(x)$的最高次项为$821$，那么$\phi[p(x)]=2^{821}-1$。同理，$\phi[q(x)]=2^{1227}-1$，故这里的$\phi[n(x)]=\phi[p(x)]\phi[q(x)]$</p>
+<p>以前当$p,q$均为质数的时候，$\phi(p)&#x3D;(p-1),\phi(q)&#x3D;(q-1) $。我们回归一下$\phi(A)$的定义：在$Z_A$与$A$互质的数字个数。所以，在$GF(2^k)$中，由于除了这个多项式自己之外，其他一共$2^{k}-1$个多项式都与这个不q可约多项式互质，所以在这里，由于$p(x)$的最高次项为$821$，那么$\phi[p(x)]&#x3D;2^{821}-1$。同理，$\phi[q(x)]&#x3D;2^{1227}-1$，故这里的$\phi[n(x)]&#x3D;\phi[p(x)]\phi[q(x)]$</p>
 <p>下一步，我们可以计算$d$的值，这里贴一下Sagemath中的代码</p>
 <p><img src="/2020/11/08/RSAinGF/3.png" srcset="/img/loading.gif" lazyload alt="3"></p>
 <p>在求出$d$的时候，我们就可以计算$c^d(x) \mod n(x)$的多项式$m(x)$</p>
@@ -337,8 +337,10 @@
 <p>把运行结果复制到一个TXT文档中(例如1.txt或者1.in)，然后化成二进制数（C++脚本很好打的，不过本<del>fw</del>怕忘掉怎么打这个C++脚本还是把脚本贴了上来）</p>
 <p><strong>多项式转二进制数的脚本(多项式中加号与每一项之间存在空格，所以直接判断长度是否≥$3$即可)</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">bool</span> b[<span class="hljs-number">2048</span>]=&#123;<span class="hljs-number">1</span>&#125;;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">Trans</span><span class="hljs-params">(string s)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">int</span> A=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2</span>;i&lt;s.<span class="hljs-built_in">length</span>();i++)<br>	&#123;<br>		A=A*<span class="hljs-number">10</span>+s[i]<span class="hljs-number">-48</span>; <br>	&#125; <br>	<span class="hljs-keyword">return</span> A;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">freopen</span>(<span class="hljs-string">&quot;2.in&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>,stdin);<br>	<span class="hljs-built_in">freopen</span>(<span class="hljs-string">&quot;2.out&quot;</span>,<span class="hljs-string">&quot;w&quot;</span>,stdout);<br>	<span class="hljs-type">int</span> i,j;<br>	string s;<br>	<span class="hljs-keyword">while</span>(cin&gt;&gt;s)<br>	&#123;<br>		<span class="hljs-keyword">if</span>(s.<span class="hljs-built_in">length</span>()&gt;=<span class="hljs-number">3</span>)<br>		b[<span class="hljs-built_in">Trans</span>(s)]=<span class="hljs-number">1</span>;<br>	&#125; <br>	<span class="hljs-keyword">for</span>(i=<span class="hljs-number">2047</span>;i&gt;=<span class="hljs-number">0</span>;i--)<br>	&#123;<br>		cout&lt;&lt;b[i];<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125; <br></code></pre></td></tr></table></figure>
+
 <p><strong>二进制数转多项式的脚本（注意删去最后的加号）</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br>string s;<br><span class="hljs-type">bool</span> b[<span class="hljs-number">2090</span>]=&#123;<span class="hljs-number">1</span>&#125;;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">freopen</span>(<span class="hljs-string">&quot;1.in&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>,stdin);<br>	<span class="hljs-built_in">freopen</span>(<span class="hljs-string">&quot;1.out&quot;</span>,<span class="hljs-string">&quot;w&quot;</span>,stdout);<br>	<span class="hljs-type">char</span> c;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">2047</span>;i&gt;=<span class="hljs-number">0</span>;i--)<br>	&#123;<br>		cin&gt;&gt;c;<br>		<span class="hljs-keyword">if</span>(c==<span class="hljs-string">&#x27;1&#x27;</span>)<br>		&#123;<br>			cout&lt;&lt;<span class="hljs-string">&quot;x^&quot;</span>&lt;&lt;i&lt;&lt;<span class="hljs-string">&quot;+&quot;</span>;<br>		&#125;<br>	&#125;<br>&#125; <br></code></pre></td></tr></table></figure>
+
 <p>最后，我们把$m(x)$化为它所对应的数值，然后将其转化为字符串就可以得到答案了</p>
 <p><img src="/2020/11/08/RSAinGF/5.png" srcset="/img/loading.gif" lazyload alt="5"></p>
 
@@ -784,21 +786,6 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

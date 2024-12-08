@@ -262,7 +262,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k 字
+          1.7k 字
         
       </span>
     
@@ -346,33 +346,17 @@
 <p>$s$盒也是DES中唯一的非线性元素，因为$s(a)+s(b)$与$s(a+b)$不同。（此处的加号表示异或）</p>
 <h3 id="1o03-DES密钥编排"><a href="#1o03-DES密钥编排" class="headerlink" title="1o03 DES密钥编排"></a>1o03 DES密钥编排</h3><p>DES的密钥编排，是先从原始的$56$位密钥中得到$16$个轮密钥$k_1,k_2,…k_{16}$，每个密钥$k_i$都是$48$位。不过在这里一个值得注意的特点就是：DES一开始的输入密钥是$64$位，八位一组，每一组的第八位是这一组的一个校验位（但这一位的意义何在不得而知）。因此实际上严格地说，DES实际上是$56$位，而不是$64$位。因为在密钥置换的时候，$64$位缩短为$56$位时，直接忽略了每一组的第八位。下表是DES初始密钥置换的表格。</p>
 <p><img src="/2021/08/30/BlockCipher1/8.png" srcset="/img/loading.gif" lazyload alt="8"></p>
-<p>得到$56$位的密钥后，我们将密钥分为$C_0$和$D_0$两个部分，然后每一轮将每个长度为$28$位的密钥部分分别循环左移一至两位。（具体是在第$1,2,9,16$轮是循环左移一位，其他的轮都是循环左移两位。）而这样下来，我们就会发现在最后加密完成过后——$C_0=C_{16},D_0=D_{16}$。下图很清楚地表示了这一过程：</p>
+<p>得到$56$位的密钥后，我们将密钥分为$C_0$和$D_0$两个部分，然后每一轮将每个长度为$28$位的密钥部分分别循环左移一至两位。（具体是在第$1,2,9,16$轮是循环左移一位，其他的轮都是循环左移两位。）而这样下来，我们就会发现在最后加密完成过后——$C_0&#x3D;C_{16},D_0&#x3D;D_{16}$。下图很清楚地表示了这一过程：</p>
 <p><img src="/2021/08/30/BlockCipher1/9.png" srcset="/img/loading.gif" lazyload alt="9"></p>
 <p>在这里，PC-2置换是将$56$位的轮密钥转化成$48$位的轮密钥，转换规则如下</p>
 <p><img src="/2021/08/30/BlockCipher1/10.png" srcset="/img/loading.gif" lazyload alt="10"></p>
-<h3 id="1o04-DES解密过程"><a href="#1o04-DES解密过程" class="headerlink" title="1o04 DES解密过程"></a>1o04 DES解密过程</h3><p>在解密过程中，由于我们在之前注意到$C_0=C_{16},D_0=D_{16}$的特点，因此我们可以在PC-1后直接得到$k_{16}$。</p>
+<h3 id="1o04-DES解密过程"><a href="#1o04-DES解密过程" class="headerlink" title="1o04 DES解密过程"></a>1o04 DES解密过程</h3><p>在解密过程中，由于我们在之前注意到$C_0&#x3D;C_{16},D_0&#x3D;D_{16}$的特点，因此我们可以在PC-1后直接得到$k_{16}$。</p>
 <p><strong>图片S1之前文字渲染有乱码问题，故使用图片修正</strong></p>
 <p><img src="/2021/08/30/BlockCipher1/S1.png" srcset="/img/loading.gif" lazyload alt="S1"></p>
-<p>而在解密过程中，第一轮密钥不移位，第二、九、十六轮密钥移位一位，其他轮密钥移位两位。用公式可以表示为</p>
-<script type="math/tex; mode=display">
-k_{15}=\mathrm{PC_2}(C_ {15},D_ {15})=\mathrm{PC_2}(\mathrm{ror}(C_ {0}),\mathrm{ror}(D_ {0}))=\mathrm{PC_2}(\mathrm{ror}(C_ {16}),\mathrm{ror}(D_ {16}))</script><p>上面公式中，$\mathrm {ror,lor}$分别表示循环右移和循环左移，移动位数规则刚才已经提到过了。</p>
+<p>而在解密过程中，第一轮密钥不移位，第二、九、十六轮密钥移位一位，其他轮密钥移位两位。用公式可以表示为<br>$$<br>k_{15}&#x3D;\mathrm{PC_2}(C_ {15},D_ {15})&#x3D;\mathrm{PC_2}(\mathrm{ror}(C_ {0}),\mathrm{ror}(D_ {0}))&#x3D;\mathrm{PC_2}(\mathrm{ror}(C_ {16}),\mathrm{ror}(D_ {16}))<br>$$<br>上面公式中，$\mathrm {ror,lor}$分别表示循环右移和循环左移，移动位数规则刚才已经提到过了。</p>
 <p>整个解密过程差不多是这张图：</p>
 <p><img src="/2021/08/30/BlockCipher1/11.png" srcset="/img/loading.gif" lazyload alt="11"></p>
-<p>而在我们上面提到的Feistel网络中：我们需要用到IP置换的逆置换来解决问题。即</p>
-<script type="math/tex; mode=display">
-(L_{D0},R_{D0})=\mathrm{IP}(\mathrm{IP}^{-1}(R_{16},L_{16}))=(R_{16},L_{16})</script><p>其中下标有$D$的表示解密过程中的变量。注意到上面的Feistel网络中，有$L_{16}=R_{15}$。因此我们可以推出：</p>
-<script type="math/tex; mode=display">
-(L_{D0},R_{D0})=(R_{16},L_{16})=(R_{16},R_{15})</script><p>对应地，根据加密的Feistel网络，我们解密的Feistel网络密钥，很容易可以得到</p>
-<script type="math/tex; mode=display">
-L_{D1}=R_{D0}=L_{16}=R_{15}</script><p>不过$R_{D1}$就不是那么好算了，这里还是要用到上面提到过的刚才的$f$函数。（<strong>以下出现得加号表示异或</strong>），该计算方法可以根据异或的特性得到。</p>
-<script type="math/tex; mode=display">
-R_{D1}=L_{D0}+f(R_{D0},k_{16})=R_{16}+f(L_{16},k_{16})</script><p>带入$R_{16}=L_{15}+f(R_{15},k_{16})$，因此有</p>
-<script type="math/tex; mode=display">
-R_{D1}=L_{15}+f(R_{15},k_{16})+f(L_{16},k_{16})</script><p>又因为$R_{15}=L_{16}$，因此$f(R_{15},k_{16})+f(L_{16},k_{16})=0$。所以我们最终得到</p>
-<script type="math/tex; mode=display">
-R_{D1}=L_{15}</script><p>因此，即使$f$函数看似复杂，但最后得出来的结果却可以消去$f$函数。因此我们可以直接迭代，最终得到</p>
-<script type="math/tex; mode=display">
-(L_{Di},R_{Di})=(R_{16-i},L_{16-i})</script><p>因此这是一个非常容易的过程。</p>
+<p>而在我们上面提到的Feistel网络中：我们需要用到IP置换的逆置换来解决问题。即<br>$$<br>(L_{D0},R_{D0})&#x3D;\mathrm{IP}(\mathrm{IP}^{-1}(R_{16},L_{16}))&#x3D;(R_{16},L_{16})<br>$$<br>其中下标有$D$的表示解密过程中的变量。注意到上面的Feistel网络中，有$L_{16}&#x3D;R_{15}$。因此我们可以推出：<br>$$<br>(L_{D0},R_{D0})&#x3D;(R_{16},L_{16})&#x3D;(R_{16},R_{15})<br>$$<br>对应地，根据加密的Feistel网络，我们解密的Feistel网络密钥，很容易可以得到<br>$$<br>L_{D1}&#x3D;R_{D0}&#x3D;L_{16}&#x3D;R_{15}<br>$$<br>不过$R_{D1}$就不是那么好算了，这里还是要用到上面提到过的刚才的$f$函数。（<strong>以下出现得加号表示异或</strong>），该计算方法可以根据异或的特性得到。<br>$$<br>R_{D1}&#x3D;L_{D0}+f(R_{D0},k_{16})&#x3D;R_{16}+f(L_{16},k_{16})<br>$$<br>带入$R_{16}&#x3D;L_{15}+f(R_{15},k_{16})$，因此有<br>$$<br>R_{D1}&#x3D;L_{15}+f(R_{15},k_{16})+f(L_{16},k_{16})<br>$$<br>又因为$R_{15}&#x3D;L_{16}$，因此$f(R_{15},k_{16})+f(L_{16},k_{16})&#x3D;0$。所以我们最终得到<br>$$<br>R_{D1}&#x3D;L_{15}<br>$$<br>因此，即使$f$函数看似复杂，但最后得出来的结果却可以消去$f$函数。因此我们可以直接迭代，最终得到<br>$$<br>(L_{Di},R_{Di})&#x3D;(R_{16-i},L_{16-i})<br>$$<br>因此这是一个非常容易的过程。</p>
 <p>最终，我们只需要对解密后的结果计算$\mathrm{IP}^{-1}(x)$函数的处理即可获得明文。注意到一开始已经提到，由于$\mathrm{IP}(x)$是对$64$个比特位一对一的置换，因此直接对照$\mathrm{IP}^{-1}(x)$的表格置换回去即可。</p>
 
                 
@@ -817,21 +801,6 @@ R_{D1}=L_{15}</script><p>因此，即使$f$函数看似复杂，但最后得出�
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

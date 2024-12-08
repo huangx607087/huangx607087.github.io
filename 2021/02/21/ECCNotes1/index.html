@@ -19,12 +19,12 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087学习ECC的笔记10. About这一系列笔记主要介绍椭圆曲线密码学的知识。 1.椭圆曲线椭圆曲线是具有以下格式的曲线：  y^2&#x3D;x^3+ax+b椭圆曲线的一个惊人的特点是，有一种自然的方法，在椭圆曲线上取两个点，并“添加”它们以产生第三个点。在“添加”周围放置引号，因为我们指的是一个操作，它以一种类似于在某些方面添加的方式结合两点（它是交换的和关联的，并且有一个恒等式）">
+    <meta name="description" content="huangx607087学习ECC的笔记10. About这一系列笔记主要介绍椭圆曲线密码学的知识。 1.椭圆曲线椭圆曲线是具有以下格式的曲线：$$y^2&#x3D;x^3+ax+b$$椭圆曲线的一个惊人的特点是，有一种自然的方法，在椭圆曲线上取两个点，并“添加”它们以产生第三个点。在“添加”周围放置引号，因为我们指的是一个操作，它以一种类似于在某些方面添加的方式结合两点（它是交换的和关联的，并且">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ECCNotes1">
 <meta property="og:url" content="http://example.com/2021/02/21/ECCNotes1/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087学习ECC的笔记10. About这一系列笔记主要介绍椭圆曲线密码学的知识。 1.椭圆曲线椭圆曲线是具有以下格式的曲线：  y^2&#x3D;x^3+ax+b椭圆曲线的一个惊人的特点是，有一种自然的方法，在椭圆曲线上取两个点，并“添加”它们以产生第三个点。在“添加”周围放置引号，因为我们指的是一个操作，它以一种类似于在某些方面添加的方式结合两点（它是交换的和关联的，并且有一个恒等式）">
+<meta property="og:description" content="huangx607087学习ECC的笔记10. About这一系列笔记主要介绍椭圆曲线密码学的知识。 1.椭圆曲线椭圆曲线是具有以下格式的曲线：$$y^2&#x3D;x^3+ax+b$$椭圆曲线的一个惊人的特点是，有一种自然的方法，在椭圆曲线上取两个点，并“添加”它们以产生第三个点。在“添加”周围放置引号，因为我们指的是一个操作，它以一种类似于在某些方面添加的方式结合两点（它是交换的和关联的，并且">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-02-21T03:45:18.000Z">
 <meta property="article:modified_time" content="2024-11-27T15:24:28.880Z">
@@ -249,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.4k 字
+          2.5k 字
         
       </span>
     
@@ -312,57 +312,46 @@
               <div class="markdown-body">
                 
                 <h1 id="huangx607087学习ECC的笔记1"><a href="#huangx607087学习ECC的笔记1" class="headerlink" title="huangx607087学习ECC的笔记1"></a>huangx607087学习ECC的笔记1</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0. About"></a>0. About</h2><p>这一系列笔记主要介绍椭圆曲线密码学的知识。</p>
-<h2 id="1-椭圆曲线"><a href="#1-椭圆曲线" class="headerlink" title="1.椭圆曲线"></a>1.椭圆曲线</h2><p>椭圆曲线是具有以下格式的曲线：</p>
-<script type="math/tex; mode=display">
-y^2=x^3+ax+b</script><p>椭圆曲线的一个惊人的特点是，有一种自然的方法，在椭圆曲线上取两个点，并“添加”它们以产生第三个点。在“添加”周围放置引号，因为我们指的是一个操作，它以一种类似于在某些方面添加的方式结合两点（它是交换的和关联的，并且有一个恒等式），但在其他方面与添加非常不同。描述椭圆曲线上“加法定律”的最自然方法是使用几何。</p>
-<p>椭圆曲线上已知$(x_1,y_1),(x_2,y_2)$两点时，我们可以利用以下公式计算第三点：</p>
-<script type="math/tex; mode=display">
-x_3=s^2-x_1-x_2</script><script type="math/tex; mode=display">
-y_3=s(x_1-x_3)-y_1</script><p>其中，当两个点不同时，$s=\dfrac{y_2-y_1}{x_2-x_1}$。当相同的两个点相加时，$s=\dfrac {3x^2+a}{2y}$。并且假如点$M$是椭圆曲线上的一点，那么$M+M$也可以写作$2M$。</p>
-<p>由于椭圆曲线是关于$x$的三次曲线，因此任意画一条直线$y=kx+b$，与椭圆曲线联立方程组，都会有三个根。而这三个根的和恰好为$O$，其中$O$是坐标纸上一个无穷远的点，又被称为源点。</p>
-<p>因此，椭圆曲线还满足以下四条运算律：$O+P=P,P+(-P)=O,P+Q=Q+P$。并且如果两个点$P,Q$横坐标相同，纵坐标互为相反数，则$P+Q=O$。</p>
-<p>这里还有一个小小的结论，就是在不进行取模的情况下一个简单的点自加的时候（例如$y^2=x^3+3x+5$上的点$(1,3)$）,无论是$x$坐标还是$y$坐标，分子和分母的增长的数量级都是迅速的，设$u$是$x$坐标分子、$x$坐标分母、$y$坐标分子、$y$坐标分母中的$4$个值得任意一个，那么都有$\ln u$正比于$k^2$，其中$k$是点自加的次数。并且，任何一个椭圆曲线上的整点都是有限的，基本不超过$15$个。</p>
-<h2 id="2-有限域中的椭圆曲线"><a href="#2-有限域中的椭圆曲线" class="headerlink" title="2.有限域中的椭圆曲线"></a>2.有限域中的椭圆曲线</h2><p>有限域中的椭圆曲线要求$4a^3+27b^2 \not =0$。</p>
-<p>下面我们以椭圆曲线$y^2=x^3+x+8$，定义域为$GF(13)$为例。寻找上面的点。</p>
+<h2 id="1-椭圆曲线"><a href="#1-椭圆曲线" class="headerlink" title="1.椭圆曲线"></a>1.椭圆曲线</h2><p>椭圆曲线是具有以下格式的曲线：<br>$$<br>y^2&#x3D;x^3+ax+b<br>$$<br>椭圆曲线的一个惊人的特点是，有一种自然的方法，在椭圆曲线上取两个点，并“添加”它们以产生第三个点。在“添加”周围放置引号，因为我们指的是一个操作，它以一种类似于在某些方面添加的方式结合两点（它是交换的和关联的，并且有一个恒等式），但在其他方面与添加非常不同。描述椭圆曲线上“加法定律”的最自然方法是使用几何。</p>
+<p>椭圆曲线上已知$(x_1,y_1),(x_2,y_2)$两点时，我们可以利用以下公式计算第三点：<br>$$<br>x_3&#x3D;s^2-x_1-x_2<br>$$</p>
+<p>$$<br>y_3&#x3D;s(x_1-x_3)-y_1<br>$$</p>
+<p>其中，当两个点不同时，$s&#x3D;\dfrac{y_2-y_1}{x_2-x_1}$。当相同的两个点相加时，$s&#x3D;\dfrac {3x^2+a}{2y}$。并且假如点$M$是椭圆曲线上的一点，那么$M+M$也可以写作$2M$。</p>
+<p>由于椭圆曲线是关于$x$的三次曲线，因此任意画一条直线$y&#x3D;kx+b$，与椭圆曲线联立方程组，都会有三个根。而这三个根的和恰好为$O$，其中$O$是坐标纸上一个无穷远的点，又被称为源点。</p>
+<p>因此，椭圆曲线还满足以下四条运算律：$O+P&#x3D;P,P+(-P)&#x3D;O,P+Q&#x3D;Q+P$。并且如果两个点$P,Q$横坐标相同，纵坐标互为相反数，则$P+Q&#x3D;O$。</p>
+<p>这里还有一个小小的结论，就是在不进行取模的情况下一个简单的点自加的时候（例如$y^2&#x3D;x^3+3x+5$上的点$(1,3)$）,无论是$x$坐标还是$y$坐标，分子和分母的增长的数量级都是迅速的，设$u$是$x$坐标分子、$x$坐标分母、$y$坐标分子、$y$坐标分母中的$4$个值得任意一个，那么都有$\ln u$正比于$k^2$，其中$k$是点自加的次数。并且，任何一个椭圆曲线上的整点都是有限的，基本不超过$15$个。</p>
+<h2 id="2-有限域中的椭圆曲线"><a href="#2-有限域中的椭圆曲线" class="headerlink" title="2.有限域中的椭圆曲线"></a>2.有限域中的椭圆曲线</h2><p>有限域中的椭圆曲线要求$4a^3+27b^2 \not &#x3D;0$。</p>
+<p>下面我们以椭圆曲线$y^2&#x3D;x^3+x+8$，定义域为$GF(13)$为例。寻找上面的点。</p>
 <p>我们可以把$0$到$12$的每一个数字带进去计算$y$，然后判断$y$是否为二次剩余即可确定该点是否存在。</p>
 <p>所以我们可以找到$9$个点：$O,(1,5),(1,8),(2,3),(2,10),(9,6),(9,7),(12,2),(12,11)$。</p>
-<p>根据刚才的理论，我们可以计算$(1,8)+(9,7)=(2,10)$。具体步骤请自己手搓（</p>
+<p>根据刚才的理论，我们可以计算$(1,8)+(9,7)&#x3D;(2,10)$。具体步骤请自己手搓（</p>
 <p>而ECC在有限域上也遵循这样的计算法则，只不过多了一个模数$p$。下面的代码时计算$kA$的代码，输入相关的参数即可运行求解，使用的也是二分的方法。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> given <span class="hljs-keyword">import</span> p,a,b,k,x,y,G<br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">plus1</span>(<span class="hljs-params">X,Y</span>):<br>    K=[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]<br>    s=(Y[<span class="hljs-number">1</span>]-X[<span class="hljs-number">1</span>])*inverse(Y[<span class="hljs-number">0</span>]-X[<span class="hljs-number">0</span>],p)%p<br>    K[<span class="hljs-number">0</span>]=s*s-X[<span class="hljs-number">0</span>]-Y[<span class="hljs-number">0</span>]<br>    K[<span class="hljs-number">1</span>]=s*(X[<span class="hljs-number">0</span>]-K[<span class="hljs-number">0</span>])-X[<span class="hljs-number">1</span>]<br>    K[<span class="hljs-number">0</span>]%=p<br>    K[<span class="hljs-number">1</span>]%=p<br>    <span class="hljs-keyword">return</span> K<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">mul2</span>(<span class="hljs-params">X</span>):<br>    Y=X<br>    s=(<span class="hljs-number">3</span>*X[<span class="hljs-number">0</span>]*X[<span class="hljs-number">0</span>]+a)*inverse(<span class="hljs-number">2</span>*X[<span class="hljs-number">1</span>],p)%p<br>    K=[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]<br>    K[<span class="hljs-number">0</span>]=s*s-X[<span class="hljs-number">0</span>]-Y[<span class="hljs-number">0</span>]<br>    K[<span class="hljs-number">1</span>]=s*(X[<span class="hljs-number">0</span>]-K[<span class="hljs-number">0</span>])-X[<span class="hljs-number">1</span>]<br>    K[<span class="hljs-number">0</span>]%=p<br>    K[<span class="hljs-number">1</span>]%=p<br>    <span class="hljs-keyword">return</span> K<br>p=<span class="hljs-number">13</span><br>a=<span class="hljs-number">3</span><br>b=<span class="hljs-number">8</span><br>k=<span class="hljs-number">2</span><br>A=[<span class="hljs-number">1</span>,<span class="hljs-number">8</span>]<br>G=A<br>op=<span class="hljs-built_in">bin</span>(k)[<span class="hljs-number">2</span>:]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-built_in">len</span>(op)):<br>    A=mul2(A)<br>    <span class="hljs-keyword">if</span>(op[i]==<span class="hljs-string">&quot;1&quot;</span>):<br>        A=plus1(A,G)<br>    <span class="hljs-built_in">print</span>(A)<br><span class="hljs-built_in">print</span>(A[<span class="hljs-number">0</span>]+A[<span class="hljs-number">1</span>])<br></code></pre></td></tr></table></figure>
-<h2 id="3-椭圆曲线上的离散对数ECDLP"><a href="#3-椭圆曲线上的离散对数ECDLP" class="headerlink" title="3.椭圆曲线上的离散对数ECDLP"></a>3.椭圆曲线上的离散对数ECDLP</h2><p>椭圆曲线上的离散对数问题的形式主要是当知道点$P,Q$的时候，寻找一个未知数$n$，使得</p>
-<script type="math/tex; mode=display">
-Q=nP</script><p>这个时候，我们也可以写成$n=\log_PQ$或$\dfrac {\ln (Q)}{\ln P}$</p>
+
+<h2 id="3-椭圆曲线上的离散对数ECDLP"><a href="#3-椭圆曲线上的离散对数ECDLP" class="headerlink" title="3.椭圆曲线上的离散对数ECDLP"></a>3.椭圆曲线上的离散对数ECDLP</h2><p>椭圆曲线上的离散对数问题的形式主要是当知道点$P,Q$的时候，寻找一个未知数$n$，使得<br>$$<br>Q&#x3D;nP<br>$$<br>这个时候，我们也可以写成$n&#x3D;\log_PQ$或$\dfrac {\ln (Q)}{\ln P}$</p>
 <p>目前想要在$F_p$中解决ECDLP的时间复杂度是$O(\sqrt p)$。因此当$p$非常大的时候，计算ECDLP也是非常困难的。不过如果$p-1$是光滑数，那么使用PohilgHellman算法也是可以在较短时间内解决这个问题的。</p>
 <h2 id="4-椭圆曲线密码学"><a href="#4-椭圆曲线密码学" class="headerlink" title="4.椭圆曲线密码学"></a>4.椭圆曲线密码学</h2><h3 id="4x01-椭圆曲线上的Diffie–Hellman密钥交换"><a href="#4x01-椭圆曲线上的Diffie–Hellman密钥交换" class="headerlink" title="4x01 椭圆曲线上的Diffie–Hellman密钥交换"></a>4x01 椭圆曲线上的Diffie–Hellman密钥交换</h3><p>首先先确定一个大素数$p$、一个椭圆曲线表达式$E$和椭圆曲线上的一点$P$。</p>
-<p>Alice确定一个秘密的整数$a$，并计算$Q_A=aP$。同时Bob确定一个秘密的整数$b$，计算$Q_B=bP$。并互相发送$Q_A,Q_B$。</p>
+<p>Alice确定一个秘密的整数$a$，并计算$Q_A&#x3D;aP$。同时Bob确定一个秘密的整数$b$，计算$Q_B&#x3D;bP$。并互相发送$Q_A,Q_B$。</p>
 <p>收到消息后，Alice计算$aQ_B$，Bob计算$bQ_A$即可。</p>
 <h3 id="4x02椭圆曲线上的ElGamal公钥密码体制"><a href="#4x02椭圆曲线上的ElGamal公钥密码体制" class="headerlink" title="4x02椭圆曲线上的ElGamal公钥密码体制"></a>4x02椭圆曲线上的ElGamal公钥密码体制</h3><p>在确定一个大素数$p$，$GF(p)$上的一个椭圆曲线$E$和椭圆曲线上的一个点$P$。</p>
-<p>Alice确定私钥$a$，并计算$Q=aP$，并公开公钥$Q$。</p>
-<p>Bob加密时，选取椭圆曲线上的一个点$M$和一个随机数$k$。并计算密文$C_1=kP,C_2=M+kQ$，将密文$(C_1,C_2)$发送给Alice。</p>
+<p>Alice确定私钥$a$，并计算$Q&#x3D;aP$，并公开公钥$Q$。</p>
+<p>Bob加密时，选取椭圆曲线上的一个点$M$和一个随机数$k$。并计算密文$C_1&#x3D;kP,C_2&#x3D;M+kQ$，将密文$(C_1,C_2)$发送给Alice。</p>
 <p>Alice收到密文后，计算$C_2-aC_1$即可。</p>
-<p>下面就是使用$y^2=x^3+7x+8$，$p=43$进行加密的例子,Sagemath代码</p>
+<p>下面就是使用$y^2&#x3D;x^3+7x+8$，$p&#x3D;43$进行加密的例子,Sagemath代码</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python">E=EllipticCurve(GF(<span class="hljs-number">43</span>),[<span class="hljs-number">7</span>,<span class="hljs-number">8</span>])<br>G=E(<span class="hljs-number">1</span>,<span class="hljs-number">4</span>)<br><span class="hljs-comment">#Alice Prepare</span><br>a=<span class="hljs-number">10</span><br>Q=a*G<br><span class="hljs-built_in">print</span>(Q)<br><span class="hljs-comment">#(13,19)</span><br><span class="hljs-comment">#Bob Encrypt</span><br>M=E(<span class="hljs-number">4</span>,<span class="hljs-number">33</span>)  <br>k=<span class="hljs-number">13</span><br>C1=k*G<br>C2=M+k*Q<br><span class="hljs-built_in">print</span>(C1,C2)<br><span class="hljs-comment">#(1,4),(4,10)</span><br><span class="hljs-comment">#Alice Decrypt</span><br><span class="hljs-built_in">print</span>(C2-a*C1)<br><span class="hljs-comment">#(4,33)</span><br></code></pre></td></tr></table></figure>
+
 <h2 id="5-GF-2-和-GF-2-k-上的椭圆曲线"><a href="#5-GF-2-和-GF-2-k-上的椭圆曲线" class="headerlink" title="5.$GF(2)$和$GF(2^k)$上的椭圆曲线"></a>5.$GF(2)$和$GF(2^k)$上的椭圆曲线</h2><p>计算机会讲二进制，所以它们特别适合做模$2$的计算。 这表明使用椭圆曲线模$2$可能更有效。 不幸的是，如果$E$是在$GF(2)$上定义的椭圆曲线，那么$E(GF(2))$最多包含5个点，因此$E(GF(2))$对于密码学目的是没有用的。</p>
 <p>然而，还有一些其他的域，也可以使得$2\equiv 0$，这种域就是$GF(2^k)$域。对于每个素数幂$p^k$，$GF(p^k)$都是一个有$p^k$个元素的素数域。因此，我们可以取一条椭圆曲线，它的方程在$GF(p^k)$中具有系数，并观察该曲线上具有坐标的点群。在这种更一般的情况下，Hasse定理是正确的。</p>
-<p>Hasse定理：在$GF(p^k)$中，椭圆曲线$E(GF(p^k))$上的点数为$p^k+1-t_{p^k}$，其中$t_{p^k}$的绝对值不超过$2p^{(k/2)}$。</p>
-<p>例如，我们在复数域$GF(9)$中，可以构造$E(GF(9)):y^2=x^3+(1+i)x+(2+i)$。这个椭圆曲线上有$10$个点，分别是$(2i,1+2i),(2i,2+i),(1+i,1+i),(1+i,2+2i),(2,0),(2+i,i),(2+i,2i),(2+2i,1),(2+2i,2)$和$O$。其中点可以相互叠加，只不过需要用到$i^2=-1$和计算时不断地模$3$。不过我们要注意的就是构造椭圆曲线的时候，要注意$\Delta=-16(4A^3+27B^2)$的值不为零（不过多数情况下，如果仅做判断，会省去前面的系数$-16$）。</p>
-<p>只要我们在$2\not=0$的字段中工作，那么$Δ\not =0$条件与任何一个定义都是相同的，但是对于$GF(2^k)$其中$2=0$的情况下，我们已经为每个标准椭圆曲线方程均满足$Δ=0$。所以，我们要引入扩展椭圆曲线方程的形式：</p>
-<script type="math/tex; mode=display">
-E: y^2+a_1xy+a_3y=x^3+a_2x^2+a_4x+a_6</script><p>其中，比我们一开始的椭圆曲线，多了$xy$交叉项、$y$的一次项和$x$的二次项。当然，这个曲线上也有一个无穷远的点$O$。此时的$\Delta$是这样算的：</p>
-<p>设$b_2=a_1^2+4a_2,b_4=2a_4+a_1a_3,b_6=a_3^2+4a_6,b_8=a_6b_2-a_1a_3a_4+a_2a_3^2-a_4^2$。</p>
-<p>那么$\Delta=-b_2^2b_8-8b_4^3-27b_6^2+9b_2b_4b_6$。虽然这些公式看起来很复杂，但它们很容易计算，并且条件$Δ\not =0$正是确保曲线$E$是非奇异的必要条件。</p>
+<p>Hasse定理：在$GF(p^k)$中，椭圆曲线$E(GF(p^k))$上的点数为$p^k+1-t_{p^k}$，其中$t_{p^k}$的绝对值不超过$2p^{(k&#x2F;2)}$。</p>
+<p>例如，我们在复数域$GF(9)$中，可以构造$E(GF(9)):y^2&#x3D;x^3+(1+i)x+(2+i)$。这个椭圆曲线上有$10$个点，分别是$(2i,1+2i),(2i,2+i),(1+i,1+i),(1+i,2+2i),(2,0),(2+i,i),(2+i,2i),(2+2i,1),(2+2i,2)$和$O$。其中点可以相互叠加，只不过需要用到$i^2&#x3D;-1$和计算时不断地模$3$。不过我们要注意的就是构造椭圆曲线的时候，要注意$\Delta&#x3D;-16(4A^3+27B^2)$的值不为零（不过多数情况下，如果仅做判断，会省去前面的系数$-16$）。</p>
+<p>只要我们在$2\not&#x3D;0$的字段中工作，那么$Δ\not &#x3D;0$条件与任何一个定义都是相同的，但是对于$GF(2^k)$其中$2&#x3D;0$的情况下，我们已经为每个标准椭圆曲线方程均满足$Δ&#x3D;0$。所以，我们要引入扩展椭圆曲线方程的形式：<br>$$<br>E: y^2+a_1xy+a_3y&#x3D;x^3+a_2x^2+a_4x+a_6<br>$$<br>其中，比我们一开始的椭圆曲线，多了$xy$交叉项、$y$的一次项和$x$的二次项。当然，这个曲线上也有一个无穷远的点$O$。此时的$\Delta$是这样算的：</p>
+<p>设$b_2&#x3D;a_1^2+4a_2,b_4&#x3D;2a_4+a_1a_3,b_6&#x3D;a_3^2+4a_6,b_8&#x3D;a_6b_2-a_1a_3a_4+a_2a_3^2-a_4^2$。</p>
+<p>那么$\Delta&#x3D;-b_2^2b_8-8b_4^3-27b_6^2+9b_2b_4b_6$。虽然这些公式看起来很复杂，但它们很容易计算，并且条件$Δ\not &#x3D;0$正是确保曲线$E$是非奇异的必要条件。</p>
 <p>关于$E$的加法定律的几何定义与我们以前的定义相似，唯一的变化是旧的反射步骤$(x,y)→(x,−y)$被稍微复杂的反射步骤所取代，其中$-y$被替换成了$-y-a_1x-a_3$。而求一个点的负点，也是遵循$x$不变，$y$换成$-y-a_1x-a_3$的方法。</p>
-<p>当$S(x_1,y_1),T(x_2,y_2)$两点相加时，我们也有：</p>
-<script type="math/tex; mode=display">
-x(S+T)=(\dfrac{y_2-y_1}{x_2-x_1})^2+a_1(\dfrac{y_2-y_1}{x_2-x_1})-a_2-x_1-x_2</script><p>而求一个点$(x,y)$的两倍点，可以用这样的公式：</p>
-<script type="math/tex; mode=display">
-x(2S)=\dfrac{x^4-b_4x^2-2b_6x-b_8}{4x^3+b_2x^2+4b_4x+b_6}</script><p>而当$GF(2^k)$域上计算的时候，我们就需要用到不可约多项式了。</p>
-<p>例如：在$GF(8)$上，我们可以选取不可约多项式$t^3+t+1$。此时，$GF(8)$中的所有元素就被锁定在$t$的不超过二次多项式里面了。因此我们可以定义一个这样的椭圆曲线：</p>
-<script type="math/tex; mode=display">
-y^2+(1+t)y\equiv x^3+(1+t^2)x+t \pmod{t^3+t+1}\text{ and }\pmod2</script><p>这个上面一共有$9$个点，比如$(0,t),(0,1),(t,1+t),(1+t^2,t+t^2)……$等等，当然，$9$个点里面还包括一个无穷远点$O$</p>
-<p>当然，我们也可以得到计算：$(1+t^2,t+t^2)+(1+t,t)=(1+t^2,1+t^2)$和$2(t,1+t)=(t,0)$。</p>
-<p>定义：<strong>(p-power)Frobenius</strong>映射$τ$是由简单规则定义的从$GF(p^k)$到自身的映射，$τ(a)=a^p$。</p>
-<p>当然$τ(a+b)=τ(a)+τ(b),τ(ab)=τ(a)τ(b)(\text{in GF(2}^k))$。当然，对于椭圆曲线上的一点$P(x,y)$，也有$τ(P)=(τ(x),τ(y))$。</p>
+<p>当$S(x_1,y_1),T(x_2,y_2)$两点相加时，我们也有：<br>$$<br>x(S+T)&#x3D;(\dfrac{y_2-y_1}{x_2-x_1})^2+a_1(\dfrac{y_2-y_1}{x_2-x_1})-a_2-x_1-x_2<br>$$<br>而求一个点$(x,y)$的两倍点，可以用这样的公式：<br>$$<br>x(2S)&#x3D;\dfrac{x^4-b_4x^2-2b_6x-b_8}{4x^3+b_2x^2+4b_4x+b_6}<br>$$<br>而当$GF(2^k)$域上计算的时候，我们就需要用到不可约多项式了。</p>
+<p>例如：在$GF(8)$上，我们可以选取不可约多项式$t^3+t+1$。此时，$GF(8)$中的所有元素就被锁定在$t$的不超过二次多项式里面了。因此我们可以定义一个这样的椭圆曲线：<br>$$<br>y^2+(1+t)y\equiv x^3+(1+t^2)x+t \pmod{t^3+t+1}\text{ and }\pmod2<br>$$<br>这个上面一共有$9$个点，比如$(0,t),(0,1),(t,1+t),(1+t^2,t+t^2)……$等等，当然，$9$个点里面还包括一个无穷远点$O$</p>
+<p>当然，我们也可以得到计算：$(1+t^2,t+t^2)+(1+t,t)&#x3D;(1+t^2,1+t^2)$和$2(t,1+t)&#x3D;(t,0)$。</p>
+<p>定义：**(p-power)Frobenius**映射$τ$是由简单规则定义的从$GF(p^k)$到自身的映射，$τ(a)&#x3D;a^p$。</p>
+<p>当然$τ(a+b)&#x3D;τ(a)+τ(b),τ(ab)&#x3D;τ(a)τ(b)(\text{in GF(2}^k))$。当然，对于椭圆曲线上的一点$P(x,y)$，也有$τ(P)&#x3D;(τ(x),τ(y))$。</p>
 <p>换句话说，$τ$将$E(GF(2^k))$映射到自身，它满足加法定律。 (在数学术语中，Frobenius映射是$E(GF2^k)$与自身的群同态。 </p>
 <p>$GF(p)$中椭圆曲线上的点的个数$\mathrm{ind }E$在区间$[p+1-2\sqrt p,p+1+2\sqrt p]$中。</p>
 
@@ -808,21 +797,6 @@ y^2+(1+t)y\equiv x^3+(1+t^2)x+t \pmod{t^3+t+1}\text{ and }\pmod2</script><p>这�
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
