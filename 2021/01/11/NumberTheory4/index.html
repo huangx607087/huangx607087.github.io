@@ -19,12 +19,12 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="huangx607087学习数论的笔记41.欧拉$\phi()$函数的性质任何数$n$的各个因数（包括$1$和自身）的$\phi$值之和等于$n$本身 例如：$15$的因数是$1,3,5,15$，$\phi(1)+\phi(3)+\phi(5)+\phi(15)&#x3D;1+2+4+8&#x3D;15$ (只上结论，不讲证明) 2.本原元（原根）概念：使得$a^e\equiv 1 \pmod p">
+    <meta name="description" content="huangx607087学习数论的笔记41.欧拉$\phi()$函数的性质任何数$n$的各个因数（包括$1$和自身）的$\phi$值之和等于$n$本身 例如：$15$的因数是$1,3,5,15$，$\phi(1)+\phi(3)+\phi(5)+\phi(15)&#x3D;1+2+4+8&#x3D;15$ (只上结论，不讲证明) 2.本原元（原根）概念：使得$a^e\equiv 1 \pmod p$的最小$e$值为$">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NumberTheory4">
 <meta property="og:url" content="http://example.com/2021/01/11/NumberTheory4/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="huangx607087学习数论的笔记41.欧拉$\phi()$函数的性质任何数$n$的各个因数（包括$1$和自身）的$\phi$值之和等于$n$本身 例如：$15$的因数是$1,3,5,15$，$\phi(1)+\phi(3)+\phi(5)+\phi(15)&#x3D;1+2+4+8&#x3D;15$ (只上结论，不讲证明) 2.本原元（原根）概念：使得$a^e\equiv 1 \pmod p">
+<meta property="og:description" content="huangx607087学习数论的笔记41.欧拉$\phi()$函数的性质任何数$n$的各个因数（包括$1$和自身）的$\phi$值之和等于$n$本身 例如：$15$的因数是$1,3,5,15$，$\phi(1)+\phi(3)+\phi(5)+\phi(15)&#x3D;1+2+4+8&#x3D;15$ (只上结论，不讲证明) 2.本原元（原根）概念：使得$a^e\equiv 1 \pmod p$的最小$e$值为$">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2021/01/11/NumberTheory4/1.png">
 <meta property="og:image" content="http://example.com/2021/01/11/NumberTheory4/2.png">
@@ -317,12 +317,13 @@
               <div class="markdown-body">
                 
                 <h1 id="huangx607087学习数论的笔记4"><a href="#huangx607087学习数论的笔记4" class="headerlink" title="huangx607087学习数论的笔记4"></a>huangx607087学习数论的笔记4</h1><h2 id="1-欧拉-phi-函数的性质"><a href="#1-欧拉-phi-函数的性质" class="headerlink" title="1.欧拉$\phi()$函数的性质"></a>1.欧拉$\phi()$函数的性质</h2><p>任何数$n$的各个因数（包括$1$和自身）的$\phi$值之和等于$n$本身</p>
-<p>例如：$15$的因数是$1,3,5,15$，$\phi(1)+\phi(3)+\phi(5)+\phi(15)&#x3D;1+2+4+8&#x3D;15$</p>
+<p>例如：$15$的因数是$1,3,5,15$，$\phi(1)+\phi(3)+\phi(5)+\phi(15)=1+2+4+8=15$</p>
 <p><del>(只上结论，不讲证明)</del></p>
 <h2 id="2-本原元（原根）"><a href="#2-本原元（原根）" class="headerlink" title="2.本原元（原根）"></a>2.本原元（原根）</h2><p><strong>概念：</strong>使得$a^e\equiv 1 \pmod p$的最小$e$值为$p-1$的$a$值成为模$p$的本原元。</p>
 <p>例如：$2^e\equiv 1 \pmod {11}$成立的最小$e$值为$10$，所以$2$是模$11$的本原元。而$3^e\equiv 1 \pmod {11}$成立的最小$e$值为$5$，所以$3$不是模$11$意义下的本原元。</p>
-<p>在模$11$的意义下，我们可以设$\mathrm{ord}(x)$函数，此处有$\mathrm{ord}(2)&#x3D;10,\mathrm{ord}(3)&#x3D;5$。当然，如果放在模$7$的意义下，$\mathrm{ord}(2),\mathrm{ord}(3)$的值就分别变成了$3,6$。那么模$7$意义下，$3$就是本原元，$2$不是了。</p>
+<p>在模$11$的意义下，我们可以设$\mathrm{ord}(x)$函数，此处有$\mathrm{ord}(2)=10,\mathrm{ord}(3)=5$。当然，如果放在模$7$的意义下，$\mathrm{ord}(2),\mathrm{ord}(3)$的值就分别变成了$3,6$。那么模$7$意义下，$3$就是本原元，$2$不是了。</p>
 <p>我们看看在模$11$和模$7$的意义下各个数的$\mathrm{ord}$值</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -333,13 +334,14 @@
 <th>$\texttt{4}$</th>
 <th>$\texttt{5}$</th>
 <th>$\texttt{6}$</th>
-<th align="left">$\texttt{7}$</th>
+<th style="text-align:left">$\texttt{7}$</th>
 <th>$\texttt{8}$</th>
 <th>$\texttt{9}$</th>
 <th>$\texttt{10}$</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>$\mathrm {ord}_7(x)$</td>
 <td>$\texttt{1}$</td>
 <td>$\texttt{3}$</td>
@@ -347,7 +349,7 @@
 <td>$\texttt{3}$</td>
 <td>$\texttt{6}$</td>
 <td>$\texttt{2}$</td>
-<td align="left">$\texttt{undef}$</td>
+<td style="text-align:left">$\texttt{undef}$</td>
 <td>$\texttt{undef}$</td>
 <td>$\texttt{undef}$</td>
 <td>$\texttt{undef}$</td>
@@ -360,40 +362,42 @@
 <td>$\texttt{5}$</td>
 <td>$\texttt{5}$</td>
 <td><strong>$\texttt{10}$</strong></td>
-<td align="left">$\texttt{10}$</td>
+<td style="text-align:left">$\texttt{10}$</td>
 <td>$\texttt{10}$</td>
 <td>$\texttt{5}$</td>
 <td>$\texttt{2}$</td>
 </tr>
-</tbody></table>
-<p>对于任意素数$p$来说，总有$\phi(p-1)$个本原元。例如：由于$\phi(10)&#x3D;4$，所以模$11$的意义下，一共有$4$个本原元，分别是$2,6,7,8$。现在还没有求本原元的有效方法。不过根据表格，我们还可以观察到以下$3$个规律：<br><strong>1.</strong> 任何小于$p$的$\mathrm{ord}$值均为$p-1$的因数<br><strong>2.</strong> 二次剩余一定不是本原元，并且二次剩余的$\mathrm{ord}$值恰好为$\dfrac{p-1}{2}$<br><strong>3.</strong> $\mathrm{ord}(p-1)&#x3D;2$</p>
+</tbody>
+</table>
+</div>
+<p>对于任意素数$p$来说，总有$\phi(p-1)$个本原元。例如：由于$\phi(10)=4$，所以模$11$的意义下，一共有$4$个本原元，分别是$2,6,7,8$。现在还没有求本原元的有效方法。不过根据表格，我们还可以观察到以下$3$个规律：<br><strong>1.</strong> 任何小于$p$的$\mathrm{ord}$值均为$p-1$的因数<br><strong>2.</strong> 二次剩余一定不是本原元，并且二次剩余的$\mathrm{ord}$值恰好为$\dfrac{p-1}{2}$<br><strong>3.</strong> $\mathrm{ord}(p-1)=2$</p>
 <p> <strong>COSTAS阵列</strong></p>
 <p>COSTAS阵列的性质：构建一个$p-1$阶的方阵，然后要求每行、每列都有一个$1$，其他元素均为$0$。并且任何两个$1$的连线的长度或斜率都不相同。</p>
 <p>一般选择一个本源元即可构造一个COSTAS阵列。比如：$5$是模$7$意义下的一个本源元，于是有了序列$5,4,6,2,3,1$。所以我们可以构建一个$6×6$的矩阵$A$</p>
 <p><img src="/2021/01/11/NumberTheory4/1.png" srcset="/img/loading.gif" lazyload alt="1"></p>
-<p>存在$k$使得$A^k&#x3D;E&#x3D;\mathrm{diag}(1,1,1,1,1,1)$</p>
-<h2 id="3-指标（即离散对数）"><a href="#3-指标（即离散对数）" class="headerlink" title="3.指标（即离散对数）"></a>3.指标（即离散对数）</h2><p>由$2^9\equiv 5 \pmod {13}$，可以记为$I(5)&#x3D;9\equiv \dfrac{\ln5}{\ln2} \pmod {13}$</p>
-<p>当我们规定底数$a$时，我们可以设$I(x)&#x3D;\dfrac{\ln x}{\ln a}$的对数形式，该对数的运算与数学上已知的对数形式一模一样。这也是我后面博客里谈到离散对数问题所要考虑到的东西。</p>
-<p>我们也可以做个表，设$p&#x3D;7,a&#x3D;5$，那么$I(1)$到$I(6)$分别为$6,4,5,2,1,3$。如果我们想要计算$3×5$，我们可以查表得$I(3)&#x3D;5,I(5)&#x3D;3,5+3\equiv 1\pmod 7$所以我们可以得到$3×5\equiv1\pmod7$</p>
+<p>存在$k$使得$A^k=E=\mathrm{diag}(1,1,1,1,1,1)$</p>
+<h2 id="3-指标（即离散对数）"><a href="#3-指标（即离散对数）" class="headerlink" title="3.指标（即离散对数）"></a>3.指标（即离散对数）</h2><p>由$2^9\equiv 5 \pmod {13}$，可以记为$I(5)=9\equiv \dfrac{\ln5}{\ln2} \pmod {13}$</p>
+<p>当我们规定底数$a$时，我们可以设$I(x)=\dfrac{\ln x}{\ln a}$的对数形式，该对数的运算与数学上已知的对数形式一模一样。这也是我后面博客里谈到离散对数问题所要考虑到的东西。</p>
+<p>我们也可以做个表，设$p=7,a=5$，那么$I(1)$到$I(6)$分别为$6,4,5,2,1,3$。如果我们想要计算$3×5$，我们可以查表得$I(3)=5,I(5)=3,5+3\equiv 1\pmod 7$所以我们可以得到$3×5\equiv1\pmod7$</p>
 <p>不过离散对数中得密码学也是个极其难解的问题，后面如果可以，会增加相关推文。</p>
-<h2 id="4-二项式定理模-p-扩充"><a href="#4-二项式定理模-p-扩充" class="headerlink" title="4.二项式定理模$p$扩充"></a>4.二项式定理模$p$扩充</h2><p>两个结论：<br>1.$\mathrm{C}_p^k \equiv 0 \pmod p,k \not &#x3D; 0,p$<br>2.若$p$为素数，有$(A+B)^p\equiv A^p+B^p \pmod p$</p>
-<h2 id="5-Fibonacci数列"><a href="#5-Fibonacci数列" class="headerlink" title="5.Fibonacci数列"></a>5.Fibonacci数列</h2><p>一般的Fibonacci数列：$1,1,2,3,5,8,……$，有$F_1&#x3D;F_2&#x3D;1,F_{n}&#x3D;F_{n-1}+F_{n-2}$</p>
+<h2 id="4-二项式定理模-p-扩充"><a href="#4-二项式定理模-p-扩充" class="headerlink" title="4.二项式定理模$p$扩充"></a>4.二项式定理模$p$扩充</h2><p>两个结论：<br>1.$\mathrm{C}_p^k \equiv 0 \pmod p,k \not = 0,p$<br>2.若$p$为素数，有$(A+B)^p\equiv A^p+B^p \pmod p$</p>
+<h2 id="5-Fibonacci数列"><a href="#5-Fibonacci数列" class="headerlink" title="5.Fibonacci数列"></a>5.Fibonacci数列</h2><p>一般的Fibonacci数列：$1,1,2,3,5,8,……$，有$F_1=F_2=1,F_{n}=F_{n-1}+F_{n-2}$</p>
 <p><strong>1.类Fibonacci数列的求通项公式的方法</strong></p>
 <p>可以使用矩阵运算：</p>
 <p><img src="/2021/01/11/NumberTheory4/2.png" srcset="/img/loading.gif" lazyload alt="2"></p>
 <p>并且这个方法还可以推广到矩阵快速幂的计算上去。</p>
-<p>我们可以扩展以下：假如有一个数列$G_n&#x3D;aG_{n-1}+bG_{n-2}$，并给出初值$G_1,G_2$，我们可以构造下面的矩阵。</p>
+<p>我们可以扩展以下：假如有一个数列$G_n=aG_{n-1}+bG_{n-2}$，并给出初值$G_1,G_2$，我们可以构造下面的矩阵。</p>
 <p><img src="/2021/01/11/NumberTheory4/3.png" srcset="/img/loading.gif" lazyload alt="3"></p>
-<p>如果想求通项公式，只需要求出最左边矩阵的$2$个特征值$E_1,E_2$，那么通项公式就是$G_n&#x3D;C_1E_1^n+C_2E_2^n$，带入初值即可求得待定系数。</p>
-<p>我们可以继续扩展到三阶矩阵：$H_n&#x3D;aH_{n-1}+bH_{n-2}+cH_{n-3}$</p>
+<p>如果想求通项公式，只需要求出最左边矩阵的$2$个特征值$E_1,E_2$，那么通项公式就是$G_n=C_1E_1^n+C_2E_2^n$，带入初值即可求得待定系数。</p>
+<p>我们可以继续扩展到三阶矩阵：$H_n=aH_{n-1}+bH_{n-2}+cH_{n-3}$</p>
 <p><img src="/2021/01/11/NumberTheory4/4.png" srcset="/img/loading.gif" lazyload alt="4"></p>
 <p>然后同样是求特征值之后用待定系数法利用初值列方程求解。</p>
 <p><strong>Fibonacci数列的模$p$周期</strong></p>
-<p>对于任意素数，有$T(p^k)&#x3D;p^{k-1}T(p)$。</p>
-<p>$T(2)&#x3D;3,T(5)&#x3D;20$是两个特殊值</p>
-<p>如果$p\equiv 1 \text8{ or }4 \pmod 5$，那么$T(p)&#x3D;p$。如果$p\equiv2 \text{ or } 3 \pmod 5$，那么$T(p)&#x3D;2p+2$</p>
-<p>当$a$是合数，$p$是不同的素数时，$a&#x3D;p_1^{e_1}p_2^{e_2}…p_n^{e_n}$时，$T(a)&#x3D;T(p_1)T(p_2)…T(p_n)$。</p>
-<p>例如：$72&#x3D;2^3×3^2$，那么有$T(72)&#x3D;T(2)T(3)&#x3D;3×8&#x3D;24$</p>
+<p>对于任意素数，有$T(p^k)=p^{k-1}T(p)$。</p>
+<p>$T(2)=3,T(5)=20$是两个特殊值</p>
+<p>如果$p\equiv 1 \text8{ or }4 \pmod 5$，那么$T(p)=p$。如果$p\equiv2 \text{ or } 3 \pmod 5$，那么$T(p)=2p+2$</p>
+<p>当$a$是合数，$p$是不同的素数时，$a=p_1^{e_1}p_2^{e_2}…p_n^{e_n}$时，$T(a)=T(p_1)T(p_2)…T(p_n)$。</p>
+<p>例如：$72=2^3×3^2$，那么有$T(72)=T(2)T(3)=3×8=24$</p>
 
                 
               </div>
@@ -837,6 +841,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

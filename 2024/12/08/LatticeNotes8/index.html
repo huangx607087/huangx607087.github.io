@@ -41,7 +41,7 @@
 <meta property="og:image" content="http://example.com/2024/12/08/LatticeNotes8/15.png">
 <meta property="og:image" content="http://example.com/2024/12/08/LatticeNotes8/16.png">
 <meta property="article:published_time" content="2024-12-08T08:48:21.000Z">
-<meta property="article:modified_time" content="2024-12-08T09:31:36.339Z">
+<meta property="article:modified_time" content="2024-12-08T09:37:08.332Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="Notes">
 <meta name="twitter:card" content="summary_large_image">
@@ -1158,6 +1158,21 @@ e_1x^2-k_1(n_1+1)-z_1-k_1y_1=0</script><p>这个式子中，只有 $y_1,z_1$ 为
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
