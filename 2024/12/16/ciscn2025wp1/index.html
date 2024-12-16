@@ -34,7 +34,7 @@
 <meta property="og:image" content="http://example.com/2024/12/16/ciscn2025wp1/8.png">
 <meta property="og:image" content="http://example.com/2024/12/16/ciscn2025wp1/9.png">
 <meta property="article:published_time" content="2024-12-16T00:33:18.000Z">
-<meta property="article:modified_time" content="2024-12-16T02:35:07.897Z">
+<meta property="article:modified_time" content="2024-12-16T14:57:24.952Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="WriteUp">
 <meta name="twitter:card" content="summary_large_image">
@@ -257,7 +257,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.2k 字
+          3.5k 字
         
       </span>
     
@@ -268,7 +268,7 @@
         
         
         
-          27 分钟
+          29 分钟
         
       </span>
     
@@ -426,6 +426,10 @@
 <p>因为 $-1048583 \equiv -23 \pmod {257}$，因此倒数第三位刚好多了 $23$。而 $125-23&#x3D;102$，恰好对应 <code>f</code>，原因就找到了。。。</p>
 <p>所以加个特判，这样就对了：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">s=<span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">18</span>):<br>    chi=ZZ(cb[i])-ZZ(pp[i])<br>    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">abs</span>(chi)&gt;<span class="hljs-number">500000</span>):<br>        chi=sgn(chi)*(chi-q)<br>    s+=<span class="hljs-built_in">chr</span>(chi%<span class="hljs-number">257</span>)<br><span class="hljs-built_in">print</span>(s)<br><span class="hljs-comment">#a3bc5491-fa53-4f47</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3x05-oc师傅的wp"><a href="#3x05-oc师傅的wp" class="headerlink" title="3x05 oc师傅的wp"></a>3x05 oc师傅的wp</h3><p>16日晚上，oc师傅告诉我这个题可以直接最小二乘法，因为<code>samples*error_bound&lt;mod</code>。</p>
+<p>并且代码看着更简洁，他没有考虑高低位的问题。当然，因为他取的是 $(-p&#x2F;2,p&#x2F;2)$ 的范围，而不是 $[0,p-1]$ 的范围，因此貌似没有出现错误解的问题，等后面再学习。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br>lwe_pubkey1,lwe_pubkey2=load(<span class="hljs-string">&quot;lwe_public_key&quot;</span>)<br>lwe_cipher1,lwe_cipher2=load(<span class="hljs-string">&quot;lwe_ciphertext&quot;</span>)<br>rlwe_ciphertext=load(<span class="hljs-string">&quot;rlwe_ciphertext&quot;</span>)<br><br>lwe_dimension = <span class="hljs-number">2</span>**<span class="hljs-number">9</span><br>lwe_num_samples = <span class="hljs-number">2</span>**<span class="hljs-number">9</span> + <span class="hljs-number">2</span>**<span class="hljs-number">6</span> + <span class="hljs-number">2</span>**<span class="hljs-number">5</span> + <span class="hljs-number">2</span>**<span class="hljs-number">2</span><br>lwe_plaintext_modulus = next_prime(<span class="hljs-number">256</span>)<br>lwe_ciphertext_modulus = next_prime(<span class="hljs-number">1048576</span>)<br>rlwe_dim = <span class="hljs-number">64</span><br>a, b, f, rlwe_modulus = rlwe_ciphertext<br><br>lwe_secret_key=np.linalg.lstsq(np.array(lwe_pubkey1),np.array(lwe_pubkey2))[<span class="hljs-number">0</span>].<span class="hljs-built_in">round</span>().astype(<span class="hljs-built_in">int</span>)<br><br>flag=<span class="hljs-string">&#x27;flag&#123;&#x27;</span><br><span class="hljs-keyword">for</span> tmp1, tmp2 <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(lwe_cipher1, lwe_cipher2):<br>    t=<span class="hljs-built_in">int</span>(tmp2-tmp1*vector(lwe_secret_key))<br>    <span class="hljs-keyword">if</span> t&gt;lwe_ciphertext_modulus//<span class="hljs-number">2</span>:<br>        t+=((lwe_ciphertext_modulus-t)//lwe_plaintext_modulus+<span class="hljs-number">1</span>)*lwe_plaintext_modulus-lwe_ciphertext_modulus<br>    <span class="hljs-keyword">else</span>:<br>        t-=t//lwe_plaintext_modulus*lwe_plaintext_modulus<br>    flag+=<span class="hljs-built_in">chr</span>(t)<br><br>m=<span class="hljs-built_in">len</span>(lwe_cipher2)+<span class="hljs-number">1</span><br>P.&lt;x&gt; = PolynomialRing(Zmod(rlwe_modulus))<br>PR = P.quo(f)<br>M=block_matrix(ZZ,[[matrix(b.<span class="hljs-built_in">list</span>()),zero_matrix(<span class="hljs-number">1</span>,m),matrix([<span class="hljs-number">100</span>])],<br>                 [PR(a).matrix()[:m],identity_matrix(m),zero_matrix(m,<span class="hljs-number">1</span>)],<br>                 [rlwe_modulus*identity_matrix(rlwe_dim),zero_matrix(rlwe_dim,m),zero_matrix(rlwe_dim,<span class="hljs-number">1</span>)]])<br>L=M.LLL()<br>flag+=<span class="hljs-built_in">bytes</span>(L[<span class="hljs-number">0</span>][rlwe_dim:rlwe_dim+m]).rstrip(<span class="hljs-string">b&#x27;\x00&#x27;</span>).decode()+<span class="hljs-string">&#x27;&#125;&#x27;</span><br><span class="hljs-built_in">print</span>(flag)<br></code></pre></td></tr></table></figure>
 
 
 
@@ -872,6 +876,21 @@
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
