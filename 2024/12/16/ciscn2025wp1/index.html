@@ -19,12 +19,12 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="CISCN2025 Crypto Writeup0.Introduction 最后15分钟，一个题突然有了思路！然后框框做。剩三分钟的时候出了结果。 然后，发现flag有一位不对，但时间不够了，连交16发，过了。   1.rasnd签到题 1x01 第一问第一问是两个 $$xp+yq$$ 的方程组，其中两个 $$x$$ 均为 $11$ bit，而 $$y$$ 比较大。先把干扰项0x114 和 0x">
+    <meta name="description" content="CISCN2025 Crypto Writeup0.Introduction 最后15分钟，一个题突然有了思路！然后框框做。剩三分钟的时候出了结果。 然后，发现flag有一位不对，但时间不够了，连交16发，过了。   1.rasnd签到题 1x01 第一问第一问是两个 $xp+yq$ 的方程组，其中两个 $x$ 均为 $11$ bit，而 $y$ 比较大。先把干扰项0x114 和 0x514 加上">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ciscn2025wp1">
 <meta property="og:url" content="http://example.com/2024/12/16/ciscn2025wp1/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="CISCN2025 Crypto Writeup0.Introduction 最后15分钟，一个题突然有了思路！然后框框做。剩三分钟的时候出了结果。 然后，发现flag有一位不对，但时间不够了，连交16发，过了。   1.rasnd签到题 1x01 第一问第一问是两个 $$xp+yq$$ 的方程组，其中两个 $$x$$ 均为 $11$ bit，而 $$y$$ 比较大。先把干扰项0x114 和 0x">
+<meta property="og:description" content="CISCN2025 Crypto Writeup0.Introduction 最后15分钟，一个题突然有了思路！然后框框做。剩三分钟的时候出了结果。 然后，发现flag有一位不对，但时间不够了，连交16发，过了。   1.rasnd签到题 1x01 第一问第一问是两个 $xp+yq$ 的方程组，其中两个 $x$ 均为 $11$ bit，而 $y$ 比较大。先把干扰项0x114 和 0x514 加上">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2024/12/16/ciscn2025wp1/2.png">
 <meta property="og:image" content="http://example.com/2024/12/16/ciscn2025wp1/4.png">
@@ -34,7 +34,7 @@
 <meta property="og:image" content="http://example.com/2024/12/16/ciscn2025wp1/8.png">
 <meta property="og:image" content="http://example.com/2024/12/16/ciscn2025wp1/9.png">
 <meta property="article:published_time" content="2024-12-16T00:33:18.000Z">
-<meta property="article:modified_time" content="2024-12-16T02:29:33.731Z">
+<meta property="article:modified_time" content="2024-12-16T02:31:29.942Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="WriteUp">
 <meta name="twitter:card" content="summary_large_image">
@@ -325,7 +325,7 @@
 </blockquote>
 <p><img src="/2024/12/16/ciscn2025wp1/2.png" srcset="/img/loading.gif" lazyload alt="2"></p>
 <h2 id="1-rasnd"><a href="#1-rasnd" class="headerlink" title="1.rasnd"></a>1.rasnd</h2><p>签到题</p>
-<h3 id="1x01-第一问"><a href="#1x01-第一问" class="headerlink" title="1x01 第一问"></a>1x01 第一问</h3><p>第一问是两个 $$xp+yq$$ 的方程组，其中两个 $$x$$ 均为 $11$ bit，而 $$y$$ 比较大。先把干扰项<code>0x114</code> 和 <code>0x514</code> 加上去那个再考虑问题。</p>
+<h3 id="1x01-第一问"><a href="#1x01-第一问" class="headerlink" title="1x01 第一问"></a>1x01 第一问</h3><p>第一问是两个 $xp+yq$ 的方程组，其中两个 $x$ 均为 $11$ bit，而 $y$ 比较大。先把干扰项<code>0x114</code> 和 <code>0x514</code> 加上去那个再考虑问题。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs Python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">crypto1</span>():<br>    p = getPrime(<span class="hljs-number">1024</span>)<br>    q = getPrime(<span class="hljs-number">1024</span>)<br>    n = p * q<br>    e = <span class="hljs-number">0x10001</span><br>    x1=randint(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>**<span class="hljs-number">11</span>)<br>    y1=randint(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>**<span class="hljs-number">114</span>)<br>    x2=randint(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>**<span class="hljs-number">11</span>)<br>    y2=randint(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>**<span class="hljs-number">514</span>)<br>    hint1=x1*p+y1*q-<span class="hljs-number">0x114</span><br>    hint2=x2*p+y2*q-<span class="hljs-number">0x514</span><br>    c = <span class="hljs-built_in">pow</span>(bytes_to_long(flag1), e, n)<br>    <span class="hljs-built_in">print</span>(n)<br>    <span class="hljs-built_in">print</span>(c)<br>    <span class="hljs-built_in">print</span>(hint1)<br>    <span class="hljs-built_in">print</span>(hint2)<br></code></pre></td></tr></table></figure>
 
 <p>设 $h_1&#x3D;ap+uq,h_2&#x3D;bp+vq$，这里 $a,b,u,v$ 分别代表原题中的 $x_1,x_2,y_1,y_2$。因此，有 $h_1\equiv ap \pmod q$ 和 $h_2 \equiv bp \pmod q$。</p>
