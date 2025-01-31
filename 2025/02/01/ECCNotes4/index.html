@@ -1,0 +1,889 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="huangx607087">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="huangx607087学习ECC的笔记40.AboutBlockCipher3：2021.09.04，BlockCipher4：2024.11.06，中间38个月 LatticeNotes7：2021.07.25，LatticeNotes8：2024.12.05，中间41个月 然后，ECCNotes，经过47个月，也要更新了。。。回顾了以下之前写的，满头问号：我之前写了啥？还好，看了2h，看懂了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ECCNotes4">
+<meta property="og:url" content="http://example.com/2025/02/01/ECCNotes4/index.html">
+<meta property="og:site_name" content="huangx607087&#39;s Blog">
+<meta property="og:description" content="huangx607087学习ECC的笔记40.AboutBlockCipher3：2021.09.04，BlockCipher4：2024.11.06，中间38个月 LatticeNotes7：2021.07.25，LatticeNotes8：2024.12.05，中间41个月 然后，ECCNotes，经过47个月，也要更新了。。。回顾了以下之前写的，满头问号：我之前写了啥？还好，看了2h，看懂了">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/02/01/ECCNotes4/1.png">
+<meta property="og:image" content="http://example.com/2025/02/01/ECCNotes4/2.png">
+<meta property="og:image" content="http://example.com/2025/02/01/ECCNotes4/3.png">
+<meta property="og:image" content="http://example.com/2025/02/01/ECCNotes4/4.png">
+<meta property="og:image" content="http://example.com/2025/02/01/ECCNotes4/5.png">
+<meta property="article:published_time" content="2025-02-01T04:26:36.000Z">
+<meta property="article:modified_time" content="2025-01-31T12:57:48.765Z">
+<meta property="article:author" content="huangx607087">
+<meta property="article:tag" content="Notes">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/02/01/ECCNotes4/1.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>ECCNotes4 - huangx607087&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
+
+
+<body>
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>huangx607087</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/friends/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/site/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>更新日志</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="ECCNotes4"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-02-01 12:26" pubdate>
+          2025/02/01 12:26:36 
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          36 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">ECCNotes4</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="huangx607087学习ECC的笔记4"><a href="#huangx607087学习ECC的笔记4" class="headerlink" title="huangx607087学习ECC的笔记4"></a>huangx607087学习ECC的笔记4</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0.About"></a>0.About</h2><p>BlockCipher3：2021.09.04，BlockCipher4：2024.11.06，中间38个月</p>
+<p>LatticeNotes7：2021.07.25，LatticeNotes8：2024.12.05，中间41个月</p>
+<p>然后，ECCNotes，经过47个月，也要更新了。。。回顾了以下之前写的，满头问号：我之前写了啥？还好，看了2h，看懂了。。。</p>
+<table>
+<thead>
+<tr>
+<th align="center">ECCNotes</th>
+<th align="center">发布时间</th>
+<th align="center">主要内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">$1$</td>
+<td align="center">$2021.02.21$</td>
+<td align="center">椭圆曲线基本知识</td>
+</tr>
+<tr>
+<td align="center">$2$</td>
+<td align="center">$2021.03.04$</td>
+<td align="center">椭圆曲线的双线性对(1)</td>
+</tr>
+<tr>
+<td align="center">$3$</td>
+<td align="center">$2021.03.25$</td>
+<td align="center">椭圆曲线上的除式、广播攻击和相关明文攻击</td>
+</tr>
+<tr>
+<td align="center">$4$</td>
+<td align="center">$2025.02.01$</td>
+<td align="center">椭圆曲线上的同源，SIDH</td>
+</tr>
+</tbody></table>
+<p>究其原因，是因为之前0xGame2024 Week4出了个SIDH，当时完全看不懂，那边wp写得也挺简陋的。并且感觉最近多项式、同态这些玩意在CTF中出现得越来越多<del>（盲猜dbt佬读博研究方向的就是多项式啥的，然后出了好多多项式的题）</del>。</p>
+<p>那么今天这个就以SIDH入手介绍同源吧，先给个0xGame2024 Week4的题目代码，后面就围绕着这个代码了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> randint<br><span class="hljs-keyword">from</span> secret <span class="hljs-keyword">import</span> flag<br><br>ea, eb = <span class="hljs-number">110</span>, <span class="hljs-number">67</span><br>p = <span class="hljs-number">2</span>**ea*<span class="hljs-number">3</span>**eb - <span class="hljs-number">1</span><br>F.&lt;i&gt; = GF(p**<span class="hljs-number">2</span>, modulus=[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>])<br><br>E0 = EllipticCurve(F, [<span class="hljs-number">1</span>,<span class="hljs-number">0</span>])<br><br>PA = E0.random_point()<br>QA = E0.random_point()<br>sA = randint(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>**ea)<br>RA = PA + sA*QA<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;RA = <span class="hljs-subst">&#123;RA.xy()&#125;</span>&#x27;</span>)<br><br>RB_= [<span class="hljs-built_in">int</span>(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">input</span>(<span class="hljs-string">f&#x27;[+] Give me RB:\n&gt;&#x27;</span>).split(<span class="hljs-string">&#x27;,&#x27;</span>)]<br><span class="hljs-comment">#Example: 1,2,3,4 </span><br><br>RB = E0(RB_[<span class="hljs-number">0</span>]*i + RB_[<span class="hljs-number">1</span>], RB_[<span class="hljs-number">2</span>]*i + RB_[<span class="hljs-number">3</span>])<br>phi_B =  E0.isogeny(RB, algorithm=<span class="hljs-string">&#x27;factored&#x27;</span>)<br>E_B = phi_B.codomain()<br><span class="hljs-keyword">assert</span> E_B.is_isogenous(E0)<br><br>R_share = phi_B(PA) + sA * phi_B(QA)<br>phi_share = E_B.isogeny(R_share, algorithm=<span class="hljs-string">&#x27;factored&#x27;</span>)<br>secret = phi_share.codomain().j_invariant()<br><br>secret_ = [<span class="hljs-built_in">int</span>(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">input</span>(<span class="hljs-string">&#x27;[+] Tell me the secret\n&gt;&#x27;</span>).split(<span class="hljs-string">&#x27;,&#x27;</span>)]<br>secret_ = secret_[<span class="hljs-number">0</span>] * i + secret_[<span class="hljs-number">1</span>]<br><span class="hljs-comment"># #Example: 1,2</span><br><br><span class="hljs-keyword">if</span> secret_ == secret:<br> 	<span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;[+] flag:<span class="hljs-subst">&#123;flag&#125;</span>&#x27;</span>)<br><span class="hljs-keyword">else</span>:<br> 	<span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;[+] Wrong&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="1-基础知识"><a href="#1-基础知识" class="headerlink" title="1. 基础知识"></a>1. 基础知识</h2><h3 id="1-1-超奇异曲线"><a href="#1-1-超奇异曲线" class="headerlink" title="1.1 超奇异曲线"></a>1.1 超奇异曲线</h3><p>超奇异曲线：若模 $p$ 下的椭圆曲线 $E$ 的阶满足 $\mathrm{ord}(E)\equiv 1\pmod p$ ，则 $E$ 是超奇异曲线</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">p=<span class="hljs-number">71</span><br>C71.&lt;img&gt;=GF(<span class="hljs-number">71</span>**<span class="hljs-number">2</span>,modulus=[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>])<br>E1=EllipticCurve(C71,[<span class="hljs-number">7</span>,<span class="hljs-number">2</span>])<br>E2=EllipticCurve(C71,[<span class="hljs-number">11</span>,<span class="hljs-number">9</span>])<br><span class="hljs-built_in">print</span>(E1.order() % p , E1.is_supersingular(),E1.j_invariant())<br><span class="hljs-comment">#1 True 66</span><br><span class="hljs-built_in">print</span>(E2.order() % p , E2.is_supersingular(),E2.j_invariant())<br><span class="hljs-comment">#62 False 30</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="1-2-j-不变量"><a href="#1-2-j-不变量" class="headerlink" title="1.2 j-不变量"></a>1.2 j-不变量</h3><h4 id="1-2-1-j-不变量的定义"><a href="#1-2-1-j-不变量的定义" class="headerlink" title="1.2.1 j-不变量的定义"></a>1.2.1 j-不变量的定义</h4><p>如果 2 个曲线 $E_1$ 和 $E_2$ 具有相同的 j-不变量，则两条曲线同构。</p>
+<p>设 $\mathbb C_{71}&#x3D;\mathbb Z_{71}+\mathrm i\mathbb Z_{71}$ ，其中 $\mathrm i^2\equiv -1\pmod{71}$，则定义在 $\mathbb C_{71}$ 上的超奇异曲线有 以下 $7$ 个j-不变量，或者说，若 $\mathbb C_{71}$ 上某个椭圆曲线的j-不变量为下面的数值中的某个，则这条曲线是超奇异曲线。</p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs accesslog"><span class="hljs-string">[0, 17, 24, 40, 41, 48, 66]</span><br></code></pre></td></tr></table></figure>
+
+<p>如果 $p&#x3D;431$，则对应的超奇异曲线上会有 $37$ 个 j-不变量，如下所示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">[<span class="hljs-number">0</span>, <span class="hljs-number">4</span>, <span class="hljs-number">19</span>, <span class="hljs-number">61</span>, <span class="hljs-number">67</span>, <span class="hljs-number">102</span>, <span class="hljs-number">107</span>, <span class="hljs-number">125</span>, <span class="hljs-number">143</span>, <span class="hljs-number">150</span>, <span class="hljs-number">189</span>, <span class="hljs-number">234</span>, <span class="hljs-number">241</span>, <span class="hljs-number">242</span>, <span class="hljs-number">316</span>, <span class="hljs-number">319</span>, <span class="hljs-number">356</span>, <span class="hljs-number">358</span>, <span class="hljs-number">381</span>, <span class="hljs-number">419</span>, <span class="hljs-number">422</span>, <span class="hljs-number">81</span>*img + <span class="hljs-number">65</span>, <span class="hljs-number">350</span>*img + <span class="hljs-number">65</span>, <span class="hljs-number">209</span>*img + <span class="hljs-number">118</span>, <span class="hljs-number">222</span>*img + <span class="hljs-number">118</span>, <span class="hljs-number">42</span>*img + <span class="hljs-number">141</span>, <span class="hljs-number">389</span>*img + <span class="hljs-number">141</span>, <span class="hljs-number">87</span>*img + <span class="hljs-number">190</span>, <span class="hljs-number">344</span>*img + <span class="hljs-number">190</span>, <span class="hljs-number">67</span>*img + <span class="hljs-number">304</span>, <span class="hljs-number">364</span>*img + <span class="hljs-number">304</span>, <span class="hljs-number">132</span>*img + <span class="hljs-number">315</span>, <span class="hljs-number">299</span>*img + <span class="hljs-number">315</span>, <span class="hljs-number">106</span>*img + <span class="hljs-number">379</span>, <span class="hljs-number">325</span>*img + <span class="hljs-number">379</span>, <span class="hljs-number">125</span>*img + <span class="hljs-number">426</span>, <span class="hljs-number">306</span>*img + <span class="hljs-number">426</span>]<br></code></pre></td></tr></table></figure>
+
+<p>扩展到任意 $p$，则 j-不变量的个数为 $\left\lfloor\dfrac{p}{12}\right\rfloor+z$ 个，其中 $z$ 的取值为 $0,1,2$，与 $p$ 的值有关。</p>
+<h4 id="1-2-2-j-不变量与同构"><a href="#1-2-2-j-不变量与同构" class="headerlink" title="1.2.2 j-不变量与同构"></a>1.2.2 j-不变量与同构</h4><p>我们设： $E_1:y^2\equiv x^3+7x+2\pmod{71}$ 和 $E_2:y^2\equiv x^3+11x+52\pmod {71}$ 的 j-不变量均为 $66$，因此这两条曲线均为 $\mathbb C_{71}$ 上的超奇异曲线，且满足同构性质，同构表达式为：<br>$$<br>\phi:E_1(x,y)\rightarrow E_2(23x,20\mathrm iy)<br>$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs PYTHON">p=<span class="hljs-number">71</span><br>C71.&lt;img&gt;=GF(<span class="hljs-number">71</span>**<span class="hljs-number">2</span>,modulus=[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>])<br>E1=EllipticCurve(C71,[<span class="hljs-number">7</span>,<span class="hljs-number">2</span>])<br>E2=EllipticCurve(C71,[<span class="hljs-number">11</span>,<span class="hljs-number">52</span>])<br>f = E1.torsion_polynomial(<span class="hljs-number">1</span>).monic()<br>phi=EllipticCurveIsogeny(E1,f,E2)<br>phi.rational_maps()<br><span class="hljs-comment">#(23*x, (20*img)*y)</span><br>k=randint(<span class="hljs-number">1</span>,p)<br>G=E1.random_element()<br>G2=G*k<br>x,y=G.xy()<br>x,y=<span class="hljs-number">23</span>*x,<span class="hljs-number">20</span>*img*y<br>H=E2(x,y)<br>H2=H*k<br>H2.x()/G2.x(),H2.y()/G2.y()<br><span class="hljs-comment">#23 20*img</span><br></code></pre></td></tr></table></figure>
+
+<p>再举一个 $\mathbb C_{431}$ 上的例子，两条曲线分别为 $E_1:y^2&#x3D;x^3+(208\mathrm i+161)x^2+x$ 和 $E_2:y^2&#x3D;x^3+(172\mathrm i+162)x^2+x$，其映射为：<br>$$<br>\phi:E_1(x,y)\rightarrow E_2(\left(\left(66 \mathrm{i} + 182\right) x + 300 \mathrm{i} + 109, \left(122 \mathrm{i} + 159\right) y\right)<br>)<br>$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> *<br>p=<span class="hljs-number">431</span><br>C431.&lt;img&gt;=GF(p**<span class="hljs-number">2</span>,modulus=[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>])<br>E1=EllipticCurve(C431,[<span class="hljs-number">0</span>,<span class="hljs-number">208</span>*img+<span class="hljs-number">161</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>])<br>E2=EllipticCurve(C431,[<span class="hljs-number">0</span>,<span class="hljs-number">172</span>*img+<span class="hljs-number">162</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>])<br>f = E1.torsion_polynomial(<span class="hljs-number">1</span>).monic()<br>phi=EllipticCurveIsogeny(E1,f,E2)<br>phi.rational_maps()<br><span class="hljs-comment">#((66*img + 182)*x + (-131*img + 109), (122*img + 159)*y)</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-3-同源"><a href="#1-3-同源" class="headerlink" title="1.3 同源"></a>1.3 同源</h3><h4 id="1-3-1-倍点同构映射"><a href="#1-3-1-倍点同构映射" class="headerlink" title="1.3.1 倍点同构映射"></a>1.3.1 倍点同构映射</h4><p>刚才我们其实已经接触到了同源的概念，但我们以”同构”去描述的（呃，因为信安数基中讲的是同构），但事实上，同构是同源的特殊情况。在之前的同构映射中，也可以使用一个看似trivial的方法，自己跟自己的二倍点映射：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> *<br>p=<span class="hljs-number">71</span><br>Cp.&lt;img&gt;=GF(p**<span class="hljs-number">2</span>,modulus=[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>])<br>E=EllipticCurve(Cp,[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>])<br><span class="hljs-built_in">print</span>(E._multiple_x_numerator(<span class="hljs-number">2</span>))<br><span class="hljs-built_in">print</span>(E._multiple_x_denominator(<span class="hljs-number">2</span>))<br><span class="hljs-comment">#x^4 + 69*x^2 + 1</span><br><span class="hljs-comment">#4*x^3 + 4*x</span><br>phi = E.scalar_multiplication(<span class="hljs-number">2</span>)<br><span class="hljs-built_in">print</span>(phi.rational_maps()[<span class="hljs-number">0</span>])<br><span class="hljs-built_in">print</span>(phi.rational_maps()[<span class="hljs-number">1</span>])<br><span class="hljs-comment">#(x^4 - 2*x^2 + 1)/(4*x^3 + 4*x)</span><br><span class="hljs-comment">#(8*x^6*y - 31*x^4*y + 31*x^2*y - 8*y)/(-7*x^6 - 14*x^4 - 7*x^2)</span><br></code></pre></td></tr></table></figure>
+
+<p>这里的映射结果为：</p>
+<p>$$<br>\phi:(x,y)\rightarrow\left(\frac{x^{4} + 69 x^{2} + 1}{4 x^{3} + 4 x}, \frac{8 x^{6} y + 40 x^{4} y + 31 x^{2} y + 63 y}{64 x^{6} + 57 x^{4} + 64 x^{2}}\right)<br>$$</p>
+<p>如果我们令 $x$ 的分母 $4x^3+4x&#x3D;0$，也就是  $x^3+x&#x3D;0$，那么可以得到 $x&#x3D;0,\mathrm i,-\mathrm i$。可以利用 <code>division_points</code> 去实现，相当于有限域开 $n$ 次根。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">L=(E(<span class="hljs-number">0</span>).division_points(<span class="hljs-number">2</span>))<br><span class="hljs-built_in">print</span>(L)<br><span class="hljs-comment">#[(0 : 1 : 0), (0 : 0 : 1), (img : 0 : 1), (70*img : 0 : 1)]</span><br></code></pre></td></tr></table></figure>
+
+<p>由于 $E$ 的阶为 $72$，那么也一定存在阶为 $3$ 的情况（显然，如果 $P$ 的阶为 $3$，那么 $-P$ 的阶也是 $3$），那么也存在某个点和自己的三倍点映射：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(E._multiple_x_denominator(<span class="hljs-number">3</span>).monic())<br><span class="hljs-comment">#x^8 + 4*x^6 + 27*x^4 + 46*x^2 + 8</span><br>L=(E(<span class="hljs-number">0</span>).division_points(<span class="hljs-number">3</span>))<br><span class="hljs-built_in">print</span>(L)<br><span class="hljs-comment">#[(0 : 1 : 0), (2 : 9 : 1), (2 : 62 : 1), (69 : 9*img : 1), (69 : 62*img : 1), (19*img : 15*img + 56 : 1), (19*img : 56*img + 15 : 1), (52*img : 15*img + 15 : 1), (52*img : 56*img + 56 : 1)]</span><br></code></pre></td></tr></table></figure>
+
+<p>解方程 $x^8 + 4x^6 + 27x^4 + 46x^2 + 8&#x3D;0$，可以得到对应的解为 $±\sqrt{±\frac{1}{2}  \sqrt{±2  \sqrt{497} - 42} - 1}$，这个解在 $\mathbb C_{71}$ 中就变成了 $2,69,19\mathrm i,52\mathrm i$，此时的映射表达式如下（已经开始复杂了！）<br>$$<br>\phi:(x,y)\rightarrow\left(\frac{x^{9} + 59 x^{7} + 30 x^{5} + 36 x^{3} + 9 x}{9 x^{8} + 36 x^{6} + 30 x^{4} + 59 x^{2} + 1}<br>,\frac{18 x^{12} y + 41 x^{10} y + 12 x^{8} y + 48 x^{6} y + 7 x^{4} y + 13 x^{2} y + 17 y}{60 x^{12} + 5 x^{10} + 21 x^{8} + 27 x^{6} + 64 x^{4} + 40 x^{2} + 53}<br>\right)<br>$$<br>对于阶为 $l$ 的点，也就是满足 $lP&#x3D;\mathcal O$ 的点构成的集合，我们可以叫做 $l$-torsion。也可以把这个集合记为 $\ker(l)$，有 $\ker(l)$ 与 $\mathbb Z_{l+1}^2$ 同构。若 $l$ 为素数，则可以构成 $l+1$ 个阶为 $l$ 的循环子群，且两个不同子群之间的元素是线性无关的。</p>
+<p>$\ker(2)$ 和 $\ker(3)$ 的结构如下图所示，中间是无穷远点 $\mathcal O$。这个花瓣形的结构，貌似在之前导师发给我的双线性对那个PPT上见过。</p>
+<p><img src="/2025/02/01/ECCNotes4/1.png" srcset="/img/loading.gif" lazyload alt="1"></p>
+<h4 id="1-3-2-同源在Sage中的实现"><a href="#1-3-2-同源在Sage中的实现" class="headerlink" title="1.3.2 同源在Sage中的实现"></a>1.3.2 同源在Sage中的实现</h4><p>可以使用Sage来实现同源，这里选择了 $(69,9\mathrm i)$ 作为同源映射，可以看到， $E_1$ 的 j-不变量为 $24$，而 $E_2$ 的 j-不变量为 $66$。说明 $E_2$ 与 $E_1$ 并不是同构的。而我们刚才说过，同源的一种特殊情况是同构，同构是只有一个核元素 $\mathcal O$ 的同源，因此这里只有 $E_1$ 和 $E_2$ 同源，没有 $E_1$ 和 $E_2$ 同构。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> *<br>p=<span class="hljs-number">71</span><br>Cp.&lt;img&gt;=GF(p**<span class="hljs-number">2</span>,modulus=[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>])<br>E1=EllipticCurve(Cp,[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>])<br><span class="hljs-built_in">print</span>(E1.j_invariant())<br><span class="hljs-comment">#24</span><br>A = E1(<span class="hljs-number">69</span>,<span class="hljs-number">9</span>*img)<br>phi = E1.isogeny(A)<br><span class="hljs-comment">#Isogeny of degree 3 from Elliptic Curve defined by y^2 = x^3 + x over Finite Field in img of size 71^2 to Elliptic Curve defined by y^2 = x^3 + 13*x + 5 over Finite Field in img of size 71^2</span><br>E2 = phi.codomain()<br><span class="hljs-built_in">print</span>(E2)<br><span class="hljs-built_in">print</span>(E2.j_invariant())<br><span class="hljs-built_in">print</span>(phi.rational_maps()[<span class="hljs-number">0</span>])<br><span class="hljs-built_in">print</span>(phi.rational_maps()[<span class="hljs-number">1</span>])<br><span class="hljs-comment">#Elliptic Curve defined by y^2 = x^3 + 13*x + 5 over Finite Field in img of size 71^2</span><br><span class="hljs-comment">#66</span><br><span class="hljs-comment">#(x^3 + 4*x^2 + 30*x + 12)/(x^2 + 4*x + 4)</span><br><span class="hljs-comment">#(x^3*y + 6*x^2*y - 14*x*y - 35*y)/(x^3 + 6*x^2 + 12*x + 8)</span><br></code></pre></td></tr></table></figure>
+
+<p>在这里， $E_2$ 的表达式为 $y^2&#x3D;x^3+13x+5$，可以发现，其表达式比较复杂，并且 $(0,0)$ 点也不在新的曲线上了。为了让 $(0,0)$ 点重回曲线，我们可以将 $E_2$ 再次同构为 $E_2m: y^2 &#x3D; x^3 + 35x^2 + x$，这是一种具有形式 $y^2&#x3D;x^3+ux^2+x$ 的曲线，其 j-不变量可以快速计算为$j(Em)&#x3D;\dfrac{256(u^2-3)^3}{u^2-4}$，且其映射没有分母（1.2.2的两个例子）。</p>
+<h4 id="1-3-3-同源图"><a href="#1-3-3-同源图" class="headerlink" title="1.3.3 同源图"></a>1.3.3 同源图</h4><p>如果我们把 $\mathbb C_{71}$ 上的 $7$ 个 超奇异 j-不变量各构造一条曲线，并取每条曲线上 $\ker (2)$ 中的三个点（不包括 $\mathcal O$）进行同源，可以得到这样的一个图。在这边，按理说每个点的度都应该是 $3$，但由于存在自环和重边，当然也有特殊情况，因此只有一个点的度是 $3$。比如 $40$ 连接的三条边，说明 j-不变量为 $40$ 的曲线中， $\ker(2)$ 中的三个非无穷远点经过同源，得到的新的同源曲线的 j-不变量可能是 $48,0,17$。</p>
+<p>当然，可以发现，这是一个无向图，因为同源是对偶的，也就是说，j-不变量为 $40$ 的曲线可以同源到 j-不变量为 $48$ 的曲线，反过来，也存在 j-不变量为 $48$ 的曲线同源到 j-不变量为 $40$ 的曲线上去。而对于一条路径 $40\rightarrow48\rightarrow 66$ 而言，这相当于两次度为 $2$ 的的同源，也可以视为一次 度为 $4$ 的同源。</p>
+<p><img src="/2025/02/01/ECCNotes4/2.png" srcset="/img/loading.gif" lazyload alt="2"></p>
+<p>这个是 $p&#x3D;431$ 的 $\ker(2)$ 同源图，由于这里的j-不变量有 $73$ 个，因此度为 $3$ 的点占了大多数。当然，也可以选择 $\ker(3)$ 进行度为 $3 $ 的同源，那么每个点的度就是 $4$ 了，得到的图也会与 $\ker(2)$ 得到的图不一样。</p>
+<p><img src="/2025/02/01/ECCNotes4/3.png" srcset="/img/loading.gif" lazyload alt="3"></p>
+<h2 id="2-SIDH算法"><a href="#2-SIDH算法" class="headerlink" title="2.SIDH算法"></a>2.SIDH算法</h2><h3 id="2-1-算法流程"><a href="#2-1-算法流程" class="headerlink" title="2.1 算法流程"></a>2.1 算法流程</h3><p>在上面的基础知识下，我们开始介绍  SIDH 算法</p>
+<p>1.双方选择模数 $p&#x3D;2^\alpha3^\beta k-1$，其中尽量使 $2^{\alpha}≈3^{\beta}$，$k$ 通常取 $1$。和一条 $\mathbb C_{p}$ 上的超奇异椭圆曲线（一般为 $y^2&#x3D;x^3+x$）。此处我们选择 $p&#x3D;71&#x3D;2^{3}3^{2}-1$ ，$E:y^2&#x3D;x^3+x$ 在 $\mathbb C_{p}$ 上的 j-不变量为 $24$。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> *<br>ea,eb=<span class="hljs-number">3</span>,<span class="hljs-number">2</span><br>p=<span class="hljs-number">2</span>**ea*<span class="hljs-number">3</span>**eb-<span class="hljs-number">1</span><br>Cp.&lt;img&gt;=GF(p**<span class="hljs-number">2</span>,modulus=[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>])<br>E=EllipticCurve(Cp,[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>])<br><br></code></pre></td></tr></table></figure>
+
+<p>2.A选择 $E$ 上阶为 $2^\alpha$ 的两个线性无关的点 $P_A,Q_A$ （可以发现 $E$ 上有两个阶为 $72$ 的生成元，因此相对来说还是比较容易取到的），同理，B选择 $E$ 上阶为 $3^\beta$ 的两个线性无关的点 $P_B,Q_B$。判断 $P,Q$ 线性无关的方法，就是双线性对 $e(P,Q)$ 的值不为 $1$，也就是 $Q$ 无法写成 $kP$ 的形式。双方分别公开 $P_A,Q_A,P_B,Q_B$ 作为公共参数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">genA</span>(<span class="hljs-params">Ec</span>):<br>    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>):<br>        Pa=Ec.random_element()*((p+<span class="hljs-number">1</span>)//<span class="hljs-number">2</span>**ea)<br>        <span class="hljs-keyword">if</span>(Pa!=E(<span class="hljs-number">0</span>) <span class="hljs-keyword">and</span> Pa.order()==<span class="hljs-number">2</span>**ea):<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>):<br>        Qa=Ec.random_element()*((p+<span class="hljs-number">1</span>)//<span class="hljs-number">2</span>**ea)<br>        <span class="hljs-keyword">if</span>(Qa.weil_pairing(Pa,<span class="hljs-number">2</span>**ea)!=<span class="hljs-number">1</span> <span class="hljs-keyword">and</span> Qa.order()==<span class="hljs-number">2</span>**ea):<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">return</span> Pa,Qa<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">genB</span>(<span class="hljs-params">Ec</span>):<br>    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>):<br>        Pb=Ec.random_element()*((p+<span class="hljs-number">1</span>)//<span class="hljs-number">3</span>**eb)<br>        <span class="hljs-keyword">if</span>(Pb!=E(<span class="hljs-number">0</span>) <span class="hljs-keyword">and</span> Pb.order()==<span class="hljs-number">3</span>**eb):<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>):<br>        Qb=Ec.random_element()*((p+<span class="hljs-number">1</span>)//<span class="hljs-number">3</span>**eb)<br>        <span class="hljs-keyword">if</span>(Qb.weil_pairing(Pb,<span class="hljs-number">3</span>**eb)!=<span class="hljs-number">1</span> <span class="hljs-keyword">and</span> Qb.order()==<span class="hljs-number">3</span>**eb):<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">return</span> Pb,Qb<br>Pa,Qa=genA(E)<br>Pb,Qb=genB(E)<br><span class="hljs-built_in">print</span>(Pa.xy(),Qa.xy(),Pa.weil_pairing(Qa,<span class="hljs-number">2</span>**ea))<br><span class="hljs-built_in">print</span>(Pb.xy(),Qb.xy(),Pb.weil_pairing(Qb,<span class="hljs-number">3</span>**eb))<br><span class="hljs-comment">#(20*img + 13, 24*img + 45) (53*img + 32, 46*img + 7) 6*img + 65</span><br><span class="hljs-comment">#(36*img + 68, 15*img + 12) (62*img + 27, 21*img + 10) 29*img + 56</span><br></code></pre></td></tr></table></figure>
+
+<p> 3.A随机选择秘密值 $x_A$，计算 $S_A&#x3D;P_A+x_AQ_A$。然后计算同源 $\phi_A:E\rightarrow E_A$，其中 $\phi_A$ 为 $\alpha-1$ 个 $2$ 次同源组合而成，最终结果与 $S_A$ 相关。因此，我们得到 A 的公钥为 $E_A,\phi_A(P_B),\phi_A(Q_B)$，私钥为 $x_A,S_A$。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python">xa=randint(<span class="hljs-number">2</span>,<span class="hljs-number">2</span>**ea-<span class="hljs-number">1</span>)<br>Sa=Pa+xa*Qa<br><span class="hljs-built_in">print</span>(xa,Sa.xy())<br>Sa1=Sa<br>E1=E<br>Pas,Eas=[],[E]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(ea-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,-<span class="hljs-number">1</span>):<br>    Ta=Sa1*(<span class="hljs-number">2</span>**i)<br>    phi = E1.isogeny(Ta)<br>    Eai = phi.codomain()<br>    Sa1 = phi(Sa1)<br>    E1=Eai<br>    Pas.append(phi)<br>    Eas.append(Eai)<br>phiA=Pas[-<span class="hljs-number">1</span>]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(Pas)-<span class="hljs-number">2</span>,-<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>):<br>    phiA*=Pas[i]<br><span class="hljs-built_in">print</span>(phiA)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(Eas)):<br>    <span class="hljs-built_in">print</span>(Eas[i].j_invariant(),end=<span class="hljs-string">&#x27;  -&gt;  &#x27;</span> <span class="hljs-keyword">if</span> i!=<span class="hljs-built_in">len</span>(Eas)-<span class="hljs-number">1</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&#x27;\n&#x27;</span>)<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">Output:</span><br><span class="hljs-string">6 (20*img + 58, 45*img + 24)</span><br><span class="hljs-string">Composite morphism of degree 4 = 2^2:</span><br><span class="hljs-string">  From: Elliptic Curve defined by y^2 = x^3 + x over Finite Field in img of size 71^2</span><br><span class="hljs-string">  To:   Elliptic Curve defined by y^2 = x^3 + 27*x + 41 over Finite Field in img of size 71^2</span><br><span class="hljs-string">24  -&gt;  24  -&gt;  17</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>4.同理，B随机选择秘密值 $x_B$，计算 $S_B&#x3D;P_B+x_BQ_B$。然后计算同源 $\phi_B:E\rightarrow E_B$，其中 $\phi_B$ 为 $\beta-1$个 $3$ 次同源组合而成，最终结果与 $S_B$ 相关。因此，我们得到 B 的公钥为 $E_B,\phi_B(P_A),\phi_B(Q_A)$，私钥为 $x_B,S_B$。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python">xb=randint(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>**eb-<span class="hljs-number">1</span>)<br>Sb=Pb+xb*Qb<br><span class="hljs-built_in">print</span>(xb,Sb.xy())<br>Sb1=Sb<br>E1=E<br>Pbs,Ebs=[],[E]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(eb-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,-<span class="hljs-number">1</span>):<br>    Tb=Sb1*(<span class="hljs-number">3</span>**i)<br>    phi = E1.isogeny(Tb)<br>    Ebi = phi.codomain()<br>    Sb1 = phi(Sb1)<br>    E1=Ebi<br>    Pbs.append(phi)<br>    Ebs.append(Ebi)<br>phiB=Pbs[-<span class="hljs-number">1</span>]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(Pbs)-<span class="hljs-number">2</span>,-<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>):<br>    phiB*=Pbs[i]<br><span class="hljs-built_in">print</span>(phiB)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(Ebs)):<br>    <span class="hljs-built_in">print</span>(Ebs[i].j_invariant(),end=<span class="hljs-string">&#x27;  -&gt;  &#x27;</span> <span class="hljs-keyword">if</span> i!=<span class="hljs-built_in">len</span>(Ebs)-<span class="hljs-number">1</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&#x27;\n&#x27;</span>)<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">6 (54, 18)</span><br><span class="hljs-string">Isogeny of degree 3 from Elliptic Curve defined by y^2 = x^3 + x over Finite Field in img of size 71^2 to Elliptic Curve defined by y^2 = x^3 + 13*x + 66 over Finite Field in img of size 71^2</span><br><span class="hljs-string">24  -&gt;  66</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>5.此时，双方的公钥如下，并且在上面的输出中，我们可以看到，A 共存储了 $\alpha&#x3D;3$ 条曲线，这三条曲线的j-不变量分别为：$24,24,17$，B存储了 $\beta&#x3D;2$ 条曲线，其 j-不变量分别为 $24,66$。（双方第一个 $24$ 为原始曲线）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">PKA=(phiA.codomain(),phiA(Pb),phiA(Qb))<br>PKB=(phiB.codomain(),phiB(Pa),phiB(Qa))<br><span class="hljs-built_in">print</span>(PKA)<br><span class="hljs-built_in">print</span>(PKB)<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">PKA:</span><br><span class="hljs-string">(Elliptic Curve defined by y^2 = x^3 + 27*x + 41 over Finite Field in img of size 71^2, </span><br><span class="hljs-string">(19*img + 2 : 37*img + 67 : 1), </span><br><span class="hljs-string">(57*img + 11 : 4*img + 51 : 1))</span><br><span class="hljs-string">PKB:</span><br><span class="hljs-string">(Elliptic Curve defined by y^2 = x^3 + 13*x + 66 over Finite Field in img of size 71^2, </span><br><span class="hljs-string">(23*img + 44 : 32*img + 7 : 1), </span><br><span class="hljs-string">(46*img + 50 : 22*img + 43 : 1))</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>6.在完成上述的步骤后，A使用B的公钥 $E_B,\phi_B(P_A),\phi_B(Q_A)$ 和自己的私钥 $x_A$，计算 $S_{AB}&#x3D;\phi_B(P_A)+x_A\phi_B(Q_A)$，然后走和之前相同的步骤。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python">Eab=phiB.codomain()<br>Pab,Qab=phiB(Pa),phiB(Qa)<br>Sab=Pab+xa*Qab<br><span class="hljs-built_in">print</span>(Sab.xy())<br>Sab1=Sab<br>Eab1=Eab<br>Pabs,Eabs=[],[Eab]<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(ea-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,-<span class="hljs-number">1</span>):<br>    Tab=Sab1*(<span class="hljs-number">2</span>**i)<br>    phi = Eab1.isogeny(Tab)<br>    Eabi = phi.codomain()<br>    Sab1 = phi(Sab1)<br>    Eab1=Eabi<br>    Pabs.append(phi)<br>    Eabs.append(Eabi)<br>phiAB=Pabs[-<span class="hljs-number">1</span>]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(Pabs)-<span class="hljs-number">2</span>,-<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>):<br>    phiAB*=Pabs[i]<br><span class="hljs-built_in">print</span>(phiAB)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(Eabs)):<br>    <span class="hljs-built_in">print</span>(Eabs[i].j_invariant(),end=<span class="hljs-string">&#x27;  -&gt;  &#x27;</span> <span class="hljs-keyword">if</span> i!=<span class="hljs-built_in">len</span>(Eabs)-<span class="hljs-number">1</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&#x27;\n&#x27;</span>)<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">Output:</span><br><span class="hljs-string">(26*img + 40, 3*img + 35)</span><br><span class="hljs-string">Composite morphism of degree 4 = 2^2:</span><br><span class="hljs-string">  From: Elliptic Curve defined by y^2 = x^3 + 13*x + 66 over Finite Field in img of size 71^2</span><br><span class="hljs-string">  To:   Elliptic Curve defined by y^2 = x^3 + 14*x + 56 over Finite Field in img of size 71^2</span><br><span class="hljs-string">66  -&gt;  48  -&gt;  40</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>7.同理，B使用A的公钥 $E_A,\phi_A(P_B),\phi_A(Q_B)$ 和自己的私钥 $x_B$，计算 $S_{BA}&#x3D;\phi_A(P_B)+x_B\phi_A(Q_B)$，然后走和之前相同的步骤。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python">Eba=phiA.codomain()<br>Pba,Qba=phiA(Pb),phiA(Qb)<br>Sba=Pba+xb*Qba<br><span class="hljs-built_in">print</span>(Sba.xy())<br>Sba1=Sba<br>Eba1=Eba<br>Pbas,Ebas=[],[Eba]<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(eb-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,-<span class="hljs-number">1</span>):<br>    Tba=Sba1*(<span class="hljs-number">3</span>**i)<br>    phi = Eba1.isogeny(Tba)<br>    Ebai = phi.codomain()<br>    Sba1 = phi(Sba1)<br>    Eba1=Ebai<br>    Pbas.append(phi)<br>    Ebas.append(Ebai)<br>phiBA=Pbas[-<span class="hljs-number">1</span>]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(Pbas)-<span class="hljs-number">2</span>,-<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>):<br>    phiBA*=Pbas[i]<br><span class="hljs-built_in">print</span>(phiBA)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(Ebas)):<br>    <span class="hljs-built_in">print</span>(Ebas[i].j_invariant(),end=<span class="hljs-string">&#x27;  -&gt;  &#x27;</span> <span class="hljs-keyword">if</span> i!=<span class="hljs-built_in">len</span>(Ebas)-<span class="hljs-number">1</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&#x27;\n&#x27;</span>)<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">Output:</span><br><span class="hljs-string">(23, 7)</span><br><span class="hljs-string">Isogeny of degree 3 from Elliptic Curve defined by y^2 = x^3 + 27*x + 41 over Finite Field in img of size 71^2 to Elliptic Curve defined by y^2 = x^3 + 14*x + 56 over Finite Field in img of size 71^2</span><br><span class="hljs-string">17  -&gt;  40</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>8.最终，A在计算时，得到的曲线的j-不变量的变化过程为：$66,48,40$，而B得到的曲线的j-不变量变化过程为 $17,40$。因此，双方共享的秘密值为 $40$。</p>
+<h3 id="2-2-代码实现"><a href="#2-2-代码实现" class="headerlink" title="2.2 代码实现"></a>2.2 代码实现</h3><p>重构一下前面的代码：</p>
+<h4 id="2-2-1-Init"><a href="#2-2-1-Init" class="headerlink" title="2.2.1 Init"></a>2.2.1 Init</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> random <span class="hljs-keyword">import</span> *<br>alph,beta=<span class="hljs-number">8</span>,<span class="hljs-number">5</span><br>p=<span class="hljs-number">2</span>**alph*<span class="hljs-number">3</span>**beta-<span class="hljs-number">1</span><br>Cp.&lt;img&gt;=GF(p**<span class="hljs-number">2</span>,modulus=[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>])<br>E=EllipticCurve(Cp,[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>])<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-2-2-ParamGen"><a href="#2-2-2-ParamGen" class="headerlink" title="2.2.2 ParamGen"></a>2.2.2 ParamGen</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">paramGen</span>(<span class="hljs-params">Ec,K,ex</span>):<br>    <span class="hljs-keyword">if</span>(K <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> [<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]):<br>        <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&#x27;K must be 2 or 3!&#x27;</span>)<br>    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>):<br>        P=Ec.random_element()*((p+<span class="hljs-number">1</span>)//K**ex)<br>        <span class="hljs-keyword">if</span>(P!=E(<span class="hljs-number">0</span>) <span class="hljs-keyword">and</span> P.order()==K**ex):<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>):<br>        Q=Ec.random_element()*((p+<span class="hljs-number">1</span>)//K**ex)<br>        <span class="hljs-keyword">if</span>(Q.weil_pairing(P,K**ex)!=<span class="hljs-number">1</span> <span class="hljs-keyword">and</span> Q.order()==K**ex):<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">return</span> P,Q<br>Pa,Qa=paramGen(E,<span class="hljs-number">2</span>,alph)<br>Pb,Qb=paramGen(E,<span class="hljs-number">3</span>,beta)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;Pa=<span class="hljs-subst">&#123;Pa.xy()&#125;</span>\nQa=<span class="hljs-subst">&#123;Qa.xy()&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;Pb=<span class="hljs-subst">&#123;Pb.xy()&#125;</span>\nQb=<span class="hljs-subst">&#123;Qb.xy()&#125;</span>&#x27;</span>)<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">Pa=(43601*img + 47246, 32272*img + 16354)</span><br><span class="hljs-string">Qa=(528*img + 22774, 27927*img + 57252)</span><br><span class="hljs-string">Pb=(42594*img + 46877, 14379*img + 28676)</span><br><span class="hljs-string">Qb=(11931*img + 48248, 13734*img + 29101)</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="2-2-3-KeyGen-Key-Exchange"><a href="#2-2-3-KeyGen-Key-Exchange" class="headerlink" title="2.2.3 KeyGen + Key Exchange"></a>2.2.3 KeyGen + Key Exchange</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">isoProx</span>(<span class="hljs-params">K,P,Q,ex,Ec,sk=<span class="hljs-literal">None</span></span>):<br>    x=sk<br>    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">not</span> x):<br>        x=randint(<span class="hljs-number">2</span>,K**ex-<span class="hljs-number">1</span>)<br>    S=P+x*Q<br>    S1=S<br>    E1=Ec<br>    Ps,Es=[],[E1]<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(ex-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,-<span class="hljs-number">1</span>):<br>        T=S1*(K**i)<br>        phi = E1.isogeny(T)<br>        Ei = phi.codomain()<br>        S1 = phi(S1)<br>        E1=Ei<br>        Ps.append(phi)<br>        Es.append(Ei)<br>    phi=Ps[-<span class="hljs-number">1</span>]<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(Ps)-<span class="hljs-number">2</span>,-<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>):<br>        phi*=Ps[i]<br>    <span class="hljs-keyword">return</span> phi,x,S,Es[-<span class="hljs-number">1</span>].j_invariant()<br><br>phiA,xa,Sa,_=isoProx(<span class="hljs-number">2</span>,Pa,Qa,alph,E,<span class="hljs-literal">None</span>)<br>phiB,xb,Sb,_=isoProx(<span class="hljs-number">3</span>,Pb,Qb,beta,E,<span class="hljs-literal">None</span>)<br><br>Ea,Ga,Ha=phiA.codomain(),phiA(Pb),phiA(Qb)<br>Eb,Gb,Hb=phiB.codomain(),phiB(Pa),phiB(Qa)<br><br>_,_,_,keyA=isoProx(<span class="hljs-number">2</span>,Gb,Hb,alph,Eb,xa)<br>_,_,_,keyB=isoProx(<span class="hljs-number">3</span>,Ga,Ha,beta,Ea,xb)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Private Key of A:&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;phiA:<span class="hljs-subst">&#123;phiA&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;xa=<span class="hljs-subst">&#123;xa&#125;</span>\nSa=<span class="hljs-subst">&#123;Sa.xy()&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;\nPublic Key of A:&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;Ea=<span class="hljs-subst">&#123;phiA.codomain()&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;Ga=<span class="hljs-subst">&#123;Ga.xy()&#125;</span>\nHa=<span class="hljs-subst">&#123;Ha.xy()&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;\nPrivate Key of B&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;phiB:<span class="hljs-subst">&#123;phiB&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;xb=<span class="hljs-subst">&#123;xb&#125;</span>,Sb=<span class="hljs-subst">&#123;Sb.xy()&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;\nPublic Key of B:&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;Eb=<span class="hljs-subst">&#123;phiB.codomain()&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;Gb=<span class="hljs-subst">&#123;Gb.xy()&#125;</span>\nHb=<span class="hljs-subst">&#123;Hb.xy()&#125;</span>&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;\n\n<span class="hljs-subst">&#123;keyA=&#125;</span>\n<span class="hljs-subst">&#123;keyB=&#125;</span>\ncheck=<span class="hljs-subst">&#123;keyA==keyB&#125;</span>&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>可能的输出调试结果：</p>
+<p><img src="/2025/02/01/ECCNotes4/4.png" srcset="/img/loading.gif" lazyload alt="4"></p>
+<h2 id="3-写在最后"><a href="#3-写在最后" class="headerlink" title="3. 写在最后"></a>3. 写在最后</h2><p>SIDH目前已经被破解了，GitHub上目前也有了很多SageMath的的代码，A 可以在只知道 B 的公钥的情况下，确定 B 的私钥。最快的方法只需要几十秒就可以攻破 400 位标准的参数。</p>
+<p><img src="/2025/02/01/ECCNotes4/5.png" srcset="/img/loading.gif" lazyload alt="5"></p>
+<p>不过话说回来，那个花瓣一样的图，我之前也在学习双线性对那里见过，并且有些pairing就是这样计算出来的。但感觉自己确实得补一些基础知识了:(，比如多项式那些内容。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CTFSeason4/" class="category-chain-item">CTFSeason4</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Notes/" class="print-no-link">#Notes</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>ECCNotes4</div>
+      <div>http://example.com/2025/02/01/ECCNotes4/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>huangx607087</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年2月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/01/26/25Jan3/" title="25Jan3">
+                        <span class="hidden-mobile">25Jan3</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
