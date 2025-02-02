@@ -249,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          1.1k 字
         
       </span>
     
@@ -312,33 +312,37 @@
               <div class="markdown-body">
                 
                 <h1 id="huangx607087学习离散对数的笔记-1"><a href="#huangx607087学习离散对数的笔记-1" class="headerlink" title="huangx607087学习离散对数的笔记 1"></a>huangx607087学习离散对数的笔记 1</h1><h2 id="0-简介"><a href="#0-简介" class="headerlink" title="0.简介"></a>0.简介</h2><p>这两天学完了 $\text{An Introduction to Mathematical Cryptography}$那本书的第$2$章离散对数内容，做一点点笔记，<del>顺便水一篇博客</del>。</p>
-<h2 id="1-离散对数引入"><a href="#1-离散对数引入" class="headerlink" title="1.离散对数引入"></a>1.离散对数引入</h2><p>概念1：离散对数就是解决形如$g^x\equiv h \pmod p$的一类指数同余方程，最后的结果可以记作$\dfrac{\ln(h)}{\ln g}$,例如，$3^2 \equiv 2 \pmod 7$,所以有$\dfrac{\ln(2)}{\ln3}\equiv 2 \pmod 7$。离散对数虽然是在有限域中进行的，但是它在有限域中的运算性质与正常实数范围内的运算性质一样，比如$\dfrac{\ln(a)}{\ln g}+\dfrac{\ln(b)}{\ln g}=\dfrac{\ln(ab)}{\ln g}$</p>
+<h2 id="1-离散对数引入"><a href="#1-离散对数引入" class="headerlink" title="1.离散对数引入"></a>1.离散对数引入</h2><p>概念1：离散对数就是解决形如$g^x\equiv h \pmod p$的一类指数同余方程，最后的结果可以记作$\dfrac{\ln(h)}{\ln g}$,例如，$3^2 \equiv 2 \pmod 7$,所以有$\dfrac{\ln(2)}{\ln3}\equiv 2 \pmod 7$。离散对数虽然是在有限域中进行的，但是它在有限域中的运算性质与正常实数范围内的运算性质一样，比如$\dfrac{\ln(a)}{\ln g}+\dfrac{\ln(b)}{\ln g}&#x3D;\dfrac{\ln(ab)}{\ln g}$</p>
 <p>概念2：本原元：本原元是指使得$g^x\equiv 1 \pmod p$的最小非零$x$值等于$p-1$的数字。具体内容可见博客中<strong>NumberTheory 4</strong>[2021.1.22] 中的部分内容</p>
 <h2 id="2-离散对数在密码学中的应用"><a href="#2-离散对数在密码学中的应用" class="headerlink" title="2.离散对数在密码学中的应用"></a>2.离散对数在密码学中的应用</h2><h3 id="EXP-1-Diffie-Hellman密钥交换"><a href="#EXP-1-Diffie-Hellman密钥交换" class="headerlink" title="EXP 1. Diffie-Hellman密钥交换"></a>EXP 1. Diffie-Hellman密钥交换</h3><p>Step 1：双方选定一个本原元$g$和一个大素数$p$</p>
 <p>Step 2：Alice计算$A\equiv g^a \pmod p$，Bob计算$B\equiv g^b \pmod p$，其中$a,b$分别为Alice和Bob秘密随机选取的数字</p>
 <p>Step 3：Alice把$A$发送给Bob，同时Bob把$B$发送给Alice</p>
-<p>Step 4： Alice，Bob分别计算$B^a$和$A^b$，由于$A^b=B^a=g^{ab}$，因此可以完成密钥交换</p>
+<p>Step 4： Alice，Bob分别计算$B^a$和$A^b$，由于$A^b&#x3D;B^a&#x3D;g^{ab}$，因此可以完成密钥交换</p>
 <p>该密钥交换过程中，公钥为$g,p,A,B$，私钥为$a,b$。</p>
 <p>在这个应用中，离散对数仅仅用于交换密钥，因此这并不是一个完整的加密算法</p>
 <h3 id="EXP-2-Elgamal-加密算法"><a href="#EXP-2-Elgamal-加密算法" class="headerlink" title="EXP 2.Elgamal 加密算法"></a>EXP 2.Elgamal 加密算法</h3><p><strong>生成密钥：</strong></p>
 <p>Step 1：选取一个本原元$g$和一个大素数$p$</p>
 <p>Step 2：选取$a\in[1,p-1]$，计算$A\equiv g^a \pmod p$，公布$A$</p>
 <p><strong>加密：</strong></p>
-<p>Step 3：选择明文$m$和私钥$k$，计算$c_1=g^k,c_2=mA^k$</p>
+<p>Step 3：选择明文$m$和私钥$k$，计算$c_1&#x3D;g^k,c_2&#x3D;mA^k$</p>
 <p><strong>解密：</strong></p>
 <p>Step 4：计算$c^{-a}_1c_2$</p>
 <p>Elgamal加密，由$2$个密文确定$1$个明文</p>
 <h2 id="3-计算离散对数的方法"><a href="#3-计算离散对数的方法" class="headerlink" title="3.计算离散对数的方法"></a>3.计算离散对数的方法</h2><h3 id="PART-1-暴力枚举，时间-O-N"><a href="#PART-1-暴力枚举，时间-O-N" class="headerlink" title="PART 1  暴力枚举，时间$O(N)$"></a>PART 1  暴力枚举，时间$O(N)$</h3><p><del>很low的方法</del></p>
-<h3 id="PART-2-Baby-Step-Giant-Step"><a href="#PART-2-Baby-Step-Giant-Step" class="headerlink" title="PART 2 Baby Step Giant Step"></a>PART 2 Baby Step Giant Step</h3><p>要先求出$\mathrm{ord}(g)=N$，复杂度为$O(\sqrt N \ln N)$</p>
-<p>Step 1：设$n=1+\sqrt N$，然后构造两个序列$L_1=1,g,g^2,g^3,…,g^n$和$L_2=h,hg^{-n},hg^{-2n},hg^{-3n},…,hg^{-n^2}$</p>
-<p>Step2：寻找$g^a=hg^{-bn}$，则$x=a+bn$</p>
+<h3 id="PART-2-Baby-Step-Giant-Step"><a href="#PART-2-Baby-Step-Giant-Step" class="headerlink" title="PART 2 Baby Step Giant Step"></a>PART 2 Baby Step Giant Step</h3><p>要先求出$\mathrm{ord}(g)&#x3D;N$，复杂度为$O(\sqrt N \ln N)$</p>
+<p>Step 1：设$n&#x3D;1+\sqrt N$，然后构造两个序列$L_1&#x3D;1,g,g^2,g^3,…,g^n$和$L_2&#x3D;h,hg^{-n},hg^{-2n},hg^{-3n},…,hg^{-n^2}$</p>
+<p>Step2：寻找$g^a&#x3D;hg^{-bn}$，则$x&#x3D;a+bn$</p>
 <p>上一下代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> gmpy2 <span class="hljs-keyword">import</span> iroot<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">BSGS</span>(<span class="hljs-params">G,H,P,N</span>):<br>    L1,L2=[],[]<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(N+<span class="hljs-number">1</span>):<br>        L1.append(<span class="hljs-built_in">pow</span>(G,i,P))<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(N+<span class="hljs-number">1</span>):<br>        tmp=H*inverse(<span class="hljs-built_in">pow</span>(G,i*N,P),P)%P<br>        L2.append(tmp)<br>        <span class="hljs-keyword">if</span> tmp <span class="hljs-keyword">in</span> L1:<br>            a=L1.index(tmp)<br>            b=i<br>            <span class="hljs-keyword">return</span> b*N+a<br>p=<span class="hljs-number">17389</span><br>g=<span class="hljs-number">9704</span><br>h=<span class="hljs-number">13896</span><br>n=<span class="hljs-number">1242</span><br><span class="hljs-built_in">print</span>(BSGS(g,h,p,iroot(n,<span class="hljs-number">2</span>)[<span class="hljs-number">0</span>]+<span class="hljs-number">1</span>))<br><span class="hljs-comment"># 1159</span><br></code></pre></td></tr></table></figure>
+
+
+
 <h3 id="PART-3-Pohilg-Hellman算法"><a href="#PART-3-Pohilg-Hellman算法" class="headerlink" title="PART 3 Pohilg Hellman算法"></a>PART 3 Pohilg Hellman算法</h3><p>该算法利用中国剩余定理解决，如果$p-1$非常光滑（比如只有几十光滑，也就是$p-1$的最大素因数只有几十甚至十几），那么这个算法可以在极短时间内求出离散对数的值。不过该算法的复杂度也接近于$O(\sqrt N \ln N)$，$O(\sqrt N \ln N)$也是目前以来求解离散对数的最快的时间复杂度</p>
-<p>首先先分解$p-1=\Pi (q^e)$，其中$q$为素数，$e$为指数，然后通过枚举法（$\ln N$级别的枚举），求解每个素数及其对应的指数的$(g^{\frac{p-1}{q^e}})^x=(h^{\frac{p-1}{q^e}})^x$，得到最终答案$X \equiv x \pmod {q^e}$，最后使用中国剩余定理即可。</p>
+<p>首先先分解$p-1&#x3D;\Pi (q^e)$，其中$q$为素数，$e$为指数，然后通过枚举法（$\ln N$级别的枚举），求解每个素数及其对应的指数的$(g^{\frac{p-1}{q^e}})^x&#x3D;(h^{\frac{p-1}{q^e}})^x$，得到最终答案$X \equiv x \pmod {q^e}$，最后使用中国剩余定理即可。</p>
 <p>上一下代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">solve</span>(<span class="hljs-params">p,oriex,cntex,product,rnd,g,h,mod</span>):<br>    <span class="hljs-keyword">if</span>(rnd==oriex+<span class="hljs-number">1</span>):<br>        <span class="hljs-keyword">return</span> product<br>    tmpg=<span class="hljs-built_in">pow</span>(g,<span class="hljs-built_in">pow</span>(p,oriex),mod)<br>    tmph=<span class="hljs-built_in">pow</span>(h*inverse(<span class="hljs-built_in">pow</span>(g,product,mod),mod),<span class="hljs-built_in">pow</span>(p,cntex),mod)<br>    tmpans=<span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(p):<br>        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">pow</span>(tmpg,i,mod)==tmph):<br>            tmpans=i<br>            <span class="hljs-keyword">break</span><br>    <span class="hljs-keyword">return</span> solve(p,oriex,cntex-<span class="hljs-number">1</span>,product+tmpans*p**rnd,rnd+<span class="hljs-number">1</span>,g,h,mod)<br><span class="hljs-built_in">print</span>(solve(<span class="hljs-number">5</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">5448</span>,<span class="hljs-number">6909</span>,<span class="hljs-number">11251</span>))<br><span class="hljs-comment">#511</span><br></code></pre></td></tr></table></figure>
-<p>说明：调用填写参数的时候，代码中的<code>p</code>是模数减去$1$后的因数，<code>oriex,cntex</code>两个都填$q^e$中的$e$减去$1$的值，<code>product</code>和<code>rnd</code>都填$0$，<code>g,h,mod</code>分别填原来的$g,h$和模数，例如，上面是计算$5448^x\equiv6909\pmod {11251}$的结果，注意到$\text{ord}(5448)=5^4$，但是填入的第二个和第三个参数均为$4-1=3$。观察代码也不难发现，枚举确实是$\ln$级别的，并且$p-1$越光滑，耗时越短！</p>
+
+<p>说明：调用填写参数的时候，代码中的<code>p</code>是模数减去$1$后的因数，<code>oriex,cntex</code>两个都填$q^e$中的$e$减去$1$的值，<code>product</code>和<code>rnd</code>都填$0$，<code>g,h,mod</code>分别填原来的$g,h$和模数，例如，上面是计算$5448^x\equiv6909\pmod {11251}$的结果，注意到$\text{ord}(5448)&#x3D;5^4$，但是填入的第二个和第三个参数均为$4-1&#x3D;3$。观察代码也不难发现，枚举确实是$\ln$级别的，并且$p-1$越光滑，耗时越短！</p>
 <h2 id="4-其他"><a href="#4-其他" class="headerlink" title="4.其他"></a>4.其他</h2><p>其他的一些诸如环、群之类的概念看书本到第$2.10$节，不再投放</p>
 
                 
