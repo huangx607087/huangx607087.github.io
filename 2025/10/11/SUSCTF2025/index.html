@@ -19,18 +19,18 @@
   <meta name="author" content="huangx607087">
   <meta name="keywords" content="">
   
-    <meta name="description" content="上次更新：2025年10月11日，第 3 次更新。  SUSCTF2025-Crypto题目出题手记0. Introduction参与了SUSCTF 2025 密码学的出题部分，一共提供了 10 道赛题，其中 2 比 1 还需要靠注意力，10 有点太板子了（虽然我给它标了个Medium plus），9 有点太难了（Hard）。因此就没有放出来。最后放出来了1,3,4,5,6,7,8 七个题目。附">
+    <meta name="description" content="SUSCTF2025-Crypto题目出题手记0. Introduction参与了SUSCTF 2025 密码学的出题部分，一共提供了 10 道赛题，其中 2 比 1 还需要靠注意力，10 有点太板子了（虽然我给它标了个Medium plus），9 有点太难了（Hard）。因此就没有放出来。最后放出来了1,3,4,5,6,7,8 七个题目。附上wp。 个人感觉这次 Crypto 赛题难度梯度还是控">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SUSCTF2025">
 <meta property="og:url" content="http://example.com/2025/10/11/SUSCTF2025/index.html">
 <meta property="og:site_name" content="huangx607087&#39;s Blog">
-<meta property="og:description" content="上次更新：2025年10月11日，第 3 次更新。  SUSCTF2025-Crypto题目出题手记0. Introduction参与了SUSCTF 2025 密码学的出题部分，一共提供了 10 道赛题，其中 2 比 1 还需要靠注意力，10 有点太板子了（虽然我给它标了个Medium plus），9 有点太难了（Hard）。因此就没有放出来。最后放出来了1,3,4,5,6,7,8 七个题目。附">
+<meta property="og:description" content="SUSCTF2025-Crypto题目出题手记0. Introduction参与了SUSCTF 2025 密码学的出题部分，一共提供了 10 道赛题，其中 2 比 1 还需要靠注意力，10 有点太板子了（虽然我给它标了个Medium plus），9 有点太难了（Hard）。因此就没有放出来。最后放出来了1,3,4,5,6,7,8 七个题目。附上wp。 个人感觉这次 Crypto 赛题难度梯度还是控">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2025/10/11/SUSCTF2025/3.png">
 <meta property="og:image" content="http://example.com/2025/10/11/SUSCTF2025/2.png">
 <meta property="og:image" content="http://example.com/2025/10/11/SUSCTF2025/1.png">
 <meta property="article:published_time" content="2025-10-11T04:13:14.000Z">
-<meta property="article:modified_time" content="2025-10-11T03:56:13.561Z">
+<meta property="article:modified_time" content="2025-10-11T03:58:15.179Z">
 <meta property="article:author" content="huangx607087">
 <meta property="article:tag" content="WriteUp">
 <meta name="twitter:card" content="summary_large_image">
@@ -315,10 +315,7 @@
             
               <div class="markdown-body">
                 
-                <blockquote>
-<p>上次更新：2025年10月11日，第 3 次更新。</p>
-</blockquote>
-<h1 id="SUSCTF2025-Crypto题目出题手记"><a href="#SUSCTF2025-Crypto题目出题手记" class="headerlink" title="SUSCTF2025-Crypto题目出题手记"></a>SUSCTF2025-Crypto题目出题手记</h1><h2 id="0-Introduction"><a href="#0-Introduction" class="headerlink" title="0. Introduction"></a>0. Introduction</h2><p>参与了SUSCTF 2025 密码学的出题部分，一共提供了 10 道赛题，其中 2 比 1 还需要靠注意力，10 有点太板子了（虽然我给它标了个Medium plus），9 有点太难了（Hard）。因此就没有放出来。最后放出来了1,3,4,5,6,7,8 七个题目。附上wp。</p>
+                <h1 id="SUSCTF2025-Crypto题目出题手记"><a href="#SUSCTF2025-Crypto题目出题手记" class="headerlink" title="SUSCTF2025-Crypto题目出题手记"></a>SUSCTF2025-Crypto题目出题手记</h1><h2 id="0-Introduction"><a href="#0-Introduction" class="headerlink" title="0. Introduction"></a>0. Introduction</h2><p>参与了SUSCTF 2025 密码学的出题部分，一共提供了 10 道赛题，其中 2 比 1 还需要靠注意力，10 有点太板子了（虽然我给它标了个Medium plus），9 有点太难了（Hard）。因此就没有放出来。最后放出来了1,3,4,5,6,7,8 七个题目。附上wp。</p>
 <p>个人感觉这次 Crypto 赛题难度梯度还是控制的比较好的，不知道各位做题的师傅感受如何。</p>
 <p><img src="/2025/10/11/SUSCTF2025/3.png" srcset="/img/loading.gif" lazyload alt="3"></p>
 <h2 id="1-All-U-Need-Easy-7-Solves-237pts"><a href="#1-All-U-Need-Easy-7-Solves-237pts" class="headerlink" title="1.All U Need(Easy+,7 Solves, 237pts)"></a>1.All U Need(Easy+,7 Solves, 237pts)</h2><blockquote>
@@ -881,21 +878,6 @@ s_{i+624}=f(s_{i},s_{i+397})</script><p>因此，只有 616 个state，虽然无
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
