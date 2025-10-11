@@ -270,7 +270,7 @@
         
         
         
-          14 分钟
+          15 分钟
         
       </span>
     
@@ -330,29 +330,19 @@
 <p>但ECB模式的缺点也很明显，就是该模式由于操作过于简单，具有高度确定性。如果在key一定的情况下，那么一旦$x$确定了，$y$也就确定了。因此如果攻击者知道了文件开头部分，或者是是文件的高频内容，就有可能破解出可能的密钥。</p>
 <p>由于内容的高度确定性，因此ECB在对于图片加密的情况下，有可能会泄露信息，如下图:</p>
 <p><img src="/2021/09/04/BlockCipher3/2.png" srcset="/img/loading.gif" lazyload alt="2"></p>
-<h3 id="0o02-密码分组链接模式-CBC"><a href="#0o02-密码分组链接模式-CBC" class="headerlink" title="0o02 密码分组链接模式(CBC)"></a>0o02 密码分组链接模式(CBC)</h3><p>CBC模式跟ECB模式不同：首先，对于某一组的加密不仅依赖于这一组的内容，还依赖于前面所有的明文分组。并且会使用初始向量IV对加密进行随机化。设$\mathrm {IV}=y_0$，那么我们有</p>
-<script type="math/tex; mode=display">
-y_i=e(x_i+y_{i-1})</script><p>此处的加号仍然表示异或，你会发现每一组的加密内容是把这一组的明文和上一组的密文异或之后，再启用加密算法进行加密。加密算法可以用这张图表示</p>
+<h3 id="0o02-密码分组链接模式-CBC"><a href="#0o02-密码分组链接模式-CBC" class="headerlink" title="0o02 密码分组链接模式(CBC)"></a>0o02 密码分组链接模式(CBC)</h3><p>CBC模式跟ECB模式不同：首先，对于某一组的加密不仅依赖于这一组的内容，还依赖于前面所有的明文分组。并且会使用初始向量IV对加密进行随机化。设$\mathrm {IV}&#x3D;y_0$，那么我们有<br>$$<br>y_i&#x3D;e(x_i+y_{i-1})<br>$$<br>此处的加号仍然表示异或，你会发现每一组的加密内容是把这一组的明文和上一组的密文异或之后，再启用加密算法进行加密。加密算法可以用这张图表示</p>
 <p><img src="/2021/09/04/BlockCipher3/3.png" srcset="/img/loading.gif" lazyload alt="3"></p>
-<p>因此，这个加密有个性质：就是由于$y_i=E_k(x_i,y_{i-1})$，我们可以得到$x_i=D_k(y_i,y_{i-1})$，由于异或的可交换性，我们也可以得到</p>
-<script type="math/tex; mode=display">
-y_{i-1}=D_k(y_i,x_{i})</script><p>也就是凭借一组明文$x$和一组密文$y$，当然还有密钥$k$，我们可以求出$iv$的值。</p>
-<p>首先我们可以给服务器发送一个fakeiv $f$，计算：</p>
-<script type="math/tex; mode=display">
-x'=D_k(y,f)</script><p>那么我们可以得到：（加号表示异或）</p>
-<script type="math/tex; mode=display">
-y'=x'+f</script><p>然后我们可以得到真正的IV，也就是$y_0$的值为</p>
-<script type="math/tex; mode=display">
-y_0=y'+x</script><p>整合起来，那就在已知明文$x$、密文$y$、密钥$k$的情况下，初始向量$y_0$很快就能直接求出（加号表示异或）</p>
-<script type="math/tex; mode=display">
-y_0=D_k(y,f)+f+x</script><h3 id="0o03-输出反馈模式-OFB"><a href="#0o03-输出反馈模式-OFB" class="headerlink" title="0o03 输出反馈模式(OFB)"></a>0o03 输出反馈模式(OFB)</h3><p>OFB模式是对初始化向量$iv$进行加密，然后每次对加密后的$iv$直接异或明文$x$，从而获得密文$y$的一种模式。</p>
+<p>因此，这个加密有个性质：就是由于$y_i&#x3D;E_k(x_i,y_{i-1})$，我们可以得到$x_i&#x3D;D_k(y_i,y_{i-1})$，由于异或的可交换性，我们也可以得到<br>$$<br>y_{i-1}&#x3D;D_k(y_i,x_{i})<br>$$<br>也就是凭借一组明文$x$和一组密文$y$，当然还有密钥$k$，我们可以求出$iv$的值。</p>
+<p>首先我们可以给服务器发送一个fakeiv $f$，计算：<br>$$<br>x’&#x3D;D_k(y,f)<br>$$<br>那么我们可以得到：（加号表示异或）<br>$$<br>y’&#x3D;x’+f<br>$$<br>然后我们可以得到真正的IV，也就是$y_0$的值为<br>$$<br>y_0&#x3D;y’+x<br>$$</p>
+<p>整合起来，那就在已知明文$x$、密文$y$、密钥$k$的情况下，初始向量$y_0$很快就能直接求出（加号表示异或）<br>$$<br>y_0&#x3D;D_k(y,f)+f+x<br>$$</p>
+<h3 id="0o03-输出反馈模式-OFB"><a href="#0o03-输出反馈模式-OFB" class="headerlink" title="0o03 输出反馈模式(OFB)"></a>0o03 输出反馈模式(OFB)</h3><p>OFB模式是对初始化向量$iv$进行加密，然后每次对加密后的$iv$直接异或明文$x$，从而获得密文$y$的一种模式。</p>
 <p><img src="/2021/09/04/BlockCipher3/4.png" srcset="/img/loading.gif" lazyload alt="4"></p>
 <p>因此，我们解密时，也直接使用IV进行解密即可，不过注意对于IV来收，仍然是加密操作，而不是解密操作。换句话说就是对于IV而言，不存在解密操作。</p>
 <p><img src="/2021/09/04/BlockCipher3/5.png" srcset="/img/loading.gif" lazyload alt="5"></p>
 <h3 id="0o04-密码反馈模式-CFB"><a href="#0o04-密码反馈模式-CFB" class="headerlink" title="0o04 密码反馈模式(CFB)"></a>0o04 密码反馈模式(CFB)</h3><p>CFB，即密文反馈模式，仍然是对IV进行加密，然后与明文$x$进行异或得到密文$y$。然后$E(IV)$会继承后半部分内容作为新的前半部分，而新的后半部分则由密文的后半部分组成。如果是$16$位，替换$8$位。那么就是新的IV的前$8$位是旧的IV的后$8$位，然后新的IV的后$8$位是密文的后$8$位（当然也可以是前$8$位）</p>
 <p><img src="/2021/09/04/BlockCipher3/6.png" srcset="/img/loading.gif" lazyload alt="6"></p>
 <p>解密时，也直接就是分组解密，对IV加密后与密文异或得到明文。与OFB模式一样，不存在对IV解密的情形。</p>
-<h3 id="0o05-计数器模式-CTR"><a href="#0o05-计数器模式-CTR" class="headerlink" title="0o05 计数器模式(CTR)"></a>0o05 计数器模式(CTR)</h3><p>CTR模式这里有一个计数器。比如在$64$位的分组加密中，IV只提供$48$位，剩下的$16$位分配给计数器。例如：如果我们设$\text{IV = 86 43 23 6A 46 57H}$，那么一开始的$\text{IV=86 43 23 6A 46 57 00 00H}$，第二轮加密时用$\text{IV=86 43 23 6A 46 57 00 01H}$。每一次加密时，计数器会保持递增，但IV会一直不变。因此，十六位的计数器可以加密六万多组数据。</p>
+<h3 id="0o05-计数器模式-CTR"><a href="#0o05-计数器模式-CTR" class="headerlink" title="0o05 计数器模式(CTR)"></a>0o05 计数器模式(CTR)</h3><p>CTR模式这里有一个计数器。比如在$64$位的分组加密中，IV只提供$48$位，剩下的$16$位分配给计数器。例如：如果我们设$\text{IV &#x3D; 86 43 23 6A 46 57H}$，那么一开始的$\text{IV&#x3D;86 43 23 6A 46 57 00 00H}$，第二轮加密时用$\text{IV&#x3D;86 43 23 6A 46 57 00 01H}$。每一次加密时，计数器会保持递增，但IV会一直不变。因此，十六位的计数器可以加密六万多组数据。</p>
 <p>当然，IV|CTR的值实际上不必保密，而CTR也并不一定是<code>+1</code>形，可以是最大长度LFSR，也可以是离散对数的规律，比如$  3^{T} \equiv \mathrm{CTR} \pmod {2^{64}}$。</p>
 <p><img src="/2021/09/04/BlockCipher3/7.png" srcset="/img/loading.gif" lazyload alt="7"></p>
 <p>这种模式还有个好处，我们可以通过128位的内容来加密$256$位的分组密码。我们只需要每次让计数器$+2$，一组加密前$128$位，一组加密后$128$位。两组加密同时进行，可以节省较多的时间成本。</p>
@@ -804,6 +794,21 @@ y_0=D_k(y,f)+f+x</script><h3 id="0o03-输出反馈模式-OFB"><a href="#0o03-输
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

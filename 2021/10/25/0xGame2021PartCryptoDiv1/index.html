@@ -316,185 +316,183 @@
                 
                 <h1 id="0xGame部分Crypto题目出题手记"><a href="#0xGame部分Crypto题目出题手记" class="headerlink" title="0xGame部分Crypto题目出题手记"></a>0xGame部分Crypto题目出题手记</h1><h2 id="Week-1"><a href="#Week-1" class="headerlink" title="Week 1"></a>Week 1</h2><h3 id="1-MyFunction"><a href="#1-MyFunction" class="headerlink" title="1: MyFunction"></a>1: MyFunction</h3><p>题目加密代码：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> log<br><span class="hljs-keyword">from</span> secret <span class="hljs-keyword">import</span> flag<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">f</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-keyword">return</span> x*log(x) <span class="hljs-comment">#log(x) is &quot;y=ln(x)&quot; used in maths</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> flag:<br>    <span class="hljs-built_in">print</span>(f(<span class="hljs-built_in">ord</span>(i)))<br><span class="hljs-comment">#输出部分略去</span><br></code></pre></td></tr></table></figure>
-<p>这个题目出的目的是让新生熟悉一下Python的代码，顺便通过一个简单的python代码，了解一下python的基本语法，是模仿的西电的新生赛出的。西电的新生赛出的用的函数是$y=e^x$，也给出了很多数字。因为$y=e^x$有很明显的反函数，所以那个题可以直接对所有的输出取对数，就可以获得明文。但这个题目不行，因为$y=x\ln x$没有可以写出来的反函数形式<del>别问，因为我数学不行，我求不出来</del>。因此这个题目的正确做法是枚举可能的值。</p>
+
+<p>这个题目出的目的是让新生熟悉一下Python的代码，顺便通过一个简单的python代码，了解一下python的基本语法，是模仿的西电的新生赛出的。西电的新生赛出的用的函数是$y&#x3D;e^x$，也给出了很多数字。因为$y&#x3D;e^x$有很明显的反函数，所以那个题可以直接对所有的输出取对数，就可以获得明文。但这个题目不行，因为$y&#x3D;x\ln x$没有可以写出来的反函数形式<del>别问，因为我数学不行，我求不出来</del>。因此这个题目的正确做法是枚举可能的值。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> math <span class="hljs-keyword">import</span> log<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">f</span>(<span class="hljs-params">x</span>):<br>    <span class="hljs-keyword">return</span> x*log(x)<br><br>arr=<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;output.txt&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>).readlines()<br>s=<span class="hljs-string">&quot;&quot;</span><br><span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> arr:<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">128</span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">abs</span>(f(i)-<span class="hljs-built_in">float</span>(y))&lt;<span class="hljs-number">0.0003</span>:<br>            s+=<span class="hljs-built_in">chr</span>(i)<br>            <span class="hljs-keyword">continue</span><br><span class="hljs-built_in">print</span>(s)<br><span class="hljs-comment">#0xGame&#123;YouH4veKn0wedPy7honL081s&lt;y=ln(x)&gt;InM47hs&#125;</span><br></code></pre></td></tr></table></figure>
+
 <p>不过实际的解题中，真正写脚本的新生并不多，有的是通过excel打表，然后一个一个解的。把所有的$x$求出来之后，然后查ASCII码表一个一个手动对照的。</p>
 <p>之前验题的时候，我考虑到了浮点误差，因此这边用的是<code>abs(f(i)-float(y))&lt;0.0003</code>判断的。实际上在$x&gt;40$的时候，$(x+1)\ln(x+1)-x\ln x$的差值已经超过了$2$。因此直接取整也是可以的。不过最后我发现不考虑浮点误差的问题照样也是可以做的。</p>
 <h3 id="2-Class-8"><a href="#2-Class-8" class="headerlink" title="2.Class 8"></a>2.Class 8</h3><p>一个争议性挺大的题目。因为当时出题的时候，我并不想出古典密码题——属实没意思。但既然要求出一个古典密码，那就只能出一个。。</p>
 <p>最后出题的时候确实是出难了，虽然To1in那个ManyCode那个题也出难了，但他最后简化了，然后我看到当时已经有2、3个人解出来了，就没有简化。八种古典密码放在一起。有的还有歧义。。。（不过虽然还是有学弟没有跟我交流，也做出来了。</p>
 <p><img src="/2021/10/25/0xGame2021PartCryptoDiv1/Class8.png" srcset="/img/loading.gif" lazyload alt="Class8"></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs">第1、6位是盲文<br>第2、7位是跳舞的小人<br>第3位是猪圈密码<br>第4、11、16位是手机九键键盘<br>第5、9、14位是莫尔斯电码<br>第8、12位是银河字母<br>第10、15位是培根密码<br>第13位是电脑键盘，cfgb之间围着的是V<br></code></pre></td></tr></table></figure>
+
 <p>这道题一开始打算出规则的单词的，但后面就出得不规则了。主要是第13位、第15位出问题出得非常多。第15位确实有两种解法，因此第15位是 <code>O</code> 最后也算对了。</p>
-<p>flag: <code>0xGame&#123;CLASSLNRDDLDVTNB&#125;</code> 或<code>0xGame&#123;CLASSLNRDDLDVTOB&#125;</code></p>
+<p>flag: <code>0xGame&#123;CLASSLNRDDLDVTNB&#125;</code> 或<code> 0xGame&#123;CLASSLNRDDLDVTOB&#125;</code></p>
 <p><del>以后再也不出这种无聊的古典密码题了。。。。</del></p>
 <h3 id="3-ABC-Of-RSA"><a href="#3-ABC-Of-RSA" class="headerlink" title="3.ABC Of RSA"></a>3.ABC Of RSA</h3><p>这个题主要是用于给新生入门一下RSA相关知识。。</p>
 <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs abnf">在RSA加密中，已知：<br><span class="hljs-attribute">p</span><span class="hljs-operator">=</span><span class="hljs-number">9677</span><br><span class="hljs-attribute">q</span><span class="hljs-operator">=</span><span class="hljs-number">9241</span><br><span class="hljs-attribute">e</span><span class="hljs-operator">=</span><span class="hljs-number">10009</span><br>求解密指数d，包上<span class="hljs-number">0</span>xGame&#123;&#125;提交。<br></code></pre></td></tr></table></figure>
+
 <p>这个如果下载Python的密码学专用包，写起来会非常快。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br>p=<span class="hljs-number">9677</span><br>q=<span class="hljs-number">9241</span><br>e=<span class="hljs-number">10009</span><br><span class="hljs-built_in">print</span>(inverse(e,(p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>)))<br><span class="hljs-comment">#39982249</span><br></code></pre></td></tr></table></figure>
-<p>不过发现很多学弟学妹没有装包的情况下，利用$ed=k\phi+1$，暴力枚举$k$的。这个虽然这道题是可行的。但下一个题，当数字大起来的时候，就显得不可行了。。</p>
+
+<p>不过发现很多学弟学妹没有装包的情况下，利用$ed&#x3D;k\phi+1$，暴力枚举$k$的。这个虽然这道题是可行的。但下一个题，当数字大起来的时候，就显得不可行了。。</p>
 <h3 id="4-BlackGiveRSA"><a href="#4-BlackGiveRSA" class="headerlink" title="4.BlackGiveRSA"></a>4.BlackGiveRSA</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> secret <span class="hljs-keyword">import</span> flag,p,q<br><span class="hljs-keyword">assert</span> q&gt;p <br>n=p*q<br>e=<span class="hljs-number">10007</span><br><span class="hljs-keyword">assert</span> <span class="hljs-built_in">len</span>(flag)==<span class="hljs-number">42</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">6</span>):<br>    m=bytes_to_long(flag[i*<span class="hljs-number">7</span>:i*<span class="hljs-number">7</span>+<span class="hljs-number">7</span>])<br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">pow</span>(m,e,n))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Encryption using modulus n=&quot;</span>,n)<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">OutPut:</span><br><span class="hljs-string">1150947306854980854</span><br><span class="hljs-string">243703926267532432</span><br><span class="hljs-string">1069319314811079682</span><br><span class="hljs-string">688582941857504686</span><br><span class="hljs-string">670683629344243145</span><br><span class="hljs-string">1195068175327355214</span><br><span class="hljs-string">Encryption using modulus n= 1687126110378632809</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
-<p>RSA入门题，直接放到yafu/factordb上分解出$p=1175078221,q=1435756429$，分别是Am4的QQ和自己的QQ号。。</p>
+
+<p>RSA入门题，直接放到yafu&#x2F;factordb上分解出$p&#x3D;1175078221,q&#x3D;1435756429$，分别是Am4的QQ和自己的QQ号。。</p>
 <p>然后直接按照RSA的解密方法分解就行了。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br>p,q=<span class="hljs-number">1175078221</span>,<span class="hljs-number">1435756429</span><br>n,phi=p*q,(p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>)<br>d=inverse(<span class="hljs-number">10007</span>,phi)<br>cipher=[<br>    <span class="hljs-number">1150947306854980854</span>,<br>    <span class="hljs-number">243703926267532432</span>,<br>    <span class="hljs-number">1069319314811079682</span>,<br>    <span class="hljs-number">688582941857504686</span>,<br>    <span class="hljs-number">670683629344243145</span>,<br>    <span class="hljs-number">1195068175327355214</span><br>    ]<br>m=<span class="hljs-string">b&quot;&quot;</span><br><span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> cipher:<br>    m+=long_to_bytes(<span class="hljs-built_in">pow</span>(c,d,n))<br><span class="hljs-built_in">print</span>(m)<br><span class="hljs-comment">#0xGame&#123;ChuTiRenDeQQShiJiShangJiuShiQDeZhi&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
 <h2 id="Week-2"><a href="#Week-2" class="headerlink" title="Week 2"></a>Week 2</h2><h3 id="Equation"><a href="#Equation" class="headerlink" title="Equation"></a>Equation</h3><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs avrasm">解方程题，RSA加密，没有附件，远程连接一次过去就可以接收加密数据。解出来的明文结果要long_to_bytes<br>p,q∈(<span class="hljs-number">2</span>**<span class="hljs-number">1407</span>,<span class="hljs-number">2</span>**<span class="hljs-number">1408</span>) <br>nc <span class="hljs-number">47.101</span><span class="hljs-number">.38</span><span class="hljs-number">.213</span> <span class="hljs-number">60718</span><br><span class="hljs-symbol">Author:</span>huangx607087<br><span class="hljs-symbol">QQ:</span><span class="hljs-number">1435756429</span><br></code></pre></td></tr></table></figure>
-<p>linux虚拟机中，直接在终端输入<code>nc 47.101.38.213 60718</code> ，可以获得$n,e,c,f$，其中$f=ap+bq$。</p>
-<p>（当然，本题为防作弊，每次连接后发出的$a,b$内容都不一样，但$f=ap+bq$的格式是肯定的，你获取的 系数可能与此不同，但不影响解题）。</p>
+
+
+
+<p>linux虚拟机中，直接在终端输入<code>nc 47.101.38.213 60718</code> ，可以获得$n,e,c,f$，其中$f&#x3D;ap+bq$。</p>
+<p>（当然，本题为防作弊，每次连接后发出的$a,b$内容都不一样，但$f&#x3D;ap+bq$的格式是肯定的，你获取的 系数可能与此不同，但不影响解题）。</p>
 <p>随机连接上去，获取一组数据：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">n =<br><span class="hljs-number">32366272889292879088882195998253721958216118427319043123590736165426820884306499725050727749537295796623781690886255268016096819542474814457437532341958464848643200659916387692563367270923362263462485626863278634698636219570995613163637857962196938268241034329466928075048970301826587646917598116612437415879221437295531628513384414258368369916946742389703355179727112580592683439416261547865491725025586248605272291584028774967553627942724579632389254496409849216841409604686980557654983994405692268823696566554514932549687234389560838939048535333918846662927374585386766723838290671937789073306966759191649325746073717288252462817952734597692830994622255635546908058581524477518532518924112976563197010192251929746445312969880127879576958492529042343256141675368594461418257288354657105617752796615735654975200326101463143024542800708390095145361</span><br>e = <span class="hljs-number">906371</span><br>c =<br><span class="hljs-number">15326438748659000169738486078886997781541935909035823368289334280968233481809714574428064879237827914760740438396085818400100752918474657858554388771724064383701395897618045276281398824434274848557653909089994244435972710632336639335300023667869547648881808002952139588112935030846125601449819192271492110196773991802015580978532663199706950910343070008368979693052990985227852719668245569238857908655227385682414319846321429428810022909530050444105837210601614933221417662986725539709495237298445020038006845869543594704774018595363714269915863872404761678621066244387220449270355482924374014811790125751689511923646410269665459941400645007655696532244986604521949477159649748754760874919743902307824198126893002486445262315126416725774433901321311453440889692050265638750239216391568288836776466397695369910655394827082589725264284100323144743368</span><br>f = <span class="hljs-number">4071</span> * p + <span class="hljs-number">7840</span> * q = <span class="hljs-number">70609572383507708646716591625555712379946460153989879089689539734922903656784859764618771054881882855097217363252911229485210947514270593649999198018427595733868497208821457315913778178532267217419587556519640009047854707649751663514017094626487619210733938544175505589938842947647526503757953723232894419183885106501307587792888770406913619606926851412157084401688469130571174114717305950501097282446764439401475500746719477183</span><br></code></pre></td></tr></table></figure>
+
 <h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><p>有Sagemath的，录入4个已知数据后，可以直接利用以下的代码求解：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">var(<span class="hljs-string">&#x27;p q&#x27;</span>)<br>solve([p * q == n, <span class="hljs-number">4071</span> * p + <span class="hljs-number">7840</span> * q == f],(p, q))<br></code></pre></td></tr></table></figure>
+
 <p>然后就可以解出：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">p == <span class="hljs-number">5083858928708691100777959116505887333680880438073587959441589817260857392095426280573595409516065652457557087257582498766032467943842309357363106558257787135298633883829312431320375735688577512605869266440855676882837431188700856046398782182742328211552394159944490832515415689088811946496781884336421281783780403089383634369539994631626195420357561861396522278697114564263369128050977173067291911354418900362132140587209993</span><br>q == <span class="hljs-number">6366477383256967751970602048757684316904540292167385523826891274088514440505660634745365324329334130604911028192256744516414894198327621461246682553540834732916805952519429388776598030426539306581772164902923029140028510877621234508817302597008112380293895652938964720761299193541705748669586055114709614928841209888319746463583093400709614547276940953368857424121494354522321223778287994763284682566699629595310657706146377</span><br></code></pre></td></tr></table></figure>
+
 <h4 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h4><p>没有Sagemath的，可以编程求解。</p>
-<p>由于$pq=n,4071p+7840q=f$，因此$4071p=f-7840q$，然后有$4071n=4071pq=(f-7840q)q$。</p>
-<p>因此，我们可以构造方程$7840x^2-fx+4071n=0$，根据二次函数对称轴的位置，发现我们需要的值位于对称轴右侧。因此我们直接二分求解即可。</p>
+<p>由于$pq&#x3D;n,4071p+7840q&#x3D;f$，因此$4071p&#x3D;f-7840q$，然后有$4071n&#x3D;4071pq&#x3D;(f-7840q)q$。</p>
+<p>因此，我们可以构造方程$7840x^2-fx+4071n&#x3D;0$，根据二次函数对称轴的位置，发现我们需要的值位于对称轴右侧。因此我们直接二分求解即可。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">y</span>(<span class="hljs-params">x</span>):<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">7840</span>*x*x-f*x+<span class="hljs-number">4071</span>*n<br>L, R = <span class="hljs-number">2</span>**<span class="hljs-number">1407</span>, <span class="hljs-number">2</span>**<span class="hljs-number">1408</span><br><span class="hljs-keyword">while</span> L &lt;= R:<br>	M = (L+R)//<span class="hljs-number">2</span><br>	<span class="hljs-keyword">if</span> y(M) &lt; <span class="hljs-number">0</span>:<br>		L = M+<span class="hljs-number">1</span><br>	<span class="hljs-keyword">if</span> y(M) &gt; <span class="hljs-number">0</span>:<br>		R = M-<span class="hljs-number">1</span><br>	<span class="hljs-keyword">if</span> y(M) == <span class="hljs-number">0</span>:<br>		<span class="hljs-built_in">print</span>(M)<br>		<span class="hljs-keyword">break</span><br><span class="hljs-comment">#6366477383256967751970602048757684316904540292167385523826891274088514440505660634745365324329334130604911028192256744516414894198327621461246682553540834732916805952519429388776598030426539306581772164902923029140028510877621234508817302597008112380293895652938964720761299193541705748669586055114709614928841209888319746463583093400709614547276940953368857424121494354522321223778287994763284682566699629595310657706146377</span><br></code></pre></td></tr></table></figure>
+
 <p>这个题目还可以用z3做。不过很多人的思路是根据二次方程求根公式，想要求$\sqrt{b^2-4ac}$的值。而这个值也可以通过函数的单调性，二分求解。。</p>
 <h2 id="Week-3"><a href="#Week-3" class="headerlink" title="Week 3"></a>Week 3</h2><h3 id="CryptoSignin3"><a href="#CryptoSignin3" class="headerlink" title="CryptoSignin3"></a>CryptoSignin3</h3><p>题目是给出了RSA加密中的$e,n,c$，让你求出$5m$的加密结果（默认$c$是$m$的加密结果）。</p>
-<p>这道题主要考察RSA的乘法同态性，由于$m^e \equiv c \pmod n$，因此我们有</p>
-<script type="math/tex; mode=display">
-(5m)^e\equiv 5^em^e\equiv 5^ec \pmod n</script><p>因此，我们只需要计算$5^{e}c \mod n$的值即可。然后转一下<code>str</code>类型，取最后25位即可。</p>
+<p>这道题主要考察RSA的乘法同态性，由于$m^e \equiv c \pmod n$，因此我们有<br>$$<br>(5m)^e\equiv 5^em^e\equiv 5^ec \pmod n<br>$$<br>因此，我们只需要计算$5^{e}c \mod n$的值即可。然后转一下<code>str</code>类型，取最后25位即可。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">n=<span class="hljs-number">2422711508900009723470102727278184898228579351729629175495904760516536114771819178772843940622693480942295987032442940867670858858530606887743557817380121361626756206355705110299827107648704348792184242506797212331641569408152865458082131811787893384573565771304686373397987779236692592582009393836324438173880350455958049987506807351970912049246353746635267159741115761548052126938491673479606393396100458729618059852813438444299361468512008386975558106274324688665963516424534366163011821633197140729560513838981241752422348968312410911097523311183305812013220724215584901550592570168096761576532621840320623463208702401829189862290303098674021012353400081288819532365151476738751064469957971192132666136590103567843662591585345483671185892760751481722342403025068374371716176981888876927119331602694699049322860285991375002326127401769287658952682585275891296760732815680898653162425658904911584903825163141576325803464119867837508173795728753701563149748508464162635777787788266240105654089919642728171076155284842273517797069725130328742992830894075552022372717019366081516680737</span><br>e=<span class="hljs-number">10007</span><br>c=<span class="hljs-number">1285901843278876234855607310979623200548989981628646673003523113580651626686523566799395153922258813222744927018205882436414589516795415393990321785993777190284046937462277341231780571523062023964463963139910673601962881978696384360480028132774373962893042697866284303407898274683337284548529324550392212212259945699167254341062208031468355814520907121576009140399280898693924706067921614961798886587174234822238887374399666546113213239071736098162263227821798099750616137755055435397986788792824117529508255014392344357337010003489080209442530630893119917536518243474797351694663533728052713570044084663268350004738561234330890283895430742958255842196396542672482459665354739161276178850775803757753274712331067038077233072381051447436014423088822190073982228377699578821863871042501139434131053044240618505423456248872825597521393564957261041606004454706987978944644129728005540587982321571481413548381251589071459468890948819121023006292105804319208332473499823959882524985324120811768843639294924500467781666073366713198751960913508720530656411097981933156605831180926219778514434</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(<span class="hljs-built_in">pow</span>(<span class="hljs-number">5</span>,e,n)*c%n)[-<span class="hljs-number">25</span>:])<br></code></pre></td></tr></table></figure>
+
 <p>输出结果为：<code>8489769636593649908538102</code>，因此flag为<code>0xGame&#123;8489769636593649908538102&#125;</code></p>
 <p>RSA的同态性是一个很重要的知识点，在可以获得解密服务的服务器上，可以利用RSA的同态性，发送$2^ec,3^ec,…$等结果，获取解密服务，进而获取明文的一些性质，比如$2m$的情况、$3m$的情况等等。比如第四周的ParityOracleBase5就是用到了这个的算法</p>
 <p>出这个题的原因，是因为去年的0xGame就是因为先出了ParityOracle，然后出了个SigninRSA，直接导致自己根本就没意识到$2^ec$的解密结果是$2m$。。。</p>
 <p>虽然这个题解出来的人挺多，但这个题是为了给下周的ParityOracleBase5做准备用的。。</p>
 <h3 id="Predict-1"><a href="#Predict-1" class="headerlink" title="Predict 1"></a>Predict 1</h3><p>一个求LCG参数的题目。</p>
 <p>根据题目的方法，我们有19次机会可以获得里面的state，然后再进行预测。但实际上，一般获取8组数据，就可以获取$a,b,p$的值（此处保证了$a,p$是素数）。当然为了保险，15组数据也是足够的。</p>
-<p>首先，我们假设我们获取的数字为$x_1,x_2,…,x_8$。那么我们可以有：</p>
-<script type="math/tex; mode=display">
-x_i\equiv ax_{i-1}+b \pmod p</script><p>那么化简一下，就是：</p>
-<script type="math/tex; mode=display">
-x_2\equiv ax_1+b\pmod p \tag1</script><script type="math/tex; mode=display">
-x_3\equiv  ax_2+b\pmod p\tag 2</script><script type="math/tex; mode=display">
-x_4\equiv  ax_3+b \pmod p \tag 3</script><p>然后，由$(2)-(1),(3)-(2)$，消去$b$，可以得到：</p>
-<script type="math/tex; mode=display">
-x_3-x_2\equiv a(x_2-x_1)\pmod p \tag{S1}</script><script type="math/tex; mode=display">
-x_4-x_3\equiv a(x_3-x_2)\pmod p \tag{S2}</script><p>由于在$\mod p$的条件下，除号表示乘上某个数的逆元，因此，我们把$a$提出来，就是</p>
-<script type="math/tex; mode=display">
-a\equiv \dfrac{x_3-x_2}{x_2-x_1}\equiv \dfrac{x_4-x_3}{x_3-x_2} \pmod p \tag{T}</script><p>${(T)}$中消去$a$，去分母，得：</p>
-<script type="math/tex; mode=display">
-(x_3-x_2)^2\equiv(x_4-x_3)(x_2-x_1) \pmod p \tag{R1'}</script><p>去掉同余号也就是</p>
-<script type="math/tex; mode=display">
-(x_3-x_2)^2-(x_4-x_3)(x_2-x_1) =D_1p \tag{R1}</script><p>然后，由此可知：</p>
-<script type="math/tex; mode=display">
-(x_4-x_3)^2-(x_5-x_4)(x_3-x_2) =D_2p \tag{R2}</script><p>因此，我们可以得到多个数据$\text{(R1)(R2)(R3)(R4)(R5)}$，然后计算所有结果得最大公因数就可以得到$p$。(一般7个值求出来的准确度就比较高了)</p>
+<p>首先，我们假设我们获取的数字为$x_1,x_2,…,x_8$。那么我们可以有：<br>$$<br>x_i\equiv ax_{i-1}+b \pmod p<br>$$<br>那么化简一下，就是：<br>$$<br>x_2\equiv ax_1+b\pmod p \tag1<br>$$</p>
+<p>$$<br>x_3\equiv  ax_2+b\pmod p\tag 2<br>$$</p>
+<p>$$<br>x_4\equiv  ax_3+b \pmod p \tag 3<br>$$</p>
+<p>然后，由$(2)-(1),(3)-(2)$，消去$b$，可以得到：<br>$$<br>x_3-x_2\equiv a(x_2-x_1)\pmod p \tag{S1}<br>$$</p>
+<p>$$<br>x_4-x_3\equiv a(x_3-x_2)\pmod p \tag{S2}<br>$$</p>
+<p>由于在$\mod p$的条件下，除号表示乘上某个数的逆元，因此，我们把$a$提出来，就是<br>$$<br>a\equiv \dfrac{x_3-x_2}{x_2-x_1}\equiv \dfrac{x_4-x_3}{x_3-x_2} \pmod p \tag{T}<br>$$<br>${(T)}$中消去$a$，去分母，得：<br>$$<br>(x_3-x_2)^2\equiv(x_4-x_3)(x_2-x_1) \pmod p \tag{R1’}<br>$$<br>去掉同余号也就是<br>$$<br>(x_3-x_2)^2-(x_4-x_3)(x_2-x_1) &#x3D;D_1p \tag{R1}<br>$$<br>然后，由此可知：<br>$$<br>(x_4-x_3)^2-(x_5-x_4)(x_3-x_2) &#x3D;D_2p \tag{R2}<br>$$<br>因此，我们可以得到多个数据$\text{(R1)(R2)(R3)(R4)(R5)}$，然后计算所有结果得最大公因数就可以得到$p$。(一般7个值求出来的准确度就比较高了)</p>
 <p>$p$得到之后，我们根据消去$b$的式子，就可以计算出$a\equiv \dfrac{x_3-x_2}{x_2-x_1} \pmod p$了。求出$a$以后，就可以根据$x_1,x_2$很快地求出$b$。</p>
 <p>在整个做题的过程中，可能有人查看了百度的方法，结果到最后预测错了。原因很简单：因为这边只是有$\gcd(D_1p,D_2p)$，虽然$p$是一定的，但$\gcd(D_1,D_2)$的值却不为$1$。有两种办法解决：一是多选取几组数据，求公约数更保险，二是我测了一下，$\gcd(D_1,D_2)$的值实际上并不大（很大概率小于$1000$），因此可以写个$2$到$999$的循环，将$\gcd(D_1p,D_2p)$里面多余的因数除掉即可。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br>sh=remote(<span class="hljs-string">&quot;47.101.38.213&quot;</span>,<span class="hljs-number">60709</span>)<br>u,detla=[],[]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">16</span>):<br>    sh.recvuntil(<span class="hljs-string">b&quot;&gt;&quot;</span>)<br>    sh.sendline(<span class="hljs-string">b&quot;1&quot;</span>)<br>    sh.recvuntil(<span class="hljs-string">b&quot;&gt;&quot;</span>)<br>    sh.sendline(<span class="hljs-string">b&quot;1&quot;</span>)<br>    numb=sh.recvline(keepends=<span class="hljs-literal">False</span>)<br>    numb=numb.split(<span class="hljs-string">b&quot;is&quot;</span>)[<span class="hljs-number">1</span>]<br>    u.append(<span class="hljs-built_in">int</span>(numb))<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">12</span>):<br>    detla.append(<span class="hljs-built_in">abs</span>((u[i+<span class="hljs-number">2</span>]-u[i+<span class="hljs-number">1</span>])*(u[i+<span class="hljs-number">2</span>]-u[i+<span class="hljs-number">1</span>])-(u[i+<span class="hljs-number">3</span>]-u[i+<span class="hljs-number">2</span>])*(u[i+<span class="hljs-number">1</span>]-u[i])))<br>p=detla[<span class="hljs-number">0</span>]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> detla:<br>    p=GCD(p,i)<br><span class="hljs-built_in">print</span>(p)<br><span class="hljs-keyword">assert</span> isPrime(p)<br>a=(u[<span class="hljs-number">3</span>]-u[<span class="hljs-number">2</span>])*inverse(u[<span class="hljs-number">2</span>]-u[<span class="hljs-number">1</span>],p)%p<br>b=(u[<span class="hljs-number">1</span>]-a*u[<span class="hljs-number">0</span>])%p<br><span class="hljs-built_in">print</span>(a,b,p)<br>x=u[-<span class="hljs-number">1</span>]<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">205</span>):<br>    <span class="hljs-keyword">if</span> i%<span class="hljs-number">15</span>==<span class="hljs-number">0</span>:<br>        <span class="hljs-built_in">print</span>(i)<br>    x=(a*x+b)%p<br>    sh.recvuntil(<span class="hljs-string">b&quot;&gt;&quot;</span>)<br>    sh.sendline(<span class="hljs-string">b&quot;1&quot;</span>)<br>    sh.recvuntil(<span class="hljs-string">b&quot;&gt;&quot;</span>)<br>    sh.sendline(<span class="hljs-built_in">str</span>(x).encode())<br>sh.recvuntil(<span class="hljs-string">b&quot;0xGame&#123;&quot;</span>)<br>flag=sh.recvline(keepends=<span class="hljs-literal">False</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;0xGame&#123;&quot;</span>+flag.decode())<br>sh.close()<br></code></pre></td></tr></table></figure>
+
 <p><code>0xGame&#123;86767788-6000-7608-6777-5454a581d836&#125;</code></p>
-<p>不过最后看了一下做出来的人的WP，有的人问过我，多获取了几组数据，多求了几次最大公约数把题目做出来了。也有人没有意识到这个问题，通过多次连接服务器，最终获取了一组$\gcd(D_1,D_2)=1$的情况，很顺利地解出了$p$。</p>
-<p>实际上这里可以给大家扩展一下：任意两个正整数互素的概率是$\dfrac{6}{\pi^2}$，这个数字的倒数也是一个很著名的级数和：</p>
-<script type="math/tex; mode=display">
-\sum_{i=1}^{+∞}\dfrac{1}{i^2}=\dfrac{\pi^2}{6}</script><h2 id="Week-4-Update-11-4"><a href="#Week-4-Update-11-4" class="headerlink" title="Week 4[Update 11.4]"></a>Week 4[Update 11.4]</h2><h3 id="ParityOracleBase5"><a href="#ParityOracleBase5" class="headerlink" title="ParityOracleBase5"></a>ParityOracleBase5</h3><p>RSA的PariyOracle攻击，是在<strong>获得了解密服务</strong>的情况下，你可以 对服务器发送任意密文，服务器会告诉你解密后明文的<strong>最后一位</strong>。</p>
+<p>不过最后看了一下做出来的人的WP，有的人问过我，多获取了几组数据，多求了几次最大公约数把题目做出来了。也有人没有意识到这个问题，通过多次连接服务器，最终获取了一组$\gcd(D_1,D_2)&#x3D;1$的情况，很顺利地解出了$p$。</p>
+<p>实际上这里可以给大家扩展一下：任意两个正整数互素的概率是$\dfrac{6}{\pi^2}$，这个数字的倒数也是一个很著名的级数和：<br>$$<br>\sum_{i&#x3D;1}^{+∞}\dfrac{1}{i^2}&#x3D;\dfrac{\pi^2}{6}<br>$$</p>
+<h2 id="Week-4-Update-11-4"><a href="#Week-4-Update-11-4" class="headerlink" title="Week 4[Update 11.4]"></a>Week 4[Update 11.4]</h2><h3 id="ParityOracleBase5"><a href="#ParityOracleBase5" class="headerlink" title="ParityOracleBase5"></a>ParityOracleBase5</h3><p>RSA的PariyOracle攻击，是在<strong>获得了解密服务</strong>的情况下，你可以 对服务器发送任意密文，服务器会告诉你解密后明文的<strong>最后一位</strong>。</p>
 <p>由于多数情况下都是二进制位，因此最后一位二进制位就是$0$或$1$。若明文$m$的密文是$c$，这个时候我们发送$2^e c$，解密就可以得到$2m$。很显然，由于$2m$是偶数，$n$是奇数。因此如果服务器返回$0$，说明$2m$没有超过$n$，而如果服务器返回$1$，说明$2m$超过了$n$，由于$2m$是偶数，$n$是奇数，因此这里模$n$使得$2m$减去了一个$n$.。</p>
 <p>在获取$2m$的结果后，我们可以发送$4m$的密文 给服务器。那么我们可以根据这个表来判断$m$的取值范围：</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
-<th style="text-align:center">$m$范围</th>
-<th style="text-align:center">第一次返回值</th>
-<th style="text-align:center">第二次返回值</th>
+<th align="center">$m$范围</th>
+<th align="center">第一次返回值</th>
+<th align="center">第二次返回值</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td style="text-align:center">$4m&lt;n$</td>
-<td style="text-align:center">$0$</td>
-<td style="text-align:center">$0$</td>
+<tbody><tr>
+<td align="center">$4m&lt;n$</td>
+<td align="center">$0$</td>
+<td align="center">$0$</td>
 </tr>
 <tr>
-<td style="text-align:center">$n&lt;4m&lt;2n$</td>
-<td style="text-align:center">$0$</td>
-<td style="text-align:center">$1$</td>
+<td align="center">$n&lt;4m&lt;2n$</td>
+<td align="center">$0$</td>
+<td align="center">$1$</td>
 </tr>
 <tr>
-<td style="text-align:center">$2n&lt;4m&lt;3n$</td>
-<td style="text-align:center">$1$</td>
-<td style="text-align:center">$0$</td>
+<td align="center">$2n&lt;4m&lt;3n$</td>
+<td align="center">$1$</td>
+<td align="center">$0$</td>
 </tr>
 <tr>
-<td style="text-align:center">$3n&lt;4m&lt;4n$</td>
-<td style="text-align:center">$1$</td>
-<td style="text-align:center">$1$</td>
+<td align="center">$3n&lt;4m&lt;4n$</td>
+<td align="center">$1$</td>
+<td align="center">$1$</td>
 </tr>
-</tbody>
-</table>
-</div>
+</tbody></table>
 <p>因此，我们发现：我们可以通过二分法逼出$m$的值，如果服务器返回$0$取前半段，返回$1$取后半段。</p>
-<p>此时，如果我们把二进制扩展到五进制，很显然，我们就从讨论$2m$变成讨论$5m$，也就是$5^km$模$5$的值。但这里有一个问题：如果我们已知$m$位于$[L,R]$中，$b=\dfrac {R-L} 5$，那对于返回的可能值$0,1,2,3,4$一定是按顺序对应的吗？显然不是。</p>
+<p>此时，如果我们把二进制扩展到五进制，很显然，我们就从讨论$2m$变成讨论$5m$，也就是$5^km$模$5$的值。但这里有一个问题：如果我们已知$m$位于$[L,R]$中，$b&#x3D;\dfrac {R-L} 5$，那对于返回的可能值$0,1,2,3,4$一定是按顺序对应的吗？显然不是。</p>
 <p>如果5𝑚在$[0,\frac n 5]$的范围内，那么很显然，服务器会返回0 但如果$5𝑚$在 $[\frac n 5,\frac{2n} 5]$ 中，很显然，真正的明文是$5𝑚 − 𝑛$。因此，这里的返 回值是 $−𝑛 \mod 5$ 的值。因此，1-4对应的区间顺序，与$n \mod 5$的值有关。</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
-<th style="text-align:center">$n \mod 5$</th>
-<th style="text-align:center">$[0,\frac n 5]$</th>
-<th style="text-align:center">$[\frac n 5,\frac{2n} 5]$</th>
-<th style="text-align:center">$[\frac {2n} 5,\frac{3n} 5]$</th>
-<th style="text-align:center">$[\frac {3n} 5,\frac{4n} 5]$</th>
-<th style="text-align:center">$[\frac {4n} 5,n]$</th>
+<th align="center">$n \mod 5$</th>
+<th align="center">$[0,\frac n 5]$</th>
+<th align="center">$[\frac n 5,\frac{2n} 5]$</th>
+<th align="center">$[\frac {2n} 5,\frac{3n} 5]$</th>
+<th align="center">$[\frac {3n} 5,\frac{4n} 5]$</th>
+<th align="center">$[\frac {4n} 5,n]$</th>
 </tr>
 </thead>
-<tbody>
-<tr>
-<td style="text-align:center">$1$</td>
-<td style="text-align:center">$0$</td>
-<td style="text-align:center">$4$</td>
-<td style="text-align:center">$3$</td>
-<td style="text-align:center">$2$</td>
-<td style="text-align:center">$1$</td>
+<tbody><tr>
+<td align="center">$1$</td>
+<td align="center">$0$</td>
+<td align="center">$4$</td>
+<td align="center">$3$</td>
+<td align="center">$2$</td>
+<td align="center">$1$</td>
 </tr>
 <tr>
-<td style="text-align:center">$2$</td>
-<td style="text-align:center">$0$</td>
-<td style="text-align:center">$3$</td>
-<td style="text-align:center">$1$</td>
-<td style="text-align:center">$4$</td>
-<td style="text-align:center">$2$</td>
+<td align="center">$2$</td>
+<td align="center">$0$</td>
+<td align="center">$3$</td>
+<td align="center">$1$</td>
+<td align="center">$4$</td>
+<td align="center">$2$</td>
 </tr>
 <tr>
-<td style="text-align:center">$3$</td>
-<td style="text-align:center">$0$</td>
-<td style="text-align:center">$2$</td>
-<td style="text-align:center">$4$</td>
-<td style="text-align:center">$1$</td>
-<td style="text-align:center">$3$</td>
+<td align="center">$3$</td>
+<td align="center">$0$</td>
+<td align="center">$2$</td>
+<td align="center">$4$</td>
+<td align="center">$1$</td>
+<td align="center">$3$</td>
 </tr>
 <tr>
-<td style="text-align:center">$4$</td>
-<td style="text-align:center">$0$</td>
-<td style="text-align:center">$1$</td>
-<td style="text-align:center">$2$</td>
-<td style="text-align:center">$3$</td>
-<td style="text-align:center">$4$</td>
+<td align="center">$4$</td>
+<td align="center">$0$</td>
+<td align="center">$1$</td>
+<td align="center">$2$</td>
+<td align="center">$3$</td>
+<td align="center">$4$</td>
 </tr>
-</tbody>
-</table>
-</div>
+</tbody></table>
 <p>因此，$n\equiv 4 \pmod 5$的情况是很容易被想到的。可以根据这个表进行讨论， 也可以就认定$n\equiv 4 \pmod 5$的情况，多连几次服务器，也可以拿到flag。 这个是高强度的交互，从题目中n的规模来看，一共要交互1750- 2100次，耗时12分钟左右。</p>
 <p>有学弟看到了网上base2的题目，发现最后flag会出现误差。但这道题我们不需要考虑误差。因为flag在文本的中间，这边的误差不会影响到flag。并且，这个题目考虑到万一影响到了的情况，flag没有设置成md5的那种格式，而是在最后做了些手脚。因此flag即使出现3位有问题，也基本上都能猜出来是啥。</p>
 <p>EXP:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br>sh = remote(<span class="hljs-string">&quot;47.101.38.213&quot;</span>, <span class="hljs-number">60713</span>)<br>sh.recvuntil(<span class="hljs-string">b&quot;&gt; &quot;</span>)<br>sh.sendline(<span class="hljs-string">b&quot;1&quot;</span>)<br>n, e, c = [sh.recvline(keepends=<span class="hljs-literal">False</span>) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)]<br>n, e, c = <span class="hljs-built_in">int</span>(n[<span class="hljs-number">2</span>:]), <span class="hljs-built_in">int</span>(e[<span class="hljs-number">2</span>:]), <span class="hljs-built_in">int</span>(c[<span class="hljs-number">2</span>:])<br><span class="hljs-built_in">print</span>(n)<br><span class="hljs-built_in">print</span>(e)<br><span class="hljs-built_in">print</span>(c)<br>L, R, Clk = <span class="hljs-number">0</span>, n, <span class="hljs-number">1</span><br>judge = n % <span class="hljs-number">5</span><br>Table = [[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>], [<br>    <span class="hljs-number">0</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">2</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]]<br>j0, j1, j2, j3, j4 = Table[judge]<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;judge=<span class="hljs-subst">&#123;judge&#125;</span>&quot;</span>)<br><span class="hljs-keyword">while</span> L &lt; R:<br>    <span class="hljs-comment"># for i in range(1):</span><br>    D = (R-L)//<span class="hljs-number">5</span><br>    <span class="hljs-keyword">if</span> Clk % <span class="hljs-number">35</span> == <span class="hljs-number">0</span>:<br>        <span class="hljs-built_in">print</span>(Clk)<br>        <span class="hljs-built_in">print</span>(R-L)<br>    P20, P40, P60, P80 = L+D, L+<span class="hljs-number">2</span>*D, L+<span class="hljs-number">3</span>*D, L+<span class="hljs-number">4</span>*D<br>    a = c*(<span class="hljs-built_in">pow</span>(<span class="hljs-number">5</span>, e*Clk, n)) % n<br>    sh.recvuntil(<span class="hljs-string">b&quot;&gt;&quot;</span>)<br>    sh.sendline(<span class="hljs-string">b&quot;3&quot;</span>)<br>    sh.recvuntil(<span class="hljs-string">b&quot;&gt;&quot;</span>)<br>    sh.sendline(<span class="hljs-built_in">str</span>(a).encode())<br>    Rem = sh.recvline(keepends=<span class="hljs-literal">False</span>)[-<span class="hljs-number">1</span>]-<span class="hljs-number">48</span><br>    <span class="hljs-keyword">if</span> Rem == j0:<br>        L, R = L, P20<br>    <span class="hljs-keyword">elif</span> Rem == j1:<br>        L, R = P20, P40<br>    <span class="hljs-keyword">elif</span> Rem == j2:<br>        L, R = P40, P60<br>    <span class="hljs-keyword">elif</span> Rem == j3:<br>        L, R = P60, P80<br>    <span class="hljs-keyword">elif</span> Rem == j4:<br>        L, R = P80, R<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">b&quot;Error&quot;</span>)<br>        <span class="hljs-keyword">break</span><br>    Clk += <span class="hljs-number">1</span><br>L = long_to_bytes(L)<br>L = L.split(<span class="hljs-string">b&quot;          &quot;</span>)<br><span class="hljs-built_in">print</span>(L[<span class="hljs-number">1</span>])<br>sh.close()<br></code></pre></td></tr></table></figure>
+
 <p>flag:<code>0xGame&#123;31b52022-6076-8067-8848-taijinshouji&#125;</code> </p>
 <p>这个题一共有7位新生做出来，tql。</p>
 <h3 id="Predict-2"><a href="#Predict-2" class="headerlink" title="Predict 2"></a>Predict 2</h3><p>既然上周出了个Predict 1，那就会出个Predict 2。</p>
-<p>LFSR，又称线性反馈移位寄存器。它是通过 $𝑦 ≡ \sum_{i=1}^ 𝑛 𝑎_𝑖𝑥_𝑖 \pmod p$ 的形式，获得输出$𝑦$。输出后，将$𝑥_0$去掉，把$y$接在$x$数组的最后，组成新的$x$数组，长度与原来$x$数组一致。整个过程中，$a$数组始终不变。</p>
-<p>题目初始有97次获得state的机会，LFSR的长度为45。当你预测到后面600 个state后，就可以获得flag。 根据迭代式，我们可以得到这个规律：</p>
-<script type="math/tex; mode=display">
-x_{45}\equiv \sum_{i=0}^{44} a_ix_i \pmod p</script><script type="math/tex; mode=display">
-x_{46}\equiv \sum_{i=0}^{44} a_ix_{i+1} \pmod p</script><p>很显然，如果我们把$a$看作未知数，那么就是要解含有$45$个未知数的方程。需要构造$45$个等式。</p>
+<p>LFSR，又称线性反馈移位寄存器。它是通过 $𝑦 ≡ \sum_{i&#x3D;1}^ 𝑛 𝑎_𝑖𝑥_𝑖 \pmod p$ 的形式，获得输出$𝑦$。输出后，将$𝑥_0$去掉，把$y$接在$x$数组的最后，组成新的$x$数组，长度与原来$x$数组一致。整个过程中，$a$数组始终不变。</p>
+<p>题目初始有97次获得state的机会，LFSR的长度为45。当你预测到后面600 个state后，就可以获得flag。 根据迭代式，我们可以得到这个规律：<br>$$<br>x_{45}\equiv \sum_{i&#x3D;0}^{44} a_ix_i \pmod p<br>$$</p>
+<p>$$<br>x_{46}\equiv \sum_{i&#x3D;0}^{44} a_ix_{i+1} \pmod p<br>$$</p>
+<p>很显然，如果我们把$a$看作未知数，那么就是要解含有$45$个未知数的方程。需要构造$45$个等式。</p>
 <p>而在线性代数中，解线性方程组实际上都可以化为矩阵的运算，因此，我们可以构造下面的矩阵：</p>
 <p><img src="/2021/10/25/0xGame2021PartCryptoDiv1/Predict2.png" srcset="/img/loading.gif" lazyload alt="Predict2"></p>
-<p>这个矩阵有形如$\vec aM=\vec b$的格式。根据题目来看，很显然方程有唯一解。 所以运用线性代数知识，有$\vec a = \vec bM^{−𝟏}$ 。不过这里的逆矩阵是在模$p$意义 下的逆矩阵。</p>
+<p>这个矩阵有形如$\vec aM&#x3D;\vec b$的格式。根据题目来看，很显然方程有唯一解。 所以运用线性代数知识，有$\vec a &#x3D; \vec bM^{−𝟏}$ 。不过这里的逆矩阵是在模$p$意义 下的逆矩阵。</p>
 <p>求逆矩阵可以用Sagemath，也可以根据线性代数 课上讲过的利用增广矩阵法求解逆矩阵，将 $(𝑀| 𝐸)$ 化为$( 𝐸 |𝑀^{-1})$ ，除法变成乘上对应数字的逆元。具体的做法见题目给出的附件2。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#Sagemath</span><br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> sage.<span class="hljs-built_in">all</span> <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br>sh = remote(<span class="hljs-string">&quot;47.101.38.213&quot;</span>, <span class="hljs-number">60710</span>)<br>states = []<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">90</span>):<br>    sh.recvuntil(<span class="hljs-string">b&quot;&gt;&quot;</span>)<br>    sh.sendline(<span class="hljs-string">b&quot;1&quot;</span>)<br>    sh.recvuntil(<span class="hljs-string">b&quot;&gt;&quot;</span>)<br>    sh.sendline(<span class="hljs-string">b&quot;1500000000&quot;</span>)<br>    sh.recvuntil(<span class="hljs-string">b&quot;is&quot;</span>)<br>    states.append(<span class="hljs-built_in">int</span>(sh.recvline(keepends=<span class="hljs-literal">False</span>)))<br>M = []<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">45</span>):<br>    M.append(states[i:i+<span class="hljs-number">45</span>])<br>v = states[<span class="hljs-number">45</span>:<span class="hljs-number">90</span>]<br>M = matrix(Zmod(<span class="hljs-number">1435756429</span>), M)<br>v = vector(Zmod(<span class="hljs-number">1435756429</span>), v)<br>mask = v*(M**(-<span class="hljs-number">1</span>))<br>v, mask = <span class="hljs-built_in">list</span>(v), <span class="hljs-built_in">list</span>(mask)<br><span class="hljs-built_in">print</span>(mask)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">601</span>):<br>    s = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">45</span>):<br>        s += v[j]*mask[j]<br>    s %= <span class="hljs-number">1435756429</span><br>    <span class="hljs-built_in">print</span>(i, s)<br>    v = v[<span class="hljs-number">1</span>:]+[s]<br>    sh.recvuntil(<span class="hljs-string">b&quot;&gt;&quot;</span>)<br>    sh.sendline(<span class="hljs-string">b&quot;1&quot;</span>)<br>    sh.recvuntil(<span class="hljs-string">b&quot;&gt;&quot;</span>)<br>    sh.sendline(<span class="hljs-built_in">str</span>(s).encode())<br>sh.interactive()<br><br></code></pre></td></tr></table></figure>
+
 <p>附件2：求模意义下的逆矩阵代码，用的是增广矩阵法求逆矩阵，时间复杂度$O(n^3)$。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">InvMatrixWithModulus</span>(<span class="hljs-params">_matrix, p</span>):<br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">not</span> isPrime(p)) <span class="hljs-keyword">or</span> (<span class="hljs-built_in">len</span>(_matrix) != <span class="hljs-built_in">len</span>(_matrix[<span class="hljs-number">0</span>])):<br>        <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&quot;matrix must be a square and p must be a prime&quot;</span>)<br>    l = <span class="hljs-built_in">len</span>(_matrix)<br>    matrix = [[] <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(l)]<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(l):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(l):<br>            matrix[i].append(_matrix[i][j])<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(l):<br>        matrix[i] = matrix[i]+[<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(l)]<br>        matrix[i][l+i] = <span class="hljs-number">1</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(l):<br>        inv = inverse(matrix[i][i], p)<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(i, <span class="hljs-number">2</span>*l):<br>            matrix[i][j] = matrix[i][j]*inv % p<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(i+<span class="hljs-number">1</span>, l):<br>            timz = matrix[j][i]<br>            <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>*l):<br>                matrix[j][k] = (matrix[j][k]-timz*matrix[i][k]) % p<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(l):<br>        <span class="hljs-keyword">assert</span> matrix[i][i] == <span class="hljs-number">1</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(l-<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(i-<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>):<br>            timz = matrix[j][i]<br>            <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(i, <span class="hljs-number">2</span>*l):<br>                matrix[j][k] = (matrix[j][k]-timz*matrix[i][k]) % p<br>    J = []<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> matrix:<br>        J.append(i[l:])<br>    <span class="hljs-keyword">return</span> J<br></code></pre></td></tr></table></figure>
+
 <p><code>flag:0xGame&#123;87087788-7777-baa5-340d-512844320391&#125;</code>。</p>
 <p>这个题目使用了动态flag（上个题目也是），一共有3个学弟做出来了，这个题也算是决定AK的题目吧。在这边放一下他们解出来的flag，作为纪念。</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -502,8 +500,7 @@ x_{46}\equiv \sum_{i=0}^{44} a_ix_{i+1} \pmod p</script><p>很显然，如果我
 <th><code>0xGame&#123;87087788-7777-5b55-3ef6-512844325201&#125;</code></th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>Louis Youssef</td>
 <td><code>0xGame&#123;87087788-7777-1035-3e02-512844326801&#125;</code></td>
 </tr>
@@ -511,9 +508,7 @@ x_{46}\equiv \sum_{i=0}^{44} a_ix_{i+1} \pmod p</script><p>很显然，如果我
 <td>叶星</td>
 <td><code>0xGame&#123;87087788-7777-1fb5-3aad-512844329565&#125;</code></td>
 </tr>
-</tbody>
-</table>
-</div>
+</tbody></table>
 <h2 id="Week-5-出题后记"><a href="#Week-5-出题后记" class="headerlink" title="Week 5(出题后记)"></a>Week 5(出题后记)</h2><p>这次0xGame自己出了11个题目，总体来说还是从易到难的。个人认为与去年相比，第4周可能要比去年难一点，其他3周还是比去年偏简单的。</p>
 <p>一共有3人AK了密码学的全部题目，也希望他们能在后面CTF的学习中，无论是否会走密码学方向，能够收获更多的知识吧。</p>
 <p>10月12-14日自己迎来了第一个线下赛，在郑州。虽然没有密码学题目，是去白给的，但还是收获了很多，涨了见识，<del>恰了380烂钱。。。</del> 不过自己10月份还是非常忙的一个月，每周都出现了一堆事情，希望自己11月的事情稍微少一点，然后复习复习我的离散、概率论、信安数基和大物，希望自己期末考试这4门课都能考到60分。</p>
@@ -962,6 +957,21 @@ x_{46}\equiv \sum_{i=0}^{44} a_ix_{i+1} \pmod p</script><p>很显然，如果我
 
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
-  </noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </noscript>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>
