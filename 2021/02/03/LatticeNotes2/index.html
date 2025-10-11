@@ -317,34 +317,35 @@
                 
                 <h1 id="huangx607087学习格密码的笔记2"><a href="#huangx607087学习格密码的笔记2" class="headerlink" title="huangx607087学习格密码的笔记2"></a>huangx607087学习格密码的笔记2</h1><h2 id="0-About"><a href="#0-About" class="headerlink" title="0. About"></a>0. About</h2><p>这个笔记接着之前发布的笔记1，继续往后面扩展新的内容。</p>
 <h2 id="3-预备知识2：向量空间"><a href="#3-预备知识2：向量空间" class="headerlink" title="3. 预备知识2：向量空间"></a>3. 预备知识2：向量空间</h2><p>1.定义：向量空间是一组向量的集合，这些向量满足加法与数乘的封闭性。也就是对于任意的向量$\vec a ,\vec b \in V$，都有$\vec a+\vec b \in V$，$\lambda\vec a \in V(\lambda \in R)$。</p>
-<p>2.线性无关：有$n$个向量，满足$a_1\vec v_1+a_2 \vec v_2+…+ a_n \vec v_n&#x3D; \vec 0$。若可以找到一组不全为$0$的实数使这个等式成立，那么我们就说$v_1,v_2,…,v_n$线性相关。否则$v_1,v_2,…,v_n$线性无关。</p>
+<p>2.线性无关：有$n$个向量，满足$a_1\vec v_1+a_2 \vec v_2+…+ a_n \vec v_n= \vec 0$。若可以找到一组不全为$0$的实数使这个等式成立，那么我们就说$v_1,v_2,…,v_n$线性相关。否则$v_1,v_2,…,v_n$线性无关。</p>
 <p>3.基底若$V$中有一组线性无关的向量$v_1,v_2,…,v_r$，那么当这$r$个向量是$V$中的一组基底时，任何一个向量$w \in V$都可以用$v_1$到$v_r$线性表示且表示方法唯一。而基底也一般可以被认为是一个极大线性无关组。</p>
 <p>若$V$中有一组基底$v_1,v_2,…,v_n$，如果还有一组向量$w_1,w_2,…,w_n$也可以作为$V$的基底。那么可以推出，每个向量$w$都可以用$v_1$到$v_n$表示，且将表示系数写成矩阵，该矩阵的行列式不为$0$。</p>
 <p><del>4.向量的长度、两向量夹角、向量的数量级内容略去，比较基础，高中的知识直接类比过来就可以了，当然大学的线性代数也是有的。</del></p>
-<p>5.向量的标准正交基：如果有一组向量$e_1,e_2,…,e_n$是向量空间$V$的一组标准正交基，那么有$e_i·e_j&#x3D;0(i \not &#x3D;j)$和$|e_i|&#x3D;1$</p>
+<p>5.向量的标准正交基：如果有一组向量$e_1,e_2,…,e_n$是向量空间$V$的一组标准正交基，那么有$e_i·e_j=0(i \not =j)$和$|e_i|=1$</p>
 <p>6.施密特正交化方法</p>
 <p><del>不知道的自行百度去，我直接上个C++代码走人，讲起来+证明耗费的篇章太大了。</del></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">int</span> n,m;<br><span class="hljs-type">double</span> a[<span class="hljs-number">70</span>][<span class="hljs-number">70</span>],b[<span class="hljs-number">70</span>][<span class="hljs-number">70</span>];<br><span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">len</span><span class="hljs-params">(<span class="hljs-type">double</span> v[],<span class="hljs-type">int</span> dim)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">int</span> i,j;<br>	<span class="hljs-type">double</span> A=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(i=<span class="hljs-number">1</span>;i&lt;=dim;i++)<br>		A+=v[i]*v[i];<br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">sqrt</span>(A);<br>&#125;<br><span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">mul</span><span class="hljs-params">(<span class="hljs-type">double</span> v[],<span class="hljs-type">double</span> w[],<span class="hljs-type">int</span> dim)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">int</span> i,j;<br>	<span class="hljs-type">double</span> A=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(i=<span class="hljs-number">1</span>;i&lt;=dim;i++)<br>		A+=v[i]*w[i];<br>	<span class="hljs-keyword">return</span> A;<br>&#125;<br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">int</span> i,j,k;<br>	<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%d%d&quot;</span>,&amp;n,&amp;m);<br>	<span class="hljs-keyword">for</span>(i=<span class="hljs-number">1</span>;i&lt;=n;i++)<br>		<span class="hljs-keyword">for</span>(j=<span class="hljs-number">1</span>;j&lt;=m;j++)<br>			<span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lf&quot;</span>,&amp;a[i][j]);<br>	<span class="hljs-built_in">memcpy</span>(b[<span class="hljs-number">1</span>],a[<span class="hljs-number">1</span>],<span class="hljs-built_in">sizeof</span>(a[<span class="hljs-number">1</span>]));<br>	<span class="hljs-keyword">for</span>(i=<span class="hljs-number">2</span>;i&lt;=n;i++)<br>		<span class="hljs-keyword">for</span>(j=<span class="hljs-number">1</span>;j&lt;i;j++)<br>		&#123;<br>			<span class="hljs-built_in">memcpy</span>(b[i],a[i],<span class="hljs-built_in">sizeof</span>(a[i]));<br>			<span class="hljs-type">double</span> tmp=<span class="hljs-built_in">mul</span>(a[i],b[j],m)/<span class="hljs-built_in">mul</span>(b[j],b[j],m);<br>			<span class="hljs-keyword">for</span>(k=<span class="hljs-number">1</span>;k&lt;=m;k++)<br>				b[i][k]-=tmp*b[j][k];<br>		&#125;<br>	<span class="hljs-keyword">for</span>(i=<span class="hljs-number">1</span>;i&lt;=n;i++)<br>	&#123;<br>		<span class="hljs-type">double</span> l=<span class="hljs-built_in">len</span>(b[i],m);<br>		<span class="hljs-keyword">for</span>(j=<span class="hljs-number">1</span>;j&lt;=m;j++)<br>			b[i][j]/=l;<br>	&#125;<br>	<span class="hljs-keyword">for</span>(i=<span class="hljs-number">1</span>;i&lt;=n;i++)<br>	&#123;<br>		<span class="hljs-keyword">for</span>(j=<span class="hljs-number">1</span>;j&lt;=m;j++)<br>			<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%7.4lf &quot;</span>,b[i][j]);<br>		<span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">3 4</span><br><span class="hljs-comment">1 6 2 4</span><br><span class="hljs-comment">5 3 3 -5</span><br><span class="hljs-comment">6 3 2 -4</span><br><span class="hljs-comment"> 0.1325  0.7947  0.2649  0.5298</span><br><span class="hljs-comment"> 0.5934  0.2516  0.3290 -0.6902</span><br><span class="hljs-comment"> 0.6193  0.4630 -0.2389  0.5874</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="4-格的基本定义与性质"><a href="#4-格的基本定义与性质" class="headerlink" title="4.格的基本定义与性质"></a>4.格的基本定义与性质</h2><p><strong>格的定义：设向量$v_1,v_2,…,v_n$是一组线性无关的向量，那么格就是由这$n$个向量的线性组合集，写成通解的形式就是</strong><br>$$<br>\vec w&#x3D;a_1\vec v_1+a_2\vec v_2+…+a_n\vec v_n| a_i \in Z<br>$$<br>其中，$v_1$到$v_n$称作格的基底，基底所包含的向量数成为格的维度。</p>
-<p>当然，一个格中的向量可以互相转化。这个时候就需要用到转化矩阵，可以把一个格中的基底$V$转化成另一组基底$W$。那么我们就可以设置矩阵$T$，使得$W&#x3D;TV$。当然，也有$V&#x3D;T^{-1}W$。</p>
-<p>不过这里就有个问题出现了：由于我们要求所有的$a$均为整数，那么我们就要保证$T,T^{-1}$中的每个元素都是整数。而满足这种条件下的$T$，必须满足$\det T&#x3D;±1$。</p>
-<p>比如，假设某个三维格的向量的基底是$\vec v_1&#x3D;(5,4,-1),\vec v_2&#x3D;(2,1,2),\vec v_3(3,4,-4)$。我们就可以通过一个$\det T&#x3D;1$的矩阵$T$将其切换成另一基底,运用$W&#x3D;TV$，我们可以得到基底向量组$W$,与$V$等价。其中$\vec w_1&#x3D;(-2,17,11),\vec w_2&#x3D;(7,11,14),\vec w_3&#x3D;(-13,5,-7)$。其中系数矩阵$T$均为整数。同理，$V&#x3D;T^{-1}W$中，由于$\det T&#x3D;1$，因此$T,T^{-1}$中的每个数字也都是整数，符合格中向量的运算标准。</p>
-<img src="/2021/02/03/LatticeNotes2/1.png" srcset="/img/loading.gif" lazyload alt="1" style="zoom:80%;">
-
+<h2 id="4-格的基本定义与性质"><a href="#4-格的基本定义与性质" class="headerlink" title="4.格的基本定义与性质"></a>4.格的基本定义与性质</h2><p><strong>格的定义：设向量$v_1,v_2,…,v_n$是一组线性无关的向量，那么格就是由这$n$个向量的线性组合集，写成通解的形式就是</strong></p>
+<script type="math/tex; mode=display">
+\vec w=a_1\vec v_1+a_2\vec v_2+...+a_n\vec v_n| a_i \in Z</script><p>其中，$v_1$到$v_n$称作格的基底，基底所包含的向量数成为格的维度。</p>
+<p>当然，一个格中的向量可以互相转化。这个时候就需要用到转化矩阵，可以把一个格中的基底$V$转化成另一组基底$W$。那么我们就可以设置矩阵$T$，使得$W=TV$。当然，也有$V=T^{-1}W$。</p>
+<p>不过这里就有个问题出现了：由于我们要求所有的$a$均为整数，那么我们就要保证$T,T^{-1}$中的每个元素都是整数。而满足这种条件下的$T$，必须满足$\det T=±1$。</p>
+<p>比如，假设某个三维格的向量的基底是$\vec v_1=(5,4,-1),\vec v_2=(2,1,2),\vec v_3(3,4,-4)$。我们就可以通过一个$\det T=1$的矩阵$T$将其切换成另一基底,运用$W=TV$，我们可以得到基底向量组$W$,与$V$等价。其中$\vec w_1=(-2,17,11),\vec w_2=(7,11,14),\vec w_3=(-13,5,-7)$。其中系数矩阵$T$均为整数。同理，$V=T^{-1}W$中，由于$\det T=1$，因此$T,T^{-1}$中的每个数字也都是整数，符合格中向量的运算标准。</p>
+<p><img src="/2021/02/03/LatticeNotes2/1.png" srcset="/img/loading.gif" lazyload alt="1" style="zoom:80%;"></p>
 <p>所以，格中的一组基底只需要写成矩阵的形式，并在其左边乘上一个行列式为$±1$的矩阵，就可以获得这个格的另一组基底。而这种矩阵的集合又称为线性群，用$\text{GL}_n(Z)$表示。这些矩阵每个元素都是整数，并且其逆矩阵的每个元素也都是整数。</p>
 <p><strong>对格的定义2：如果$R^m$的子集$L$在加减法下是封闭的，那么它是一个加性的子群。如果存在一个正常数$r$，使得$L$中的任意一个向量$\vec v$和$R^m$中的任意一个向量$\vec w$，都有$|\vec v - \vec w|&lt;r$恒成立。</strong></p>
 <p>说的通俗易懂一些，就是我在$L$中取任意向量$\vec v$，然后在$\vec v$周围画一个半径为$r$的实心球（$2D$平面上则是一个圆），那么这个球里面没有$L$的其他点。</p>
-<p>所以根据我们刚才的理论：格与向量空间相似，只不过它里面的所有的向量都是由各个基底与整数相乘得来的，所以格一般用点阵表示。比如，一个最简单的格就是<br>$$<br>L:\text{ } \vec v&#x3D;(x,y)|x,y \in Z \text {}<br>$$<br>此时这个格就有一组基底为$\vec i &#x3D;(1,0)$和$\vec j&#x3D;(0,1)$，对应的就是二维坐标纸上的所有的整数点。</p>
-<p><strong>基本域F：</strong>指所有基底围成的空间，写成表达式就是$F(\vec v_1,\vec v_2,…,\vec v_n)&#x3D;a_1\vec v_1+a_2 \vec v_2 +…+a_n \vec v_n$。其中$\vec v$是格中的基底向量，$a \in [0,1)$</p>
+<p>所以根据我们刚才的理论：格与向量空间相似，只不过它里面的所有的向量都是由各个基底与整数相乘得来的，所以格一般用点阵表示。比如，一个最简单的格就是</p>
+<script type="math/tex; mode=display">
+L:\text{ } \vec v=(x,y)|x,y \in Z \text {}</script><p>此时这个格就有一组基底为$\vec i =(1,0)$和$\vec j=(0,1)$，对应的就是二维坐标纸上的所有的整数点。</p>
+<p><strong>基本域F：</strong>指所有基底围成的空间，写成表达式就是$F(\vec v_1,\vec v_2,…,\vec v_n)=a_1\vec v_1+a_2 \vec v_2 +…+a_n \vec v_n$。其中$\vec v$是格中的基底向量，$a \in [0,1)$</p>
 <p>例如，在我们刚才提到的最简单的那个格中，以$(0,0),(1,0),(0,1),(1,1)$四个点围成的正方形内部就是一个基本域，如下图中的灰色部分。</p>
 <p>如果我们仍然是二维的格$P$，若该格$P$以$(1,2),(2,1)$为基底，那么基本域是由$(0,0),(1,2),(2,1),(3,3)$四点所围成的平行四边形。</p>
 <p>假如$\vec t \in F,\vec v $是格$L$的一个基底，那么我们就可以得到其他的域$F+\vec v$，其中$\vec t$在域$F+\vec v$对应的向量是$\vec t + \vec v$</p>
-<p>因此，这个可以覆盖整个$R^n$，当$n&#x3D;2$时，我们还以上面那个最简单的二维格为例，就可以得到坐标纸上其他的域。比如$F+\vec i,F-\vec j,F+2\vec i +2 \vec j$</p>
-<p>在坐标纸上，我们根据我们的发现，可以看到每个小正方形的面积都是$1$，扩展到$n$维空间，我们可以类比：所有的基本域的体积都是相等的，因此，基本域体积不变是格中一个非常重要的性质。并且$F$的$n$维体积又被成为$L$的行列式，记为$\det L$。继续用上面的例子，$\det L &#x3D; 1,\det P &#x3D; 3$。并且这里的$\det $值，<strong>刚好是对应的向量写成矩阵形式后，矩阵行列式的值的绝对值。</strong></p>
-<img src="/2021/02/03/LatticeNotes2/2.png" srcset="/img/loading.gif" lazyload alt="2" style="zoom:130%;">
-
-<p>当然，这边还有一个<strong>推论：</strong> $\det L &#x3D; \text{Vol } F≤|\vec v_1||\vec v_2|…|\vec v_n|$，也就是基本域$F$的面积小于等于所有基底的长度。并且基底越趋近于正交，那么不等号两边越靠近。</p>
+<p>因此，这个可以覆盖整个$R^n$，当$n=2$时，我们还以上面那个最简单的二维格为例，就可以得到坐标纸上其他的域。比如$F+\vec i,F-\vec j,F+2\vec i +2 \vec j$</p>
+<p>在坐标纸上，我们根据我们的发现，可以看到每个小正方形的面积都是$1$，扩展到$n$维空间，我们可以类比：所有的基本域的体积都是相等的，因此，基本域体积不变是格中一个非常重要的性质。并且$F$的$n$维体积又被成为$L$的行列式，记为$\det L$。继续用上面的例子，$\det L = 1,\det P = 3$。并且这里的$\det $值，<strong>刚好是对应的向量写成矩阵形式后，矩阵行列式的值的绝对值。</strong></p>
+<p><img src="/2021/02/03/LatticeNotes2/2.png" srcset="/img/loading.gif" lazyload alt="2" style="zoom:130%;"></p>
+<p>当然，这边还有一个<strong>推论：</strong> $\det L = \text{Vol } F≤|\vec v_1||\vec v_2|…|\vec v_n|$，也就是基本域$F$的面积小于等于所有基底的长度。并且基底越趋近于正交，那么不等号两边越靠近。</p>
 <h2 id="5-格中的短向量"><a href="#5-格中的短向量" class="headerlink" title="5.格中的短向量"></a>5.格中的短向量</h2><h3 id="5x01-两个问题："><a href="#5x01-两个问题：" class="headerlink" title="5x01 两个问题："></a>5x01 两个问题：</h3><p><strong>最短向量问题SVP</strong>：在格$L$中寻找一个向量，使它的长度最小。</p>
 <p><strong>最接近向量问题CVP</strong>：给定一个$R^m$中的向量$\vec w$，要求在格中寻找一个向量$\vec v$，使得$\vec w-\vec v$的长度最小。</p>
 <p>当然，SVP问题和CVP问题都可能有多个解，继续拿我们在第<strong>4</strong>节中所讲到的那个最简单的格的例子，格中的最短向量有$4$个，分别是$(0,1),(1,0),(0,-1),(-1,0)$。与$(0.5,0.5)$最接近的向量有$3$个，分别是$(0,1),(1,0),(1,1)$。而在<strong>笔记1</strong>中的2x04，2x05节，我们已经涉及到了相关的问题。<del>只不过未能详细地讲解</del></p>
@@ -352,34 +353,49 @@
 <p>当然，这两个问题还有很多变体，比如</p>
 <p><strong>最短基底问题SBP：</strong>在格$L$中寻找$n$个线性无关的向量作为基底，使得这些向量中最长的那个向量或者所有向量长度的平方和最小（这个问题有$2$个版本，因为不同情况下的要求是不同的）。</p>
 <p><strong>近似最短向量问题apprSVP：</strong>假设$f(n)$是$n$的函数，那么要求在维数为$n$的格内，找到一个非零向量，使其长度不超过$f(n)$倍的整个格中的最短非零向量。</p>
-<p>当然，不同的$f(n)$会导致问题的不同，例如$f(n)&#x3D;3n$或者$f(n)&#x3D;5\ln^4 n$都会导致问题的不同。不过一般情况下，若$f(n)$是多项式，或</p>
+<p>当然，不同的$f(n)$会导致问题的不同，例如$f(n)=3n$或者$f(n)=5\ln^4 n$都会导致问题的不同。不过一般情况下，若$f(n)$是多项式，或</p>
 <p>者格的位数较低，那么这个问题或许会更好解一点。</p>
 <p><strong>近似最接近向量问题apprCVP</strong>：类比于apprSVP问题。</p>
 <h3 id="5x02-Hermite’s-theorem-and-Minkowski’s-theorem"><a href="#5x02-Hermite’s-theorem-and-Minkowski’s-theorem" class="headerlink" title="5x02  Hermite’s theorem and Minkowski’s theorem"></a>5x02  Hermite’s theorem and Minkowski’s theorem</h3><h4 id="52o01-Hermite定理"><a href="#52o01-Hermite定理" class="headerlink" title="52o01 Hermite定理"></a>52o01 Hermite定理</h4><p>我们在<strong>5x01</strong>中提到的问题，那么我们就得想一想了：最短的究竟有多长呢？下面说一下结论：格中最短向量的长度取决于格$L$的维数和行列式$\det L$的值。</p>
 <p> <strong>(Hermite定理)</strong> 维数$n$的每一个格$L$都包含一个长度不超过$\sqrt n· \sqrt[n]{\det L}$的向量$\vec v$</p>
 <p> <strong>(Hermite常数)</strong> 在给定维数下，每一个格$L$的最短非零向量$\vec v$的长度的平方都不超过$ y_n\sqrt[n]{\det^2 L} $。其中$y_2$到$y_8$和$y_{24}$的值是目前已知的。这些数字分别是$ \dfrac 4 3,2,4,8,\dfrac {64} 3,64,256,4 $。不过$y_n \in [\dfrac {n}{2 \pi e},\dfrac{n}{\pi e}]$</p>
 <p>把这个定理扩展一下，有这样的结论：在维数为$n$的格$L$中，存在一组基底，使得这些基底中每个向量的长度的乘积不超过$\sqrt{n^n}·\det L$。这一是对我们之前结论”$\det L$不超过所有向量长度的乘积”这一定理的补充。</p>
-<p><strong>Hadamard比率</strong>：假设$\vec v_1,\vec v_2,…,\vec v_n$是格$L$的一基底$B$，那么Hadamard比率$H(B)$计算公式满足$H(B)&#x3D;(\dfrac{\det L}{\prod_{i&#x3D;1}^n |\vec v_i|})^{1&#x2F;n}$。$H(B)$的值总是在$(0,1]$之间，并且这个值越接近$1$，就表示这一组基底中的向量越正交。</p>
+<p><strong>Hadamard比率</strong>：假设$\vec v_1,\vec v_2,…,\vec v_n$是格$L$的一基底$B$，那么Hadamard比率$H(B)$计算公式满足$H(B)=(\dfrac{\det L}{\prod_{i=1}^n |\vec v_i|})^{1/n}$。$H(B)$的值总是在$(0,1]$之间，并且这个值越接近$1$，就表示这一组基底中的向量越正交。</p>
 <p><strong>封闭球：</strong>在向量空间$R^n$中，任何与向量$\vec a$距离不超过$r$的空间的集合，称作向量$\vec a$的封闭球，记为$B_r(\vec a)$，表达式为$(x_1-a_1)^2+(x_2-a_2)^2+…+(x_n-a_n)^2 ≤ r^2$。其中$x_1$到$x_n$是坐标分量，$a_1$到$a_n$时向量$\vec a$的分量。</p>
 <p> <strong>4个定义</strong>：当$S$是向量空间$R^n$的一个子集时，我们有如下定义：</p>
 <p><strong>Update 7.29 修改了2月份的逻辑错误表述</strong></p>
-<p>如果存在一个实数$r$ 使得$S$中所有的向量都包含在封闭球$B_r(\vec 0)$中。在二维平面上就是包含在圆$x^2+y^2&#x3D;r^2$内。那么称$S$中向量的长度是<strong>有界的</strong>，</p>
-<p>若$\vec a$在$S$中，$-\vec a$也在$S$中，并且$\vec a +(- \vec a)&#x3D; \vec 0$，那么称$S$中向量时<strong>对称的</strong>，</p>
+<p>如果存在一个实数$r$ 使得$S$中所有的向量都包含在封闭球$B_r(\vec 0)$中。在二维平面上就是包含在圆$x^2+y^2=r^2$内。那么称$S$中向量的长度是<strong>有界的</strong>，</p>
+<p>若$\vec a$在$S$中，$-\vec a$也在$S$中，并且$\vec a +(- \vec a)= \vec 0$，那么称$S$中向量时<strong>对称的</strong>，</p>
 <p>如果$S$中有任意两点$A,B$则线段$AB$上的每一个点都在$S$中，那么称$S$是<strong>凸性的</strong>，</p>
 <p>如果对于$S$中的一点$A$，任意取值$r&gt;0$，$B_r(\vec {OA})$中都有属于$S$的点，则点$A$也在$S$中，那么称是<strong>封闭的</strong>，</p>
 <h4 id="52o02-Minkowski定理"><a href="#52o02-Minkowski定理" class="headerlink" title="52o02   Minkowski定理"></a>52o02   Minkowski定理</h4><p><strong>（Minkowski定理）</strong>：设$L$是$R^n$中的一个格，$S$是$R^n$中的一个对称凸集，那么$S$的体积$\text{Vol }S&gt; 2^n \det L$时，$S$中就包含一个非零格向量。如果$S$是封闭的，那么上面的不等式也可以取等号。</p>
 <h3 id="5x03-高斯启发式"><a href="#5x03-高斯启发式" class="headerlink" title="5x03 高斯启发式"></a>5x03 高斯启发式</h3><h4 id="53o01-伽马函数"><a href="#53o01-伽马函数" class="headerlink" title="53o01 伽马函数"></a>53o01 伽马函数</h4><p> 伽马函数的定义域是$s&gt;0$，表达式如下</p>
 <p><img src="/2021/02/03/LatticeNotes2/3.png" srcset="/img/loading.gif" lazyload alt="3"></p>
 <p>这个函数具有一些很重要的性质：</p>
-<p>$\Gamma (1)&#x3D;1,\Gamma(s+1)&#x3D;s\Gamma(s)$。因此，当$s \in N_+$时，$\Gamma(s)&#x3D;s!$</p>
-<p>$\Gamma(\frac 1 2) &#x3D; \sqrt \pi$</p>
-<p>斯特林公式：$\lim _{s \to ∞} \Gamma(1+s)^{\frac1 s} &#x3D;\dfrac s e$。更准确地说，应该是<br>$$<br> \lim _{s\to∞}\ln \Gamma (1+s)&#x3D; \ln^s (\dfrac s e)+\dfrac 1 2 \ln (2 \pi s)+O(1)<br>$$</p>
-<p>而这个伽马公式，在计算$n$维球体的体积中也就用到了：<br>$$<br>\text{Vol}(B_r(\vec a))&#x3D;\dfrac{\pi^{\frac n 2}r^n}{\Gamma(1+\frac n 2)}<br>$$<br>当$n$较大的时候，这个$n$维球体的体积体积也近似于<br>$$<br>\text{Vol}(B_r(\vec a))^{\frac 1 n} ≈r\sqrt{\dfrac{2\pi e}{n}}<br>$$<br>又因为$\text{Vol}(B_r(\vec 0))≥2^n \det L$时，$B_r(0)$里面有非$0$格点。因此，当$n$较大的时候，球的半径的选取应该满足以下条件：<br>$$<br>r\sqrt{\dfrac{2\pi e}n}-2(\det L)^{\frac1n}&#x3D; 0^+<br>$$<br>因此，当$n$很大的时候，$L$中也存在一个非零向量$\vec v$，满足<br>$$<br>|\vec v|-\sqrt{\dfrac{2n}{\pi e}}&#x3D;0^-<br>$$<br>其中，有$\sqrt{\dfrac{2}{\pi e}}&#x3D;0.484$</p>
+<p>$\Gamma (1)=1,\Gamma(s+1)=s\Gamma(s)$。因此，当$s \in N_+$时，$\Gamma(s)=s!$</p>
+<p>$\Gamma(\frac 1 2) = \sqrt \pi$</p>
+<p>斯特林公式：$\lim _{s \to ∞} \Gamma(1+s)^{\frac1 s} =\dfrac s e$。更准确地说，应该是</p>
+<script type="math/tex; mode=display">
+ \lim _{s\to∞}\ln \Gamma (1+s)= \ln^s (\dfrac s e)+\dfrac 1 2 \ln (2 \pi s)+O(1)</script><p>而这个伽马公式，在计算$n$维球体的体积中也就用到了：</p>
+<script type="math/tex; mode=display">
+\text{Vol}(B_r(\vec a))=\dfrac{\pi^{\frac n 2}r^n}{\Gamma(1+\frac n 2)}</script><p>当$n$较大的时候，这个$n$维球体的体积体积也近似于</p>
+<script type="math/tex; mode=display">
+\text{Vol}(B_r(\vec a))^{\frac 1 n} ≈r\sqrt{\dfrac{2\pi e}{n}}</script><p>又因为$\text{Vol}(B_r(\vec 0))≥2^n \det L$时，$B_r(0)$里面有非$0$格点。因此，当$n$较大的时候，球的半径的选取应该满足以下条件：</p>
+<script type="math/tex; mode=display">
+r\sqrt{\dfrac{2\pi e}n}-2(\det L)^{\frac1n}= 0^+</script><p>因此，当$n$很大的时候，$L$中也存在一个非零向量$\vec v$，满足</p>
+<script type="math/tex; mode=display">
+|\vec v|-\sqrt{\dfrac{2n}{\pi e}}=0^-</script><p>其中，有$\sqrt{\dfrac{2}{\pi e}}=0.484$</p>
 <p>虽然在维数很大的时候，最段向量的长度是未知的，但是我们还是可以通过以下方法使用概率参数来估计它的大小：</p>
 <p>在$r$很大的时候，$\text{Vol }{B_r(\vec 0)}$除以基本域$F$的体积$\text{Vol }F$ 近似等于$B_r(\vec 0)$中的格点数。</p>
-<p>举个简单的例子，$x^2+y^2&#x3D;r^2$中的整点数量约等于$\pi r^2$，也就是元的面积除以小正方形的面积$1$。</p>
-<p>因此，我们很多情况下，都是想找到一个尽可能小的$r$值，使得球$B_r(\vec 0)$中至少有一个格点。，这就有了我们上面的估计表达式，移项，就有了<br>$$<br>r≈\sqrt{\dfrac{n}{2\pi e}}·\sqrt[n]{\det L}&#x3D;\sigma (L)<br>$$<br>这就是我们得到的启发式，用$\sigma(L)$表示。</p>
-<p>更准确地说，对于一个$c&#x3D;0^+$的固定常数，那么对于一切维数为$n$的格$L$,都有<br>$$<br>|\vec v_{\text{shortest}}| \in[ \text{  }(1-c)\sigma(L),(1+c)\sigma(L) \text{  }]<br>$$<br>当$n$的数字较小时，对于$B_r(\vec 0)$的体积，估计式为<br>$$<br>\sigma(L)&#x3D;\dfrac{(Γ((1+\frac{n}{2})·\det L))^\frac1n}{\sqrt \pi}<br>$$<br>通过SVP问题来类比CVP问题，可以推出：$\sigma (L)$的值也是$|\vec w - \vec v|$最小值的期望值。</p>
+<p>举个简单的例子，$x^2+y^2=r^2$中的整点数量约等于$\pi r^2$，也就是元的面积除以小正方形的面积$1$。</p>
+<p>因此，我们很多情况下，都是想找到一个尽可能小的$r$值，使得球$B_r(\vec 0)$中至少有一个格点。，这就有了我们上面的估计表达式，移项，就有了</p>
+<script type="math/tex; mode=display">
+r≈\sqrt{\dfrac{n}{2\pi e}}·\sqrt[n]{\det L}=\sigma (L)</script><p>这就是我们得到的启发式，用$\sigma(L)$表示。</p>
+<p>更准确地说，对于一个$c=0^+$的固定常数，那么对于一切维数为$n$的格$L$,都有</p>
+<script type="math/tex; mode=display">
+|\vec v_{\text{shortest}}| \in[ \text{  }(1-c)\sigma(L),(1+c)\sigma(L) \text{  }]</script><p>当$n$的数字较小时，对于$B_r(\vec 0)$的体积，估计式为</p>
+<script type="math/tex; mode=display">
+\sigma(L)=\dfrac{(Γ((1+\frac{n}{2})·\det L))^\frac1n}{\sqrt \pi}</script><p>通过SVP问题来类比CVP问题，可以推出：$\sigma (L)$的值也是$|\vec w - \vec v|$最小值的期望值。</p>
 <p>就像SVP一样，如果$L$包含一个比$σ(L)$更接近$\vec w$的点，那么晶格约简算法就更容易求解CVP。</p>
 <h2 id="99-注"><a href="#99-注" class="headerlink" title="99.注"></a>99.注</h2><p>由于向量可以用坐标表示，因此此博客中，向量表示的也可以视为某个坐标，比如博客中最后一句话中的$\vec w$就是用向量的方法来表示某个点的坐标。 </p>
 
